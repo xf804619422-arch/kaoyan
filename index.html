@@ -4,5117 +4,1269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>考研超级课表 - iPad原型</title>
+<title>考研学习平台 — 功能需求说明书</title>
 <style>
+@font-face {
+  font-family: 'InstrumentSans';
+  src: url('./_shared/fonts/InstrumentSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'InstrumentSans';
+  src: url('./_shared/fonts/InstrumentSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('./_shared/fonts/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('./_shared/fonts/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
 :root {
-  --bg: #f0f2f8;
+  --bg: #f8f9fb;
   --bg2: #ffffff;
-  --ink: #1a1a2e;
-  --muted: #909399;
-  --rule: #e8eaef;
-  --accent: #5b6cf0;
-  --accent-light: #eef0ff;
-  --accent2: #f26b6b;
-  --accent2-light: #fff0f0;
-  --green: #52c41a;
-  --green-light: #f0faf0;
-  --orange: #fa9550;
-  --orange-light: #fff7f0;
-  --purple: #a855f7;
-  --teal: #14b8a6;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow: 0 2px 12px rgba(0,0,0,0.07);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.10);
-  --radius: 12px;
-  --radius-sm: 8px;
+  --ink: #111827;
+  --muted: #6b7280;
+  --rule: #e5e7eb;
+  --accent: #4f46e5;
+  --accent2: #059669;
+  --accent3: #d97706;
+  --font-heading: 'InstrumentSans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrainsMono', 'Consolas', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
-  background: linear-gradient(135deg, #dce3f0 0%, #e8dce8 30%, #dce8e4 60%, #e0e4f0 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
   color: var(--ink);
-  font-size: 14px;
-}
-
-/* iPad Frame */
-.ipad-frame {
-  width: 1280px;
-  height: 834px;
   background: var(--bg);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow:
-    0 25px 70px rgba(0,0,0,0.20),
-    0 0 0 6px #2a2a2a,
-    0 0 0 9px #3a3a3a,
-    0 0 0 10px #444;
-  display: flex;
-  flex-direction: column;
-  position: relative;
 }
 
-/* ===== Top Menu Bar ===== */
-.top-bar {
-  height: 72px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 50%, #ffffff 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--rule);
-  flex-shrink: 0;
-  z-index: 10;
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-/* Student Info */
-.student-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 200px;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #a855f7 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Cover */
+.cover {
+  background: linear-gradient(160deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
   color: #fff;
-  font-size: 17px;
-  font-weight: 600;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.35);
-}
-
-.student-meta {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.student-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.student-district {
-  font-size: 11px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.district-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--green);
-  display: inline-block;
-}
-
-/* Nav Tabs */
-.nav-tabs {
-  display: flex;
-  gap: 0;
-  background: #eef0f7;
-  border-radius: 10px;
-  padding: 4px;
-}
-
-.nav-tab {
-  padding: 9px 28px;
-  border-radius: 7px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-  border: none;
-  background: transparent;
-  white-space: nowrap;
-  user-select: none;
-  position: relative;
-}
-
-.nav-tab:hover {
-  color: var(--ink);
-  background: rgba(255,255,255,0.5);
-}
-
-.nav-tab.active {
-  background: var(--bg2);
-  color: var(--accent);
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(91,108,240,0.18);
-}
-
-/* Right Actions */
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 120px;
-  justify-content: flex-end;
-}
-
-.icon-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: none;
-  background: #f0f2f8;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-  color: #666;
-}
-
-.icon-btn:hover {
-  background: var(--accent-light);
-  color: var(--accent);
-}
-
-.icon-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* ===== Main Content ===== */
-.main-content {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-/* ===== Left Panel - Calendar ===== */
-.calendar-panel {
-  width: 64%;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 16px 16px 20px;
-  border-right: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-/* Unified card for the entire left panel */
-.calendar-unified-card {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: var(--bg2);
-  border-radius: var(--radius);
-  padding: 14px 14px 10px 14px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  flex-shrink: 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.calendar-month-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--ink);
-  letter-spacing: -0.3px;
-}
-
-.year-badge {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent);
-  background: var(--accent-light);
-  padding: 2px 10px;
-  border-radius: 10px;
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-.calendar-nav {
-  display: flex;
-  gap: 6px;
-}
-
-.nav-arrow {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid var(--rule);
-  background: var(--bg2);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-  color: #555;
-}
-
-.nav-arrow:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  box-shadow: 0 3px 10px rgba(91,108,240,0.3);
-}
-
-.nav-arrow svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* Action buttons (Today & Refresh) */
-.action-btns {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-sm {
-  padding: 5px 14px;
-  border-radius: 16px;
-  font-size: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.25s ease;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.today-btn {
-  background: var(--accent);
-  color: #fff;
-  border: 1.5px solid var(--accent);
-}
-
-.today-btn:hover {
-  background: #4a5be0;
-  border-color: #4a5be0;
-  box-shadow: 0 3px 10px rgba(91,108,240,0.3);
-}
-
-.refresh-btn {
-  background: var(--bg2);
-  color: var(--accent);
-  border: 1.5px solid var(--accent);
-}
-
-.refresh-btn:hover {
-  background: var(--accent-light);
-  box-shadow: 0 3px 10px rgba(91,108,240,0.2);
-}
-
-.refresh-btn svg {
-  width: 13px;
-  height: 13px;
-}
-
-/* Weekday Header */
-.weekday-row {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  padding: 100px 0 80px;
   text-align: center;
-  margin-bottom: 10px;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, #f0f3ff, #f5f0ff);
-  border-radius: var(--radius-sm);
-  padding: 3px 0;
+  margin-bottom: 0;
 }
 
-.weekday-cell {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 600;
-  padding: 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.weekday-cell.weekend {
-  color: var(--accent2);
-}
-
-/* Calendar Grid */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  flex: 1;
-  align-content: start;
-  background: #f5f6fa;
-  border-radius: var(--radius-sm);
-  padding: 4px;
-}
-
-.day-cell {
-  background: var(--bg2);
-  border-radius: var(--radius-sm);
-  padding: 5px 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
-  display: flex;
-  flex-direction: column;
-  min-height: 96px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.day-cell::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: transparent;
-  transition: all 0.2s ease;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-}
-
-.day-cell:hover {
-  border-color: var(--accent);
-  box-shadow: 0 4px 16px rgba(91,108,240,0.14);
-  transform: translateY(-1px);
-}
-
-.day-cell:hover::before {
-  background: var(--accent);
-}
-
-.day-cell.selected {
-  border-color: var(--accent);
-  background: linear-gradient(135deg, #f0f3ff 0%, #f5f0ff 100%);
-  box-shadow: 0 4px 18px rgba(91,108,240,0.18);
-}
-
-.day-cell.selected::before {
-  background: var(--accent);
-}
-
-.day-cell.today {
-  background: linear-gradient(135deg, #fffdf5 0%, #fff9ec 100%);
-  border-color: var(--orange);
-}
-
-.day-cell.today::before {
-  background: var(--orange);
-}
-
-.day-cell.today.selected {
-  border-color: var(--accent);
-  box-shadow: 0 4px 18px rgba(91,108,240,0.22);
-}
-
-.day-cell.today.selected::before {
-  background: var(--accent);
-}
-
-.day-cell.empty {
-  background: transparent;
-  border: none;
-  cursor: default;
-  pointer-events: none;
-  box-shadow: none;
-}
-
-.day-cell.empty::before {
-  display: none;
-}
-
-.day-cell.empty:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-.day-num {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 4px;
-  position: relative;
-  z-index: 1;
-}
-
-.day-cell.today .day-num {
-  color: #fff;
-  background: linear-gradient(135deg, #fa9550, #f26b6b);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(250,149,80,0.4);
-}
-
-.day-cell.weekend .day-num {
-  color: var(--accent2);
-}
-
-.day-cell.today.weekend .day-num {
-  color: #fff;
-}
-
-.day-indicators {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  position: relative;
-  z-index: 1;
-}
-
-.indicator-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  padding: 3px 6px;
-  border-radius: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.indicator-item.ex-done {
-  background: var(--green-light);
-}
-
-.indicator-item.ex-pending {
-  background: var(--accent2-light);
-}
-
-.indicator-item.doc-done {
-  background: #f0faf5;
-}
-
-.indicator-item.doc-pending {
-  background: var(--orange-light);
-}
-
-.indicator-item.cs-done {
-  background: #f5f0ff;
-}
-
-.indicator-item.cs-pending {
-  background: #fdf0ff;
-}
-
-.indicator-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.indicator-dot.done {
-  background: var(--green);
-  box-shadow: 0 0 4px rgba(82,196,26,0.4);
-}
-
-.indicator-dot.pending {
-  background: var(--accent2);
-  box-shadow: 0 0 4px rgba(242,107,107,0.4);
-  animation: pulse-dot 2s infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 4px rgba(242,107,107,0.4); }
-  50% { box-shadow: 0 0 10px rgba(242,107,107,0.7); }
-}
-
-.indicator-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 500;
-}
-
-/* ===== Right Panel - Day Detail ===== */
-.detail-panel {
-  width: 36%;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 20px 16px 14px;
-  overflow: hidden;
-}
-
-/* Unified card for the entire right panel */
-.detail-unified-card {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: var(--bg2);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.detail-inner {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 16px 16px 16px;
-}
-
-.detail-date-header {
-  flex-shrink: 0;
-  padding: 16px 16px 14px 16px;
-  background: linear-gradient(135deg, #5b6cf0, #a855f7);
-  color: #fff;
-}
-
-.detail-date {
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-
-.detail-weekday {
-  font-size: 13px;
-  color: rgba(255,255,255,0.85);
-  margin-top: 4px;
-  font-weight: 500;
-}
-
-.sub-section {
-  /* inner spacing for merged sub-sections */
-}
-
-.section-divider {
-  height: 1px;
-  background: linear-gradient(to right, var(--rule), transparent);
-  margin: 14px 0;
-}
-
-.section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.section-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.section-icon.exercise {
-  background: linear-gradient(135deg, #eef0ff, #e0e4ff);
-  color: var(--accent);
-}
-
-.section-icon.doc {
-  background: linear-gradient(135deg, #f0faf0, #e0f5e0);
-  color: var(--green);
-}
-
-.section-icon.course {
-  background: linear-gradient(135deg, #f5f0ff, #ede0ff);
-  color: var(--purple);
-}
-
-.section-count {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--muted);
-  margin-left: auto;
-}
-
-/* File List */
-.file-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 14px;
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.file-item:hover {
-  background: var(--accent-light);
-  border-color: rgba(91,108,240,0.2);
-  transform: translateX(2px);
-}
-
-.file-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-  min-width: 0;
-}
-
-.file-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 15px;
-}
-
-.file-icon.exercise-icon {
-  background: linear-gradient(135deg, #eef0ff, #dde3ff);
-  color: var(--accent);
-}
-
-.file-icon.doc-icon {
-  background: linear-gradient(135deg, #f0faf0, #ddf0dd);
-  color: var(--green);
-}
-
-.file-icon.course-icon {
-  background: linear-gradient(135deg, #f5f0ff, #ede0ff);
-  color: var(--purple);
-}
-
-.file-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.status-badge {
-  font-size: 11px;
-  padding: 3px 12px;
-  border-radius: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.3px;
-}
-
-.status-badge.done {
-  background: var(--green-light);
-  color: var(--green);
-  border: 1px solid rgba(82,196,26,0.2);
-}
-
-.status-badge.pending {
-  background: var(--accent2-light);
-  color: var(--accent2);
-  border: 1px solid rgba(242,107,107,0.2);
-}
-
-/* Empty state */
-.empty-state {
-  text-align: center;
-  padding: 35px 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.empty-icon {
+.cover h1 {
+  font-family: var(--font-heading);
   font-size: 40px;
-  margin-bottom: 10px;
-  opacity: 0.4;
-}
-
-/* Full-page empty state (non-schedule tabs) */
-.empty-page-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-  min-height: 300px;
-}
-
-.empty-page-state .empty-icon {
-  font-size: 56px;
-  margin-bottom: 14px;
-  opacity: 0.25;
-}
-
-/* Status legend */
-.legend {
-  display: flex;
-  gap: 20px;
-  margin-top: 14px;
-  flex-shrink: 0;
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.legend-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-
-.legend-dot.red {
-  background: var(--accent2);
-  box-shadow: 0 0 5px rgba(242,107,107,0.4);
-}
-
-.legend-dot.green {
-  background: var(--green);
-  box-shadow: 0 0 5px rgba(82,196,26,0.4);
-}
-
-/* Scrollbar styling */
-.calendar-panel::-webkit-scrollbar,
-.detail-panel::-webkit-scrollbar {
-  width: 4px;
-}
-
-.calendar-panel::-webkit-scrollbar-thumb,
-.detail-panel::-webkit-scrollbar-thumb {
-  background: #d0d5e0;
-  border-radius: 3px;
-}
-
-.calendar-panel::-webkit-scrollbar-thumb:hover,
-.detail-panel::-webkit-scrollbar-thumb:hover {
-  background: #b0b5c0;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.refresh-btn.spinning svg {
-  animation: spin 0.6s ease;
-}
-
-/* Day detail stats */
-.day-stats {
-  display: flex;
-  gap: 12px;
-  margin-top: 6px;
-  font-size: 11px;
-}
-
-.day-stat {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  color: rgba(255,255,255,0.85);
-  font-weight: 500;
-}
-
-.day-stat-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.day-stat-dot.ex { background: #ffd666; }
-.day-stat-dot.doc { background: #b7eb8f; }
-.day-stat-dot.cs { background: #d8b4fe; }
-
-/* ===== File Detail Overlay ===== */
-.file-detail-overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--bg);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-
-.file-detail-overlay.open {
-  transform: translateX(0);
-}
-
-.fd-topbar {
-  height: 56px;
-  background: var(--bg2);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  border-bottom: 1px solid var(--rule);
-  flex-shrink: 0;
-  gap: 12px;
-}
-
-.fd-back-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: var(--bg);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink);
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-
-.fd-back-btn:hover {
-  background: var(--accent-light);
-  color: var(--accent);
-}
-
-.fd-back-btn svg {
-  width: 16px;
-  height: 16px;
-}
-
-.fd-topbar-center {
-  flex: 1;
-  min-width: 0;
-}
-
-.fd-title {
-  font-size: 15px;
   font-weight: 700;
-  color: var(--ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.fd-time {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 1px;
-}
-
-.fd-save-btn {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 14px;
-  border-radius: 16px;
-  border: 1.5px solid var(--accent);
-  background: var(--accent);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-
-.fd-save-btn:hover {
-  background: #4a5be0;
-}
-
-.fd-save-btn.saved {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.fd-save-btn svg {
-  width: 14px;
-  height: 14px;
-}
-
-.fd-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 20px;
-}
-
-/* Question Card */
-.question-card {
-  background: var(--bg2);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-}
-
-.question-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.question-num {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--accent);
-  flex-shrink: 0;
-  min-width: 28px;
-}
-
-.question-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.6;
-}
-
-.options-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.option-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  background: #f8f9fc;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.15s;
-  border: 1px solid transparent;
-}
-
-.option-item:hover {
-  border-color: var(--accent);
-  background: var(--accent-light);
-}
-
-.option-label {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--muted);
-  flex-shrink: 0;
-}
-
-.question-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.question-footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.score-group {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-}
-
-.score-btn {
-  flex: 1;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1.5px solid var(--rule);
-  background: var(--bg2);
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s;
-  color: var(--muted);
-  text-align: center;
-}
-
-.score-btn:hover {
-  border-color: #bbb;
-  background: #fafafa;
-}
-
-.score-btn.selected-right { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 700; box-shadow: 0 2px 8px rgba(82,196,26,0.2); }
-.score-btn.selected-half { background: var(--orange-light); border-color: var(--orange); color: var(--orange); font-weight: 700; box-shadow: 0 2px 8px rgba(250,149,80,0.2); }
-.score-btn.selected-wrong { background: var(--accent2-light); border-color: var(--accent2); color: var(--accent2); font-weight: 700; box-shadow: 0 2px 8px rgba(242,107,107,0.2); }
-
-.answer-link {
-  font-size: 12px;
-  color: var(--accent);
-  cursor: pointer;
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.2s;
-}
-
-.answer-link:hover {
-  color: #4a5be0;
-}
-
-/* Expand Section (error reasons + notes) */
-.expand-section {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--rule);
-  animation: fadeIn 0.25s ease;
-}
-
-.expand-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-
-.reason-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.reason-chip {
-  padding: 4px 12px;
-  border-radius: 14px;
-  border: 1px solid var(--rule);
-  background: var(--bg);
-  font-size: 11px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.15s;
-  color: var(--muted);
-}
-
-.reason-chip.selected {
-  background: var(--accent-light);
-  border-color: var(--accent);
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.notes-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.notes-photo-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  border: 1px dashed var(--rule);
-  background: var(--bg);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  font-size: 10px;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-
-.notes-photo-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.notes-photo-btn svg {
-  width: 16px;
-  height: 16px;
-}
-
-.notes-input {
-  flex: 1;
-  min-height: 44px;
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 12px;
-  font-family: inherit;
-  resize: vertical;
-  outline: none;
-  color: var(--ink);
-  background: var(--bg);
-}
-
-.notes-input:focus {
-  border-color: var(--accent);
-}
-
-/* Upload Bar — inside fdContent, card style like questions */
-.fd-upload-bar {
-  background: var(--bg2);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  margin-top: 0;
-}
-
-.fd-upload-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 10px;
-}
-
-.fd-upload-area {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.fd-upload-grid {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.fd-upload-thumb {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 1px solid var(--rule);
-}
-
-.fd-upload-add {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  border: 1.5px dashed var(--rule);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  cursor: pointer;
-  font-size: 20px;
-  color: var(--muted);
-  font-weight: 300;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.fd-upload-add:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* ===== Answer Modal ===== */
-.answer-modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  z-index: 60;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.answer-modal-overlay.open {
-  display: flex;
-}
-
-.answer-modal {
-  background: var(--bg2);
-  border-radius: var(--radius);
-  width: 520px;
-  max-height: 460px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  animation: fadeIn 0.2s ease;
-}
-
-.answer-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--rule);
-  flex-shrink: 0;
-}
-
-.answer-modal-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.answer-modal-close {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: none;
-  background: var(--bg);
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-
-.answer-modal-close:hover {
-  background: var(--accent2-light);
-  color: var(--accent2);
-}
-
-.answer-modal-body {
-  padding: 16px 18px;
-  overflow-y: auto;
-  flex: 1;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--ink);
-}
-
-.answer-correct {
-  color: var(--green);
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.answer-explain {
-  color: var(--muted);
-  margin-top: 6px;
-}
-
-/* ===== Toast ===== */
-.toast {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: rgba(0,0,0,0.78);
-  color: #fff;
-  padding: 10px 24px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  z-index: 70;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* File item clickable */
-.file-list .file-item {
-  cursor: pointer;
-}
-
-/* ===== Math & English Tab Shared Styles ===== */
-.math-content,
-.english-content,
-.politics-content {
-  display: none;
-  flex: 1;
-  overflow: hidden;
-}
-
-.math-content.active,
-.english-content.active,
-.politics-content.active {
-  display: flex;
-}
-
-/* English Left Panel (same as math but no sub-tabs) */
-.english-left-panel {
-  width: 58%;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 14px 16px 20px;
-  border-right: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.english-left-card {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: var(--bg2);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.english-left-inner {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 16px 16px 16px;
-}
-
-/* English Right Panel (same as math) */
-.english-right-panel {
-  width: 42%;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 20px 16px 14px;
-  overflow: hidden;
-  gap: 14px;
-}
-
-.english-right-card {
-  background: var(--bg2);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.english-right-card.vocab-card {
-  flex: 0 0 auto;
-}
-
-.english-right-card.wrong-book {
-  flex: 1;
-}
-
-/* Vocabulary Module */
-.vocab-inner {
-  padding: 0 16px 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.vocab-module {
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  border: 1px solid var(--rule);
-}
-
-.vocab-module-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--rule);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.vocab-module-title .module-icon {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-}
-
-.vocab-module-title .module-icon.syllabus {
-  background: linear-gradient(135deg, #eef0ff, #e0e4ff);
-  color: var(--accent);
-}
-
-.vocab-module-title .module-icon.dict {
-  background: linear-gradient(135deg, #f0faf0, #e0f5e0);
-  color: var(--green);
-}
-
-.vocab-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vocab-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
-  background: var(--bg2);
-  border-radius: 6px;
-  border: 1px solid transparent;
-  transition: all 0.15s ease;
-  cursor: pointer;
-}
-
-.vocab-row:hover {
-  border-color: rgba(91,108,240,0.2);
-  box-shadow: 0 2px 8px rgba(91,108,240,0.08);
-}
-
-.vocab-row-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.vocab-row-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.vocab-row-dot.easy {
-  background: var(--green);
-  box-shadow: 0 0 5px rgba(82,196,26,0.4);
-}
-
-.vocab-row-dot.fuzzy {
-  background: var(--orange);
-  box-shadow: 0 0 5px rgba(250,149,80,0.4);
-}
-
-.vocab-row-dot.strange {
-  background: var(--accent2);
-  box-shadow: 0 0 5px rgba(242,107,107,0.4);
-}
-
-.vocab-row-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink);
-}
-
-.vocab-row-desc {
-  font-size: 10px;
-  color: var(--muted);
-  margin-left: 4px;
-}
-
-.vocab-row-value {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.vocab-row-value .unit {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-/* Detail link (replaces more-link) */
-.detail-link {
-  font-size: 12px;
-  color: var(--accent);
-  cursor: pointer;
-  font-weight: 600;
-  transition: color 0.2s;
-  text-decoration: none;
-  padding: 4px 10px;
-  border-radius: 12px;
-  background: var(--accent-light);
-  border: 1px solid rgba(91,108,240,0.15);
-}
-
-.detail-link:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
-/* Math & Politics Left Panel */
-.math-left-panel,
-.politics-left-panel {
-  width: 58%;
-  display: flex;
-  flex-direction: column;
-  padding: 18px 14px 16px 20px;
-  border-right: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.math-left-card,
-.politics-left-card {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: var(--bg2);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.math-left-inner,
-.politics-left-inner {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 16px 16px 16px;
-}
-
-/* Sub Tabs */
-.math-sub-tabs,
-.politics-sub-tabs {
-  display: flex;
-  gap: 0;
-  background: #eef0f7;
-  border-radius: 10px;
-  padding: 4px;
+  letter-spacing: 0.5px;
   margin-bottom: 16px;
 }
 
-.math-sub-tab,
-.politics-sub-tab {
-  flex: 1;
-  padding: 9px 16px;
-  border-radius: 7px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-  border: none;
-  background: transparent;
-  white-space: nowrap;
-  user-select: none;
-  text-align: center;
-}
-
-.math-sub-tab:hover,
-.politics-sub-tab:hover {
-  color: var(--ink);
-  background: rgba(255,255,255,0.5);
-}
-
-.math-sub-tab.active,
-.politics-sub-tab.active {
-  background: var(--bg2);
-  color: var(--accent);
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(91,108,240,0.18);
-}
-
-/* Free Study Section */
-.free-study-header {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.free-study-header .study-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-  color: #4caf50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-/* Course Select Dropdown */
-.course-select {
-  margin-left: auto;
-  padding: 5px 28px 5px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent);
-  background: var(--accent-light);
-  border: 1px solid rgba(91,108,240,0.2);
-  border-radius: 6px;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235b6cf0' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  transition: all 0.2s ease;
-}
-
-.course-select:hover {
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(91,108,240,0.12);
-}
-
-.course-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(91,108,240,0.12);
-}
-
-/* Stats Cards Row */
-.stats-cards-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.stat-card {
-  flex: 1;
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
-  padding: 14px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  border: 1px solid var(--rule);
-  transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 3px 12px rgba(91,108,240,0.1);
-}
-
-.stat-card-label {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.stat-card-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.stat-card-value .unit {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-/* Progress Bar */
-.progress-bar-wrap {
-  width: 100%;
-  height: 8px;
-  background: #e8eaef;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 4px;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #5b6cf0, #a855f7);
-  border-radius: 10px;
-  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-
-.progress-percent {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-top: 2px;
-  text-align: right;
-}
-
-/* Course Chapter List */
-.chapter-section-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--rule);
-}
-
-/* Tree View */
-.tree-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.tree-node {
-  user-select: none;
-}
-
-.tree-node-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.tree-node-header:hover {
-  background: var(--accent-light);
-}
-
-.tree-arrow {
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.tree-arrow.expanded {
-  transform: rotate(90deg);
-}
-
-.tree-arrow.no-children {
-  visibility: hidden;
-}
-
-.tree-node-name {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.tree-node-name.level-1 {
-  font-weight: 600;
-}
-
-.tree-node-name.level-2 {
-  font-weight: 500;
-}
-
-.tree-node-name.level-3 {
+.cover .subtitle {
+  font-size: 18px;
+  opacity: 0.8;
   font-weight: 400;
-  color: #555;
+  margin-bottom: 40px;
 }
 
-.tree-children {
-  overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-
-.tree-children.collapsed {
-  max-height: 0;
-}
-
-.tree-children.level-1 {
-  padding-left: 14px;
-}
-
-.tree-children.level-2 {
-  padding-left: 14px;
-}
-
-/* Tree Status Badge */
-.tree-status {
-  font-size: 10px;
-  padding: 2px 10px;
-  border-radius: 10px;
-  font-weight: 600;
-  white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.3px;
-}
-
-.tree-status.in-progress {
-  background: var(--orange-light);
-  color: var(--orange);
-  border: 1px solid rgba(250,149,80,0.25);
-}
-
-.tree-status.not-started {
-  background: #f5f5f5;
-  color: #999;
-  border: 1px solid #e0e0e0;
-}
-
-.tree-status.completed {
-  background: var(--green-light);
-  color: var(--green);
-  border: 1px solid rgba(82,196,26,0.2);
-}
-
-/* Math & Politics Right Panel */
-.math-right-panel,
-.politics-right-panel {
-  width: 42%;
+.cover .meta {
   display: flex;
-  flex-direction: column;
-  padding: 18px 20px 16px 14px;
-  overflow: hidden;
-  gap: 14px;
-}
-
-.math-right-card,
-.politics-right-card {
-  background: var(--bg2);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.math-right-card.practice {
-  flex: 0 0 auto;
-}
-
-.math-right-card.wrong-book {
-  flex: 1;
-}
-
-/* Politics Right Cards — quiz module fills full height */
-.politics-right-card.quiz-module {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* Card Header */
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px 10px 16px;
-  flex-shrink: 0;
-}
-
-.card-header-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-header-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  gap: 40px;
   font-size: 14px;
+  opacity: 0.65;
 }
 
-.card-header-icon.practice-icon {
-  background: linear-gradient(135deg, #eef0ff, #e0e4ff);
-  color: var(--accent);
-}
-
-.card-header-icon.wrong-icon {
-  background: linear-gradient(135deg, #fff0f0, #ffe0e0);
-  color: var(--accent2);
-}
-
-.more-link {
-  font-size: 12px;
-  color: var(--accent);
-  cursor: pointer;
-  font-weight: 500;
-  transition: color 0.2s;
-  text-decoration: none;
-}
-
-.more-link:hover {
-  color: #4a5be0;
-}
-
-/* 9-Grid Practice Cards */
-.practice-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 0 16px 14px 16px;
-}
-
-.practice-card {
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
-  padding: 12px 10px;
-  cursor: pointer;
-  border: 1px solid var(--rule);
-  transition: all 0.2s ease;
-  position: relative;
+.cover .meta span {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 
-.practice-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 3px 12px rgba(91,108,240,0.12);
-  transform: translateY(-1px);
-}
-
-.practice-card-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-right: 28px;
-}
-
-.practice-card-stats {
-  display: flex;
-  gap: 10px;
-  font-size: 10px;
-  color: var(--muted);
-}
-
-.practice-card-stats span {
-  font-weight: 500;
-}
-
-.practice-card-stats .wrong {
-  color: var(--accent2);
-  font-weight: 600;
-}
-
-/* Corner Badge on Practice Cards */
-.practice-corner-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 0 var(--radius-sm) 0 8px;
-  letter-spacing: 0.5px;
-}
-
-.practice-corner-badge.answered {
-  background: var(--green-light);
-  color: var(--green);
-}
-
-.practice-corner-badge.unanswered {
-  background: var(--orange-light);
-  color: var(--orange);
-}
-
-/* Wrong Book Inner */
-.wrong-book-inner {
-  padding: 0 16px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  flex: 1;
-}
-
-/* Wrong Book Progress */
-.wrong-progress-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.wrong-progress-label {
-  color: var(--muted);
-  font-weight: 500;
-  font-size: 12px;
-}
-
-.wrong-progress-num {
-  color: var(--accent2);
-  font-weight: 700;
-}
-
-.wrong-progress-bar {
-  width: 100%;
-  height: 10px;
-  background: #f0f0f0;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.wrong-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #f26b6b, #fa9550);
-  border-radius: 10px;
-  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-
-.wrong-progress-text {
-  font-size: 11px;
-  color: var(--muted);
-  text-align: right;
-}
-
-/* Wrong Book Buttons */
-.wrong-book-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.wrong-btn {
-  flex: 1;
-  padding: 11px 0;
-  border-radius: 10px;
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-}
-
-.wrong-btn.correct {
-  background: linear-gradient(135deg, #5b6cf0, #7c8cf5);
-  color: #fff;
-  box-shadow: 0 3px 12px rgba(91,108,240,0.25);
-}
-
-.wrong-btn.correct:hover {
-  box-shadow: 0 5px 18px rgba(91,108,240,0.4);
-  transform: translateY(-1px);
-}
-
-.wrong-btn.stats {
+/* Main content */
+main {
   background: var(--bg2);
-  color: var(--accent);
-  border: 1.5px solid var(--accent);
+  padding: 60px 0 80px;
 }
 
-.wrong-btn.stats:hover {
-  background: var(--accent-light);
-  box-shadow: 0 3px 12px rgba(91,108,240,0.15);
-}
-
-/* ===== Politics Quiz Module ===== */
-/* Quiz Bank Select */
-.quiz-select {
-  padding: 5px 28px 5px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent);
-  background: var(--accent-light);
-  border: 1px solid rgba(91,108,240,0.2);
-  border-radius: 6px;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%235b6cf0' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  transition: all 0.2s ease;
-}
-
-.quiz-select:hover {
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(91,108,240,0.12);
-}
-
-.quiz-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(91,108,240,0.12);
-}
-
-/* Quiz Stats Row */
-.quiz-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 0 16px 14px 16px;
-}
-
-.quiz-stat-card {
-  background: #f8f9fc;
-  border-radius: var(--radius-sm);
-  padding: 10px 8px;
-  text-align: center;
-  border: 1px solid var(--rule);
-  transition: all 0.2s ease;
-  cursor: default;
-}
-
-.quiz-stat-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(91,108,240,0.1);
-}
-
-.quiz-stat-label {
-  font-size: 10px;
-  color: var(--muted);
-  font-weight: 500;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.quiz-stat-value {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--accent);
-}
-
-.quiz-stat-value .quiz-stat-unit {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-/* Quiz Chapter Section Title */
-.quiz-chapter-title {
-  font-size: 13px;
+h2 {
+  font-family: var(--font-heading);
+  font-size: 26px;
   font-weight: 700;
   color: var(--ink);
-  padding: 0 16px 8px 16px;
-  border-bottom: 1px solid var(--rule);
-  margin: 0 0 0 0;
+  margin: 56px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--accent);
 }
 
-/* Quiz Chapter Table Wrap */
-.quiz-chapter-table-wrap {
-  flex: 1;
+h2:first-of-type { margin-top: 0; }
+
+h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 36px 0 14px;
+}
+
+h4 {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 28px 0 10px;
+}
+
+p { margin-bottom: 14px; }
+
+strong { font-weight: 700; }
+
+mark.key {
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Callout */
+.callout {
+  background: #eef2ff;
+  border-left: 4px solid var(--accent);
+  padding: 14px 20px;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-size: 15px;
+  color: #3730a3;
+  line-height: 1.7;
+}
+
+.callout-warn {
+  background: #fef3c7;
+  border-left-color: var(--accent3);
+  color: #92400e;
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
   overflow-y: auto;
-  padding: 0;
+  max-height: 600px;
+  margin: 20px 0;
 }
 
-/* Quiz Chapter Table */
-.quiz-chapter-table {
+table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 14px;
+  min-width: 600px;
 }
 
-.quiz-chapter-table thead {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.quiz-chapter-table thead tr {
-  background: #f0f1f6;
-}
-
-.quiz-chapter-table th {
-  padding: 8px 8px;
+thead th {
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 14px;
   text-align: left;
   font-weight: 600;
-  color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   white-space: nowrap;
+}
+
+tbody td {
+  padding: 10px 14px;
   border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  line-height: 1.6;
 }
 
-.quiz-chapter-table th.col-seq {
-  width: 40px;
+tbody tr:hover { background: #f8f9fb; }
+
+tr:nth-child(even) { background: #fafbfc; }
+tr:nth-child(even):hover { background: #f0f2f5; }
+
+/* Code / diagram */
+pre.mermaid {
+  background: var(--bg);
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  font-size: 13px;
+  overflow-x: auto;
+  margin: 16px 0;
+  line-height: 1.6;
+}
+
+figure.diagram {
+  margin: 28px 0;
   text-align: center;
 }
 
-.quiz-chapter-table th.col-name {
-  width: auto;
-}
-
-.quiz-chapter-table th.col-progress {
-  width: 72px;
-  text-align: center;
-}
-
-.quiz-chapter-table th.col-action {
-  width: 110px;
-  text-align: center;
-}
-
-/* Parent Row (Level 1) */
-.quiz-chapter-table .chapter-parent {
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s ease;
-}
-
-.quiz-chapter-table .chapter-parent:hover {
-  background: var(--accent-light);
-}
-
-.quiz-chapter-table .chapter-parent td {
-  padding: 8px 8px;
-  border-bottom: 1px solid #eee;
-}
-
-.quiz-chapter-table .chapter-parent .chapter-expand-icon {
-  display: inline-block;
-  width: 16px;
-  font-size: 10px;
+figure.diagram figcaption {
+  font-size: 13px;
   color: var(--muted);
-  transition: transform 0.25s ease;
-  margin-right: 2px;
-  text-align: center;
+  margin-top: 8px;
 }
 
-.quiz-chapter-table .chapter-parent .chapter-expand-icon.expanded {
-  transform: rotate(90deg);
+/* Lists */
+ul, ol {
+  margin: 12px 0 16px 24px;
 }
 
-.quiz-chapter-table .chapter-parent .chapter-name {
+li {
+  margin-bottom: 6px;
+  line-height: 1.7;
+}
+
+/* Tag/badge */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
   font-weight: 600;
+  margin-left: 6px;
+}
+
+.badge-blue { background: #eef2ff; color: var(--accent); }
+.badge-green { background: #ecfdf5; color: var(--accent2); }
+.badge-orange { background: #fff7ed; color: var(--accent3); }
+
+/* Footer */
+footer {
+  background: var(--bg);
+  padding: 40px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+}
+
+/* Structure tree */
+.tree-box {
+  background: #f8f9fb;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 16px 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.9;
+  white-space: pre;
+  overflow-x: auto;
   color: var(--ink);
 }
 
-/* Progress bar inside parent row */
-.quiz-chapter-table .parent-progress {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  justify-content: center;
+/* TOC */
+.toc {
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin: 30px 0;
 }
 
-.quiz-chapter-table .parent-progress .mini-bar-wrap {
-  width: 40px;
-  height: 5px;
-  background: #e8eaef;
-  border-radius: 3px;
-  overflow: hidden;
-  flex-shrink: 0;
+.toc h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--ink);
 }
 
-.quiz-chapter-table .parent-progress .mini-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #5b6cf0, #a855f7);
-  border-radius: 3px;
+.toc ol {
+  margin: 0 0 0 20px;
+  font-size: 14px;
 }
 
-.quiz-chapter-table .parent-progress .mini-bar-text {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-}
+.toc li { margin-bottom: 6px; }
+.toc a { color: var(--accent); text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
 
-/* Action buttons in parent row */
-.quiz-chapter-table .parent-actions {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-}
-
-.quiz-chapter-table .action-btn {
-  padding: 4px 8px;
-  font-size: 10px;
-  font-weight: 600;
-  border-radius: 4px;
-  border: 1px solid;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.quiz-chapter-table .action-btn.random {
-  background: #fff;
-  color: var(--accent);
-  border-color: rgba(91,108,240,0.3);
-}
-
-.quiz-chapter-table .action-btn.random:hover {
-  background: var(--accent-light);
-  border-color: var(--accent);
-}
-
-.quiz-chapter-table .action-btn.sequential {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.quiz-chapter-table .action-btn.sequential:hover {
-  background: #4a5be0;
-  border-color: #4a5be0;
-}
-
-/* Child Row (Level 2) */
-.quiz-chapter-table .chapter-child {
-  transition: background 0.15s ease;
-}
-
-.quiz-chapter-table .chapter-child:hover {
-  background: #f8f9fc;
-}
-
-.quiz-chapter-table .chapter-child td {
-  padding: 6px 8px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.quiz-chapter-table .chapter-child .child-indent {
-  padding-left: 24px;
-}
-
-.quiz-chapter-table .chapter-child .child-name {
-  font-size: 11px;
-  color: #555;
-  font-weight: 500;
-}
-
-/* Child progress bar */
-.quiz-chapter-table .child-progress {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  justify-content: center;
-}
-
-.quiz-chapter-table .child-progress .mini-bar-wrap {
-  width: 40px;
-  height: 5px;
-  background: #e8eaef;
-  border-radius: 3px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.quiz-chapter-table .child-progress .mini-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #5b6cf0, #a855f7);
-  border-radius: 3px;
-}
-
-.quiz-chapter-table .child-progress .mini-bar-text {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-/* Child actions */
-.quiz-chapter-table .child-actions {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-}
-
-.quiz-chapter-table .child-actions .action-btn {
-  padding: 3px 7px;
-  font-size: 10px;
-}
-
-/* Collapsed child rows */
-.quiz-chapter-table .chapter-child.collapsed {
-  display: none;
+/* Responsive */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  .cover { padding: 60px 0 50px; }
+  .cover h1 { font-size: 28px; }
+  main { padding: 40px 0 60px; }
+  h2 { font-size: 22px; margin-top: 40px; }
+  h3 { font-size: 18px; }
 }
 </style>
 </head>
 <body>
 
-<div class="ipad-frame" id="app">
-  <!-- ===== Top Bar ===== -->
-  <header class="top-bar">
-    <div class="student-info">
-      <div class="avatar">张</div>
-      <div class="student-meta">
-        <span class="student-name">张同学</span>
-        <span class="student-district"><span class="district-dot"></span> 海淀学区 · 2026届</span>
-      </div>
-    </div>
-
-    <nav class="nav-tabs" id="navTabs">
-      <button class="nav-tab active" data-tab="schedule">超级课表</button>
-      <button class="nav-tab" data-tab="math">数学</button>
-      <button class="nav-tab" data-tab="english">英语</button>
-      <button class="nav-tab" data-tab="politics">政治</button>
-    </nav>
-
-    <div class="top-actions">
-      <button class="icon-btn" title="扫一扫">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-          <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-          <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-          <rect x="14" y="14" width="7" height="7" rx="1.5"/>
-        </svg>
-      </button>
-      <button class="icon-btn" title="设置">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-      </button>
-    </div>
-  </header>
-
-  <!-- ===== Main Content ===== -->
-  <main class="main-content">
-    <!-- Left: Calendar -->
-    <section class="calendar-panel" id="calendarPanel">
-      <!-- Single unified card -->
-      <div class="calendar-unified-card" id="calendarCard">
-        <div class="calendar-header">
-          <span class="calendar-month-title" id="monthTitle">2026年7月</span>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div class="action-btns">
-              <button class="btn-sm today-btn" id="todayBtn">📍 今天</button>
-              <button class="btn-sm refresh-btn" id="refreshBtn" title="刷新课表数据">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="23 4 23 10 17 10"/>
-                  <polyline points="1 20 1 14 7 14"/>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                </svg>
-                刷新
-              </button>
-            </div>
-            <div class="calendar-nav">
-              <button class="nav-arrow" id="prevMonth" title="上个月">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-              <button class="nav-arrow" id="nextMonth" title="下个月">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="weekday-row">
-          <div class="weekday-cell">一</div>
-          <div class="weekday-cell">二</div>
-          <div class="weekday-cell">三</div>
-          <div class="weekday-cell">四</div>
-          <div class="weekday-cell">五</div>
-          <div class="weekday-cell weekend">六</div>
-          <div class="weekday-cell weekend">日</div>
-        </div>
-
-        <div class="calendar-grid" id="calendarGrid"></div>
-
-        <div class="legend">
-          <div class="legend-item"><span class="legend-dot red"></span> 未完成</div>
-          <div class="legend-item"><span class="legend-dot green"></span> 已完成</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right: Day Detail -->
-    <section class="detail-panel" id="detailPanel">
-      <!-- Single unified card -->
-      <div class="detail-unified-card" id="detailCard">
-        <div class="detail-date-header">
-          <div class="detail-date" id="detailDate">2026年7月6日</div>
-          <div class="detail-weekday" id="detailWeekday">星期日</div>
-          <div class="day-stats" id="dayStats">
-            <span class="day-stat"><span class="day-stat-dot ex"></span>练测 <span id="exCount">2</span></span>
-            <span class="day-stat"><span class="day-stat-dot doc"></span>文档 <span id="docCount">1</span></span>
-            <span class="day-stat"><span class="day-stat-dot cs"></span>课程 <span id="csCount">1</span></span>
-          </div>
-        </div>
-
-        <!-- 学习内容模块（练测+文档+课程合一） -->
-        <div class="detail-inner">
-          <!-- 练测 -->
-          <div class="sub-section" id="exSubSection">
-            <div class="section-title">
-              练测
-              <span class="section-count" id="exSectionCount">共 2 项</span>
-            </div>
-            <div class="file-list" id="exerciseList"></div>
-          </div>
-
-          <div class="section-divider" id="exDocDivider"></div>
-
-          <!-- 文档 -->
-          <div class="sub-section" id="docSubSection">
-            <div class="section-title">
-              文档
-              <span class="section-count" id="docSectionCount">共 1 项</span>
-            </div>
-            <div class="file-list" id="docList"></div>
-          </div>
-
-          <div class="section-divider" id="docCsDivider"></div>
-
-          <!-- 课程 -->
-          <div class="sub-section" id="csSubSection">
-            <div class="section-title">
-              课程
-              <span class="section-count" id="csSectionCount">共 1 项</span>
-            </div>
-            <div class="file-list" id="courseList"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== Math Tab Content ===== -->
-  <div class="math-content" id="mathContent">
-    <!-- Left Panel -->
-    <section class="math-left-panel">
-      <div class="math-left-card">
-        <div class="math-left-inner" id="mathLeftInner">
-          <!-- Sub Tabs -->
-          <div class="math-sub-tabs" id="mathSubTabs">
-            <button class="math-sub-tab active" data-subtab="gaoshu">高数</button>
-            <button class="math-sub-tab" data-subtab="xiandai">线代</button>
-            <button class="math-sub-tab" data-subtab="gaitong">概统</button>
-          </div>
-
-          <!-- Free Study Section -->
-          <div class="free-study-header">
-            <span class="study-icon">📖</span>自由学
-            <select class="course-select" id="courseSelect">
-              <option value="basic">高数-基础课程</option>
-              <option value="knowledge">高数-知识点</option>
-              <option value="advanced">高数-进阶课程</option>
-            </select>
-          </div>
-
-          <!-- Stats Cards -->
-          <div class="stats-cards-row" id="statsCardsRow">
-            <div class="stat-card">
-              <span class="stat-card-label">已学</span>
-              <span class="stat-card-value" id="statStudied">12<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">总学时</span>
-              <span class="stat-card-value" id="statTotal">36<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">学习进度</span>
-              <div style="display:flex;flex-direction:column;">
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" id="studyProgressBar" style="width:33%"></div>
-                </div>
-                <span class="progress-percent" id="studyProgressPercent">33%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Course Chapter List -->
-          <div class="chapter-section-title">课程章节</div>
-          <div class="tree-list" id="chapterTree"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right Panel -->
-    <section class="math-right-panel">
-      <!-- My Practice Tests -->
-      <div class="math-right-card practice">
-        <div class="card-header">
-          <span class="card-header-title">
-            <span class="card-header-icon practice-icon">📝</span>我的练测
-          </span>
-          <span class="more-link">更多 ›</span>
-        </div>
-        <div class="practice-grid" id="practiceGrid"></div>
-      </div>
-
-      <!-- Wrong Book -->
-      <div class="math-right-card wrong-book">
-        <div class="card-header">
-          <span class="card-header-title">
-            <span class="card-header-icon wrong-icon">📕</span>错题本
-          </span>
-        </div>
-        <div class="wrong-book-inner">
-          <div>
-            <div class="wrong-progress-info">
-              <span class="wrong-progress-label">已订正 / 总错题</span>
-              <span class="wrong-progress-num"><span id="wrongFixed">18</span> / <span id="wrongTotal">56</span></span>
-            </div>
-            <div class="wrong-progress-bar">
-              <div class="wrong-progress-fill" id="wrongProgressFill" style="width:32%"></div>
-            </div>
-            <div class="wrong-progress-text">订正率 <span id="wrongPercent">32%</span></div>
-          </div>
-          <div class="wrong-book-buttons">
-            <button class="wrong-btn correct" id="correctWrongBtn">📝 订正错题</button>
-            <button class="wrong-btn stats" id="wrongStatsBtn">📊 错题统计</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ===== English Tab Content ===== -->
-  <div class="english-content" id="englishContent">
-    <!-- Left Panel -->
-    <section class="english-left-panel">
-      <div class="english-left-card">
-        <div class="english-left-inner" id="englishLeftInner">
-          <!-- Free Study Section -->
-          <div class="free-study-header">
-            <span class="study-icon">📖</span>自由学
-            <select class="course-select" id="englishCourseSelect">
-              <option value="basic">英语-基础课程</option>
-              <option value="knowledge">英语-知识点</option>
-              <option value="advanced">英语-进阶课程</option>
-            </select>
-          </div>
-
-          <!-- Stats Cards -->
-          <div class="stats-cards-row" id="englishStatsCardsRow">
-            <div class="stat-card">
-              <span class="stat-card-label">已学</span>
-              <span class="stat-card-value" id="enStatStudied">15<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">总学时</span>
-              <span class="stat-card-value" id="enStatTotal">42<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">学习进度</span>
-              <div style="display:flex;flex-direction:column;">
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" id="enStudyProgressBar" style="width:36%"></div>
-                </div>
-                <span class="progress-percent" id="enStudyProgressPercent">36%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Course Chapter List -->
-          <div class="chapter-section-title">课程章节</div>
-          <div class="tree-list" id="englishChapterTree"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right Panel -->
-    <section class="english-right-panel">
-      <!-- Vocabulary -->
-      <div class="english-right-card vocab-card">
-        <div class="card-header">
-          <span class="card-header-title">
-            <span class="card-header-icon practice-icon">📚</span>词汇
-          </span>
-          <span class="detail-link">详情 ›</span>
-        </div>
-        <div class="vocab-inner" id="englishVocabInner"></div>
-      </div>
-
-      <!-- Wrong Book -->
-      <div class="english-right-card wrong-book">
-        <div class="card-header">
-          <span class="card-header-title">
-            <span class="card-header-icon wrong-icon">📕</span>错题本
-          </span>
-        </div>
-        <div class="wrong-book-inner">
-          <div>
-            <div class="wrong-progress-info">
-              <span class="wrong-progress-label">已订正 / 总错题</span>
-              <span class="wrong-progress-num"><span id="enWrongFixed">22</span> / <span id="enWrongTotal">48</span></span>
-            </div>
-            <div class="wrong-progress-bar">
-              <div class="wrong-progress-fill" id="enWrongProgressFill" style="width:46%"></div>
-            </div>
-            <div class="wrong-progress-text">订正率 <span id="enWrongPercent">46%</span></div>
-          </div>
-          <div class="wrong-book-buttons">
-            <button class="wrong-btn correct" id="enCorrectWrongBtn">📝 订正错题</button>
-            <button class="wrong-btn stats" id="enWrongStatsBtn">📊 错题统计</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ===== Politics Tab Content ===== -->
-  <div class="politics-content" id="politicsContent">
-    <!-- Left Panel -->
-    <section class="politics-left-panel">
-      <div class="politics-left-card">
-        <div class="politics-left-inner" id="politicsLeftInner">
-          <!-- Sub Tabs -->
-          <div class="politics-sub-tabs" id="politicsSubTabs">
-            <button class="politics-sub-tab active" data-subtab="mayuan">马原</button>
-            <button class="politics-sub-tab" data-subtab="maozhongte">毛中特</button>
-            <button class="politics-sub-tab" data-subtab="xisixiang">习思想</button>
-            <button class="politics-sub-tab" data-subtab="shigang">史纲</button>
-            <button class="politics-sub-tab" data-subtab="sifa">思法</button>
-          </div>
-
-          <!-- Free Study Section -->
-          <div class="free-study-header">
-            <span class="study-icon">📖</span>自由学
-            <select class="course-select" id="politicsCourseSelect">
-              <option value="basic">马原-基础课程</option>
-              <option value="knowledge">马原-知识点</option>
-              <option value="advanced">马原-进阶课程</option>
-            </select>
-          </div>
-
-          <!-- Stats Cards -->
-          <div class="stats-cards-row" id="politicsStatsCardsRow">
-            <div class="stat-card">
-              <span class="stat-card-label">已学</span>
-              <span class="stat-card-value" id="poStatStudied">10<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">总学时</span>
-              <span class="stat-card-value" id="poStatTotal">30<span class="unit">课</span></span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card-label">学习进度</span>
-              <div style="display:flex;flex-direction:column;">
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar-fill" id="poStudyProgressBar" style="width:33%"></div>
-                </div>
-                <span class="progress-percent" id="poStudyProgressPercent">33%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Course Chapter List -->
-          <div class="chapter-section-title">课程章节</div>
-          <div class="tree-list" id="politicsChapterTree"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Right Panel -->
-    <section class="politics-right-panel" style="gap:12px;">
-      <!-- 刷题 Module -->
-      <div class="politics-right-card quiz-module" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
-        <div class="card-header">
-          <span class="card-header-title">
-            <span class="card-header-icon practice-icon">📝</span>刷题
-          </span>
-          <select class="quiz-select" id="quizBankSelect">
-            <option value="mayuan">马原题库</option>
-            <option value="maozhongte">毛中特题库</option>
-            <option value="xisixiang">习思想题库</option>
-            <option value="shigang">史纲题库</option>
-            <option value="sifa">思法题库</option>
-          </select>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="quiz-stats-row" id="quizStatsRow">
-          <div class="quiz-stat-card">
-            <span class="quiz-stat-label">已刷题库</span>
-            <span class="quiz-stat-value" id="quizBrushed">128<span class="quiz-stat-unit">题</span></span>
-          </div>
-          <div class="quiz-stat-card">
-            <span class="quiz-stat-label">总题数</span>
-            <span class="quiz-stat-value" id="quizTotal">450<span class="quiz-stat-unit">题</span></span>
-          </div>
-          <div class="quiz-stat-card">
-            <span class="quiz-stat-label">错题数</span>
-            <span class="quiz-stat-value" id="quizWrong">42<span class="quiz-stat-unit">题</span></span>
-          </div>
-          <div class="quiz-stat-card">
-            <span class="quiz-stat-label">收藏数</span>
-            <span class="quiz-stat-value" id="quizBookmark">35<span class="quiz-stat-unit">题</span></span>
-          </div>
-        </div>
-
-        <!-- Chapter Table -->
-        <div class="quiz-chapter-title">题库章节</div>
-        <div class="quiz-chapter-table-wrap">
-          <table class="quiz-chapter-table">
-            <thead>
-              <tr>
-                <th class="col-seq">序号</th>
-                <th class="col-name">章节名称</th>
-                <th class="col-progress">进度</th>
-                <th class="col-action">操作</th>
-              </tr>
-            </thead>
-            <tbody id="quizChapterBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- ===== File Detail Overlay ===== -->
-  <div class="file-detail-overlay" id="fileDetailOverlay">
-    <!-- Top Bar -->
-    <div class="fd-topbar">
-      <button class="fd-back-btn" id="fdBackBtn" title="返回上一级">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <div class="fd-topbar-center">
-        <div class="fd-title" id="fdTitle">A班7月6日作业</div>
-        <div class="fd-time" id="fdTime">分发时间：2026-07-06 08:30</div>
-      </div>
-      <button class="fd-save-btn" id="fdSaveBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-        </svg>
-        保存
-      </button>
-    </div>
-
-    <!-- Scrollable Content -->
-    <div class="fd-content" id="fdContent">
-      <!-- Questions rendered by JS -->
-      <!-- Upload section appended here by JS -->
-    </div>
-
-    <!-- Upload template (moved into fdContent by JS) -->
-    <div class="fd-upload-bar" id="fdUploadBar" style="display:none">
-      <div class="fd-upload-label">📎 上传试卷作答情况（非必填）</div>
-      <div class="fd-upload-area" id="fdUploadArea">
-        <div class="fd-upload-grid" id="fdUploadGrid"></div>
-        <label class="fd-upload-add" id="fdUploadAdd">
-          <input type="file" accept="image/*" multiple hidden id="fdUploadInput">
-          <span>+</span>
-          <span style="font-size:10px;">添加图片</span>
-        </label>
-      </div>
+<!-- Cover -->
+<header class="cover">
+  <div class="container">
+    <h1>考研学习平台 功能需求说明书</h1>
+    <p class="subtitle">Kaoyan Learning Platform — Product Requirements Document</p>
+    <div class="meta">
+      <span>版本 1.0</span>
+      <span>2026-07-09</span>
+      <span>状态：已确认</span>
     </div>
   </div>
+</header>
 
-  <!-- ===== Answer Modal ===== -->
-  <div class="answer-modal-overlay" id="answerModalOverlay">
-    <div class="answer-modal">
-      <div class="answer-modal-header">
-        <span class="answer-modal-title">答案与解析</span>
-        <button class="answer-modal-close" id="answerModalClose">✕</button>
-      </div>
-      <div class="answer-modal-body" id="answerModalBody"></div>
-    </div>
-  </div>
+<main>
+<div class="container">
 
-  <!-- ===== Toast ===== -->
-  <div class="toast" id="toast"></div>
+<!-- TOC -->
+<nav class="toc">
+  <h3>目录</h3>
+  <ol>
+    <li><a href="#s1">系统总览</a></li>
+    <li><a href="#s2">角色与职责</a></li>
+    <li><a href="#s3">组织关系与登录</a></li>
+    <li><a href="#s4">课表五种内容类型</a></li>
+    <li><a href="#s5">课程体系架构</a></li>
+    <li><a href="#s6">教材管理员功能详述</a></li>
+    <li><a href="#s7">分发与完成闭环</a></li>
+    <li><a href="#s8">班主任功能详述</a></li>
+    <li><a href="#s9">教务管理员功能详述</a></li>
+    <li><a href="#s10">学员端功能详述</a></li>
+    <li><a href="#s11">数据字典</a></li>
+    <li><a href="#s12">页面清单</a></li>
+  </ol>
+</nav>
+
+<!-- 1. System Overview -->
+<h2 id="s1">1. 系统总览</h2>
+
+<p>考研学习平台是一个面向考研培训机构的在线学习管理系统，由<mark class="key">学员端 iPad 平板应用</mark>与<mark class="key">后台管理 Web 系统</mark>两部分构成。系统覆盖数学、英语两大学科，支持课程学习、练测自评、作业提交、错题管理、公式背诵（数学）、词汇背诵与评估（英语）、阅读练习（英语）等核心学习场景。</p>
+
+<figure class="diagram">
+  <pre class="mermaid">
+graph TB
+    subgraph STUDENT["学员端（iPad 平板应用）"]
+        A1["超级课表"]
+        A2["学科学习（数学/英语）"]
+        A3["课程详情 / 视频播放"]
+        A4["练测 / 作业 / 文档 / 提醒"]
+        A5["错题本"]
+        A6["公式背诵（数学）"]
+        A7["词汇背诵 / 评估 / 阅读（英语）"]
+    end
+
+    subgraph ADMIN["后台管理系统（Web）"]
+        B1["超级管理员"]
+        B2["教务管理员"]
+        B3["教材管理员"]
+        B4["班主任"]
+    end
+
+    B1 --> B2
+    B1 --> B3
+    B1 --> B4
+    B3 -->|"生产内容"| B4
+    B4 -->|"分发到课表"| A1
+    A1 --> A2
+    A1 --> A3
+    A1 --> A4
+    A2 --> A5
+    A2 --> A6
+    A2 --> A7
+    A4 -->|"练测错题"| A5</pre>
+  <figcaption>图 1：系统全局架构</figcaption>
+</figure>
+
+<!-- 2. Roles -->
+<h2 id="s2">2. 角色与职责</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>角色</th>
+      <th>终端</th>
+      <th>核心职责</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>超级管理员</strong></td>
+      <td>Web</td>
+      <td>拥有全部权限，管理所有角色账号，系统最高权限者</td>
+    </tr>
+    <tr>
+      <td><strong>教务管理员</strong></td>
+      <td>Web</td>
+      <td>学区管理 / 班级管理 / 学员账号管理 / 班主任与教材管理员账号管理 / 权限配置 / 数据字典 / 操作日志</td>
+    </tr>
+    <tr>
+      <td><strong>教材管理员</strong></td>
+      <td>Web</td>
+      <td>课程体系全链路搭建 / 题库管理 / 组卷（= 练测） / 作业管理 / 文档管理 / 公式背诵（数学）/ 词汇大纲（英语）/ 词汇量评估 / 阅读文章（英语）</td>
+    </tr>
+    <tr>
+      <td><strong>班主任</strong></td>
+      <td>Web</td>
+      <td>任教班级管理 / 学生档案查看 / 分发五种课表内容 / 查看完成情况 / 作业与练测批阅 / 错题查看与下载 / 学情看板 / 学情预警</td>
+    </tr>
+    <tr>
+      <td><strong>学员</strong></td>
+      <td>iPad</td>
+      <td>课程学习 / 练测自评 / 作业提交 / 错题管理 / 公式背诵 / 词汇背诵与评估 / 阅读练习</td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
+<div class="callout">
+  <strong>角色合并说明：</strong>班主任即为教师，亦为任课老师。系统中不存在独立的"教师"角色，所有教学相关操作均由班主任角色完成。
+  各角色登录后直接进入各自的功能列表页，无独立仪表盘首页。
+</div>
+
+<!-- 3. Organization -->
+<h2 id="s3">3. 组织关系与登录</h2>
+
+<h3>3.1 组织层级</h3>
+
+<figure class="diagram">
+  <pre class="mermaid">
+graph TD
+    SUB1["学区 A"]
+    SUB2["学区 B"]
+
+    CLS1["班级 A1"]
+    CLS2["班级 A2"]
+    CLS3["班级 B1"]
+
+    STU1["学员 1"]
+    STU2["学员 2"]
+    STU3["学员 3"]
+    STU4["学员 4"]
+
+    TCH1["班主任 X"]
+    TCH2["班主任 Y"]
+
+    SUB1 --> CLS1
+    SUB1 --> CLS2
+    SUB2 --> CLS3
+
+    CLS1 --> STU1
+    CLS1 --> STU2
+    CLS2 --> STU3
+    CLS3 --> STU4
+
+    TCH1 -.->|"任教"| CLS1
+    TCH1 -.->|"任教"| CLS2
+    TCH2 -.->|"任教"| CLS3</pre>
+  <figcaption>图 2：组织层级关系</figcaption>
+</figure>
+
+<p>核心约束：一个学区下可有多个班级；一个班级下有多个学员；<mark class="key">一个学员仅属于一个班级</mark>；<mark class="key">一个班主任可同时任教多个班级</mark>。</p>
+
+<h3>3.2 登录方式</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>角色</th><th>终端</th><th>登录方式</th></tr></thead>
+  <tbody>
+    <tr><td>学员</td><td>iPad 平板</td><td>手机号 + 短信验证码</td></tr>
+    <tr><td>后台各角色</td><td>Web</td><td>账号 + 密码</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>学员手机号由教务管理员在后台录入，学员凭录入学号时登记的手机号接收验证码登录。平板端不存在注册流程。</p>
+
+<!-- 4. Five Content Types -->
+<h2 id="s4">4. 课表五种内容类型</h2>
+
+<p>班主任可向学员课表分发以下五种内容。学员在日历上统一以<mark class="key">文案 + 红绿圆点</mark>标识状态，红色代表未完成，绿色代表已完成。</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>内容类型</th>
+      <th>来源</th>
+      <th>学员端交互</th>
+      <th>完成判定</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><strong>课程</strong></td>
+      <td>教材管理员课程体系</td>
+      <td>点击进入视频学习页</td>
+      <td>视频观看进度</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>练测</strong></td>
+      <td>教材管理员组卷</td>
+      <td>逐题展示 + 对/半对/错自评 + 错误原因 + 备注 + 拍照</td>
+      <td>提交自评</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>作业</strong></td>
+      <td>教材管理员上传</td>
+      <td>查看作业内容 + 上传作答图片提交 + 查看答案与解析</td>
+      <td>提交图片</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>文档</strong></td>
+      <td>教材管理员上传</td>
+      <td>点击查看文档</td>
+      <td>已读/未读</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>提醒</strong></td>
+      <td>班主任自行创建</td>
+      <td>查看富文本内容 + 点击提交按钮</td>
+      <td>点击提交</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>4.1 练测与作业的作答体验区分</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>维度</th><th>练测</th><th>作业</th></tr></thead>
+  <tbody>
+    <tr><td>题目展示</td><td>逐题展示题干 + 选项</td><td>展示作业描述 + 附件</td></tr>
+    <tr><td>自评</td><td>每题标记 ✓对 / ◐半对 / ✗错</td><td>无自评流程</td></tr>
+    <tr><td>错误反馈</td><td>半对/错时展开：错误原因多选 + 备注 + 拍照</td><td>不适用</td></tr>
+    <tr><td>答案与解析</td><td>弹窗查看正确答案 + 详细解析</td><td>点击按钮查看答案与解析</td></tr>
+    <tr><td>提交</td><td>点击提交，错题自动归入错题本</td><td>上传作答图片后提交</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>错误原因分类：</strong>概念理解 / 计算能力 / 综合应用 / 逻辑推理（四选多）。
+</div>
+
+<!-- 5. Course System -->
+<h2 id="s5">5. 课程体系架构</h2>
+
+<p>课程体系是整个系统的基石，由教材管理员负责搭建。以下为完整的层级结构：</p>
+
+<div class="tree-box">
+学科（数学 / 英语）
+  └── 阶段标签（自定义，如"基础""强化""冲刺"）
+        └── 课程套系
+              └── 章节
+                    └── 知识点
+                          ├── 切片课程（预录视频）
+                          │     ├── 预习资料
+                          │     ├── 小测（题目 + 自评，同练测流程）
+                          │     └── 小练（题目 + 自评，同练测流程）
+                          └── 练习题目（关联题库）
+</div>
+
+<div class="callout callout-warn">
+  <strong>关键区分：</strong>数学公式背诵、英语词汇大纲、词汇量评估、阅读文章<b>独立于课程体系之外</b>，不挂载在课程—章节—知识点层级下。它们是学科维度下独立的功能模块。
+</div>
+
+<h3>5.1 阶段标签</h3>
+
+<p>阶段标签属于学科（数学/英语）。每个标签下的课程套系内容<mark class="key">完全独立</mark>，"基础"标签下有一套完整的基础课，"进阶"标签下有另一套完全不同的进阶课。标签名称由教材管理员自定义，不设固定枚举。</p>
+
+<p>学员在平板端的<mark class="key">各科目内</mark>独立切换学习阶段（如数学切换到"基础"，英语切换到"强化"），而非全局切换。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增标签</td><td>名称、所属学科（数学/英语）、排序号</td></tr>
+    <tr><td>编辑/删除</td><td>修改名称、调整排序；删除前校验该标签下无课程套系</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.2 课程套系</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增课程</td><td>名称、简介、所属学科、所属阶段标签</td></tr>
+    <tr><td>编辑/删除</td><td>修改信息；删除前校验无章节数据</td></tr>
+    <tr><td>上下架</td><td>草稿 → 上架（学员端可见） / 下架</td></tr>
+    <tr><td>排序</td><td>同一阶段标签下课程展示顺序</td></tr>
+    <tr><td>整课复制</td><td>深拷贝课程及全部章节、知识点、子资源，供快速创建新版本</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.3 章节</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增章节</td><td>名称、所属课程套系、排序号</td></tr>
+    <tr><td>编辑/删除/拖拽排序</td><td>—</td></tr>
+    <tr><td>批量导入</td><td>Excel 模板批量导入</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.4 知识点</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增知识点</td><td>名称、所属章节、排序号</td></tr>
+    <tr><td>标签标记</td><td>高频考点 / 难点 / 易错 / 基础（多选），用于组卷筛选和学情分析</td></tr>
+    <tr><td>编辑/删除/拖拽排序</td><td>—</td></tr>
+    <tr><td>批量导入</td><td>Excel 模板批量导入</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>5.5 切片课程（视频）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>上传视频</td><td>本地上传，仅支持预录视频，不支持直播</td></tr>
+    <tr><td>基本信息</td><td>标题、时长、封面缩略图</td></tr>
+    <tr><td>关联预习资料</td><td>从预习资料库中选取文档关联到该视频</td></tr>
+    <tr><td>关联小测</td><td>关联一组题目（同练测格式），学员端有完整的自评流程，错题归入错题本</td></tr>
+    <tr><td>关联小练</td><td>关联一组题目（同练测格式），学员端有完整的自评流程，错题归入错题本</td></tr>
+    <tr><td>视频排序</td><td>同一知识点下多个切片视频调整播放顺序</td></tr>
+    <tr><td>上下架</td><td>控制学员端可见性</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>小测与小练说明：</strong>两者本质均为题目集，均使用与练测完全一致的逐题自评流程（对/半对/错 + 错误原因 + 备注 + 拍照 + 答案与解析）。区别在于教学定位：小测侧重检验、小练侧重巩固。学员端课程详情页提供小测和小练的独立入口。
+</div>
+
+<h3>5.6 预习资料</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>上传文档</td><td>PDF / PPT / Word / 图片</td></tr>
+    <tr><td>基本信息</td><td>标题、类型标签（讲义 / 课件 / 参考材料 / 真题）</td></tr>
+    <tr><td>关联</td><td>可被切片课程引用为预习资料，也可独立挂在知识点下</td></tr>
+    <tr><td>后台预览</td><td>支持在线预览</td></tr>
+    <tr><td>编辑/删除</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 6. Content Manager Details -->
+<h2 id="s6">6. 教材管理员功能详述</h2>
+
+<h3>6.1 题库管理</h3>
+
+<p>题库是所有题目的中央存储，支撑练测组卷、切片课程中的小测和小练。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>题型</td><td>单选题 / 多选题 / 填空题 / 判断题 / 解答题</td></tr>
+    <tr><td>逐题录入</td><td>富文本编辑器（题干 + 选项），支持 LaTeX 公式插入、图片上传</td></tr>
+    <tr><td>正确答案 &amp; 解析</td><td>每题维护正确答案 + 详细解析（富文本）</td></tr>
+    <tr><td>知识点关联</td><td>题目与知识点<b>多对多</b>关联</td></tr>
+    <tr><td>难度等级</td><td>简单 / 中等 / 困难</td></tr>
+    <tr><td>来源标记</td><td>真题 / 模拟题 / 自编</td></tr>
+    <tr><td>批量导入</td><td>Excel 模板批量导入</td></tr>
+    <tr><td>检索</td><td>学科 → 阶段 → 课程 → 章节 → 知识点 + 题型 + 难度 + 关键词，多维度组合检索</td></tr>
+    <tr><td>引用统计</td><td>记录每题被组卷引用的次数，避免重复使用</td></tr>
+    <tr><td>编辑/删除</td><td>修改题目信息或删除</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.2 组卷（生成练测）</h3>
+
+<p>组好的试卷即为<mark class="key">练测</mark>，发布后进入"可用练测池"，供班主任选用并分发到学员课表。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>组卷模式</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>手动组卷</strong></td>
+      <td>从题库中逐题挑选加入试卷，实时预览试卷结构</td>
+    </tr>
+    <tr>
+      <td><strong>自动组卷</strong></td>
+      <td>选定难度 → 选择题型并指定数量（如 5 道选择题 + 3 道判断题 + 2 道解答题）→ 可选限定知识点范围 → 系统自动抽题</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>试卷信息</td><td>名称、总分、建议时长</td></tr>
+    <tr><td>试卷预览/编辑</td><td>整卷预览，支持微调（增删题目、调序、修改分值）</td></tr>
+    <tr><td>试卷版本</td><td>同卷可保存多个微调版本</td></tr>
+    <tr><td>发布</td><td>发布后进入"可用练测池"</td></tr>
+    <tr><td>删除/归档</td><td>—</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.3 作业管理</h3>
+
+<p>供班主任分发「作业」类型内容。作业在学员端无自评流程，仅上传作答图片和查看答案与解析。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增作业</td><td>标题、描述（富文本）、附件上传（PDF/Word/图片等）</td></tr>
+    <tr><td>答案与解析</td><td>每道题维护答案与解析（富文本），学员端可点击按钮查看</td></tr>
+    <tr><td>学科归属</td><td>数学 / 英语</td></tr>
+    <tr><td>关联知识点</td><td>可选</td></tr>
+    <tr><td>编辑/删除</td><td>—</td></tr>
+    <tr><td>发布</td><td>发布后进入"可用作业池"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.4 文档管理</h3>
+
+<p>区别于课程体系内的"预习资料"，此处的文档是可被班主任直接分发到学员课表的独立文档。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>新增文档</td><td>标题、描述、文件上传（PDF/PPT/Word/图片）</td></tr>
+    <tr><td>文档类型</td><td>讲义 / 课件 / 真题 / 参考资料 / 其他</td></tr>
+    <tr><td>学科归属</td><td>数学 / 英语</td></tr>
+    <tr><td>关联知识点</td><td>可选</td></tr>
+    <tr><td>后台预览</td><td>支持在线预览</td></tr>
+    <tr><td>编辑/删除</td><td>—</td></tr>
+    <tr><td>发布</td><td>发布后进入"可用文档池"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.5 数学专属 — 公式背诵 <span class="badge badge-blue">独立于课程体系</span></h3>
+
+<p>结构为一级分类 + 公式列表。示例：</p>
+
+<div class="tree-box">
+函数基础知识 — 3 个公式
+  ├── 函数定义域求法总结
+  ├── 函数值域常用方法
+  └── 函数单调性判别定理
+极限与连续 — 5 个公式
+  └── ...
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>公式分类管理</td><td>新增/编辑/删除/排序</td></tr>
+    <tr><td>公式录入</td><td>名称、LaTeX 表达式、文字说明、所属分类</td></tr>
+    <tr><td>排序</td><td>分类内公式排序</td></tr>
+    <tr><td>批量导入</td><td>Excel 模板</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>学员端呈现：</strong>按分类展示 → 卡片翻转（正面：公式名称，背面：LaTeX 渲染公式 + 说明）。<mark class="key">无自评流程，仅有收藏功能</mark>，学员可收藏/取消收藏公式，收藏列表独立展示。</p>
+
+<h3>6.6 英语专属 — 词汇大纲 <span class="badge badge-green">独立于课程体系</span></h3>
+
+<p>固定 3 级树形大纲结构。只有第 3 级末级节点下挂载单词列表，1、2 级仅作为归类容器。</p>
+
+<div class="tree-box">
+高频词汇（1 级）
+  └── 复合词拆分记忆（2 级）
+        └── 第一卷（3 级·末级）──→ 该分类下单词列表
+        └── 第二卷（3 级·末级）
+  └── 词根词缀记忆（2 级）
+        └── 词根篇（3 级·末级）
+中频词汇（1 级）
+  └── ...
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>大纲树管理</td><td>增删改 3 级分类，同级拖拽排序</td></tr>
+    <tr><td>单词录入</td><td>单词 / 英式音标 / 美式音标 / 词性 / 释义（多义项）/ 例句 / 例句翻译</td></tr>
+    <tr><td>单词标签</td><td>高频词 / 核心词 / 认知词 / 真题词</td></tr>
+    <tr><td>单词关联内容</td><td>释义、释义例句、真题、词源、辨析、影视语境（每个单词下挂载这六类关联资料）</td></tr>
+    <tr><td>音频</td><td>上传发音文件或对接 TTS 自动生成</td></tr>
+    <tr><td>批量导入</td><td>按末级分类 Excel/CSV 导入</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>学员端呈现：</strong>沿大纲树逐级展开（1 级 → 2 级 → 3 级末级）→ 点击末级分类 → 展示该分类下单词卡片列表 → 翻转背诵（正面：单词 + 音标，背面：释义 + 例句）→ 自评"<mark class="key">认识 / 模糊 / 陌生</mark>"。可查看每个单词的释义、释义例句、真题、词源、辨析、影视语境六类关联资料。</p>
+
+<h3>6.7 英语专属 — 词汇量评估</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>抽词规则配置</td><td>来源（按大纲分类筛选）、数量（如 100 词）、采样方式（随机 / 等距）</td></tr>
+    <tr><td>学员评估流程</td><td>逐个展示单词 → 判断认识/不认识 → 提交后显示估算结果</td></tr>
+    <tr><td>评估结果</td><td>估算词汇量数值 + 等级评定 + 历史评估记录折线图</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>6.8 英语专属 — 阅读文章</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能点</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>文章录入</td><td>标题、正文（富文本）、中文翻译（可选）、来源出处、难度等级、建议词汇量门槛</td></tr>
+    <tr><td>关联</td><td>知识点、词汇大纲中的词汇</td></tr>
+    <tr><td>阅读理解题</td><td>每篇文章下挂载选择题</td></tr>
+    <tr><td>分发</td><td>上架后学员自由阅读，无需班主任分发</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 7. Distribution Flow -->
+<h2 id="s7">7. 分发与完成闭环</h2>
+
+<figure class="diagram">
+  <pre class="mermaid">
+flowchart TD
+    CM["教材管理员生产内容"]
+    POOL_C["可用课程池"]
+    POOL_T["可用练测池"]
+    POOL_H["可用作业池"]
+    POOL_D["可用文档池"]
+    TEACHER["班主任从各池中选择内容"]
+    SELF["班主任自行创建提醒"]
+    DIST["选择班级/学员 → 指定日期 → 分发"]
+    ST["学员课表（指定日期出现）"]
+
+    COURSE["课程：看视频"]
+    TEST["练测：自评对/半对/错"]
+    HW["作业：上传作答图片"]
+    DOC["文档：查看文档"]
+    REMIND["提醒：查看富文本 + 提交"]
+
+    PROGRESS["课程观看进度"]
+    ACCURACY["练测正确率"]
+    SUBMIT["作业提交状态"]
+    READ_STATUS["文档已读/未读"]
+    REMIND_DONE["提醒已完成"]
+
+    REVIEW["班主任查看五种内容完成情况"]
+
+    CM --> POOL_C
+    CM --> POOL_T
+    CM --> POOL_H
+    CM --> POOL_D
+
+    POOL_C --> TEACHER
+    POOL_T --> TEACHER
+    POOL_H --> TEACHER
+    POOL_D --> TEACHER
+    SELF --> TEACHER
+
+    TEACHER --> DIST
+    DIST --> ST
+
+    ST --> COURSE
+    ST --> TEST
+    ST --> HW
+    ST --> DOC
+    ST --> REMIND
+
+    COURSE --> PROGRESS
+    TEST --> ACCURACY
+    HW --> SUBMIT
+    DOC --> READ_STATUS
+    REMIND --> REMIND_DONE
+
+    PROGRESS --> REVIEW
+    ACCURACY --> REVIEW
+    SUBMIT --> REVIEW
+    READ_STATUS --> REVIEW
+    REMIND_DONE --> REVIEW</pre>
+  <figcaption>图 3：内容生产 → 分发 → 学员完成 → 班主任查看的完整闭环</figcaption>
+</figure>
+
+<!-- 8. Teacher Details -->
+<h2 id="s8">8. 班主任功能详述</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>模块</th><th>功能点</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>任教班级总览</strong></td>
+      <td>展示所任教班级列表（支持多个），每班显示班级名称、学员数、整体进度摘要</td>
+    </tr>
+    <tr>
+      <td><strong>学生档案</strong></td>
+      <td>班级内学员列表，支持搜索；点击查看完整档案详情（含教务管理员录入的全部学员档案信息）</td>
+    </tr>
+    <tr>
+      <td><strong>内容分发</strong></td>
+      <td>从四种可用池（课程/练测/作业/文档）中选择内容 + 自行创建提醒 → 选择目标班级（支持全选或勾选部分学员）→ 指定日期和截止时间 → 一键分发</td>
+    </tr>
+    <tr>
+      <td><strong>提醒管理</strong></td>
+      <td>新建/编辑/删除提醒，内容为富文本，分发到班级/学员课表指定日期。学员端点击提交按钮即标记完成</td>
+    </tr>
+    <tr>
+      <td><strong>完成情况查看</strong></td>
+      <td>五个维度分别查看：①课程观看进度 ②练测提交状态与正确率 ③作业提交状态 ④文档已读/未读 ⑤提醒已读/未读</td>
+    </tr>
+    <tr>
+      <td><strong>作业批阅</strong></td>
+      <td>查看学员提交的作答图片 → 评分 + 评语</td>
+    </tr>
+    <tr>
+      <td><strong>练测批阅</strong></td>
+      <td>查看学员自评结果（对/半对/错/错误原因/备注/拍照上传图片）→ 班主任可修正评分 + 写评语</td>
+    </tr>
+    <tr>
+      <td><strong>错题查看</strong></td>
+      <td>按学员、知识点、错误原因多维度筛选查看错题数据；查看某位学员的完整错题本</td>
+    </tr>
+    <tr>
+      <td><strong>错题下载</strong></td>
+      <td>PDF 格式导出；两种方式：①按学员（下载某个学员的错题本）②按班级（下载整个班级错题汇总）</td>
+    </tr>
+    <tr>
+      <td><strong>学情看板</strong></td>
+      <td>班级整体维度：课程完成率、练测平均正确率、作业提交率、薄弱知识点排行；个人维度：每位学员的各维度学习详情</td>
+    </tr>
+    <tr>
+      <td><strong>学情预警</strong></td>
+      <td>课程完成率或练测正确率低于设定阈值的学员自动进入预警列表。阈值可由班主任自行设定</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 9. Academic Admin Details -->
+<h2 id="s9">9. 教务管理员功能详述</h2>
+
+<h3>9.1 基础管理</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>模块</th><th>功能点</th></tr></thead>
+  <tbody>
+    <tr><td><strong>学区管理</strong></td><td>创建/编辑/停用学区（名称、地址、联系方式）</td></tr>
+    <tr><td><strong>班级管理</strong></td><td>创建班级（名称 / 所属学区 / 分配班主任 / 开班时间 / 状态：在读或结课）、编辑、删除</td></tr>
+    <tr><td><strong>班主任账号</strong></td><td>创建/编辑/禁用班主任账号，分配任教班级（一对多）</td></tr>
+    <tr><td><strong>教材管理员账号</strong></td><td>创建/编辑/禁用教材管理员账号</td></tr>
+    <tr><td><strong>权限配置</strong></td><td>角色 → 页面 → 操作的权限矩阵配置</td></tr>
+    <tr><td><strong>数据字典</strong></td><td>管理系统内所有枚举值</td></tr>
+    <tr><td><strong>操作日志</strong></td><td>关键操作审计（操作人 / 时间 / 动作 / 对象）</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>9.2 学员管理（详细档案）</h3>
+
+<p>学员账号由教务管理员创建，录入手机号后学员凭验证码登录平板。以下为学员档案的完整字段：</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>字段分类</th><th>具体字段</th></tr></thead>
+  <tbody>
+    <tr><td><strong>基本信息</strong></td><td>姓名、手机号、学号、所属学区、所属班级（一人一班）</td></tr>
+    <tr><td><strong>报名信息</strong></td><td>报名时间、到期时间（时间段）</td></tr>
+    <tr><td><strong>本科背景</strong></td><td>本科院校名称、本科专业</td></tr>
+    <tr><td><strong>考研目标</strong></td><td>目标院校名称、目标专业、目标院校档次、报考门类</td></tr>
+    <tr><td><strong>科目信息</strong></td><td>各科目当前分数水平、各科目目标分数水平（如数学：当前 80 → 目标 120、英语：当前 60 → 目标 70）</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 10. Student App -->
+<h2 id="s10">10. 学员端功能详述</h2>
+
+<h3>10.1 超级课表</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>月历视图</td><td>左右翻月切换，点击"今天"按钮回到当月</td></tr>
+    <tr><td>日期格</td><td>每个日期格内展示当日五种内容（课程/练测/作业/文档/提醒）的文案 + 红（未完成）/ 绿（已完成）圆点标识</td></tr>
+    <tr><td>日详情</td><td>点击某日期，右侧面板展示当日五种内容的明细卡片列表；点击卡片进入对应内容详情页</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.2 学科学习</h3>
+
+<p>数学和英语各有一个独立的学习主页。每个科目的主页内包含独立的阶段切换入口，切换后课程内容随之改变。</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>模块</th><th>功能</th></tr></thead>
+  <tbody>
+    <tr><td>阶段切换</td><td>科目内独立切换学习阶段（基础/强化/冲刺等），切换后课程内容变化</td></tr>
+    <tr><td>章节树</td><td>展示当前阶段 + 课程下的章节 → 知识点层级结构</td></tr>
+    <tr><td>学习进度</td><td>已学课时 / 总学时 / 百分比进度条</td></tr>
+    <tr><td>练测入口</td><td>"我的练测"列表，点击进入练测详情页</td></tr>
+    <tr><td>错题本入口</td><td>点击跳转错题本页面</td></tr>
+    <tr><td>公式背诵入口</td><td><span class="badge badge-blue">数学专属</span> 点击跳转公式背诵页</td></tr>
+    <tr><td>词汇背诵入口</td><td><span class="badge badge-green">英语专属</span> 点击跳转词汇背诵页</td></tr>
+    <tr><td>词汇评估入口</td><td><span class="badge badge-green">英语专属</span> 点击跳转词汇量评估页</td></tr>
+    <tr><td>阅读入口</td><td><span class="badge badge-green">英语专属</span> 点击跳转阅读练习页</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.3 课程详情（视频播放）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>视频播放</td><td>播放/暂停/进度条拖拽/倍速播放/全屏模式</td></tr>
+    <tr><td>章节侧边栏</td><td>展示课程所有章节及状态（已学/学习中/未学），点击切换章节</td></tr>
+    <tr><td>课程元信息</td><td>视频总时长、所属章节、关联资料</td></tr>
+    <tr><td>课程简介</td><td>课程描述文字</td></tr>
+    <tr><td>小测/小练入口</td><td>切片课程下关联的小测和小练的独立入口</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.4 练测 / 小测 / 小练 详情</h3>
+
+<p>三者的作答体验完全一致，均为逐题自评模式：</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>题目展示</td><td>逐题展示题干 + 选项</td></tr>
+    <tr><td>自评</td><td>每道题标记 ✓对 / ◐半对 / ✗错</td></tr>
+    <tr><td>错误反馈</td><td>标记半对或错后展开：错误原因多选 + 备注文本框 + 拍照上传按钮</td></tr>
+    <tr><td>答案与解析</td><td>弹窗展示正确答案与详细解析</td></tr>
+    <tr><td>试卷图片上传</td><td>可上传整份纸质作答的拍照图片</td></tr>
+    <tr><td>提交</td><td>提交后错题自动归入该学员对应学科的错题本</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.5 作业详情</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>作业内容</td><td>查看作业描述与附件</td></tr>
+    <tr><td>答案与解析</td><td>点击按钮查看答案与解析，无对/半对/错自评流程</td></tr>
+    <tr><td>提交</td><td>上传作答图片后点击提交按钮</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.6 错题本</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>学科 Tab</td><td>数学 / 英语 Tab 切换，每个 Tab 带错题数量 Badge</td></tr>
+    <tr><td>统计汇总</td><td>顶部三个统计卡片：总错题 / 半对数量 / 错误数量</td></tr>
+    <tr><td>错题卡片</td><td>题目 + 选项（正确答案高亮）+ 状态标签（半对/错）+ 错误时间 + 错误原因标签</td></tr>
+    <tr><td>操作</td><td>展开/收起查看答案与解析、删除单个错题</td></tr>
+    <tr><td>筛选</td><td>按错误原因、知识点维度筛选</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.7 公式背诵（数学）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>分类列表</td><td>展示所有公式分类</td></tr>
+    <tr><td>卡片翻转</td><td>正面显示公式名称 → 点击翻转 → 背面显示 LaTeX 渲染公式 + 说明文字</td></tr>
+    <tr><td>收藏</td><td>收藏/取消收藏公式，收藏列表独立展示</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>公式背诵无自评流程，无进度统计。</p>
+
+<h3>10.8 词汇背诵（英语）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>大纲树</td><td>1 级 → 2 级 → 3 级逐级展开，点击末级分类进入单词列表</td></tr>
+    <tr><td>单词卡片</td><td>正面：单词 + 音标 → 翻转 → 背面：释义 + 例句</td></tr>
+    <tr><td>自评</td><td>认识 / 模糊 / 陌生 三选一</td></tr>
+    <tr><td>关联查看</td><td>可展开查看每个单词的释义、释义例句、真题、词源、辨析、影视语境六类关联内容</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.9 词汇量评估</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>抽词评估</td><td>单词逐个展示，学员判断认识/不认识</td></tr>
+    <tr><td>结果展示</td><td>估算词汇量数值 + 等级评定 + 历史评估记录折线图</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>10.10 阅读练习</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>功能</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>文章列表</td><td>浏览所有已上架文章，点击进入</td></tr>
+    <tr><td>阅读 + 做题</td><td>正文阅读 + 阅读理解选择题</td></tr>
+    <tr><td>结果</td><td>展示正确率统计</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 11. Data Dictionary -->
+<h2 id="s11">11. 数据字典</h2>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>字典类别</th><th>枚举值</th></tr></thead>
+  <tbody>
+    <tr><td>学科</td><td>数学、英语</td></tr>
+    <tr><td>难度等级</td><td>简单、中等、困难</td></tr>
+    <tr><td>题型</td><td>单选题、多选题、填空题、判断题、解答题</td></tr>
+    <tr><td>错误原因</td><td>概念理解、计算能力、综合应用、逻辑推理</td></tr>
+    <tr><td>题目来源</td><td>真题、模拟题、自编</td></tr>
+    <tr><td>文档类型</td><td>讲义、课件、真题、参考资料、其他</td></tr>
+    <tr><td>知识点标签</td><td>高频考点、难点、易错、基础</td></tr>
+    <tr><td>单词标签</td><td>高频词、核心词、认知词、真题词</td></tr>
+    <tr><td>学习阶段标签</td><td>自定义（如基础、强化、冲刺等）</td></tr>
+    <tr><td>班级状态</td><td>在读、结课</td></tr>
+    <tr><td>练测自评</td><td>对、半对、错</td></tr>
+    <tr><td>词汇自评</td><td>认识、模糊、陌生</td></tr>
+    <tr><td>课表内容类型</td><td>课程、练测、作业、文档、提醒</td></tr>
+    <tr><td>目标院校档次</td><td>985、211、双一流、双非、其他</td></tr>
+    <tr><td>报考门类</td><td>自定义（如工学、理学、管理学等）</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 12. Page Inventory -->
+<h2 id="s12">12. 页面清单</h2>
+
+<h3>12.1 后台管理系统（Web）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>序号</th><th>页面</th><th>访问角色</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>登录页</td><td>所有后台角色</td></tr>
+    <tr><td>2</td><td>学区管理</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>3</td><td>班级管理</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>4</td><td>学员管理</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>5</td><td>班主任账号管理</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>6</td><td>教材管理员账号管理</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>7</td><td>权限配置</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>8</td><td>数据字典</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>9</td><td>操作日志</td><td>超级管理员、教务管理员</td></tr>
+    <tr><td>10</td><td>阶段标签管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>11</td><td>课程套系管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>12</td><td>章节管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>13</td><td>知识点管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>14</td><td>切片课程管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>15</td><td>预习资料管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>16</td><td>题库管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>17</td><td>组卷管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>18</td><td>作业管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>19</td><td>文档管理</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>20</td><td>公式分类与公式管理（数学）</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>21</td><td>词汇大纲与单词管理（英语）</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>22</td><td>词汇量评估配置（英语）</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>23</td><td>阅读文章管理（英语）</td><td>超级管理员、教材管理员</td></tr>
+    <tr><td>24</td><td>任教班级总览</td><td>超级管理员、班主任</td></tr>
+    <tr><td>25</td><td>学生档案</td><td>超级管理员、班主任</td></tr>
+    <tr><td>26</td><td>内容分发</td><td>超级管理员、班主任</td></tr>
+    <tr><td>27</td><td>提醒管理</td><td>超级管理员、班主任</td></tr>
+    <tr><td>28</td><td>完成情况查看</td><td>超级管理员、班主任</td></tr>
+    <tr><td>29</td><td>作业 / 练测批阅</td><td>超级管理员、班主任</td></tr>
+    <tr><td>30</td><td>错题查看与下载</td><td>超级管理员、班主任</td></tr>
+    <tr><td>31</td><td>学情看板</td><td>超级管理员、班主任</td></tr>
+    <tr><td>32</td><td>学情预警</td><td>超级管理员、班主任</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>12.2 学员端（iPad 平板应用）</h3>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>序号</th><th>页面</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>登录页</td></tr>
+    <tr><td>2</td><td>超级课表（首页）</td></tr>
+    <tr><td>3</td><td>数学学习主页</td></tr>
+    <tr><td>4</td><td>英语学习主页</td></tr>
+    <tr><td>5</td><td>课程详情（视频播放）</td></tr>
+    <tr><td>6</td><td>练测详情（自评）</td></tr>
+    <tr><td>7</td><td>作业详情（上传图片 + 查看答案）</td></tr>
+    <tr><td>8</td><td>文档查看页</td></tr>
+    <tr><td>9</td><td>提醒详情页</td></tr>
+    <tr><td>10</td><td>错题本</td></tr>
+    <tr><td>11</td><td>公式背诵页</td></tr>
+    <tr><td>12</td><td>词汇背诵页</td></tr>
+    <tr><td>13</td><td>词汇量评估页</td></tr>
+    <tr><td>14</td><td>阅读练习页</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>考研学习平台 · 功能需求说明书 v1.0 · 2026-07-09</p>
+  </div>
+</footer>
+
+<!-- Mermaid -->
+<script src="./_shared/js/mermaid.min.js"></script>
 <script>
-(function() {
-  // ===== Data Generation =====
-  var classNames = ['A班', 'B班', 'C班', '强化班', '冲刺班'];
-  var exerciseTemplates = [
-    '{class}{month}月{day}日作业',
-    '{class}{month}月{day}日章节测试',
-    '{class}{month}月{day}日模拟练',
-  ];
-  var docTemplates = [
-    '{class}{month}月{day}日课后练习',
-    '{class}{month}月{day}日讲义',
-    '{class}{month}月{day}日知识点总结',
-  ];
-  var courseTemplates = [
-    '{class}{month}月{day}日直播课',
-    '{class}{month}月{day}日录播课',
-    '{class}{month}月{day}日专题课',
-  ];
-
-  var weekdays = ['一', '二', '三', '四', '五', '六', '日'];
-
-  function generateMonthData(year, month) {
-    var data = {};
-    var daysInMonth = new Date(year, month, 0).getDate();
-
-    for (var d = 1; d <= daysInMonth; d++) {
-      var rand = Math.random();
-      var cls = classNames[Math.floor(Math.random() * classNames.length)];
-      var hasExercise = rand > 0.12;
-      var hasDoc = rand > 0.22;
-
-      data[d] = { exercises: [], docs: [], courses: [] };
-
-      if (hasExercise) {
-        var numEx = Math.random() > 0.55 ? 2 : 1;
-        for (var e = 0; e < numEx; e++) {
-          var exTemp = exerciseTemplates[Math.floor(Math.random() * exerciseTemplates.length)];
-          var done = Math.random() > 0.45;
-          var c = e === 0 ? cls : classNames[Math.floor(Math.random() * classNames.length)];
-          data[d].exercises.push({
-            name: exTemp.replace('{class}', c).replace('{month}', month).replace('{day}', d),
-            done: done
-          });
-        }
-      }
-
-      if (hasDoc) {
-        var numD = Math.random() > 0.55 ? 2 : 1;
-        for (var i = 0; i < numD; i++) {
-          var docTemp = docTemplates[Math.floor(Math.random() * docTemplates.length)];
-          var done = Math.random() > 0.3;
-          var c = i === 0 ? cls : classNames[Math.floor(Math.random() * classNames.length)];
-          data[d].docs.push({
-            name: docTemp.replace('{class}', c).replace('{month}', month).replace('{day}', d),
-            done: done
-          });
-        }
-      }
-
-      // Courses (less frequent, ~60% of days)
-      if (Math.random() > 0.4) {
-        var numCs = 1;
-        var csTemp = courseTemplates[Math.floor(Math.random() * courseTemplates.length)];
-        var done = Math.random() > 0.4;
-        data[d].courses.push({
-          name: csTemp.replace('{class}', cls).replace('{month}', month).replace('{day}', d),
-          done: done
-        });
-      }
-    }
-
-    return data;
-  }
-
-  // ===== State =====
-  var currentYear = 2026;
-  var currentMonth = 7;
-  var selectedDate = 6;
-  var monthData = generateMonthData(currentYear, currentMonth);
-
-  // ===== DOM Refs =====
-  var monthTitle = document.getElementById('monthTitle');
-  var calendarGrid = document.getElementById('calendarGrid');
-  var detailDate = document.getElementById('detailDate');
-  var detailWeekday = document.getElementById('detailWeekday');
-  var exerciseList = document.getElementById('exerciseList');
-  var docList = document.getElementById('docList');
-  var courseList = document.getElementById('courseList');
-  var exCount = document.getElementById('exCount');
-  var docCount = document.getElementById('docCount');
-  var csCount = document.getElementById('csCount');
-  var exSectionCount = document.getElementById('exSectionCount');
-  var docSectionCount = document.getElementById('docSectionCount');
-  var csSectionCount = document.getElementById('csSectionCount');
-
-  // ===== Render Calendar (Mon-Sun, only current month) =====
-  function renderCalendar() {
-    monthTitle.textContent = currentYear + '年' + currentMonth + '月';
-
-    // getDay(): 0=Sun,1=Mon,...6=Sat → remap to Mon-Sun: Mon=0, Sun=6
-    var nativeFirstDay = new Date(currentYear, currentMonth - 1, 1).getDay();
-    var firstDay = nativeFirstDay === 0 ? 6 : nativeFirstDay - 1;
-    var daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-
-    var html = '';
-
-    // Empty spacer cells before the 1st
-    for (var i = 0; i < firstDay; i++) {
-      html += '<div class="day-cell empty"></div>';
-    }
-
-    // Current month days only
-    var today = new Date();
-    for (var d = 1; d <= daysInMonth; d++) {
-      var classes = ['day-cell'];
-      var dayOfWeek = (firstDay + d - 1) % 7; // 0=Mon, 5=Sat, 6=Sun
-
-      if (dayOfWeek === 5 || dayOfWeek === 6) classes.push('weekend');
-      if (d === selectedDate) classes.push('selected');
-      if (d === today.getDate() && currentMonth === (today.getMonth() + 1) && currentYear === today.getFullYear()) {
-        classes.push('today');
-      }
-
-      var indicators = '';
-      var dayData = monthData[d];
-      if (dayData) {
-        if (dayData.exercises.length > 0) {
-          var allExDone = dayData.exercises.every(function(ex) { return ex.done; });
-          var exClass = allExDone ? 'ex-done' : 'ex-pending';
-          indicators += '<div class="indicator-item ' + exClass + '"><span class="indicator-dot ' + (allExDone ? 'done' : 'pending') + '"></span><span class="indicator-label">练测</span></div>';
-        }
-        if (dayData.docs.length > 0) {
-          var allDocDone = dayData.docs.every(function(doc) { return doc.done; });
-          var docClass = allDocDone ? 'doc-done' : 'doc-pending';
-          indicators += '<div class="indicator-item ' + docClass + '"><span class="indicator-dot ' + (allDocDone ? 'done' : 'pending') + '"></span><span class="indicator-label">文档</span></div>';
-        }
-        if (dayData.courses && dayData.courses.length > 0) {
-          var allCsDone = dayData.courses.every(function(cs) { return cs.done; });
-          var csClass = allCsDone ? 'cs-done' : 'cs-pending';
-          indicators += '<div class="indicator-item ' + csClass + '"><span class="indicator-dot ' + (allCsDone ? 'done' : 'pending') + '"></span><span class="indicator-label">课程</span></div>';
-        }
-      }
-
-      html += '<div class="' + classes.join(' ') + '" data-date="' + d + '">' +
-        '<span class="day-num">' + d + '</span>' +
-        '<div class="day-indicators">' + indicators + '</div>' +
-        '</div>';
-    }
-
-    calendarGrid.innerHTML = html;
-
-    // Bind click events
-    var cells = calendarGrid.querySelectorAll('.day-cell:not(.empty)');
-    cells.forEach(function(cell) {
-      cell.addEventListener('click', function() {
-        var date = parseInt(this.getAttribute('data-date'));
-        selectDate(date);
-      });
-    });
-  }
-
-  // ===== Select Date =====
-  function selectDate(date) {
-    selectedDate = date;
-
-    var allCells = calendarGrid.querySelectorAll('.day-cell.selected');
-    allCells.forEach(function(c) { c.classList.remove('selected'); });
-
-    var targetCell = calendarGrid.querySelector('.day-cell[data-date="' + date + '"]');
-    if (targetCell) targetCell.classList.add('selected');
-
-    var nativeDow = new Date(currentYear, currentMonth - 1, date).getDay(); // 0=Sun,1=Mon...
-    var dow = nativeDow === 0 ? 6 : nativeDow - 1; // remap to Mon=0..Sun=6
-    detailDate.textContent = currentYear + '年' + currentMonth + '月' + date + '日';
-    detailWeekday.textContent = '星期' + weekdays[dow];
-
-    renderDetail(date);
-  }
-
-  // ===== Render Detail =====
-  function renderDetail(date) {
-    var dayData = monthData[date];
-    var exLen = dayData ? dayData.exercises.length : 0;
-    var docLen = dayData ? dayData.docs.length : 0;
-    var csLen = dayData && dayData.courses ? dayData.courses.length : 0;
-
-    // Stats
-    exCount.textContent = exLen;
-    docCount.textContent = docLen;
-    csCount.textContent = csLen;
-    exSectionCount.textContent = '共 ' + exLen + ' 项';
-    docSectionCount.textContent = '共 ' + docLen + ' 项';
-    csSectionCount.textContent = '共 ' + csLen + ' 项';
-
-    // Exercises
-    var exHtml = '';
-    if (exLen > 0) {
-      dayData.exercises.forEach(function(ex) {
-        exHtml += '<div class="file-item">' +
-          '<div class="file-info">' +
-          '<span class="file-icon exercise-icon">📝</span>' +
-          '<span class="file-name">' + ex.name + '</span>' +
-          '</div>' +
-          '<span class="status-badge ' + (ex.done ? 'done' : 'pending') + '">' + (ex.done ? '✓ 已完成' : '○ 未完成') + '</span>' +
-          '</div>';
-      });
-    }
-    exerciseList.innerHTML = exHtml;
-    document.getElementById('exSubSection').style.display = exLen > 0 ? '' : 'none';
-    document.getElementById('exDocDivider').style.display = exLen > 0 && docLen > 0 ? '' : 'none';
-
-    // Docs
-    var docHtml = '';
-    if (docLen > 0) {
-      dayData.docs.forEach(function(doc) {
-        docHtml += '<div class="file-item">' +
-          '<div class="file-info">' +
-          '<span class="file-icon doc-icon">📄</span>' +
-          '<span class="file-name">' + doc.name + '</span>' +
-          '</div>' +
-          '<span class="status-badge ' + (doc.done ? 'done' : 'pending') + '">' + (doc.done ? '✓ 已完成' : '○ 未完成') + '</span>' +
-          '</div>';
-      });
-    }
-    docList.innerHTML = docHtml;
-    document.getElementById('docSubSection').style.display = docLen > 0 ? '' : 'none';
-    document.getElementById('docCsDivider').style.display = docLen > 0 && csLen > 0 ? '' : 'none';
-
-    // Courses
-    var csHtml = '';
-    if (csLen > 0) {
-      dayData.courses.forEach(function(cs) {
-        csHtml += '<div class="file-item">' +
-          '<div class="file-info">' +
-          '<span class="file-icon course-icon">🎥</span>' +
-          '<span class="file-name">' + cs.name + '</span>' +
-          '</div>' +
-          '<span class="status-badge ' + (cs.done ? 'done' : 'pending') + '">' + (cs.done ? '✓ 已完成' : '○ 未完成') + '</span>' +
-          '</div>';
-      });
-    }
-    courseList.innerHTML = csHtml;
-    document.getElementById('csSubSection').style.display = csLen > 0 ? '' : 'none';
-
-    // Bind file-item clicks
-    // Exercise & Doc → open file detail overlay
-    document.querySelectorAll('#exerciseList .file-item, #docList .file-item').forEach(function(item) {
-      item.addEventListener('click', function() {
-        var nameEl = item.querySelector('.file-name');
-        if (nameEl) { openFileDetail(nameEl.textContent); }
-      });
-    });
-
-    // Course → jump to course detail page
-    document.querySelectorAll('#courseList .file-item').forEach(function(item) {
-      item.addEventListener('click', function() {
-        var nameEl = item.querySelector('.file-name');
-        if (nameEl) {
-          window.location.href = 'course-detail.html?name=' + encodeURIComponent(nameEl.textContent) + '&ref=schedule';
-        }
-      });
-    });
-  }
-
-  // ===== Month Navigation =====
-  document.getElementById('prevMonth').addEventListener('click', function() {
-    if (currentMonth === 1) { currentMonth = 12; currentYear--; }
-    else { currentMonth--; }
-    monthData = generateMonthData(currentYear, currentMonth);
-    var daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-    selectedDate = Math.min(selectedDate, daysInMonth);
-    renderCalendar();
-    selectDate(selectedDate);
-  });
-
-  document.getElementById('nextMonth').addEventListener('click', function() {
-    if (currentMonth === 12) { currentMonth = 1; currentYear++; }
-    else { currentMonth++; }
-    monthData = generateMonthData(currentYear, currentMonth);
-    var daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-    selectedDate = Math.min(selectedDate, daysInMonth);
-    renderCalendar();
-    selectDate(selectedDate);
-  });
-
-  document.getElementById('todayBtn').addEventListener('click', function() {
-    var today = new Date();
-    var tYear = today.getFullYear();
-    var tMonth = today.getMonth() + 1;
-    var tDate = today.getDate();
-
-    // Only regenerate data when the month actually changes
-    if (currentYear !== tYear || currentMonth !== tMonth) {
-      currentYear = tYear;
-      currentMonth = tMonth;
-      monthData = generateMonthData(currentYear, currentMonth);
-    }
-    selectedDate = tDate;
-    renderCalendar();
-    selectDate(selectedDate);
-  });
-
-  // ===== Refresh =====
-  document.getElementById('refreshBtn').addEventListener('click', function() {
-    var btn = this;
-    btn.classList.add('spinning');
-    setTimeout(function() { btn.classList.remove('spinning'); }, 600);
-
-    monthData = generateMonthData(currentYear, currentMonth);
-    var daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
-    selectedDate = Math.min(selectedDate, daysInMonth);
-    renderCalendar();
-    selectDate(selectedDate);
-  });
-
-  // ===== Tab Switching =====
-  var currentTab = 'schedule'; // Track active tab across navigations
-
-  function switchToTab(tabName) {
-    currentTab = tabName;
-    // Persist to sessionStorage so it survives page navigations
-    sessionStorage.setItem('kaoyanTab', tabName);
-
-    var mainContent = document.querySelector('.main-content');
-    var mathContent = document.getElementById('mathContent');
-    var englishContent = document.getElementById('englishContent');
-    var politicsContent = document.getElementById('politicsContent');
-
-    // Update nav tab active state
-    var allTabs = document.querySelectorAll('#navTabs .nav-tab');
-    allTabs.forEach(function(t) { t.classList.remove('active'); });
-    var targetTab = document.querySelector('#navTabs [data-tab="' + tabName + '"]');
-    if (targetTab) targetTab.classList.add('active');
-
-    // Hide all sub-contents first
-    mainContent.style.display = '';
-    if (mathContent) mathContent.classList.remove('active');
-    if (englishContent) englishContent.classList.remove('active');
-    if (politicsContent) politicsContent.classList.remove('active');
-
-    if (tabName === 'math') {
-      mainContent.style.display = 'none';
-      mathContent.classList.add('active');
-      renderMathTab();
-    } else if (tabName === 'english') {
-      mainContent.style.display = 'none';
-      englishContent.classList.add('active');
-      renderEnglishTab();
-    } else if (tabName === 'politics') {
-      mainContent.style.display = 'none';
-      politicsContent.classList.add('active');
-      renderPoliticsTab();
-    } else if (tabName === 'schedule') {
-      selectDate(selectedDate);
-    }
-  }
-
-  document.getElementById('navTabs').addEventListener('click', function(e) {
-    var tab = e.target.closest('.nav-tab');
-    if (!tab) return;
-    var tabName = tab.getAttribute('data-tab');
-    switchToTab(tabName);
-  });
-
-  // ===== File Detail Page Logic =====
-  var uploadFiles = [];
-
-  // Math question bank — complex exam questions
-  var questionBank = [
-    { id:1, text:'设函数 f(x) = ln(x+1) - ax，若 f(x) 在区间 (0,+∞) 上单调递减，则实数 a 的取值范围是（  ）', opts:['A. a ≥ 0','B. a ≥ 1/2','C. a ≥ 1','D. a > 1'], answer:'C', explain:'f\'(x) = 1/(x+1) - a。f(x) 在 (0,+∞) 递减 ⇔ f\'(x) ≤ 0 对 ∀x>0 恒成立，即 1/(x+1) ≤ a。x>0 时 1/(x+1) < 1，其上确界为 1，故需 a ≥ 1，选 C。' },
-    { id:2, text:'在 △ABC 中，已知 sin²B - sin²C - sin²A = sinA·sinC，则角 B 的大小为（  ）', opts:['A. 150°','B. 120°','C. 60°','D. 30°'], answer:'B', explain:'由正弦定理 sinA/a = sinB/b = sinC/c = k。代入得 b² - c² - a² = ac ⇒ b² = a² + c² + ac。由余弦定理 b² = a² + c² - 2ac·cosB，故 -2cosB = 1，cosB = -1/2，因此 B = 120°，选 B。' },
-    { id:3, text:'已知椭圆 C: x²/4 + y²/3 = 1 的左、右焦点分别为 F₁、F₂，过 F₁ 且倾斜角为 45° 的直线 l 与椭圆交于 A、B 两点，则 △ABF₂ 的周长为（  ）', opts:['A. 4','B. 6','C. 8','D. 10'], answer:'C', explain:'椭圆 a²=4⇒a=2，c²=a²-b²=1⇒c=1，F₁(-1,0)、F₂(1,0)。直线 l: y=x+1。由椭圆第三定义，△ABF₂ 周长 = 4a = 8（椭圆的焦点三角形性质：过左焦点的弦与右焦点构成的三角形周长恒为 4a），选 C。' },
-    { id:4, text:'设数列 {aₙ} 满足 a₁ = 1，aₙ₊₁ = 2aₙ + 3ⁿ，则其通项公式 aₙ =（  ）', opts:['A. 3ⁿ - 2ⁿ','B. 3ⁿ⁺¹ - 2ⁿ','C. 3ⁿ - 2ⁿ⁺¹','D. 2·3ⁿ - 2ⁿ⁺¹'], answer:'A', explain:'递推变形：aₙ₊₁ - 3ⁿ⁺¹ = 2(aₙ - 3ⁿ)。令 bₙ = aₙ - 3ⁿ，则 b₁ = 1-3 = -2，且 bₙ₊₁ = 2bₙ，故 {bₙ} 为等比数列：bₙ = -2·2ⁿ⁻¹ = -2ⁿ。因此 aₙ = 3ⁿ - 2ⁿ，选 A。' },
-    { id:5, text:'已知 x>0, y>0 且 1/x + 1/y = 1，则 x + 4y 的最小值为（  ）', opts:['A. 9','B. 10','C. 11','D. 12'], answer:'A', explain:'由 1/x+1/y=1⇒xy = x+y⇒(x-1)(y-1)=1。x+4y = (x-1)+4(y-1)+5 = t+4/t+5 ≥ 2√4+5 = 9，当 x-1=2(y-1) 即 t=2 时取"="。验证：t=x-1=2⇒x=3,y=2，1/3+1/2=5/6≠1。重解：1/x+1/y=1⇒y=x/(x-1)。x+4y=x+4x/(x-1)=x+4(x-1+1)/(x-1)=x+4+4/(x-1)=(x-1)+4/(x-1)+5≥2√4+5=9。当 x-1=2⇒x=3,y=3/2。1/3+2/3=1✓。最小值为 9，选 A。' },
-    { id:6, text:'某盒中有 4 个红球和 3 个白球，从中不放回地依次取出 2 个球。设 X 为取出的红球个数，则 E(X) =（  ）', opts:['A. 6/7','B. 8/7','C. 4/3','D. 2'], answer:'B', explain:'总球数 7（4红3白），取 2 个。X=0,1,2。P(X=0)=C(3,2)/C(7,2)=3/21=1/7；P(X=2)=C(4,2)/C(7,2)=6/21=2/7；P(X=1)=C(4,1)C(3,1)/C(7,2)=12/21=4/7。E(X)=0×1/7+1×4/7+2×2/7=8/7，选 B。' }
-  ];
-
-  var questionScores = {}; // { questionId: 'right'|'half'|'wrong' }
-  var errorReasons = {};   // { questionId: [reasons] }
-  var questionNotes = {};  // { questionId: {text, photoUrl} }
-
-  function openFileDetail(fileName, fileType) {
-    document.getElementById('fdTitle').textContent = fileName;
-    var now = new Date();
-    var pad = function(n) { return n < 10 ? '0' + n : n; };
-    document.getElementById('fdTime').textContent = '分发时间：' + now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes());
-
-    // Reset state
-    questionScores = {};
-    errorReasons = {};
-    questionNotes = {};
-
-    // Reset save btn
-    var saveBtn = document.getElementById('fdSaveBtn');
-    saveBtn.classList.remove('saved');
-    saveBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>保存';
-
-    // Clear uploads
-    uploadFiles = [];
-    renderQuestions();
-
-    // Show overlay
-    document.getElementById('fileDetailOverlay').classList.add('open');
-  }
-
-  function renderQuestions() {
-    var html = '';
-    questionBank.forEach(function(q) {
-      var score = questionScores[q.id];
-      var reasons = errorReasons[q.id] || [];
-      var note = questionNotes[q.id] || {};
-
-      html += '<div class="question-card" id="qCard-' + q.id + '">';
-      html += '<div class="question-header"><span class="question-num">' + q.id + '.</span><span class="question-text">' + q.text + '</span></div>';
-      html += '<div class="options-list">';
-      q.opts.forEach(function(opt) {
-        html += '<div class="option-item"><span class="option-label">' + opt.charAt(0) + '</span>' + opt.substring(3) + '</div>';
-      });
-      html += '</div>';
-      html += '<div class="question-footer">';
-      html += '<div class="question-footer-top">';
-      html += '<span class="answer-link" data-qid="' + q.id + '">查看答案与解析</span>';
-      html += '</div>';
-      html += '<div class="score-group">';
-      html += '<button class="score-btn' + (score === 'right' ? ' selected-right' : '') + '" data-qid="' + q.id + '" data-score="right">✓ 对</button>';
-      html += '<button class="score-btn' + (score === 'half' ? ' selected-half' : '') + '" data-qid="' + q.id + '" data-score="half">◐ 半对</button>';
-      html += '<button class="score-btn' + (score === 'wrong' ? ' selected-wrong' : '') + '" data-qid="' + q.id + '" data-score="wrong">✗ 错</button>';
-      html += '</div>';
-      html += '</div>';
-
-      // Expand section for half/wrong
-      if (score === 'half' || score === 'wrong') {
-        html += '<div class="expand-section">';
-        html += '<div class="expand-label">错误原因（可多选）</div>';
-        html += '<div class="reason-chips">';
-        var reasonLabels = ['概念理解', '计算能力', '综合应用', '逻辑推理'];
-        reasonLabels.forEach(function(r) {
-          html += '<span class="reason-chip' + (reasons.indexOf(r) >= 0 ? ' selected' : '') + '" data-qid="' + q.id + '" data-reason="' + r + '">' + r + '</span>';
-        });
-        html += '</div>';
-        html += '<div class="expand-label">备注（非必填）</div>';
-        html += '<div class="notes-row">';
-        html += '<button class="notes-photo-btn" data-qid="' + q.id + '" title="拍照" style="' + (note.photoUrl ? 'background-image:url(' + note.photoUrl + ');background-size:cover;background-position:center;' : '') + '">' + (note.photoUrl ? '' : '📷') + '</button>';
-        html += '<textarea class="notes-input" data-qid="' + q.id + '" placeholder="输入备注内容...">' + (note.text || '') + '</textarea>';
-        html += '</div>';
-        html += '</div>';
-      }
-
-      html += '</div>';
-    });
-
-    // Append upload bar HTML
-    var upGridHtml = '';
-    uploadFiles.forEach(function(src, idx) {
-      upGridHtml += '<div style="position:relative;flex-shrink:0">' +
-        '<img class="fd-upload-thumb" src="' + src + '" alt="上传图片">' +
-        '<button class="up-del-btn" data-idx="' + idx + '" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;border:none;background:var(--accent2);color:#fff;font-size:10px;cursor:pointer;line-height:18px;text-align:center;">✕</button>' +
-        '</div>';
-    });
-    html += '<div class="fd-upload-bar">';
-    html += '<div class="fd-upload-label">📎 上传试卷作答情况（非必填）</div>';
-    html += '<div class="fd-upload-area">';
-    html += '<div class="fd-upload-grid" id="fdUploadGrid">' + upGridHtml + '</div>';
-    html += '<label class="fd-upload-add">';
-    html += '<input type="file" accept="image/*" multiple hidden id="fdUploadInput">';
-    html += '<span>+</span>';
-    html += '<span style="font-size:10px;">添加图片</span>';
-    html += '</label>';
-    html += '</div>';
-    html += '</div>';
-
-    document.getElementById('fdContent').innerHTML = html;
-
-    // Bind upload
-    var upInput = document.getElementById('fdUploadInput');
-    if (upInput) {
-      upInput.addEventListener('change', function() {
-        var files = this.files;
-        for (var i = 0; i < files.length; i++) {
-          (function(file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              uploadFiles.push(e.target.result);
-              renderQuestions();
-            };
-            reader.readAsDataURL(file);
-          })(files[i]);
-        }
-        this.value = '';
-      });
-    }
-
-    // Bind delete buttons on upload thumbs
-    document.querySelectorAll('.up-del-btn').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var idx = parseInt(this.getAttribute('data-idx'));
-        uploadFiles.splice(idx, 1);
-        renderQuestions();
-      });
-    });
-
-    // Bind answer links
-    document.querySelectorAll('.answer-link').forEach(function(el) {
-      el.addEventListener('click', function() {
-        var qid = parseInt(this.getAttribute('data-qid'));
-        openAnswerModal(qid);
-      });
-    });
-
-    // Bind score buttons
-    document.querySelectorAll('.score-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var qid = parseInt(this.getAttribute('data-qid'));
-        var score = this.getAttribute('data-score');
-        questionScores[qid] = score;
-        if (score === 'right') { delete errorReasons[qid]; delete questionNotes[qid]; }
-        renderQuestions();
-      });
-    });
-
-    // Bind reason chips — toggle class directly, no full re-render
-    document.querySelectorAll('.reason-chip').forEach(function(chip) {
-      chip.addEventListener('click', function() {
-        var qid = parseInt(this.getAttribute('data-qid'));
-        var reason = this.getAttribute('data-reason');
-        if (!errorReasons[qid]) errorReasons[qid] = [];
-        var idx = errorReasons[qid].indexOf(reason);
-        if (idx >= 0) {
-          errorReasons[qid].splice(idx, 1);
-          this.classList.remove('selected');
-        } else {
-          errorReasons[qid].push(reason);
-          this.classList.add('selected');
-        }
-      });
-    });
-
-    // Bind notes photo — partial re-render for the specific card only
-    document.querySelectorAll('.notes-photo-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var qid = parseInt(this.getAttribute('data-qid'));
-        var self = this;
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.addEventListener('change', function() {
-          if (input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              if (!questionNotes[qid]) questionNotes[qid] = {};
-              questionNotes[qid].photoUrl = e.target.result;
-              var ta = document.querySelector('.notes-input[data-qid="' + qid + '"]');
-              if (ta && !questionNotes[qid].text) {
-                questionNotes[qid].text = ta.value;
-              }
-              // Show thumbnail on the photo button without full re-render
-              self.style.backgroundImage = 'url(' + e.target.result + ')';
-              self.style.backgroundSize = 'cover';
-              self.style.backgroundPosition = 'center';
-              self.innerHTML = '';
-            };
-            reader.readAsDataURL(input.files[0]);
-          }
-        });
-        input.click();
-      });
-    });
-
-    // Bind notes textarea — save on input, no re-render
-    document.querySelectorAll('.notes-input').forEach(function(ta) {
-      ta.addEventListener('input', function() {
-        var qid = parseInt(this.getAttribute('data-qid'));
-        if (!questionNotes[qid]) questionNotes[qid] = {};
-        questionNotes[qid].text = this.value;
-      });
-    });
-  }
-
-  function openAnswerModal(qid) {
-    var q = questionBank.find(function(x) { return x.id === qid; });
-    if (!q) return;
-    var body = document.getElementById('answerModalBody');
-    body.innerHTML = '<div class="answer-correct">✅ 正确答案：' + q.answer + '</div>' +
-      '<div class="answer-explain">' + q.explain + '</div>';
-    document.getElementById('answerModalOverlay').classList.add('open');
-  }
-
-  document.getElementById('answerModalClose').addEventListener('click', function() {
-    document.getElementById('answerModalOverlay').classList.remove('open');
-  });
-  document.getElementById('answerModalOverlay').addEventListener('click', function(e) {
-    if (e.target === this) document.getElementById('answerModalOverlay').classList.remove('open');
-  });
-
-  // Back button
-  document.getElementById('fdBackBtn').addEventListener('click', function() {
-    document.getElementById('fileDetailOverlay').classList.remove('open');
-    // Refresh detail panel to rebind file click events
-    selectDate(selectedDate);
-  });
-
-  // Save button
-  document.getElementById('fdSaveBtn').addEventListener('click', function() {
-    var btn = this;
-    btn.classList.add('saved');
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>已保存';
-    showToast('保存成功');
-    setTimeout(function() {
-      btn.classList.remove('saved');
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>保存';
-    }, 2000);
-  });
-
-  // ===== Toast =====
-  function showToast(msg) {
-    var toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toast._timer);
-    toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
-  }
-
-  // ===== Math Tab Data =====
-  var currentSubTab = 'gaoshu';
-  var currentCourseVariant = 'basic';
-
-  // Sub-tab data: 高数/线代/概统 × 基础/知识点/进阶
-  var mathSubTabData = {
-    gaoshu: {
-      basic: {
-        studied: 12, total: 36,
-        chapters: [
-        { name: '第一章 函数与极限', status: 'completed', children: [
-          { name: '1.1 函数', status: 'completed', children: [
-            { name: '函数的概念与性质', status: 'completed', children: [] },
-            { name: '初等函数', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 极限', status: 'completed', children: [
-            { name: '数列极限', status: 'completed', children: [] },
-            { name: '函数极限', status: 'completed', children: [] },
-            { name: '无穷小与无穷大', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 连续', status: 'completed', children: [
-            { name: '函数的连续性', status: 'completed', children: [] },
-            { name: '闭区间上连续函数的性质', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 导数与微分', status: 'in-progress', children: [
-          { name: '2.1 导数概念', status: 'completed', children: [
-            { name: '导数定义', status: 'completed', children: [] },
-            { name: '导数的几何意义', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 求导法则', status: 'in-progress', children: [
-            { name: '四则运算求导法则', status: 'completed', children: [] },
-            { name: '复合函数求导', status: 'in-progress', children: [] },
-            { name: '隐函数求导', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 高阶导数', status: 'not-started', children: [
-            { name: '高阶导数定义', status: 'not-started', children: [] },
-            { name: '莱布尼茨公式', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 中值定理与导数应用', status: 'not-started', children: [
-          { name: '3.1 中值定理', status: 'not-started', children: [
-            { name: '罗尔定理', status: 'not-started', children: [] },
-            { name: '拉格朗日中值定理', status: 'not-started', children: [] },
-            { name: '柯西中值定理', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 洛必达法则', status: 'not-started', children: [
-            { name: '0/0型', status: 'not-started', children: [] },
-            { name: '∞/∞型', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 泰勒公式', status: 'not-started', children: [
-            { name: '泰勒公式推导', status: 'not-started', children: [] },
-            { name: '常用泰勒展开', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 8, total: 28,
-        chapters: [
-          { name: '函数极限知识点', status: 'completed', children: [
-            { name: '极限定义与性质', status: 'completed', children: [] },
-            { name: '两个重要极限', status: 'completed', children: [] },
-            { name: '无穷小比较', status: 'completed', children: [] }
-          ]},
-          { name: '导数计算知识点', status: 'in-progress', children: [
-            { name: '基本求导公式', status: 'completed', children: [] },
-            { name: '链式法则', status: 'completed', children: [] },
-            { name: '隐函数与参数方程求导', status: 'in-progress', children: [] },
-            { name: '高阶导数', status: 'not-started', children: [] }
-          ]},
-          { name: '积分方法知识点', status: 'not-started', children: [
-            { name: '换元积分法', status: 'not-started', children: [] },
-            { name: '分部积分法', status: 'not-started', children: [] },
-            { name: '有理函数积分', status: 'not-started', children: [] }
-          ]},
-          { name: '微分方程知识点', status: 'not-started', children: [
-            { name: '一阶微分方程', status: 'not-started', children: [] },
-            { name: '二阶线性微分方程', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 3, total: 20,
-        chapters: [
-          { name: '多元函数微分学', status: 'in-progress', children: [
-            { name: '偏导数与全微分', status: 'completed', children: [] },
-            { name: '方向导数与梯度', status: 'in-progress', children: [] },
-            { name: '多元函数极值', status: 'not-started', children: [] },
-            { name: '条件极值与拉格朗日乘数法', status: 'not-started', children: [] }
-          ]},
-          { name: '重积分', status: 'not-started', children: [
-            { name: '二重积分的概念与计算', status: 'not-started', children: [] },
-            { name: '极坐标下的二重积分', status: 'not-started', children: [] },
-            { name: '三重积分', status: 'not-started', children: [] }
-          ]},
-          { name: '曲线与曲面积分', status: 'not-started', children: [
-            { name: '第一类曲线积分', status: 'not-started', children: [] },
-            { name: '第二类曲线积分', status: 'not-started', children: [] },
-            { name: '格林公式', status: 'not-started', children: [] }
-          ]},
-          { name: '无穷级数', status: 'not-started', children: [
-            { name: '数项级数的审敛法', status: 'not-started', children: [] },
-            { name: '幂级数', status: 'not-started', children: [] },
-            { name: '傅里叶级数', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    xiandai: {
-      basic: {
-        studied: 8, total: 24,
-        chapters: [
-        { name: '第一章 行列式', status: 'completed', children: [
-          { name: '1.1 二阶与三阶行列式', status: 'completed', children: [
-            { name: '二阶行列式', status: 'completed', children: [] },
-            { name: '三阶行列式', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 n阶行列式', status: 'completed', children: [
-            { name: '排列与逆序', status: 'completed', children: [] },
-            { name: 'n阶行列式定义', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 行列式的性质', status: 'completed', children: [
-            { name: '基本性质', status: 'completed', children: [] },
-            { name: '行列式按行展开', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 矩阵', status: 'in-progress', children: [
-          { name: '2.1 矩阵的概念', status: 'completed', children: [
-            { name: '矩阵的定义', status: 'completed', children: [] },
-            { name: '特殊矩阵', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 矩阵的运算', status: 'in-progress', children: [
-            { name: '矩阵加减与数乘', status: 'completed', children: [] },
-            { name: '矩阵乘法', status: 'in-progress', children: [] }
-          ]},
-          { name: '2.3 逆矩阵', status: 'not-started', children: [
-            { name: '逆矩阵定义', status: 'not-started', children: [] },
-            { name: '伴随矩阵法求逆', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 向量与线性方程组', status: 'not-started', children: [
-          { name: '3.1 向量组的线性相关性', status: 'not-started', children: [
-            { name: '线性表示', status: 'not-started', children: [] },
-            { name: '线性相关与无关', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 向量组的秩', status: 'not-started', children: [
-            { name: '极大无关组', status: 'not-started', children: [] },
-            { name: '秩的性质', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 线性方程组的解', status: 'not-started', children: [
-            { name: '齐次方程组', status: 'not-started', children: [] },
-            { name: '非齐次方程组', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 5, total: 18,
-        chapters: [
-          { name: '矩阵核心知识点', status: 'completed', children: [
-            { name: '矩阵的秩', status: 'completed', children: [] },
-            { name: '矩阵的初等变换', status: 'completed', children: [] },
-            { name: '分块矩阵', status: 'in-progress', children: [] }
-          ]},
-          { name: '向量空间知识点', status: 'in-progress', children: [
-            { name: '向量组的线性表示', status: 'completed', children: [] },
-            { name: '线性相关与无关判定', status: 'in-progress', children: [] },
-            { name: '最大无关组', status: 'not-started', children: [] }
-          ]},
-          { name: '特征值与特征向量', status: 'not-started', children: [
-            { name: '特征值与特征向量定义', status: 'not-started', children: [] },
-            { name: '相似对角化', status: 'not-started', children: [] },
-            { name: '实对称矩阵的对角化', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 2, total: 16,
-        chapters: [
-          { name: '线性空间与线性变换', status: 'not-started', children: [
-            { name: '线性空间的定义', status: 'not-started', children: [] },
-            { name: '基与维数', status: 'not-started', children: [] },
-            { name: '线性变换及其矩阵表示', status: 'not-started', children: [] }
-          ]},
-          { name: '二次型', status: 'not-started', children: [
-            { name: '二次型与对称矩阵', status: 'not-started', children: [] },
-            { name: '合同变换', status: 'not-started', children: [] },
-            { name: '正定二次型', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    gaitong: {
-      basic: {
-        studied: 5, total: 18,
-        chapters: [
-        { name: '第一章 概率论基本概念', status: 'completed', children: [
-          { name: '1.1 随机事件', status: 'completed', children: [
-            { name: '样本空间与事件', status: 'completed', children: [] },
-            { name: '事件的关系与运算', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 概率的定义', status: 'completed', children: [
-            { name: '古典概型', status: 'completed', children: [] },
-            { name: '几何概型', status: 'completed', children: [] },
-            { name: '概率的公理化定义', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 条件概率', status: 'in-progress', children: [
-            { name: '条件概率公式', status: 'completed', children: [] },
-            { name: '全概率与贝叶斯', status: 'in-progress', children: [] }
-          ]}
-        ]},
-        { name: '第二章 随机变量及其分布', status: 'not-started', children: [
-          { name: '2.1 离散型随机变量', status: 'not-started', children: [
-            { name: '分布律', status: 'not-started', children: [] },
-            { name: '常见离散分布', status: 'not-started', children: [] }
-          ]},
-          { name: '2.2 连续型随机变量', status: 'not-started', children: [
-            { name: '概率密度', status: 'not-started', children: [] },
-            { name: '常见连续分布', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 随机变量函数的分布', status: 'not-started', children: [
-            { name: '离散情况', status: 'not-started', children: [] },
-            { name: '连续情况', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 数理统计基础', status: 'not-started', children: [
-          { name: '3.1 样本与统计量', status: 'not-started', children: [
-            { name: '总体与样本', status: 'not-started', children: [] },
-            { name: '常用统计量', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 抽样分布', status: 'not-started', children: [
-            { name: 'χ²分布', status: 'not-started', children: [] },
-            { name: 't分布与F分布', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]},
-      knowledge: {
-        studied: 3, total: 14,
-        chapters: [
-          { name: '随机变量核心知识点', status: 'completed', children: [
-            { name: '分布函数', status: 'completed', children: [] },
-            { name: '常见分布总结', status: 'in-progress', children: [] }
-          ]},
-          { name: '数字特征知识点', status: 'in-progress', children: [
-            { name: '期望与方差', status: 'completed', children: [] },
-            { name: '协方差与相关系数', status: 'in-progress', children: [] }
-          ]},
-          { name: '大数定律与中心极限定理', status: 'not-started', children: [
-            { name: '切比雪夫不等式', status: 'not-started', children: [] },
-            { name: '中心极限定理', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 1, total: 12,
-        chapters: [
-          { name: '参数估计', status: 'not-started', children: [
-            { name: '矩估计', status: 'not-started', children: [] },
-            { name: '极大似然估计', status: 'not-started', children: [] },
-            { name: '估计量的评价标准', status: 'not-started', children: [] }
-          ]},
-          { name: '假设检验', status: 'not-started', children: [
-            { name: '假设检验的基本概念', status: 'not-started', children: [] },
-            { name: '单个正态总体的假设检验', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    }
-  };
-
-  // Practice Test Data (9-grid)
-  var practiceTests = [
-    { title: '函数与极限综合练', total: 25, wrong: 3, answered: true },
-    { title: '导数计算专项练', total: 30, wrong: 5, answered: true },
-    { title: '中值定理应用练', total: 20, wrong: 0, answered: false },
-    { title: '不定积分基础练', total: 28, wrong: 7, answered: true },
-    { title: '定积分计算训练', total: 24, wrong: 2, answered: true },
-    { title: '多元函数微分练', total: 22, wrong: 0, answered: false },
-    { title: '二重积分专项练', total: 18, wrong: 4, answered: true },
-    { title: '微分方程综合练', total: 26, wrong: 6, answered: true },
-    { title: '无穷级数基础练', total: 20, wrong: 0, answered: false }
-  ];
-
-  // Wrong Book Data
-  var wrongBookData = { fixed: 18, total: 56 };
-
-  // ===== English Tab Data =====
-  var currentEnglishCourseVariant = 'basic';
-
-  var englishCourseData = {
-    basic: {
-      studied: 15, total: 42,
-      chapters: [
-        { name: '第一章 词汇基础', status: 'completed', children: [
-          { name: '1.1 考研核心词汇（一）', status: 'completed', children: [
-            { name: '高频词汇500词', status: 'completed', children: [] },
-            { name: '词根词缀记忆法', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 考研核心词汇（二）', status: 'completed', children: [
-            { name: '中频词汇600词', status: 'completed', children: [] },
-            { name: '近义词辨析', status: 'completed', children: [] },
-            { name: '熟词僻义', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 词组与固定搭配', status: 'completed', children: [
-            { name: '动词短语', status: 'completed', children: [] },
-            { name: '介词搭配', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 语法精讲', status: 'in-progress', children: [
-          { name: '2.1 句子成分与基本句型', status: 'completed', children: [
-            { name: '五大基本句型', status: 'completed', children: [] },
-            { name: '主谓一致', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 从句系统', status: 'in-progress', children: [
-            { name: '名词性从句', status: 'completed', children: [] },
-            { name: '定语从句', status: 'in-progress', children: [] },
-            { name: '状语从句', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 特殊句式', status: 'not-started', children: [
-            { name: '倒装句', status: 'not-started', children: [] },
-            { name: '强调句', status: 'not-started', children: [] },
-            { name: '虚拟语气', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 阅读理解', status: 'not-started', children: [
-          { name: '3.1 阅读题型概述', status: 'not-started', children: [
-            { name: '主旨大意题', status: 'not-started', children: [] },
-            { name: '细节理解题', status: 'not-started', children: [] },
-            { name: '推理判断题', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 长难句分析', status: 'not-started', children: [
-            { name: '结构拆分法', status: 'not-started', children: [] },
-            { name: '意群阅读法', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 阅读提速技巧', status: 'not-started', children: [
-            { name: '扫读与略读', status: 'not-started', children: [] },
-            { name: '关键词定位', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-    },
-    knowledge: {
-      studied: 10, total: 32,
-      chapters: [
-        { name: '词汇记忆技巧', status: 'completed', children: [
-          { name: '词根记忆法', status: 'completed', children: [] },
-          { name: '联想记忆法', status: 'completed', children: [] },
-          { name: '语境记忆法', status: 'completed', children: [] }
-        ]},
-        { name: '阅读解题策略', status: 'in-progress', children: [
-          { name: '题文同序原则', status: 'completed', children: [] },
-          { name: '选项排除法', status: 'completed', children: [] },
-          { name: '同义替换识别', status: 'in-progress', children: [] },
-          { name: '作者态度判断', status: 'not-started', children: [] }
-        ]},
-        { name: '翻译核心技巧', status: 'not-started', children: [
-          { name: '英译汉五步法', status: 'not-started', children: [] },
-          { name: '被动语态处理', status: 'not-started', children: [] },
-          { name: '定语从句翻译', status: 'not-started', children: [] }
-        ]},
-        { name: '写作高分模板', status: 'not-started', children: [
-          { name: '大作文框架', status: 'not-started', children: [] },
-          { name: '小作文模板', status: 'not-started', children: [] },
-          { name: '高分句型积累', status: 'not-started', children: [] }
-        ]}
-      ]
-    },
-    advanced: {
-      studied: 6, total: 24,
-      chapters: [
-        { name: '完形填空专项', status: 'in-progress', children: [
-          { name: '逻辑关系词', status: 'completed', children: [] },
-          { name: '上下文推断', status: 'in-progress', children: [] },
-          { name: '固定搭配', status: 'completed', children: [] },
-          { name: '词义复现', status: 'not-started', children: [] }
-        ]},
-        { name: '新题型突破', status: 'not-started', children: [
-          { name: '七选五', status: 'not-started', children: [] },
-          { name: '排序题', status: 'not-started', children: [] },
-          { name: '小标题匹配', status: 'not-started', children: [] }
-        ]},
-        { name: '翻译进阶', status: 'not-started', children: [
-          { name: '长难句拆译', status: 'not-started', children: [] },
-          { name: '文化背景处理', status: 'not-started', children: [] },
-          { name: '学术翻译规范', status: 'not-started', children: [] }
-        ]},
-        { name: '真题模拟训练', status: 'not-started', children: [
-          { name: '近五年真题精讲', status: 'not-started', children: [] },
-          { name: '限时模拟训练', status: 'not-started', children: [] },
-          { name: '错题归因分析', status: 'not-started', children: [] }
-        ]}
-      ]
-    }
-  };
-
-  // English Vocabulary Data
-  var englishVocabData = {
-    syllabus: {
-      easy: 2350,
-      fuzzy: 1480,
-      strange: 670
-    },
-    dictionary: {
-      easy: 980,
-      fuzzy: 520,
-      strange: 310
-    }
-  };
-
-  // English Wrong Book Data
-  var englishWrongBookData = { fixed: 22, total: 48 };
-
-  // ===== Render English Tab =====
-  function renderEnglishTab() {
-    var data = englishCourseData[currentEnglishCourseVariant];
-    if (!data) return;
-
-    // Update stats
-    document.getElementById('enStatStudied').innerHTML = data.studied + '<span class="unit">课</span>';
-    document.getElementById('enStatTotal').innerHTML = data.total + '<span class="unit">课</span>';
-    var progressPercent = Math.round((data.studied / data.total) * 100);
-    document.getElementById('enStudyProgressBar').style.width = progressPercent + '%';
-    document.getElementById('enStudyProgressPercent').textContent = progressPercent + '%';
-
-    // Render chapter tree
-    renderEnglishChapterTree(data.chapters);
-
-    // Render vocabulary
-    renderEnglishVocab();
-
-    // Render wrong book
-    renderEnglishWrongBook();
-  }
-
-  // ===== Render English Chapter Tree =====
-  function renderEnglishChapterTree(chapters) {
-    var container = document.getElementById('englishChapterTree');
-    var html = '';
-
-    function buildNodeHTML(node, level) {
-      var hasChildren = node.children && node.children.length > 0;
-      var statusClass = node.status;
-      var statusText = node.status === 'completed' ? '已学习' : node.status === 'in-progress' ? '进行中' : '未学习';
-      var arrowClass = hasChildren ? '' : 'no-children';
-      if (hasChildren) arrowClass += ' expanded';
-
-      html += '<div class="tree-node" data-level="' + level + '">';
-      html += '<div class="tree-node-header" data-node-name="' + node.name + '">';
-      html += '<span class="tree-arrow ' + arrowClass + '">▶</span>';
-      html += '<span class="tree-node-name level-' + level + '">' + node.name + '</span>';
-      html += '<span class="tree-status ' + statusClass + '">' + statusText + '</span>';
-      html += '</div>';
-
-      if (hasChildren) {
-        html += '<div class="tree-children level-' + level + '">';
-        for (var i = 0; i < node.children.length; i++) {
-          buildNodeHTML(node.children[i], level + 1);
-        }
-        html += '</div>';
-      }
-
-      html += '</div>';
-    }
-
-    for (var i = 0; i < chapters.length; i++) {
-      buildNodeHTML(chapters[i], 1);
-    }
-
-    container.innerHTML = html;
-
-    // Bind click events for tree nodes
-    var allHeaders = container.querySelectorAll('.tree-node-header');
-    allHeaders.forEach(function(header) {
-      header.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var node = this.parentElement;
-        var arrow = this.querySelector('.tree-arrow');
-        var children = node.querySelector('.tree-children');
-
-        if (children) {
-          if (children.classList.contains('collapsed')) {
-            children.classList.remove('collapsed');
-            arrow.classList.add('expanded');
-          } else {
-            children.classList.add('collapsed');
-            arrow.classList.remove('expanded');
-          }
-        } else {
-          var nodeName = this.getAttribute('data-node-name');
-          if (nodeName) {
-            window.location.href = 'course-detail.html?name=' + encodeURIComponent(nodeName) + '&ref=english';
-          }
-        }
-      });
-    });
-  }
-
-  // ===== Render English Vocabulary =====
-  function renderEnglishVocab() {
-    var container = document.getElementById('englishVocabInner');
-    var vocab = englishVocabData;
-
-    var html = '';
-
-    // 大纲词汇 module
-    html += '<div class="vocab-module">';
-    html += '<div class="vocab-module-title"><span class="module-icon syllabus">📖</span>大纲词汇</div>';
-    html += '<div class="vocab-rows">';
-    html += buildVocabRow('easy', '简单', '已基本掌握', vocab.syllabus.easy);
-    html += buildVocabRow('fuzzy', '模糊', '需要复习巩固', vocab.syllabus.fuzzy);
-    html += buildVocabRow('strange', '陌生', '需要重点记忆', vocab.syllabus.strange);
-    html += '</div>';
-    html += '</div>';
-
-    // 词典词汇 module
-    html += '<div class="vocab-module">';
-    html += '<div class="vocab-module-title"><span class="module-icon dict">📔</span>词典词汇</div>';
-    html += '<div class="vocab-rows">';
-    html += buildVocabRow('easy', '简单', '已基本掌握', vocab.dictionary.easy);
-    html += buildVocabRow('fuzzy', '模糊', '需要复习巩固', vocab.dictionary.fuzzy);
-    html += buildVocabRow('strange', '陌生', '需要重点记忆', vocab.dictionary.strange);
-    html += '</div>';
-    html += '</div>';
-
-    container.innerHTML = html;
-  }
-
-  function buildVocabRow(type, label, desc, count) {
-    return '<div class="vocab-row" data-vocab-type="' + type + '">' +
-      '<div class="vocab-row-left">' +
-        '<span class="vocab-row-dot ' + type + '"></span>' +
-        '<span class="vocab-row-label">' + label + '</span>' +
-        '<span class="vocab-row-desc">' + desc + '</span>' +
-      '</div>' +
-      '<span class="vocab-row-value">' + count + '<span class="unit"> 词</span></span>' +
-    '</div>';
-  }
-
-  // ===== Render English Wrong Book =====
-  function renderEnglishWrongBook() {
-    var fixed = englishWrongBookData.fixed;
-    var total = englishWrongBookData.total;
-    var pct = Math.round((fixed / total) * 100);
-    document.getElementById('enWrongFixed').textContent = fixed;
-    document.getElementById('enWrongTotal').textContent = total;
-    document.getElementById('enWrongProgressFill').style.width = pct + '%';
-    document.getElementById('enWrongPercent').textContent = pct + '%';
-  }
-
-  // ===== Render Math Tab =====
-  function renderMathTab() {
-    var data = mathSubTabData[currentSubTab][currentCourseVariant];
-    if (!data) return;
-
-    // Update stats
-    document.getElementById('statStudied').innerHTML = data.studied + '<span class="unit">课</span>';
-    document.getElementById('statTotal').innerHTML = data.total + '<span class="unit">课</span>';
-    var progressPercent = Math.round((data.studied / data.total) * 100);
-    document.getElementById('studyProgressBar').style.width = progressPercent + '%';
-    document.getElementById('studyProgressPercent').textContent = progressPercent + '%';
-
-    // Render chapter tree
-    renderChapterTree(data.chapters);
-
-    // Render practice grid
-    renderPracticeGrid();
-
-    // Render wrong book
-    renderWrongBook();
-  }
-
-  // ===== Render Chapter Tree =====
-  function renderChapterTree(chapters) {
-    var container = document.getElementById('chapterTree');
-    var html = '';
-
-    function buildNodeHTML(node, level) {
-      var hasChildren = node.children && node.children.length > 0;
-      var statusClass = node.status;
-      var statusText = node.status === 'completed' ? '已学习' : node.status === 'in-progress' ? '进行中' : '未学习';
-      var arrowClass = hasChildren ? '' : 'no-children';
-      if (hasChildren) arrowClass += ' expanded';
-
-      html += '<div class="tree-node" data-level="' + level + '">';
-      html += '<div class="tree-node-header" data-node-name="' + node.name + '">';
-      html += '<span class="tree-arrow ' + arrowClass + '">▶</span>';
-      html += '<span class="tree-node-name level-' + level + '">' + node.name + '</span>';
-      html += '<span class="tree-status ' + statusClass + '">' + statusText + '</span>';
-      html += '</div>';
-
-      if (hasChildren) {
-        html += '<div class="tree-children level-' + level + '">';
-        for (var i = 0; i < node.children.length; i++) {
-          buildNodeHTML(node.children[i], level + 1);
-        }
-        html += '</div>';
-      }
-
-      html += '</div>';
-    }
-
-    for (var i = 0; i < chapters.length; i++) {
-      buildNodeHTML(chapters[i], 1);
-    }
-
-    container.innerHTML = html;
-
-    // Bind click events for tree nodes
-    var allHeaders = container.querySelectorAll('.tree-node-header');
-    allHeaders.forEach(function(header) {
-      header.addEventListener('click', function(e) {
-        // Don't collapse when clicking status badge
-        e.stopPropagation();
-        var node = this.parentElement;
-        var arrow = this.querySelector('.tree-arrow');
-        var children = node.querySelector('.tree-children');
-
-        if (children) {
-          if (children.classList.contains('collapsed')) {
-            children.classList.remove('collapsed');
-            arrow.classList.add('expanded');
-          } else {
-            children.classList.add('collapsed');
-            arrow.classList.remove('expanded');
-          }
-        } else {
-          // Leaf node (末级章节) → jump to course detail page
-          var nodeName = this.getAttribute('data-node-name');
-          if (nodeName) {
-            window.location.href = 'course-detail.html?name=' + encodeURIComponent(nodeName) + '&ref=math';
-          }
-        }
-      });
-    });
-  }
-
-  // ===== Render Practice Grid =====
-  function renderPracticeGrid() {
-    var container = document.getElementById('practiceGrid');
-    var html = '';
-
-    for (var i = 0; i < practiceTests.length; i++) {
-      var test = practiceTests[i];
-      var badgeClass = test.answered ? 'answered' : 'unanswered';
-      var badgeText = test.answered ? '已答' : '未答';
-      html += '<div class="practice-card" data-test-id="' + i + '">';
-      html += '<span class="practice-corner-badge ' + badgeClass + '">' + badgeText + '</span>';
-      html += '<span class="practice-card-title">' + test.title + '</span>';
-      html += '<div class="practice-card-stats">';
-      html += '<span>总题数 ' + test.total + '</span>';
-      html += '<span class="wrong">错题 ' + test.wrong + '</span>';
-      html += '</div>';
-      html += '</div>';
-    }
-
-    container.innerHTML = html;
-
-    // Bind click events
-    container.querySelectorAll('.practice-card').forEach(function(card) {
-      card.addEventListener('click', function() {
-        var id = parseInt(this.getAttribute('data-test-id'));
-        var test = practiceTests[id];
-        window.location.href = 'doc-detail.html?title=' + encodeURIComponent(test.title) + '&tab=math';
-      });
-    });
-  }
-
-  // ===== Render Wrong Book =====
-  function renderWrongBook() {
-    var fixed = wrongBookData.fixed;
-    var total = wrongBookData.total;
-    var pct = Math.round((fixed / total) * 100);
-    document.getElementById('wrongFixed').textContent = fixed;
-    document.getElementById('wrongTotal').textContent = total;
-    document.getElementById('wrongProgressFill').style.width = pct + '%';
-    document.getElementById('wrongPercent').textContent = pct + '%';
-  }
-
-  // ===== Sub-Tab Switching =====
-  document.getElementById('mathSubTabs').addEventListener('click', function(e) {
-    var tab = e.target.closest('.math-sub-tab');
-    if (!tab) return;
-
-    var tabs = this.querySelectorAll('.math-sub-tab');
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    tab.classList.add('active');
-
-    currentSubTab = tab.getAttribute('data-subtab');
-    renderMathTab();
-  });
-
-  // ===== Course Select Dropdown =====
-  document.getElementById('courseSelect').addEventListener('change', function() {
-    currentCourseVariant = this.value;
-    renderMathTab();
-  });
-
-  // ===== Wrong Book Button Events =====
-  document.getElementById('correctWrongBtn').addEventListener('click', function() {
-    window.location.href = 'wrong-book.html?subject=math';
-  });
-
-  document.getElementById('wrongStatsBtn').addEventListener('click', function() {
-    showToast('查看错题统计');
-  });
-
-  // ===== English Course Select Dropdown =====
-  var englishCourseSelect = document.getElementById('englishCourseSelect');
-  if (englishCourseSelect) {
-    englishCourseSelect.addEventListener('change', function() {
-      currentEnglishCourseVariant = this.value;
-      renderEnglishTab();
-    });
-  }
-
-  // ===== English Wrong Book Button Events =====
-  var enCorrectBtn = document.getElementById('enCorrectWrongBtn');
-  var enStatsBtn = document.getElementById('enWrongStatsBtn');
-  if (enCorrectBtn) {
-    enCorrectBtn.addEventListener('click', function() {
-      window.location.href = 'wrong-book.html?subject=english';
-    });
-  }
-  if (enStatsBtn) {
-    enStatsBtn.addEventListener('click', function() {
-      showToast('查看英语错题统计');
-    });
-  }
-
-  // ===== Politics Tab Data =====
-  var currentPoliticsSubTab = 'mayuan';
-  var currentPoliticsCourseVariant = 'basic';
-
-  var politicsSubTabData = {
-    mayuan: {
-      basic: {
-        studied: 10, total: 30,
-        chapters: [
-        { name: '第一章 马克思主义是关于无产阶级和人类解放的科学', status: 'completed', children: [
-          { name: '1.1 马克思主义的创立与发展', status: 'completed', children: [
-            { name: '马克思主义产生的社会根源', status: 'completed', children: [] },
-            { name: '马克思主义的发展阶段', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 马克思主义的鲜明特征', status: 'completed', children: [
-            { name: '科学性', status: 'completed', children: [] },
-            { name: '革命性', status: 'completed', children: [] },
-            { name: '实践性', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 马克思主义的当代价值', status: 'completed', children: [
-            { name: '观察当代世界变化的工具', status: 'completed', children: [] },
-            { name: '指引当代中国发展的行动指南', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 世界的物质性及其发展规律', status: 'in-progress', children: [
-          { name: '2.1 物质及其存在方式', status: 'completed', children: [
-            { name: '哲学基本问题', status: 'completed', children: [] },
-            { name: '物质的定义', status: 'completed', children: [] },
-            { name: '物质与运动', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 事物的普遍联系与变化发展', status: 'in-progress', children: [
-            { name: '联系的特点', status: 'completed', children: [] },
-            { name: '发展的实质', status: 'in-progress', children: [] },
-            { name: '联系和发展的基本环节', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 唯物辩证法是认识世界和改造世界的根本方法', status: 'not-started', children: [
-            { name: '唯物辩证法的本质特征', status: 'not-started', children: [] },
-            { name: '辩证思维方法与现代科学思维方法', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 实践与认识及其发展规律', status: 'not-started', children: [
-          { name: '3.1 实践与认识', status: 'not-started', children: [
-            { name: '实践的本质与基本结构', status: 'not-started', children: [] },
-            { name: '认识的本质与过程', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 真理与价值', status: 'not-started', children: [
-            { name: '真理的客观性', status: 'not-started', children: [] },
-            { name: '真理的绝对性与相对性', status: 'not-started', children: [] },
-            { name: '真理与价值的辩证统一', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 认识世界和改造世界', status: 'not-started', children: [
-            { name: '一切从实际出发', status: 'not-started', children: [] },
-            { name: '理论创新与实践创新', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 7, total: 24,
-        chapters: [
-          { name: '唯物论核心知识点', status: 'completed', children: [
-            { name: '哲学基本问题与派别', status: 'completed', children: [] },
-            { name: '物质与意识的关系', status: 'completed', children: [] },
-            { name: '世界的物质统一性', status: 'completed', children: [] }
-          ]},
-          { name: '辩证法核心知识点', status: 'in-progress', children: [
-            { name: '对立统一规律', status: 'completed', children: [] },
-            { name: '质量互变规律', status: 'completed', children: [] },
-            { name: '否定之否定规律', status: 'in-progress', children: [] },
-            { name: '五对范畴', status: 'not-started', children: [] }
-          ]},
-          { name: '认识论核心知识点', status: 'not-started', children: [
-            { name: '实践是认识的基础', status: 'not-started', children: [] },
-            { name: '认识的辩证过程', status: 'not-started', children: [] },
-            { name: '真理与检验标准', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 3, total: 18,
-        chapters: [
-          { name: '唯物辩证法专题', status: 'in-progress', children: [
-            { name: '矛盾普遍性与特殊性', status: 'completed', children: [] },
-            { name: '主要矛盾与次要矛盾', status: 'in-progress', children: [] },
-            { name: '辩证否定观', status: 'not-started', children: [] }
-          ]},
-          { name: '认识论深度解析', status: 'not-started', children: [
-            { name: '感性认识与理性认识', status: 'not-started', children: [] },
-            { name: '非理性因素的作用', status: 'not-started', children: [] },
-            { name: '真理标准大讨论', status: 'not-started', children: [] }
-          ]},
-          { name: '唯物史观专题', status: 'not-started', children: [
-            { name: '社会存在与社会意识', status: 'not-started', children: [] },
-            { name: '生产力与生产关系', status: 'not-started', children: [] },
-            { name: '经济基础与上层建筑', status: 'not-started', children: [] },
-            { name: '社会形态更替', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    maozhongte: {
-      basic: {
-        studied: 8, total: 26,
-        chapters: [
-        { name: '第一章 毛泽东思想及其历史地位', status: 'completed', children: [
-          { name: '1.1 毛泽东思想的形成和发展', status: 'completed', children: [
-            { name: '毛泽东思想形成的历史条件', status: 'completed', children: [] },
-            { name: '毛泽东思想的发展过程', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 毛泽东思想的主要内容和活的灵魂', status: 'completed', children: [
-            { name: '毛泽东思想的主要内容', status: 'completed', children: [] },
-            { name: '实事求是', status: 'completed', children: [] },
-            { name: '群众路线', status: 'completed', children: [] },
-            { name: '独立自主', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 毛泽东思想的历史地位', status: 'completed', children: [
-            { name: '马克思主义中国化的第一个重大理论成果', status: 'completed', children: [] },
-            { name: '中国革命和建设的科学指南', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 新民主主义革命理论', status: 'in-progress', children: [
-          { name: '2.1 新民主主义革命理论形成的依据', status: 'completed', children: [
-            { name: '近代中国国情', status: 'completed', children: [] },
-            { name: '中国革命的时代特征', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 新民主主义革命的总路线和基本纲领', status: 'in-progress', children: [
-            { name: '总路线的内容', status: 'in-progress', children: [] },
-            { name: '基本纲领', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 新民主主义革命的道路和基本经验', status: 'not-started', children: [
-            { name: '农村包围城市、武装夺取政权', status: 'not-started', children: [] },
-            { name: '三大法宝', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 社会主义改造理论', status: 'not-started', children: [
-          { name: '3.1 从新民主主义到社会主义的转变', status: 'not-started', children: [
-            { name: '新民主主义社会的性质', status: 'not-started', children: [] },
-            { name: '过渡时期总路线', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 社会主义改造道路和历史经验', status: 'not-started', children: [
-            { name: '农业社会主义改造', status: 'not-started', children: [] },
-            { name: '手工业社会主义改造', status: 'not-started', children: [] },
-            { name: '资本主义工商业社会主义改造', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 5, total: 20,
-        chapters: [
-          { name: '毛泽东思想核心知识点', status: 'completed', children: [
-            { name: '实事求是思想路线', status: 'completed', children: [] },
-            { name: '群众路线的内涵', status: 'completed', children: [] },
-            { name: '独立自主的原则', status: 'completed', children: [] }
-          ]},
-          { name: '新民主主义革命知识点', status: 'in-progress', children: [
-            { name: '革命对象与动力', status: 'completed', children: [] },
-            { name: '革命领导权', status: 'in-progress', children: [] },
-            { name: '革命性质与前途', status: 'not-started', children: [] }
-          ]},
-          { name: '邓小平理论知识点', status: 'not-started', children: [
-            { name: '社会主义本质论', status: 'not-started', children: [] },
-            { name: '改革开放理论', status: 'not-started', children: [] },
-            { name: '社会主义市场经济理论', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 2, total: 14,
-        chapters: [
-          { name: '马克思主义中国化专题', status: 'not-started', children: [
-            { name: '第一次历史性飞跃', status: 'not-started', children: [] },
-            { name: '马克思主义中国化的内涵', status: 'not-started', children: [] }
-          ]},
-          { name: '社会主义改造深度分析', status: 'not-started', children: [
-            { name: '和平赎买政策', status: 'not-started', children: [] },
-            { name: '社会主义制度确立的意义', status: 'not-started', children: [] }
-          ]},
-          { name: '中国特色社会主义理论体系', status: 'not-started', children: [
-            { name: '邓小平理论的历史地位', status: 'not-started', children: [] },
-            { name: '"三个代表"重要思想', status: 'not-started', children: [] },
-            { name: '科学发展观', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    xisixiang: {
-      basic: {
-        studied: 6, total: 24,
-        chapters: [
-        { name: '第一章 习近平新时代中国特色社会主义思想及其历史地位', status: 'completed', children: [
-          { name: '1.1 中国特色社会主义进入新时代', status: 'completed', children: [
-            { name: '新时代的内涵和意义', status: 'completed', children: [] },
-            { name: '社会主要矛盾的变化', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 习近平新时代中国特色社会主义思想的主要内容', status: 'completed', children: [
-            { name: '核心要义', status: 'completed', children: [] },
-            { name: '八个明确和十四个坚持', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 习近平新时代中国特色社会主义思想的历史地位', status: 'completed', children: [
-            { name: '马克思主义中国化最新成果', status: 'completed', children: [] },
-            { name: '实现中华民族伟大复兴的行动指南', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 坚持和发展中国特色社会主义的总任务', status: 'in-progress', children: [
-          { name: '2.1 实现中华民族伟大复兴的中国梦', status: 'completed', children: [
-            { name: '中国梦的科学内涵', status: 'completed', children: [] },
-            { name: '中国梦的实现路径', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 建成社会主义现代化强国的战略安排', status: 'in-progress', children: [
-            { name: '"两步走"战略', status: 'in-progress', children: [] },
-            { name: '全面建设社会主义现代化国家', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 "五位一体"总体布局', status: 'not-started', children: [
-          { name: '3.1 经济建设', status: 'not-started', children: [
-            { name: '新发展理念', status: 'not-started', children: [] },
-            { name: '高质量发展', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 政治建设', status: 'not-started', children: [
-            { name: '中国特色社会主义政治发展道路', status: 'not-started', children: [] },
-            { name: '全面依法治国', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 文化建设', status: 'not-started', children: [
-            { name: '文化自信', status: 'not-started', children: [] },
-            { name: '社会主义核心价值观', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 4, total: 18,
-        chapters: [
-          { name: '新时代核心知识点', status: 'completed', children: [
-            { name: '新时代的五大内涵', status: 'completed', children: [] },
-            { name: '社会主要矛盾转化的依据', status: 'completed', children: [] }
-          ]},
-          { name: '"五位一体"知识点', status: 'in-progress', children: [
-            { name: '供给侧结构性改革', status: 'in-progress', children: [] },
-            { name: '全过程人民民主', status: 'not-started', children: [] },
-            { name: '意识形态工作领导权', status: 'not-started', children: [] }
-          ]},
-          { name: '"四个全面"知识点', status: 'not-started', children: [
-            { name: '全面深化改革总目标', status: 'not-started', children: [] },
-            { name: '全面从严治党', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 2, total: 14,
-        chapters: [
-          { name: '中国式现代化专题', status: 'in-progress', children: [
-            { name: '中国式现代化的特征', status: 'completed', children: [] },
-            { name: '人类文明新形态', status: 'in-progress', children: [] }
-          ]},
-          { name: '国家安全专题', status: 'not-started', children: [
-            { name: '总体国家安全观', status: 'not-started', children: [] },
-            { name: '统筹发展和安全', status: 'not-started', children: [] }
-          ]},
-          { name: '大国外交专题', status: 'not-started', children: [
-            { name: '人类命运共同体', status: 'not-started', children: [] },
-            { name: '"一带一路"倡议', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    shigang: {
-      basic: {
-        studied: 7, total: 28,
-        chapters: [
-        { name: '第一章 反对外国侵略的斗争', status: 'completed', children: [
-          { name: '1.1 资本-帝国主义对中国的侵略', status: 'completed', children: [
-            { name: '军事侵略', status: 'completed', children: [] },
-            { name: '政治控制', status: 'completed', children: [] },
-            { name: '经济掠夺', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 抵御外国武装侵略的斗争', status: 'completed', children: [
-            { name: '反抗外来侵略的斗争历程', status: 'completed', children: [] },
-            { name: '民族意识觉醒', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 对国家出路的早期探索', status: 'in-progress', children: [
-          { name: '2.1 太平天国运动', status: 'completed', children: [
-            { name: '天朝田亩制度', status: 'completed', children: [] },
-            { name: '资政新篇', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 洋务运动', status: 'in-progress', children: [
-            { name: '洋务派与洋务事业', status: 'in-progress', children: [] },
-            { name: '洋务运动的历史作用', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 维新运动', status: 'not-started', children: [
-            { name: '维新派的主要活动', status: 'not-started', children: [] },
-            { name: '戊戌维新运动的意义与教训', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 辛亥革命与君主专制制度的终结', status: 'not-started', children: [
-          { name: '3.1 辛亥革命爆发的历史条件', status: 'not-started', children: [
-            { name: '清末新政', status: 'not-started', children: [] },
-            { name: '资产阶级革命派的形成', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 辛亥革命与中华民国的建立', status: 'not-started', children: [
-            { name: '武昌起义', status: 'not-started', children: [] },
-            { name: '中华民国的建立', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 辛亥革命的失败', status: 'not-started', children: [
-            { name: '袁世凯窃国', status: 'not-started', children: [] },
-            { name: '辛亥革命的历史意义', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 5, total: 22,
-        chapters: [
-          { name: '近代史核心时间线', status: 'completed', children: [
-            { name: '1840-1919旧民主主义革命时期', status: 'completed', children: [] },
-            { name: '1919-1949新民主主义革命时期', status: 'completed', children: [] },
-            { name: '1949-1956社会主义革命时期', status: 'completed', children: [] }
-          ]},
-          { name: '重要历史会议知识点', status: 'in-progress', children: [
-            { name: '中共一大到七大', status: 'in-progress', children: [] },
-            { name: '八七会议与遵义会议', status: 'not-started', children: [] },
-            { name: '七届二中全会', status: 'not-started', children: [] }
-          ]},
-          { name: '重要历史人物与思想', status: 'not-started', children: [
-            { name: '孙中山三民主义', status: 'not-started', children: [] },
-            { name: '毛泽东新民主主义论', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 2, total: 14,
-        chapters: [
-          { name: '抗日战争专题', status: 'not-started', children: [
-            { name: '抗日民族统一战线的形成', status: 'not-started', children: [] },
-            { name: '正面战场与敌后战场', status: 'not-started', children: [] },
-            { name: '抗日战争胜利的意义', status: 'not-started', children: [] }
-          ]},
-          { name: '解放战争专题', status: 'not-started', children: [
-            { name: '重庆谈判', status: 'not-started', children: [] },
-            { name: '三大战役', status: 'not-started', children: [] },
-            { name: '新中国成立的伟大意义', status: 'not-started', children: [] }
-          ]},
-          { name: '改革开放专题', status: 'not-started', children: [
-            { name: '十一届三中全会', status: 'not-started', children: [] },
-            { name: '改革开放的历程', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    },
-    sifa: {
-      basic: {
-        studied: 8, total: 22,
-        chapters: [
-        { name: '第一章 人生的青春之问', status: 'completed', children: [
-          { name: '1.1 人生观是对人生的总看法', status: 'completed', children: [
-            { name: '人生与人生观', status: 'completed', children: [] },
-            { name: '个人与社会的辩证关系', status: 'completed', children: [] }
-          ]},
-          { name: '1.2 正确的人生观', status: 'completed', children: [
-            { name: '人生目的', status: 'completed', children: [] },
-            { name: '人生态度', status: 'completed', children: [] },
-            { name: '人生价值', status: 'completed', children: [] }
-          ]},
-          { name: '1.3 创造有意义的人生', status: 'completed', children: [
-            { name: '正确处理人生矛盾', status: 'completed', children: [] },
-            { name: '成就出彩人生', status: 'completed', children: [] }
-          ]}
-        ]},
-        { name: '第二章 坚定理想信念', status: 'in-progress', children: [
-          { name: '2.1 理想信念的内涵及重要性', status: 'completed', children: [
-            { name: '理想的内涵与特征', status: 'completed', children: [] },
-            { name: '信念的内涵与特征', status: 'completed', children: [] }
-          ]},
-          { name: '2.2 崇高的理想信念', status: 'in-progress', children: [
-            { name: '马克思主义信仰', status: 'completed', children: [] },
-            { name: '中国特色社会主义共同理想', status: 'in-progress', children: [] },
-            { name: '共产主义远大理想', status: 'not-started', children: [] }
-          ]},
-          { name: '2.3 在实现中国梦的实践中放飞青春梦想', status: 'not-started', children: [
-            { name: '理想与现实的关系', status: 'not-started', children: [] },
-            { name: '个人理想与社会理想的统一', status: 'not-started', children: [] }
-          ]}
-        ]},
-        { name: '第三章 弘扬中国精神', status: 'not-started', children: [
-          { name: '3.1 中国精神是兴国强国之魂', status: 'not-started', children: [
-            { name: '重精神是中华民族的优秀传统', status: 'not-started', children: [] },
-            { name: '中国精神的丰富内涵', status: 'not-started', children: [] }
-          ]},
-          { name: '3.2 做新时代的忠诚爱国者', status: 'not-started', children: [
-            { name: '爱国主义的基本内涵', status: 'not-started', children: [] },
-            { name: '新时代爱国主义', status: 'not-started', children: [] }
-          ]},
-          { name: '3.3 让改革创新成为青春远航的动力', status: 'not-started', children: [
-            { name: '改革开放是当代中国的显著特征', status: 'not-started', children: [] },
-            { name: '做改革创新生力军', status: 'not-started', children: [] }
-          ]}
-        ]}
-      ]
-      },
-      knowledge: {
-        studied: 6, total: 18,
-        chapters: [
-          { name: '人生价值观核心知识点', status: 'completed', children: [
-            { name: '自我价值与社会价值', status: 'completed', children: [] },
-            { name: '人生价值的评价标准', status: 'completed', children: [] },
-            { name: '错误人生观的批判', status: 'completed', children: [] }
-          ]},
-          { name: '道德观核心知识点', status: 'in-progress', children: [
-            { name: '道德的本质与功能', status: 'completed', children: [] },
-            { name: '中华传统美德', status: 'in-progress', children: [] },
-            { name: '社会公德、职业道德、家庭美德', status: 'not-started', children: [] }
-          ]},
-          { name: '法治观核心知识点', status: 'not-started', children: [
-            { name: '法律的含义与本质', status: 'not-started', children: [] },
-            { name: '宪法是国家的根本法', status: 'not-started', children: [] },
-            { name: '全面依法治国的基本格局', status: 'not-started', children: [] }
-          ]}
-        ]
-      },
-      advanced: {
-        studied: 2, total: 12,
-        chapters: [
-          { name: '社会主义核心价值观专题', status: 'not-started', children: [
-            { name: '社会主义核心价值观的内容', status: 'not-started', children: [] },
-            { name: '社会主义核心价值观的重大意义', status: 'not-started', children: [] },
-            { name: '践行社会主义核心价值观', status: 'not-started', children: [] }
-          ]},
-          { name: '道德修养专题', status: 'not-started', children: [
-            { name: '社会主义道德的核心与原则', status: 'not-started', children: [] },
-            { name: '投身崇德向善的道德实践', status: 'not-started', children: [] }
-          ]},
-          { name: '法律基础专题', status: 'not-started', children: [
-            { name: '我国社会主义法律的运行', status: 'not-started', children: [] },
-            { name: '坚持走中国特色社会主义法治道路', status: 'not-started', children: [] },
-            { name: '培养法治思维', status: 'not-started', children: [] }
-          ]}
-        ]
-      }
-    }
-  };
-
-  // Politics Quiz Module Data
-  var currentQuizBank = 'mayuan';
-  var quizChapterData = {
-    mayuan: {
-      brushed: 128, total: 450, wrong: 42, bookmark: 35,
-      chapters: [
-        { name: '第一章 马克思主义是关于无产阶级和人类解放的科学', progress: [4,6], children: [
-          { name: '1.1 马克思主义的创立与发展', progress: [3,4] },
-          { name: '1.2 马克思主义的鲜明特征', progress: [1,4] },
-          { name: '1.3 马克思主义的当代价值', progress: [0,3] }
-        ]},
-        { name: '第二章 世界的物质性及其发展规律', progress: [8,12], children: [
-          { name: '2.1 物质及其存在方式', progress: [4,4] },
-          { name: '2.2 事物的普遍联系与变化发展', progress: [3,5] },
-          { name: '2.3 唯物辩证法根本方法', progress: [1,3] }
-        ]},
-        { name: '第三章 实践与认识及其发展规律', progress: [3,10], children: [
-          { name: '3.1 实践与认识', progress: [2,4] },
-          { name: '3.2 真理与价值', progress: [1,4] },
-          { name: '3.3 认识世界和改造世界', progress: [0,2] }
-        ]},
-        { name: '第四章 人类社会及其发展规律', progress: [0,8], children: [
-          { name: '4.1 社会基本矛盾', progress: [0,3] },
-          { name: '4.2 社会历史发展的动力', progress: [0,3] },
-          { name: '4.3 人民群众在历史中的作用', progress: [0,2] }
-        ]},
-        { name: '第五章 资本主义的本质及规律', progress: [0,6], children: [
-          { name: '5.1 商品经济和价值规律', progress: [0,3] },
-          { name: '5.2 资本主义经济制度的本质', progress: [0,3] }
-        ]}
-      ]
-    },
-    maozhongte: {
-      brushed: 96, total: 380, wrong: 38, bookmark: 28,
-      chapters: [
-        { name: '第一章 毛泽东思想及其历史地位', progress: [5,8], children: [
-          { name: '1.1 毛泽东思想的形成和发展', progress: [2,3] },
-          { name: '1.2 毛泽东思想的主要内容和活的灵魂', progress: [3,5] },
-          { name: '1.3 毛泽东思想的历史地位', progress: [0,2] }
-        ]},
-        { name: '第二章 新民主主义革命理论', progress: [6,10], children: [
-          { name: '2.1 新民主主义革命理论形成的依据', progress: [2,2] },
-          { name: '2.2 总路线和基本纲领', progress: [3,5] },
-          { name: '2.3 道路和基本经验', progress: [1,3] }
-        ]},
-        { name: '第三章 社会主义改造理论', progress: [2,8], children: [
-          { name: '3.1 从新民主主义到社会主义的转变', progress: [1,4] },
-          { name: '3.2 社会主义改造道路和历史经验', progress: [1,4] }
-        ]},
-        { name: '第四章 社会主义建设道路初步探索', progress: [0,6], children: [
-          { name: '4.1 初步探索的理论成果', progress: [0,3] },
-          { name: '4.2 初步探索的意义和经验教训', progress: [0,3] }
-        ]}
-      ]
-    },
-    xisixiang: {
-      brushed: 110, total: 420, wrong: 35, bookmark: 42,
-      chapters: [
-        { name: '第一章 习近平新时代中国特色社会主义思想及其历史地位', progress: [6,8], children: [
-          { name: '1.1 中国特色社会主义进入新时代', progress: [3,3] },
-          { name: '1.2 习近平新时代中国特色社会主义思想的主要内容', progress: [3,5] },
-          { name: '1.3 习近平新时代中国特色社会主义思想的历史地位', progress: [0,2] }
-        ]},
-        { name: '第二章 坚持和发展中国特色社会主义的总任务', progress: [4,8], children: [
-          { name: '2.1 实现中华民族伟大复兴的中国梦', progress: [2,3] },
-          { name: '2.2 建成社会主义现代化强国的战略安排', progress: [2,5] }
-        ]},
-        { name: '第三章 "五位一体"总体布局', progress: [3,14], children: [
-          { name: '3.1 经济建设', progress: [1,4] },
-          { name: '3.2 政治建设', progress: [1,4] },
-          { name: '3.3 文化建设', progress: [1,3] },
-          { name: '3.4 社会建设', progress: [0,3] }
-        ]},
-        { name: '第四章 "四个全面"战略布局', progress: [0,8], children: [
-          { name: '4.1 全面建设社会主义现代化国家', progress: [0,3] },
-          { name: '4.2 全面深化改革', progress: [0,3] },
-          { name: '4.3 全面依法治国', progress: [0,2] },
-          { name: '4.4 全面从严治党', progress: [0,2] }
-        ]}
-      ]
-    },
-    shigang: {
-      brushed: 85, total: 360, wrong: 45, bookmark: 22,
-      chapters: [
-        { name: '第一章 反对外国侵略的斗争', progress: [5,7], children: [
-          { name: '1.1 资本-帝国主义对中国的侵略', progress: [3,4] },
-          { name: '1.2 抵御外国武装侵略的斗争', progress: [2,3] }
-        ]},
-        { name: '第二章 对国家出路的早期探索', progress: [4,9], children: [
-          { name: '2.1 太平天国运动', progress: [2,3] },
-          { name: '2.2 洋务运动', progress: [1,3] },
-          { name: '2.3 维新运动', progress: [1,3] }
-        ]},
-        { name: '第三章 辛亥革命与君主专制制度的终结', progress: [3,8], children: [
-          { name: '3.1 辛亥革命爆发的历史条件', progress: [1,3] },
-          { name: '3.2 辛亥革命与中华民国的建立', progress: [1,3] },
-          { name: '3.3 辛亥革命的失败', progress: [1,2] }
-        ]},
-        { name: '第四章 开天辟地的大事变', progress: [0,8], children: [
-          { name: '4.1 新文化运动和五四运动', progress: [0,3] },
-          { name: '4.2 马克思主义传播与中共成立', progress: [0,3] },
-          { name: '4.3 中国革命的新局面', progress: [0,2] }
-        ]},
-        { name: '第五章 中国革命的新道路', progress: [0,8], children: [
-          { name: '5.1 对革命新道路的艰苦探索', progress: [0,4] },
-          { name: '5.2 中国革命在探索中曲折前进', progress: [0,4] }
-        ]}
-      ]
-    },
-    sifa: {
-      brushed: 72, total: 320, wrong: 30, bookmark: 26,
-      chapters: [
-        { name: '第一章 人生的青春之问', progress: [5,7], children: [
-          { name: '1.1 人生观是对人生的总看法', progress: [2,2] },
-          { name: '1.2 正确的人生观', progress: [2,3] },
-          { name: '1.3 创造有意义的人生', progress: [1,2] }
-        ]},
-        { name: '第二章 坚定理想信念', progress: [4,8], children: [
-          { name: '2.1 理想信念的内涵及重要性', progress: [2,2] },
-          { name: '2.2 崇高的理想信念', progress: [1,3] },
-          { name: '2.3 在实现中国梦的实践中放飞青春梦想', progress: [1,3] }
-        ]},
-        { name: '第三章 弘扬中国精神', progress: [2,8], children: [
-          { name: '3.1 中国精神是兴国强国之魂', progress: [1,3] },
-          { name: '3.2 做新时代的忠诚爱国者', progress: [1,3] },
-          { name: '3.3 让改革创新成为青春远航的动力', progress: [0,2] }
-        ]},
-        { name: '第四章 践行社会主义核心价值观', progress: [0,6], children: [
-          { name: '4.1 社会主义核心价值观的内容', progress: [0,3] },
-          { name: '4.2 社会主义核心价值观的重大意义', progress: [0,3] }
-        ]},
-        { name: '第五章 明大德守公德严私德', progress: [0,8], children: [
-          { name: '5.1 道德及其变化发展', progress: [0,3] },
-          { name: '5.2 吸收借鉴优秀道德成果', progress: [0,3] },
-          { name: '5.3 遵守公民道德准则', progress: [0,2] }
-        ]}
-      ]
-    }
-  };
-
-  // ===== Render Politics Tab =====
-  function renderPoliticsTab() {
-    var data = politicsSubTabData[currentPoliticsSubTab][currentPoliticsCourseVariant];
-    if (!data) return;
-
-    // Update stats
-    document.getElementById('poStatStudied').innerHTML = data.studied + '<span class="unit">课</span>';
-    document.getElementById('poStatTotal').innerHTML = data.total + '<span class="unit">课</span>';
-    var progressPercent = Math.round((data.studied / data.total) * 100);
-    document.getElementById('poStudyProgressBar').style.width = progressPercent + '%';
-    document.getElementById('poStudyProgressPercent').textContent = progressPercent + '%';
-
-    // Update course select options based on sub-tab
-    updatePoliticsCourseSelect();
-
-    // Render chapter tree
-    renderPoliticsChapterTree(data.chapters);
-
-    // Render quiz module
-    renderQuizModule();
-  }
-
-  // ===== Update Politics Course Select =====
-  function updatePoliticsCourseSelect() {
-    var select = document.getElementById('politicsCourseSelect');
-    var subTabNames = {
-      mayuan: '马原',
-      maozhongte: '毛中特',
-      xisixiang: '习思想',
-      shigang: '史纲',
-      sifa: '思法'
-    };
-    var name = subTabNames[currentPoliticsSubTab] || currentPoliticsSubTab;
-    select.options[0].text = name + '-基础课程';
-    select.options[1].text = name + '-知识点';
-    select.options[2].text = name + '-进阶课程';
-  }
-
-  // ===== Render Politics Chapter Tree =====
-  function renderPoliticsChapterTree(chapters) {
-    var container = document.getElementById('politicsChapterTree');
-    var html = '';
-
-    function buildNodeHTML(node, level) {
-      var hasChildren = node.children && node.children.length > 0;
-      var statusClass = node.status;
-      var statusText = node.status === 'completed' ? '已学习' : node.status === 'in-progress' ? '进行中' : '未学习';
-      var arrowClass = hasChildren ? '' : 'no-children';
-      if (hasChildren) arrowClass += ' expanded';
-
-      html += '<div class="tree-node" data-level="' + level + '">';
-      html += '<div class="tree-node-header" data-node-name="' + node.name + '">';
-      html += '<span class="tree-arrow ' + arrowClass + '">▶</span>';
-      html += '<span class="tree-node-name level-' + level + '">' + node.name + '</span>';
-      html += '<span class="tree-status ' + statusClass + '">' + statusText + '</span>';
-      html += '</div>';
-
-      if (hasChildren) {
-        html += '<div class="tree-children level-' + level + '">';
-        for (var i = 0; i < node.children.length; i++) {
-          buildNodeHTML(node.children[i], level + 1);
-        }
-        html += '</div>';
-      }
-
-      html += '</div>';
-    }
-
-    for (var i = 0; i < chapters.length; i++) {
-      buildNodeHTML(chapters[i], 1);
-    }
-
-    container.innerHTML = html;
-
-    // Bind click events for tree nodes
-    var allHeaders = container.querySelectorAll('.tree-node-header');
-    allHeaders.forEach(function(header) {
-      header.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var node = this.parentElement;
-        var arrow = this.querySelector('.tree-arrow');
-        var children = node.querySelector('.tree-children');
-
-        if (children) {
-          if (children.classList.contains('collapsed')) {
-            children.classList.remove('collapsed');
-            arrow.classList.add('expanded');
-          } else {
-            children.classList.add('collapsed');
-            arrow.classList.remove('expanded');
-          }
-        } else {
-          var nodeName = this.getAttribute('data-node-name');
-          if (nodeName) {
-            window.location.href = 'course-detail.html?name=' + encodeURIComponent(nodeName) + '&ref=politics';
-          }
-        }
-      });
-    });
-  }
-
-  // ===== Render Quiz Module =====
-  function renderQuizModule() {
-    var quizData = quizChapterData[currentQuizBank];
-    if (!quizData) return;
-
-    // Update stats
-    document.getElementById('quizBrushed').innerHTML = quizData.brushed + '<span class="quiz-stat-unit">题</span>';
-    document.getElementById('quizTotal').innerHTML = quizData.total + '<span class="quiz-stat-unit">题</span>';
-    document.getElementById('quizWrong').innerHTML = quizData.wrong + '<span class="quiz-stat-unit">题</span>';
-    document.getElementById('quizBookmark').innerHTML = quizData.bookmark + '<span class="quiz-stat-unit">题</span>';
-
-    // Render chapter table
-    var tbody = document.getElementById('quizChapterBody');
-    var html = '';
-    var seq = 0;
-
-    quizData.chapters.forEach(function(ch) {
-      seq++;
-      var pct = Math.round((ch.progress[0] / ch.progress[1]) * 100);
-      // Parent row
-      html += '<tr class="chapter-parent" data-chapter="' + ch.name + '">';
-      html += '<td style="text-align:center;">' + seq + '</td>';
-      html += '<td><span class="chapter-expand-icon expanded">▶</span><span class="chapter-name">' + ch.name + '</span></td>';
-      html += '<td>';
-      html += '<div class="parent-progress">';
-      html += '<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:' + pct + '%"></div></div>';
-      html += '<span class="mini-bar-text">' + ch.progress[0] + '/' + ch.progress[1] + '</span>';
-      html += '</div>';
-      html += '</td>';
-      html += '<td><div class="parent-actions">';
-      html += '<button class="action-btn random" data-chapter="' + ch.name + '" data-mode="random">随机刷题</button>';
-      html += '<button class="action-btn sequential" data-chapter="' + ch.name + '" data-mode="sequential">顺序刷题</button>';
-      html += '</div></td>';
-      html += '</tr>';
-
-      // Child rows
-      if (ch.children && ch.children.length > 0) {
-        ch.children.forEach(function(child) {
-          var cpct = Math.round((child.progress[0] / child.progress[1]) * 100);
-          html += '<tr class="chapter-child" data-parent="' + ch.name + '">';
-          html += '<td></td>';
-          html += '<td><div class="child-indent"><span class="child-name">' + child.name + '</span></div></td>';
-          html += '<td>';
-          html += '<div class="child-progress">';
-          html += '<div class="mini-bar-wrap"><div class="mini-bar-fill" style="width:' + cpct + '%"></div></div>';
-          html += '<span class="mini-bar-text">' + child.progress[0] + '/' + child.progress[1] + '</span>';
-          html += '</div>';
-          html += '</td>';
-          html += '<td><div class="child-actions">';
-          html += '<button class="action-btn random" data-chapter="' + child.name + '" data-mode="random">随机刷题</button>';
-          html += '<button class="action-btn sequential" data-chapter="' + child.name + '" data-mode="sequential">顺序刷题</button>';
-          html += '</div></td>';
-          html += '</tr>';
-        });
-      }
-    });
-
-    tbody.innerHTML = html;
-
-    // Bind parent row click to toggle children
-    tbody.querySelectorAll('.chapter-parent').forEach(function(row) {
-      var expandIcon = row.querySelector('.chapter-expand-icon');
-      row.addEventListener('click', function(e) {
-        // Don't toggle when clicking action buttons
-        if (e.target.closest('.action-btn')) return;
-        var chName = row.getAttribute('data-chapter');
-        var icon = row.querySelector('.chapter-expand-icon');
-        var children = tbody.querySelectorAll('.chapter-child[data-parent="' + chName + '"]');
-        var expanded = icon.classList.contains('expanded');
-        if (expanded) {
-          icon.classList.remove('expanded');
-          children.forEach(function(c) { c.classList.add('collapsed'); });
-        } else {
-          icon.classList.add('expanded');
-          children.forEach(function(c) { c.classList.remove('collapsed'); });
-        }
-      });
-    });
-
-    // Bind action button clicks
-    tbody.querySelectorAll('.action-btn').forEach(function(btn) {
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        var chapter = btn.getAttribute('data-chapter');
-        var mode = btn.getAttribute('data-mode');
-        var modeText = mode === 'random' ? '随机刷题' : '顺序刷题';
-        showToast('【' + chapter + '】' + modeText);
-      });
-    });
-  }
-
-  // ===== Quiz Bank Select =====
-  document.getElementById('quizBankSelect').addEventListener('change', function() {
-    currentQuizBank = this.value;
-    renderQuizModule();
-  });
-
-  // ===== Politics Sub-Tab Switching =====
-  document.getElementById('politicsSubTabs').addEventListener('click', function(e) {
-    var tab = e.target.closest('.politics-sub-tab');
-    if (!tab) return;
-
-    var tabs = this.querySelectorAll('.politics-sub-tab');
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    tab.classList.add('active');
-
-    currentPoliticsSubTab = tab.getAttribute('data-subtab');
-    // Reset course variant to basic when switching sub-tabs
-    currentPoliticsCourseVariant = 'basic';
-    document.getElementById('politicsCourseSelect').value = 'basic';
-    // Sync quiz bank select with sub-tab
-    currentQuizBank = currentPoliticsSubTab;
-    var quizSelect = document.getElementById('quizBankSelect');
-    if (quizSelect.value !== currentQuizBank) {
-      quizSelect.value = currentQuizBank;
-    }
-    renderPoliticsTab();
-  });
-
-  // ===== Politics Course Select Dropdown =====
-  document.getElementById('politicsCourseSelect').addEventListener('change', function() {
-    currentPoliticsCourseVariant = this.value;
-    renderPoliticsTab();
-  });
-
-  // ===== Initialize =====
-  // Render calendar in background so it's ready when switching back
-  renderCalendar();
-
-  // Read URL params to restore tab state — sessionStorage takes priority
-  // because it survives page navigations (e.g. going to course-detail and back)
-  var storedTab = sessionStorage.getItem('kaoyanTab');
-  var urlTab = new URLSearchParams(window.location.search).get('tab');
-  var initTab = storedTab || urlTab;
-  if (initTab === 'math' || initTab === 'english' || initTab === 'politics') {
-    switchToTab(initTab);
-  } else {
-    selectDate(selectedDate);
-  }
-
-})();
+mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
 </script>
 
 </body>
