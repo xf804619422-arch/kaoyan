@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研学习平台 / 教务管理</title>
+<style>
+/* ========== Reset & Variables ========== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2563eb;--primary-hover:#1d4ed8;--primary-light:#eff6ff;
+  --sidebar-bg:#1e293b;--sidebar-hover:#334155;--sidebar-active:#2563eb;
+  --topbar-h:56px;--sidebar-w:240px;
+  --bg:#f1f5f9;--card-bg:#fff;--border:#e2e8f0;--text:#1e293b;
+  --text-secondary:#64748b;--text-muted:#94a3b8;
+  --success:#16a34a;--success-bg:#f0fdf4;--warning:#f59e0b;--warning-bg:#fffbeb;
+  --danger:#ef4444;--danger-bg:#fef2f2;--info:#0ea5e9;--info-bg:#f0f9ff;
+  --radius:6px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 4px 16px rgba(0,0,0,.12);
+  --transition:.2s ease;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow:hidden}
+button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
+input,select,textarea{font-family:inherit;font-size:14px;outline:none}
+table{border-collapse:collapse;width:100%}
+
+/* ========== Layout ========== */
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sidebar-bg);display:flex;flex-direction:column;z-index:10}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ========== Sidebar ========== */
+.sidebar-logo{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sidebar-logo .icon{width:36px;height:36px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.sidebar-logo .text{color:#fff;font-size:15px;font-weight:600;letter-spacing:.5px}
+.sidebar-nav{flex:1;padding:12px 0;overflow-y:auto}
+.nav-group{padding:0 12px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius);color:#94a3b8;text-decoration:none;font-size:14px;cursor:pointer;transition:all var(--transition);margin-bottom:2px;user-select:none}
+.nav-item:hover{background:var(--sidebar-hover);color:#e2e8f0}
+.nav-item.active{background:var(--sidebar-active);color:#fff;font-weight:500}
+.nav-item .nav-icon{width:20px;text-align:center;font-size:15px}
+
+/* ========== Topbar ========== */
+.topbar{height:var(--topbar-h);min-height:var(--topbar-h);background:var(--card-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:5}
+.topbar-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.topbar-title span{color:var(--text-secondary);font-weight:400;font-size:13px}
+.topbar-right{display:flex;align-items:center;gap:16px;position:relative}
+.notify-btn{width:36px;height:36px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;position:relative;transition:background var(--transition)}
+.notify-btn:hover{background:var(--border)}
+.notify-btn .badge{position:absolute;top:2px;right:2px;width:8px;height:8px;background:var(--danger);border-radius:50%;border:2px solid #fff}
+.user-menu{position:relative}
+.user-trigger{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:var(--radius);cursor:pointer;transition:background var(--transition)}
+.user-trigger:hover{background:var(--bg)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.user-name{font-size:13px;color:var(--text)}
+.user-arrow{font-size:10px;color:var(--text-muted);transition:transform var(--transition)}
+.user-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);min-width:160px;z-index:100}
+.user-dropdown.show{display:block}
+.user-dropdown a{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:13px;color:var(--text);text-decoration:none;transition:background var(--transition)}
+.user-dropdown a:hover{background:var(--bg)}
+.user-dropdown a.danger{color:var(--danger)}
+
+/* ========== Content Area ========== */
+.content{flex:1;overflow-y:auto;padding:24px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ========== Page Header ========== */
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-header h2{font-size:20px;font-weight:600}
+.page-header .actions{display:flex;gap:8px}
+
+/* ========== Cards ========== */
+.card{background:var(--card-bg);border-radius:8px;border:1px solid var(--border);overflow:hidden}
+.card-body{padding:20px}
+
+/* ========== Search Bar ========== */
+.search-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.search-input{position:relative;flex:1;min-width:200px;max-width:320px}
+.search-input input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--border);border-radius:var(--radius);transition:border var(--transition)}
+.search-input input:focus{border-color:var(--primary)}
+.search-input .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px}
+.filter-select select{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text);min-width:140px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+.filter-select select:focus{border-color:var(--primary)}
+
+/* ========== Buttons ========== */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-weight:500;transition:all var(--transition);white-space:nowrap}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{background:var(--bg)}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:4px}
+.btn-xs{padding:3px 8px;font-size:11px;border-radius:4px}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#dc2626}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#15803d}
+.btn-ghost{padding:4px 8px;background:transparent;color:var(--text-secondary)}
+.btn-ghost:hover{color:var(--primary);background:var(--primary-light)}
+
+/* ========== Table ========== */
+.data-table{width:100%}
+.data-table thead{background:#f8fafc}
+.data-table th{padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border);white-space:nowrap}
+.data-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--text)}
+.data-table tbody tr{transition:background var(--transition)}
+.data-table tbody tr:hover{background:#f8fafc}
+.data-table .text-right{text-align:right}
+.data-table .text-center{text-align:center}
+
+/* ========== Status Badge ========== */
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500}
+.status-active{background:var(--success-bg);color:var(--success)}
+.status-inactive{background:var(--danger-bg);color:var(--danger)}
+.status-pending{background:var(--warning-bg);color:var(--warning)}
+
+/* ========== Switch ========== */
+.switch{position:relative;display:inline-block;width:40px;height:22px}
+.switch input{opacity:0;width:0;height:0}
+.switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#cbd5e1;transition:.3s;border-radius:22px}
+.switch .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;bottom:3px;background-color:#fff;transition:.3s;border-radius:50%}
+.switch input:checked+.slider{background-color:var(--success)}
+.switch input:checked+.slider::before{transform:translateX(18px)}
+
+/* ========== Modal ========== */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;justify-content:center;align-items:flex-start;padding:60px 20px 20px;overflow-y:auto}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card-bg);border-radius:10px;box-shadow:var(--shadow-lg);width:100%;max-width:520px;animation:modalIn .25s ease}
+.modal.wide{max-width:680px}
+@keyframes modalIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border)}
+.modal-header h3{font-size:16px;font-weight:600}
+.modal-close{width:32px;height:32px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-muted);transition:all var(--transition)}
+.modal-close:hover{background:var(--bg);color:var(--text)}
+.modal-body{padding:24px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid var(--border)}
+
+/* ========== Form ========== */
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px}
+.form-group label .required{color:var(--danger);margin-left:2px}
+.form-control{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);transition:border var(--transition)}
+.form-control:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.form-row{display:flex;gap:12px}
+.form-row .form-group{flex:1}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:8px}
+.checkbox-group label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;padding:4px 10px;border:1px solid var(--border);border-radius:var(--radius);transition:all var(--transition)}
+.checkbox-group label:hover{border-color:var(--primary)}
+.checkbox-group input:checked+span{color:var(--primary)}
+.checkbox-group label:has(input:checked){border-color:var(--primary);background:var(--primary-light)}
+
+/* ========== Steps ========== */
+.steps{display:flex;margin-bottom:24px;gap:0}
+.step{flex:1;text-align:center;position:relative}
+.step .step-num{width:28px;height:28px;border-radius:50%;background:var(--border);color:var(--text-muted);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;margin-bottom:4px;transition:all var(--transition)}
+.step.active .step-num{background:var(--primary);color:#fff}
+.step.done .step-num{background:var(--success);color:#fff}
+.step .step-label{font-size:11px;color:var(--text-muted)}
+.step.active .step-label{color:var(--primary);font-weight:500}
+.step.done .step-label{color:var(--success)}
+.step+.step::before{content:"";position:absolute;top:14px;left:-50%;width:100%;height:2px;background:var(--border);z-index:-1}
+.step.done+.step::before{background:var(--success)}
+.step-content{display:none}
+.step-content.active{display:block}
+
+/* ========== Detail Panel ========== */
+.detail-panel{display:none}
+.detail-panel.show{display:block}
+.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.detail-item label{display:block;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.detail-item .value{font-size:14px;font-weight:500;color:var(--text)}
+.back-link{display:inline-flex;align-items:center;gap:4px;color:var(--primary);cursor:pointer;font-size:13px;margin-bottom:16px;background:none;border:none}
+.back-link:hover{text-decoration:underline}
+
+/* ========== Layer Tags ========== */
+.layer-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;margin:1px 2px}
+.layer-math{background:#eff6ff;color:#2563eb}
+.layer-english{background:#fef3c7;color:#b45309}
+.layer-arrow{color:var(--text-muted);margin:0 2px;font-size:10px}
+
+/* ========== Pagination ========== */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+.pagination-info{font-size:13px;color:var(--text-secondary)}
+.pagination-btns{display:flex;gap:4px}
+.pagination-btns button{padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;font-size:13px;transition:all var(--transition)}
+.pagination-btns button:hover{border-color:var(--primary);color:var(--primary)}
+.pagination-btns button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* ========== Level Select ========== */
+.level-select-group{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.level-select-group select{flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:28px}
+.level-select-group span{font-size:13px;color:var(--text-muted);min-width:20px;text-align:center}
+
+/* ========== Empty state ========== */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+.empty-state .empty-icon{font-size:40px;margin-bottom:12px}
+
+/* ========== Responsive ========== */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .detail-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ====== Sidebar ====== -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="icon">研</div>
+      <div class="text">考研学习平台</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group">
+        <a class="nav-item" data-tab="district">
+          <span class="nav-icon">&#127970;</span> 学区管理
+        </a>
+        <a class="nav-item" data-tab="class">
+          <span class="nav-icon">&#127979;</span> 班级管理
+        </a>
+        <a class="nav-item active" data-tab="student">
+          <span class="nav-icon">&#127891;</span> 学员管理
+        </a>
+        <a class="nav-item" data-tab="headteacher">
+          <span class="nav-icon">&#128100;</span> 班主任账号管理
+        </a>
+        <a class="nav-item" data-tab="researcher">
+          <span class="nav-icon">&#128218;</span> 教研员账号管理
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- ====== Main ====== -->
+  <div class="main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-title">
+        考研学习平台 <span>/ 教务管理</span>
+      </div>
+      <div class="topbar-right">
+        <div class="notify-btn" title="消息通知">
+          &#128276;
+          <span class="badge"></span>
+        </div>
+        <div class="user-menu" id="userMenu">
+          <div class="user-trigger" onclick="toggleUserDropdown()">
+            <div class="user-avatar">管</div>
+            <span class="user-name">教务管理员</span>
+            <span class="user-arrow">&#9660;</span>
+          </div>
+          <div class="user-dropdown" id="userDropdown">
+            <a href="javascript:void(0)" onclick="showToast('密码修改功能')">&#128273; 修改密码</a>
+            <a href="javascript:void(0)" class="danger" onclick="showToast('退出登录')">&#128682; 退出登录</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- ==================== 学区管理 ==================== -->
+      <div class="tab-panel" id="tab-district">
+        <div class="page-header">
+          <h2>学区管理</h2>
+          <button class="btn btn-primary" onclick="openModal('districtModal')">+ 新增学区</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="search-bar">
+              <div class="search-input">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" placeholder="搜索学区名称..." oninput="filterTable('districtTable',this.value)">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="data-table" id="districtTable">
+                <thead>
+                  <tr><th>学区名称</th><th>地址</th><th>联系方式</th><th>状态</th><th>创建时间</th><th style="width:140px">操作</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>海淀学区中心</td><td>北京市海淀区中关村大街1号</td><td>010-62880001</td><td><span class="status status-active">启用</span></td><td>2025-01-15</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
+                  <tr><td>朝阳学区中心</td><td>北京市朝阳区建国路88号</td><td>010-62880002</td><td><span class="status status-active">启用</span></td><td>2025-02-20</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
+                  <tr><td>西城学区中心</td><td>北京市西城区金融街15号</td><td>010-62880003</td><td><span class="status status-inactive">停用</span></td><td>2025-03-10</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
+                  <tr><td>丰台学区中心</td><td>北京市丰台区丰管路50号</td><td>010-62880004</td><td><span class="status status-active">启用</span></td><td>2025-04-05</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
+                  <tr><td>昌平学区中心</td><td>北京市昌平区府学路26号</td><td>010-62880005</td><td><span class="status status-active">启用</span></td><td>2025-05-18</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination"><span class="pagination-info">共 5 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 班级管理 ==================== -->
+      <div class="tab-panel" id="tab-class">
+        <div class="page-header" id="classPageHeader">
+          <h2>班级管理</h2>
+          <button class="btn btn-primary" onclick="openModal('classModal')">+ 新增班级</button>
+        </div>
+
+        <!-- 班级列表视图 -->
+        <div id="classListView">
+          <div class="card">
+            <div class="card-body">
+              <div class="search-bar">
+                <div class="search-input">
+                  <span class="search-icon">&#128269;</span>
+                  <input type="text" placeholder="搜索班级名称..." oninput="filterTable('classTable',this.value)">
+                </div>
+                <div class="filter-select">
+                  <select onchange="filterClassTable()" id="classDistrictFilter">
+                    <option value="">全部学区</option>
+                    <option>海淀学区中心</option>
+                    <option>朝阳学区中心</option>
+                    <option>西城学区中心</option>
+                  </select>
+                </div>
+                <div class="filter-select">
+                  <select onchange="filterClassTable()" id="classTeacherFilter">
+                    <option value="">全部班主任</option>
+                    <option>张老师</option>
+                    <option>李老师</option>
+                    <option>王老师</option>
+                  </select>
+                </div>
+                <div class="filter-select">
+                  <select onchange="filterClassTable()" id="classStatusFilter">
+                    <option value="">全部状态</option>
+                    <option>已开班</option>
+                    <option>未开班</option>
+                    <option>已结课</option>
+                  </select>
+                </div>
+              </div>
+              <div style="overflow-x:auto">
+                <table class="data-table" id="classTable">
+                  <thead>
+                    <tr><th>班级名称</th><th>所属学区</th><th>班主任</th><th>学员数</th><th>开班时间</th><th>状态</th><th style="width:120px">操作</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>25考研数学一班</td><td>海淀学区中心</td><td>张老师</td><td>32</td><td>2025-03-01</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研数学一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                    <tr><td>25考研英语一班</td><td>海淀学区中心</td><td>李老师</td><td>28</td><td>2025-03-01</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研英语一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                    <tr><td>25考研数学二班</td><td>朝阳学区中心</td><td>王老师</td><td>25</td><td>2025-04-15</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研数学二班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                    <tr><td>26考研英语预备班</td><td>西城学区中心</td><td>张老师</td><td>0</td><td>2025-09-01</td><td><span class="status status-pending">未开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('26考研英语预备班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                    <tr><td>25考研政治一班</td><td>海淀学区中心</td><td>李老师</td><td>30</td><td>2025-02-15</td><td><span class="status status-inactive">已结课</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研政治一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination"><span class="pagination-info">共 5 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 班级详情视图 -->
+        <div class="detail-panel" id="classDetail">
+          <button class="back-link" onclick="hideClassDetail()">&#8592; 返回班级列表</button>
+          <div class="card" style="margin-bottom:20px">
+            <div class="card-body">
+              <h3 style="font-size:16px;margin-bottom:16px" id="detailClassName">班级详情</h3>
+              <div class="detail-grid">
+                <div class="detail-item"><label>班级名称</label><div class="value" id="detName">-</div></div>
+                <div class="detail-item"><label>所属学区</label><div class="value" id="detDistrict">-</div></div>
+                <div class="detail-item"><label>班主任</label><div class="value" id="detTeacher">-</div></div>
+                <div class="detail-item"><label>学员人数</label><div class="value" id="detCount">-</div></div>
+                <div class="detail-item"><label>开班时间</label><div class="value" id="detDate">-</div></div>
+                <div class="detail-item"><label>状态</label><div class="value" id="detStatus">-</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">学员列表</h3>
+              <div style="overflow-x:auto">
+                <table class="data-table">
+                  <thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>层级</th><th>状态</th></tr></thead>
+                  <tbody id="classStudentList">
+                    <tr><td>2025001</td><td>张三</td><td>138****8001</td><td><span class="layer-tag layer-math">数学：80-120</span><span class="layer-tag layer-english">英语：70-85</span></td><td><span class="status status-active">在读</span></td></tr>
+                    <tr><td>2025002</td><td>李四</td><td>138****8002</td><td><span class="layer-tag layer-math">数学：65-110</span><span class="layer-tag layer-english">英语：60-80</span></td><td><span class="status status-active">在读</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 学员管理（默认） ==================== -->
+      <div class="tab-panel active" id="tab-student">
+        <div class="page-header">
+          <h2>学员管理</h2>
+          <button class="btn btn-primary" onclick="openStudentModal()">+ 新增学员</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="search-bar">
+              <div class="search-input">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" placeholder="搜索学号/姓名/手机号..." oninput="filterTable('studentTable',this.value)">
+              </div>
+              <div class="filter-select">
+                <select onchange="filterStudentByLevel()" id="studentLevelFilter">
+                  <option value="">全部层级</option>
+                  <option value="math_high">数学目标≥120</option>
+                  <option value="math_mid">数学目标80-120</option>
+                  <option value="math_low">数学目标&lt;80</option>
+                  <option value="eng_high">英语目标≥80</option>
+                  <option value="eng_mid">英语目标60-80</option>
+                  <option value="eng_low">英语目标&lt;60</option>
+                </select>
+              </div>
+              <div class="filter-select">
+                <select onchange="filterTable('studentTable',this.value,'status')" id="studentStatusFilter">
+                  <option value="">全部状态</option>
+                  <option>在读</option>
+                  <option>已结课</option>
+                  <option>休学</option>
+                </select>
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="data-table" id="studentTable">
+                <thead>
+                  <tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属学区</th><th>所属班级</th><th>层级</th><th>状态</th><th style="width:100px">操作</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>2025001</td><td>张三</td><td>138****8001</td><td>海淀学区中心</td><td>25考研数学一班</td><td><span class="layer-tag layer-math">数：80<span class="layer-arrow">→</span>120</span><span class="layer-tag layer-english">英：70<span class="layer-arrow">→</span>85</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr><td>2025002</td><td>李四</td><td>138****8002</td><td>海淀学区中心</td><td>25考研数学一班</td><td><span class="layer-tag layer-math">数：65<span class="layer-arrow">→</span>110</span><span class="layer-tag layer-english">英：60<span class="layer-arrow">→</span>80</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr><td>2025003</td><td>王五</td><td>139****9003</td><td>朝阳学区中心</td><td>25考研数学二班</td><td><span class="layer-tag layer-math">数：90<span class="layer-arrow">→</span>130</span><span class="layer-tag layer-english">英：75<span class="layer-arrow">→</span>90</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr><td>2025004</td><td>赵六</td><td>137****7004</td><td>海淀学区中心</td><td>25考研英语一班</td><td><span class="layer-tag layer-math">数：55<span class="layer-arrow">→</span>90</span><span class="layer-tag layer-english">英：50<span class="layer-arrow">→</span>70</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr><td>2025005</td><td>孙七</td><td>136****6005</td><td>西城学区中心</td><td>25考研政治一班</td><td><span class="layer-tag layer-math">数：70<span class="layer-arrow">→</span>105</span><span class="layer-tag layer-english">英：65<span class="layer-arrow">→</span>80</span></td><td><span class="status status-inactive">已结课</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr><td>2025006</td><td>周八</td><td>135****5006</td><td>朝阳学区中心</td><td>25考研数学二班</td><td><span class="layer-tag layer-math">数：45<span class="layer-arrow">→</span>85</span><span class="layer-tag layer-english">英：40<span class="layer-arrow">→</span>65</span></td><td><span class="status status-pending">休学</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination"><span class="pagination-info">共 6 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 班主任账号管理 ==================== -->
+      <div class="tab-panel" id="tab-headteacher">
+        <div class="page-header">
+          <h2>班主任账号管理</h2>
+          <button class="btn btn-primary" onclick="openModal('headteacherModal')">+ 新增班主任</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="search-bar">
+              <div class="search-input">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" placeholder="搜索账号名/姓名..." oninput="filterTable('headteacherTable',this.value)">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="data-table" id="headteacherTable">
+                <thead>
+                  <tr><th>账号名</th><th>姓名</th><th>手机号</th><th>任教班级</th><th>状态</th><th style="width:120px">操作</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>zhanglaoshi</td><td>张老师</td><td>138****8001</td><td>25考研数学一班、26考研英语预备班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                  <tr><td>lilaoshi</td><td>李老师</td><td>138****8002</td><td>25考研英语一班、25考研政治一班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                  <tr><td>wanglaoshi</td><td>王老师</td><td>139****9003</td><td>25考研数学二班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination"><span class="pagination-info">共 3 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 教研员账号管理 ==================== -->
+      <div class="tab-panel" id="tab-researcher">
+        <div class="page-header">
+          <h2>教研员账号管理</h2>
+          <button class="btn btn-primary" onclick="openModal('researcherModal')">+ 新增教研员</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="search-bar">
+              <div class="search-input">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" placeholder="搜索账号名/姓名..." oninput="filterTable('researcherTable',this.value)">
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="data-table" id="researcherTable">
+                <thead>
+                  <tr><th>账号名</th><th>姓名</th><th>手机号</th><th>状态</th><th style="width:120px">操作</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>liujiaoyuan</td><td>刘教研</td><td>138****9001</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                  <tr><td>chenjiaoyuan</td><td>陈教研</td><td>138****9002</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                  <tr><td>yangjiaoyuan</td><td>杨教研</td><td>139****8003</td><td><span class="status status-inactive">禁用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination"><span class="pagination-info">共 3 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ========== 学区新增/编辑弹窗 ========== -->
+<div class="modal-overlay" id="districtModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="districtModalTitle">新增学区</h3>
+      <button class="modal-close" onclick="closeModal('districtModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>学区名称 <span class="required">*</span></label><input class="form-control" placeholder="请输入学区名称"></div>
+      <div class="form-group"><label>地址</label><input class="form-control" placeholder="请输入地址"></div>
+      <div class="form-row">
+        <div class="form-group"><label>联系方式</label><input class="form-control" placeholder="请输入联系方式"></div>
+        <div class="form-group"><label>排序号</label><input class="form-control" type="number" placeholder="数字越小越靠前" min="0" value="1"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('districtModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('districtModal');showToast('保存成功')">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 班级新增/编辑弹窗 ========== -->
+<div class="modal-overlay" id="classModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="classModalTitle">新增班级</h3>
+      <button class="modal-close" onclick="closeModal('classModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>班级名称 <span class="required">*</span></label><input class="form-control" placeholder="请输入班级名称"></div>
+      <div class="form-row">
+        <div class="form-group"><label>所属学区 <span class="required">*</span></label>
+          <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option><option>丰台学区中心</option><option>昌平学区中心</option></select>
+        </div>
+        <div class="form-group"><label>班主任 <span class="required">*</span></label>
+          <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择班主任</option><option>张老师</option><option>李老师</option><option>王老师</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>开班时间 <span class="required">*</span></label><input class="form-control" type="date"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('classModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('classModal');showToast('保存成功')">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 学员新增多步骤弹窗 ========== -->
+<div class="modal-overlay" id="studentModal">
+  <div class="modal wide">
+    <div class="modal-header">
+      <h3>新增学员</h3>
+      <button class="modal-close" onclick="closeStudentModal()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <!-- 步骤条 -->
+      <div class="steps" id="studentSteps">
+        <div class="step active" data-step="1"><div class="step-num">1</div><div class="step-label">基本信息</div></div>
+        <div class="step" data-step="2"><div class="step-num">2</div><div class="step-label">报名信息</div></div>
+        <div class="step" data-step="3"><div class="step-num">3</div><div class="step-label">本科背景</div></div>
+        <div class="step" data-step="4"><div class="step-num">4</div><div class="step-label">考研目标</div></div>
+        <div class="step" data-step="5"><div class="step-num">5</div><div class="step-label">科目信息</div></div>
+      </div>
+      <!-- 步骤1：基本信息 -->
+      <div class="step-content active" data-step="1">
+        <div class="form-row">
+          <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
+          <div class="form-group"><label>性别</label><select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option>男</option><option>女</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
+          <div class="form-group"><label>身份证号</label><input class="form-control" placeholder="请输入身份证号"></div>
+        </div>
+        <div class="form-group"><label>电子邮箱</label><input class="form-control" type="email" placeholder="请输入电子邮箱"></div>
+      </div>
+      <!-- 步骤2：报名信息 -->
+      <div class="step-content" data-step="2">
+        <div class="form-row">
+          <div class="form-group"><label>所属学区</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option></select>
+          </div>
+          <div class="form-group"><label>所属班级</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择班级</option><option>25考研数学一班</option><option>25考研英语一班</option><option>25考研数学二班</option><option>25考研政治一班</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>报名日期</label><input class="form-control" type="date"></div>
+          <div class="form-group"><label>缴费金额</label><input class="form-control" type="number" placeholder="单位：元" min="0"></div>
+        </div>
+      </div>
+      <!-- 步骤3：本科背景 -->
+      <div class="step-content" data-step="3">
+        <div class="form-row">
+          <div class="form-group"><label>本科院校</label><input class="form-control" placeholder="请输入本科院校"></div>
+          <div class="form-group"><label>本科专业</label><input class="form-control" placeholder="请输入本科专业"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>毕业年份</label><input class="form-control" type="number" placeholder="如：2025" min="2000" max="2030"></div>
+          <div class="form-group"><label>GPA</label><input class="form-control" placeholder="如：3.5/4.0"></div>
+        </div>
+      </div>
+      <!-- 步骤4：考研目标 -->
+      <div class="step-content" data-step="4">
+        <div class="form-row">
+          <div class="form-group"><label>目标院校</label><input class="form-control" placeholder="请输入目标院校"></div>
+          <div class="form-group"><label>目标专业</label><input class="form-control" placeholder="请输入目标专业"></div>
+        </div>
+        <div class="form-group"><label>报考年份</label><input class="form-control" type="number" placeholder="如：2026" min="2025" max="2035"></div>
+      </div>
+      <!-- 步骤5：科目信息 -->
+      <div class="step-content" data-step="5">
+        <div style="margin-bottom:16px">
+          <h4 style="font-size:14px;font-weight:600;margin-bottom:10px;color:var(--primary)">数学</h4>
+          <div class="level-select-group">
+            <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
+            <select><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+            <span>→</span>
+            <span style="font-size:13px;color:var(--text-secondary);min-width:60px">目标分数</span>
+            <select><option value="">请选择</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:14px;font-weight:600;margin-bottom:10px;color:var(--warning)">英语</h4>
+          <div class="level-select-group">
+            <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
+            <select><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+            <span>→</span>
+            <span style="font-size:13px;color:var(--text-secondary);min-width:60px">目标分数</span>
+            <select><option value="">请选择</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="studentPrevBtn" style="display:none" onclick="prevStudentStep()">上一步</button>
+      <button class="btn btn-outline" onclick="closeStudentModal()">取消</button>
+      <button class="btn btn-primary" id="studentNextBtn" onclick="nextStudentStep()">下一步</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 班主任新增弹窗 ========== -->
+<div class="modal-overlay" id="headteacherModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增班主任</h3>
+      <button class="modal-close" onclick="closeModal('headteacherModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>账号名 <span class="required">*</span></label><input class="form-control" placeholder="请输入账号名"></div>
+        <div class="form-group"><label>密码 <span class="required">*</span></label><input class="form-control" type="password" placeholder="请输入密码"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
+        <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
+      </div>
+      <div class="form-group"><label>任教班级</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"><span>25考研数学一班</span></label>
+          <label><input type="checkbox"><span>25考研英语一班</span></label>
+          <label><input type="checkbox"><span>25考研数学二班</span></label>
+          <label><input type="checkbox"><span>25考研政治一班</span></label>
+          <label><input type="checkbox"><span>26考研英语预备班</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('headteacherModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('headteacherModal');showToast('保存成功')">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 教研员新增弹窗 ========== -->
+<div class="modal-overlay" id="researcherModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>新增教研员</h3>
+      <button class="modal-close" onclick="closeModal('researcherModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>账号名 <span class="required">*</span></label><input class="form-control" placeholder="请输入账号名"></div>
+        <div class="form-group"><label>密码 <span class="required">*</span></label><input class="form-control" type="password" placeholder="请输入密码"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
+        <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('researcherModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('researcherModal');showToast('保存成功')">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== Toast ========== -->
+<div id="toast" style="display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 24px;border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:opacity .3s ease"></div>
+
+<script>
+// ==================== 菜单切换 ====================
+document.querySelectorAll('.nav-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('.nav-item').forEach(function(i){ i.classList.remove('active') });
+    this.classList.add('active');
+    var tab = this.getAttribute('data-tab');
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active') });
+    document.getElementById('tab-'+tab).classList.add('active');
+    // 切换时重置班级详情视图
+    if(tab !== 'class'){
+      hideClassDetail();
+    }
+  });
+});
+
+// ==================== 用户下拉菜单 ====================
+function toggleUserDropdown(){
+  document.getElementById('userDropdown').classList.toggle('show');
+}
+document.addEventListener('click',function(e){
+  if(!document.getElementById('userMenu').contains(e.target)){
+    document.getElementById('userDropdown').classList.remove('show');
+  }
+});
+
+// ==================== Modal 通用操作 ====================
+function openModal(id, mode){
+  var overlay = document.getElementById(id);
+  overlay.classList.add('show');
+  if(mode === 'edit'){
+    var titleEl = overlay.querySelector('.modal-header h3');
+    if(titleEl && titleEl.textContent.indexOf('新增')===0){
+      titleEl.textContent = titleEl.textContent.replace('新增','编辑');
+    }
+  }
+}
+function closeModal(id){
+  var overlay = document.getElementById(id);
+  overlay.classList.remove('show');
+  // 重置标题
+  var titleEl = overlay.querySelector('.modal-header h3');
+  if(titleEl && titleEl.textContent.indexOf('编辑')===0){
+    titleEl.textContent = titleEl.textContent.replace('编辑','新增');
+  }
+}
+// 点击遮罩关闭
+document.querySelectorAll('.modal-overlay').forEach(function(overlay){
+  overlay.addEventListener('click',function(e){
+    if(e.target === overlay){
+      overlay.classList.remove('show');
+    }
+  });
+});
+
+// ==================== 学员多步骤弹窗 ====================
+var studentStep = 1;
+function openStudentModal(){
+  studentStep = 1;
+  updateStudentSteps();
+  document.getElementById('studentModal').classList.add('show');
+  // 重置标题
+  document.querySelector('#studentModal .modal-header h3').textContent = '新增学员';
+}
+function closeStudentModal(){
+  document.getElementById('studentModal').classList.remove('show');
+  studentStep = 1;
+  updateStudentSteps();
+}
+function nextStudentStep(){
+  if(studentStep < 5){
+    studentStep++;
+    updateStudentSteps();
+  } else {
+    closeStudentModal();
+    showToast('学员添加成功');
+  }
+}
+function prevStudentStep(){
+  if(studentStep > 1){
+    studentStep--;
+    updateStudentSteps();
+  }
+}
+function updateStudentSteps(){
+  // 步骤条
+  document.querySelectorAll('#studentSteps .step').forEach(function(s){
+    var sNum = parseInt(s.getAttribute('data-step'));
+    s.classList.remove('active','done');
+    if(sNum < studentStep) s.classList.add('done');
+    if(sNum === studentStep) s.classList.add('active');
+  });
+  // 步骤内容
+  document.querySelectorAll('#studentModal .step-content').forEach(function(c){
+    c.classList.remove('active');
+    if(parseInt(c.getAttribute('data-step')) === studentStep) c.classList.add('active');
+  });
+  // 按钮
+  var prevBtn = document.getElementById('studentPrevBtn');
+  var nextBtn = document.getElementById('studentNextBtn');
+  prevBtn.style.display = studentStep > 1 ? 'inline-flex' : 'none';
+  nextBtn.textContent = studentStep === 5 ? '提交' : '下一步';
+}
+
+// ==================== 状态切换 ====================
+function toggleStatus(checkbox){
+  var row = checkbox.closest('tr');
+  var statusBadge = row.querySelector('.status');
+  if(checkbox.checked){
+    statusBadge.textContent = '启用';
+    statusBadge.className = 'status status-active';
+  } else {
+    statusBadge.textContent = '停用';
+    statusBadge.className = 'status status-inactive';
+  }
+}
+
+// ==================== 表格搜索筛选 ====================
+function filterTable(tableId, query, targetCol){
+  var table = document.getElementById(tableId);
+  if(!table) return;
+  var rows = table.querySelectorAll('tbody tr');
+  var q = query.toLowerCase();
+  rows.forEach(function(row){
+    if(!q){ row.style.display = ''; return; }
+    var text = row.textContent.toLowerCase();
+    row.style.display = text.indexOf(q) > -1 ? '' : 'none';
+  });
+}
+
+function filterClassTable(){
+  var districtVal = document.getElementById('classDistrictFilter').value.toLowerCase();
+  var teacherVal = document.getElementById('classTeacherFilter').value.toLowerCase();
+  var statusVal = document.getElementById('classStatusFilter').value.toLowerCase();
+  var searchVal = document.querySelector('#tab-class .search-input input')?.value?.toLowerCase() || '';
+  var rows = document.querySelectorAll('#classTable tbody tr');
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(districtVal && text.indexOf(districtVal) === -1) show = false;
+    if(teacherVal && text.indexOf(teacherVal) === -1) show = false;
+    if(statusVal && text.indexOf(statusVal) === -1) show = false;
+    if(searchVal && text.indexOf(searchVal) === -1) show = false;
+    row.style.display = show ? '' : 'none';
+  });
+}
+
+function filterStudentByLevel(){
+  var val = document.getElementById('studentLevelFilter').value;
+  var rows = document.querySelectorAll('#studentTable tbody tr');
+  rows.forEach(function(row){
+    if(!val){ row.style.display = ''; return; }
+    var text = row.textContent;
+    var show = false;
+    if(val === 'math_high' && /数.*→\s*1[2-9]\d|数.*→\s*[2-9]\d\d/.test(text)) show = true;
+    else if(val === 'math_mid' && /数.*→\s*(8\d|9\d|10\d|11\d)\b/.test(text)) show = true;
+    else if(val === 'math_low' && /数.*→\s*[0-7]\d\b/.test(text)) show = true;
+    else if(val === 'eng_high' && /英.*→\s*(8\d|9\d)\b/.test(text)) show = true;
+    else if(val === 'eng_mid' && /英.*→\s*(6\d|7\d)\b/.test(text)) show = true;
+    else if(val === 'eng_low' && /英.*→\s*[0-5]\d\b/.test(text)) show = true;
+    row.style.display = show ? '' : 'none';
+  });
+}
+
+// ==================== 班级详情 ====================
+function showClassDetail(className){
+  document.getElementById('classListView').style.display = 'none';
+  document.getElementById('classPageHeader').style.display = 'none';
+  var detail = document.getElementById('classDetail');
+  detail.classList.add('show');
+  document.getElementById('detName').textContent = className;
+  // 根据班级名称填充详情数据
+  var classData = {
+    '25考研数学一班': { district:'海淀学区中心', teacher:'张老师', count:'32', date:'2025-03-01', status:'已开班' },
+    '25考研英语一班': { district:'海淀学区中心', teacher:'李老师', count:'28', date:'2025-03-01', status:'已开班' },
+    '25考研数学二班': { district:'朝阳学区中心', teacher:'王老师', count:'25', date:'2025-04-15', status:'已开班' },
+    '26考研英语预备班': { district:'西城学区中心', teacher:'张老师', count:'0', date:'2025-09-01', status:'未开班' },
+    '25考研政治一班': { district:'海淀学区中心', teacher:'李老师', count:'30', date:'2025-02-15', status:'已结课' }
+  };
+  var d = classData[className] || { district:'-', teacher:'-', count:'-', date:'-', status:'-' };
+  document.getElementById('detDistrict').textContent = d.district;
+  document.getElementById('detTeacher').textContent = d.teacher;
+  document.getElementById('detCount').textContent = d.count;
+  document.getElementById('detDate').textContent = d.date;
+  document.getElementById('detStatus').textContent = d.status;
+}
+function hideClassDetail(){
+  document.getElementById('classListView').style.display = '';
+  document.getElementById('classPageHeader').style.display = '';
+  document.getElementById('classDetail').classList.remove('show');
+}
+
+// ==================== Toast ====================
+var toastTimer;
+function showToast(msg){
+  var toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toast.style.display = 'none'; }, 2000);
+}
+</script>
+</body>
+</html>
