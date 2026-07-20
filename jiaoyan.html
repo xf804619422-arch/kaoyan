@@ -518,6 +518,15 @@ tr:hover td{background:#fafbfc}
 .ae-check-grid{display:flex;flex-wrap:wrap;gap:6px}
 .ae-check-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-secondary);cursor:pointer}
 .ae-check-item input{width:14px;height:14px;accent-color:var(--primary)}
+.ae-percent-grid{display:flex;flex-direction:column;gap:8px}
+.ae-percent-row{display:flex;align-items:center;gap:10px}
+.ae-percent-label{font-size:12px;color:var(--text-secondary);width:50px;flex-shrink:0}
+.ae-percent-input{display:flex;align-items:center;gap:2px}
+.ae-percent-input input{width:56px;padding:5px 8px;font-size:12px;border:1px solid var(--border);border-radius:6px;outline:none;text-align:right;font-family:inherit}
+.ae-percent-input input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.ae-percent-input input.invalid{border-color:#ef4444;background:#fef2f2}
+.ae-percent-input span{font-size:12px;color:var(--text-secondary)}
+.ae-percent-summary{font-size:11px;color:var(--text-secondary);text-align:right;margin-top:4px}
 .ae-qty-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .ae-qty-item{display:flex;align-items:center;gap:4px;font-size:12px}
 .ae-qty-item label{white-space:nowrap;color:var(--text-secondary)}
@@ -1717,11 +1726,12 @@ tr:hover td{background:#fafbfc}
                 </div>
               </div>
               <div class="ae-section">
-                <div class="ae-section-title">题目类型范围</div>
-                <div class="ae-check-grid" id="zjACatChecks">
-                  <label class="ae-check-item"><input type="checkbox" value="基础题" checked> 基础题</label>
-                  <label class="ae-check-item"><input type="checkbox" value="巩固题" checked> 巩固题</label>
-                  <label class="ae-check-item"><input type="checkbox" value="拓展题" checked> 拓展题</label>
+                <div class="ae-section-title">题目类型范围（百分比）</div>
+                <div class="ae-percent-grid" id="zjACatPercents">
+                  <div class="ae-percent-row"><span class="ae-percent-label">基础题</span><div class="ae-percent-input"><input type="number" id="zjCatPctBasic" value="40" min="0" max="100" oninput="zjValidateCatPct()"><span>%</span></div></div>
+                  <div class="ae-percent-row"><span class="ae-percent-label">巩固题</span><div class="ae-percent-input"><input type="number" id="zjCatPctConsolidate" value="40" min="0" max="100" oninput="zjValidateCatPct()"><span>%</span></div></div>
+                  <div class="ae-percent-row"><span class="ae-percent-label">拓展题</span><div class="ae-percent-input"><input type="number" id="zjCatPctAdvanced" value="20" min="0" max="100" oninput="zjValidateCatPct()"><span>%</span></div></div>
+                  <div class="ae-percent-summary" id="zjCatPctSummary" style="text-align:right;font-size:11px;color:var(--text-secondary)">合计：100%</div>
                 </div>
               </div>
               <div class="ae-section">
@@ -2105,7 +2115,7 @@ tr:hover td{background:#fafbfc}
         <div class="page-subtitle">管理词汇大纲三级分类体系，支持创建、编辑和删除分类节点</div>
       </div>
       <div class="vocab-toolbar">
-        <button class="btn btn-primary btn-sm" onclick="addVocabParentCategory()">+ 新增一级分类</button>
+        <button class="btn btn-primary btn-sm" onclick="openVocabAddModal()">+ 新增分类</button>
       </div>
       <div class="vocab-table-wrap" id="vocabCatMgrList"></div>
     </div>
@@ -2760,11 +2770,12 @@ tr:hover td{background:#fafbfc}
     <div class="modal-body">
       <div class="form-group"><label class="form-label"><span class="required">*</span> 节点类型</label>
         <select class="form-select" id="nodeType" onchange="onNodeTypeChange()">
-          <option value="subject">学科</option><option value="category">分类</option><option value="stage">阶段</option>
           <option value="course">课程</option><option value="chapter">章节</option><option value="knowledge">知识点</option>
         </select>
       </div>
-      <div class="form-group" id="parentNodeGroup"><label class="form-label">父节点</label><input class="form-input" id="parentNodeName" readonly></div>
+      <div class="form-group" id="parentNodeGroup"><label class="form-label" id="parentNodeLabel">父节点</label>
+        <select class="form-select" id="parentNodeSelect" onchange="onParentNodeSelectChange()"></select>
+      </div>
       <div class="form-group"><label class="form-label"><span class="required">*</span> 名称</label><input class="form-input" id="nodeName" placeholder="请输入节点名称"></div>
       <div class="form-group" id="freqGroup" style="display:none"><label class="form-label">考频</label>
         <select class="form-select" id="nodeFreq">
@@ -3407,7 +3418,7 @@ let questionData = [
   {id:1,stem:'设 \\(f(x)=\\ln(x+1)-ax\\)，若 \\(f(x)\\) 在 \\(x=0\\) 处取得极值，求 \\(a\\) 的值。',answer:'\\(a=1\\)',analysis:'由极值必要条件 \\(f\'(0)=0\\)，\\(f\'(x)=\\frac{1}{x+1}-a\\)，代入 \\(x=0\\) 得 \\(1-a=0\\)，故 \\(a=1\\)。',type:'解析题',category:'基础题',difficulty:'中等',source:'2024年真题',uploadTime:'2026-07-11',uploader:'教研员',status:'pending',subject:'数学',knowledgeId:6,knowledgeIds:[6]},
   {id:2,stem:'下列函数中，在区间 \\((0,+\\infty)\\) 上单调递增的是？',answer:'B',analysis:'A选项 \\(f(x)=\\frac{1}{x}\\) 递减；B选项 \\(f(x)=\\ln x\\) 递增；C选项 \\(f(x)=e^{-x}\\) 递减；D选项 \\(f(x)=\\cos x\\) 振荡。',type:'单选题',category:'巩固题',difficulty:'简单',source:'模拟题',uploadTime:'2026-07-10',uploader:'教研员',status:'approved',subject:'数学',knowledgeId:7,knowledgeIds:[7,6],auditor:'张组长',auditTime:'2026-07-12 10:00'},
   {id:3,stem:'设 \\(A\\) 为 \\(n\\) 阶方阵，若 \\(|A|=0\\)，则下列结论正确的是？',answer:'A,D',analysis:'\\(|A|=0\\) 等价于 \\(A\\) 不可逆，即 \\(A\\) 的秩小于 \\(n\\)，方程组 \\(Ax=0\\) 有非零解。',type:'解析题',category:'拓展题',difficulty:'中等',source:'2023年真题',uploadTime:'2026-07-08',uploader:'教研员',status:'pending',subject:'数学',knowledgeId:26,knowledgeIds:[26]},
-  {id:4,stem:'计算极限 \\(\\lim_{x\\to 0}\\frac{\\sin x - x}{x^3}\\)',answer:'\\(-\\frac{1}{6}\\)',analysis:'使用泰勒展开：\\(\\sin x = x - \\frac{x^3}{6} + o(x^3)\\)，代入得极限为 \\(-\\frac{1}{6}\\)。',type:'解析题',category:'拓展题',difficulty:'困难',source:'竞赛题',uploadTime:'2026-07-05',uploader:'教研员',status:'rejected',subject:'数学',knowledgeId:12,knowledgeIds:[12],auditor:'李审核',auditTime:'2026-07-07 15:30'},
+  {id:4,stem:'计算极限 \\(\\lim_{x\\to 0}\\frac{\\sin x - x}{x^3}\\)',answer:'\\(-\\frac{1}{6}\\)',analysis:'使用泰勒展开：\\(\\sin x = x - \\frac{x^3}{6} + o(x^3)\\)，代入得极限为 \\(-\\frac{1}{6}\\)。',type:'解析题',category:'拓展题',difficulty:'困难',source:'竞赛题',uploadTime:'2026-07-05',uploader:'教研员',status:'rejected',subject:'数学',knowledgeId:12,knowledgeIds:[12],auditor:'李审核',auditTime:'2026-07-07 15:30',rejectReason:'题目解析步骤不完整，缺少泰勒展开的详细推导过程，请补充完整步骤后重新提交。'},
   {id:5,stem:'函数 \\(f(x)=x^3-3x+2\\) 的拐点坐标为？',answer:'\\((0,2)\\)',analysis:'\\(f\'\'(x)=6x\\)，令 \\(f\'\'(x)=0\\) 得 \\(x=0\\)。当 \\(x<0\\) 时 \\(f\'\'(x)<0\\)，当 \\(x>0\\) 时 \\(f\'\'(x)>0\\)，故 \\((0,2)\\) 为拐点。',type:'填空题',category:'巩固题',difficulty:'简单',source:'模拟题',uploadTime:'2026-07-03',uploader:'教研员',status:'approved',subject:'数学',knowledgeId:15,knowledgeIds:[15,7],auditor:'张组长',auditTime:'2026-07-05 09:00'},
   {id:6,stem:'设 \\(f(x)\\) 在 \\([a,b]\\) 上连续，在 \\((a,b)\\) 内可导，且 \\(f(a)=f(b)\\)，则至少存在一点 \\(\\xi\\in(a,b)\\) 使得 \\(f\'(\\xi)=0\\)。该结论称为？',answer:'罗尔定理',analysis:'罗尔定理是拉格朗日中值定理的特例，也是微分中值定理的三大定理之一。',type:'填空题',category:'基础题',difficulty:'简单',source:'教材例题',uploadTime:'2026-07-12',uploader:'教研员',status:'pending',subject:'数学',knowledgeId:20,knowledgeIds:[20]}
 ];
@@ -3664,7 +3675,7 @@ function buildTreeHTML(nodes,level=0){
   let h='';
   for(let n of nodes){
     const hasChildren=n.children&&n.children.length>0;
-    const iconMap={subject:'📚',category:'📂',stage:'📅',course:'📖',chapter:'📄',knowledge:'📌'};
+    const iconMap={course:'📖',chapter:'📄',knowledge:'📌'};
     const icon=iconMap[n.type]||'\u{1F4C1}';
     let actions='';
     if(n.type==='course'){
@@ -3750,55 +3761,109 @@ function onStageChange(stage,el){
 }
 
 function onNodeTypeChange(){
-  $('freqGroup').style.display=$('nodeType').value==='knowledge'?'':'none';
+  const type=$('nodeType').value;
+  $('freqGroup').style.display=type==='knowledge'?'':'none';
+  if(type==='course'){
+    $('parentNodeGroup').style.display='none';
+    addNodeParentId=null;
+  }else{
+    $('parentNodeGroup').style.display='';
+    populateParentNodeOptions(type);
+  }
+}
+
+function onParentNodeSelectChange(){
+  const sel=$('parentNodeSelect');
+  addNodeParentId=sel.value?Number(sel.value):null;
+}
+
+function getStageNode(){
+  if(!treeSubCategory||!treeStage)return null;
+  const subjectName=treeFilter==='math'?'数学':'英语';
+  const subjectNode=treeData.find(n=>n.name===subjectName);
+  if(!subjectNode)return null;
+  const catNode=subjectNode.children.find(c=>c.name===treeSubCategory);
+  if(!catNode)return null;
+  return catNode.children.find(s=>s.name===treeStage)||null;
+}
+
+function populateParentNodeOptions(type){
+  const sel=$('parentNodeSelect');
+  sel.innerHTML='';
+  if(type==='chapter'){
+    // Parent = courses under current stage
+    const stageNode=getStageNode();
+    if(!stageNode){sel.innerHTML='<option value="">-- 无可选父节点 --</option>';return}
+    $('parentNodeLabel').textContent='所属课程';
+    sel.appendChild(new Option('-- 请选择 --',''));
+    for(let c of (stageNode.children||[])){
+      sel.appendChild(new Option(c.name,c.id));
+    }
+  }else if(type==='knowledge'){
+    // Parent = chapters under current stage (nested under courses)
+    const stageNode=getStageNode();
+    if(!stageNode){sel.innerHTML='<option value="">-- 无可选父节点 --</option>';return}
+    $('parentNodeLabel').textContent='所属章节';
+    sel.appendChild(new Option('-- 请选择 --',''));
+    for(let course of (stageNode.children||[])){
+      for(let ch of (course.children||[])){
+        sel.appendChild(new Option(course.name+' > '+ch.name,ch.id));
+      }
+    }
+  }
+  addNodeParentId=null;
 }
 
 function showAddCourseModal(){
   if(!treeSubCategory||!treeStage){showToast('请先选择子科目和课程类型','error');return}
-  const subjectName=treeFilter==='math'?'数学':'英语';
-  const subjectNode=treeData.find(n=>n.name===subjectName);
-  if(!subjectNode)return;
-  const catNode=subjectNode.children.find(c=>c.name===treeSubCategory);
-  if(!catNode)return;
-  const stageNode=catNode.children.find(s=>s.name===treeStage);
-  if(!stageNode)return;
   editNodeId=null;
-  addNodeParentId=stageNode.id;
-  $('parentNodeName').value=stageNode.name;
-  $('parentNodeGroup').style.display='';
   $('nodeType').value='course';
-  $('nodeType').disabled=true;
+  $('nodeType').disabled=false;
   $('nodeName').value='';
   $('nodeFreq').value='';
   $('freqGroup').style.display='none';
-  $('addNodeTitle').textContent='在"'+stageNode.name+'"下新增课程';
+  $('parentNodeGroup').style.display='none';
+  addNodeParentId=null;
+  $('addNodeTitle').textContent='新增节点';
+  onNodeTypeChange();
+  openModal('addNodeModal');
+}
+
+// Top-bar "+ 新增节点" — can add course/chapter/knowledge
+function showAddRootNode(){
+  if(!treeSubCategory||!treeStage){showToast('请先选择子科目和课程类型','error');return}
+  editNodeId=null;
+  $('nodeType').value='course';
+  $('nodeType').disabled=false;
+  $('nodeName').value='';
+  $('nodeFreq').value='';
+  $('addNodeTitle').textContent='新增节点（'+treeSubCategory+' / '+treeStage+'）';
+  addNodeParentId=null;
+  onNodeTypeChange();
+  openModal('addNodeModal');
+}
+
+// Called from tree "+" button on non-knowledge nodes
+function showAddChildModal(parentId){
+  editNodeId=null;
+  addNodeParentId=parentId;
+  const parentNode=findNode(treeData,parentId);
+  if(!parentNode){showToast('父节点不存在','error');return}
+  const typeMap={course:'chapter',chapter:'knowledge'};
+  const childType=typeMap[parentNode.type];
+  if(!childType){showToast('该节点下不支持新增','error');return}
+  $('nodeType').value=childType;
+  $('nodeType').disabled=false;
+  $('nodeName').value='';
+  $('nodeFreq').value='';
+  $('addNodeTitle').textContent='在"'+parentNode.name+'"下新增节点';
+  $('freqGroup').style.display=childType==='knowledge'?'':'none';
+  $('parentNodeGroup').style.display='none';
   openModal('addNodeModal');
 }
 
 function showAddNodeModal(parentId){
-  editNodeId=null;
-  addNodeParentId=parentId||null;
-  const parentNode=parentId?findNode(treeData,parentId):null;
-  $('parentNodeName').value=parentNode?parentNode.name:'根节点';
-  $('parentNodeGroup').style.display=parentNode?'':'none';
-  if(!parentNode){$('nodeType').value='subject';$('nodeType').disabled=false}
-  else{
-    const typeOrder={subject:'category',category:'stage',stage:'course',course:'chapter',chapter:'knowledge'};
-    const nextType=typeOrder[parentNode.type];
-    if(nextType){$('nodeType').value=nextType;$('nodeType').disabled=true}
-    else{$('nodeType').value='knowledge';$('nodeType').disabled=true}
-  }
-  $('nodeName').value='';
-  $('nodeFreq').value='';
-  $('freqGroup').style.display=$('nodeType').value==='knowledge'?'':'none';
-  $('addNodeTitle').textContent=parentNode?'在"'+parentNode.name+'"下新增节点':'新增学科';
-  openModal('addNodeModal');
-}
-
-function showAddChildModal(parentId){
-  editNodeId=null;
-  addNodeParentId=parentId;
-  showAddNodeModal(parentId);
+  showAddChildModal(parentId);
 }
 
 function editNode(id){
@@ -3806,7 +3871,7 @@ function editNode(id){
   if(!node)return;
   editNodeId=id;
   addNodeParentId=null;
-  const typeNames={subject:'学科',category:'分类',stage:'阶段',course:'课程',chapter:'章节',knowledge:'知识点'};
+  const typeNames={course:'课程',chapter:'章节',knowledge:'知识点'};
   $('parentNodeGroup').style.display='none';
   $('nodeType').value=node.type;
   $('nodeType').disabled=true;
@@ -3865,10 +3930,21 @@ function saveNode(){
   const type=$('nodeType').value;
   const node={id:++_nextId,name:name,type:type,children:[]};
   if(type==='knowledge'){const f=$('nodeFreq').value;if(f)node.frequency=f}
-  if(addNodeParentId){
-    const parent=findNode(treeData,addNodeParentId);
-    if(parent){if(!parent.children)parent.children=[];parent.children.push(node);parent.expanded=true}
+  // Determine parent
+  let parent;
+  if(type==='course'){
+    // Courses go under the current stage node
+    parent=getStageNode();
   }else{
+    // Chapters/knowledge use selected parent from dropdown
+    parent=findNode(treeData,addNodeParentId);
+  }
+  if(parent){
+    if(!parent.children)parent.children=[];
+    parent.children.push(node);
+    parent.expanded=true;
+  }else{
+    // Fallback: add to root (shouldn't normally happen)
     treeData.push(node);
   }
   closeModal('addNodeModal');
@@ -4543,6 +4619,7 @@ function questionDetail(id){
     '<div class="qdetail-row"><span class="qdetail-label">审核时间</span><span class="qdetail-val">'+(q.auditTime||'-')+'</span></div>'+
     '<div class="qdetail-row"><span class="qdetail-label">审核人员</span><span class="qdetail-val">'+(q.auditor||'-')+'</span></div>'+
   '</div>'+
+  (q.status==='rejected'&&q.rejectReason?'<div class="qdetail-block" style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:12px 16px;margin-top:12px"><div class="qdetail-block-label" style="color:#991b1b">⚠ 驳回原因</div><div class="qdetail-block-content" style="color:#991b1b;font-size:14px;line-height:1.7">'+q.rejectReason+'</div></div>':'')+
   '<div class="qdetail-block"><div class="qdetail-block-label">题干</div><div class="qdetail-block-content">'+formatLatexPreview(q.stem||'')+'</div></div>'+
   '<div class="qdetail-block"><div class="qdetail-block-label">答案</div><div class="qdetail-block-content">'+formatLatexPreview(q.answer||'')+'</div></div>'+
   '<div class="qdetail-block"><div class="qdetail-block-label">答案与解析</div><div class="qdetail-block-content">'+formatLatexPreview(q.analysis||'（无）')+'</div></div>';
@@ -5532,6 +5609,10 @@ function initZujuan(){
   $('zjAQtyFill').value = 5;
   $('zjAQtyAnswer').value = 3;
   $$('#zjASourceChecks input[type=checkbox]').forEach(c=>{c.checked=c.value!=='竞赛题'&&c.value!=='自编题'});
+  $('zjCatPctBasic').value = 40;
+  $('zjCatPctConsolidate').value = 40;
+  $('zjCatPctAdvanced').value = 20;
+  zjValidateCatPct();
   $('zjACatFilter').innerHTML = '<option value="all">全部</option>'; $('zjACatFilter').value='all';
   $('zjAStageFilter').innerHTML = '<option value="all">全部</option>'; $('zjAStageFilter').value='all';
   // show step 1, hide step 2
@@ -5787,22 +5868,54 @@ function toggleZjAKTCheck(kid,checked){if(checked){if(!zjSelectedKIdsA.includes(
 
 function zjAutoGenerate(){
   const subj=$('zjSubject').value;
-  const catChecks = Array.from($$('#zjACatChecks input[type=checkbox]:checked')).map(c=>c.value);
+  const basicPct=parseInt($('zjCatPctBasic').value)||0;
+  const consolidatePct=parseInt($('zjCatPctConsolidate').value)||0;
+  const advancedPct=parseInt($('zjCatPctAdvanced').value)||0;
+  const totalPct=basicPct+consolidatePct+advancedPct;
+  if(totalPct!==100){showToast('题目类型百分比合计必须为100%（当前'+totalPct+'%）','error');return}
+  const catPctMap={'基础题':basicPct,'巩固题':consolidatePct,'拓展题':advancedPct};
+  const activeCats=Object.keys(catPctMap).filter(k=>catPctMap[k]>0);
   const sourceChecks=Array.from($$('#zjASourceChecks input[type=checkbox]:checked')).map(c=>c.value);
   const typeQty={'单选题':parseInt($('zjAQtySingle').value)||0,'填空题':parseInt($('zjAQtyFill').value)||0,'解析题':parseInt($('zjAQtyAnswer').value)||0};
   let pool=questionData.filter(q=>q.status==='approved'&&q.subject===subj);
-  if(catChecks.length>0)pool=pool.filter(q=>catChecks.includes(q.category));
+  if(activeCats.length>0)pool=pool.filter(q=>activeCats.includes(q.category));
   if(sourceChecks.length>0)pool=pool.filter(q=>sourceChecks.includes(q.source));
   if(zjSelectedKIdsA.length>0)pool=pool.filter(q=>q.knowledgeIds&&q.knowledgeIds.some(kid=>zjSelectedKIdsA.includes(kid)));
   if(pool.length===0){showToast('没有符合条件的题目','error');return}
   let totalQty=0;for(let k in typeQty)totalQty+=typeQty[k];
   if(totalQty===0){showToast('请至少配置一题的数量','error');return}
   if(pool.length<totalQty){showToast('符合条件的题目不足（需'+totalQty+'题，仅'+pool.length+'题）','error');return}
+  // Allocate by type & category percentage
   let result=[];zjQuestions=[];
-  for(let type in typeQty){let cnt=typeQty[type];if(cnt<=0)continue;let candidates=pool.filter(q=>q.type===type);shuffle(candidates);result=result.concat(candidates.slice(0,cnt));}
+  for(let type in typeQty){
+    let cnt=typeQty[type];if(cnt<=0)continue;
+    let typePool=pool.filter(q=>q.type===type);
+    shuffle(typePool);
+    // Distribute cnt among categories by percentage
+    let catQty={};let pctTotal=0;
+    for(let cat of activeCats){catQty[cat]=Math.round(cnt*catPctMap[cat]/100);pctTotal+=catQty[cat];}
+    // Adjust rounding errors
+    let diff=cnt-pctTotal;for(let i=0;i<Math.abs(diff)&&activeCats.length>0;i++){let idx=i%activeCats.length;if(diff>0)catQty[activeCats[idx]]++;else catQty[activeCats[idx]]=Math.max(0,catQty[activeCats[idx]]-1);}
+    for(let cat of activeCats){
+      let needed=catQty[cat];if(needed<=0)continue;
+      let catPool=typePool.filter(q=>q.category===cat);
+      result=result.concat(catPool.slice(0,needed));
+    }
+  }
   zjQuestions=result;
   $('zjAutoActions').style.display = 'flex';
   renderZjPreview();showToast('已生成'+zjQuestions.length+'题','success');
+}
+
+function zjValidateCatPct(){
+  const basic=parseInt($('zjCatPctBasic').value)||0;
+  const consolidate=parseInt($('zjCatPctConsolidate').value)||0;
+  const advanced=parseInt($('zjCatPctAdvanced').value)||0;
+  const total=basic+consolidate+advanced;
+  const summary=$('zjCatPctSummary');
+  summary.textContent='合计：'+total+'%';
+  summary.style.color=total===100?'var(--text-secondary)':'#ef4444';
+  $$('.ae-percent-input input').forEach(inp=>{inp.classList.toggle('invalid',total!==100);});
 }
 
 // ---- Shared preview ----
@@ -6272,7 +6385,7 @@ function renderVocabCategoryMgr(){
     h+='<td class="col-lv"><span class="vocab-lv-badge l'+r.level+'">'+lvNames[r.level]+'</span></td>';
     // 操作
     h+='<td><span class="vocab-actions">';
-    if(r.level<3)h+='<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();addVocabChild('+r.id+')">+ 子级</button>';
+    if(r.level<3)h+='<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();openVocabAddModal('+r.id+')">+ 子级</button>';
     h+='<button class="btn btn-ghost btn-xs" onclick="event.stopPropagation();editVocabNode('+r.id+')">编辑</button>';
     h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="event.stopPropagation();deleteVocabNode('+r.id+')">删除</button>';
     h+='</span></td>';
@@ -6363,13 +6476,98 @@ function removeVocabNode(id,nodes){
   return false;
 }
 
-// ---- 一级分类新增 ----
-function addVocabParentCategory(){
-  const name=prompt('请输入一级大纲分类名称：');
-  if(!name||!name.trim())return;
-  vocabCategoryData.push({id:++_vocabNextId,name:name.trim(),children:[]});
+// ---- 分类新增（深度自适应，最多3级） ----
+function openVocabAddModal(prefillParentId){
+  const html='<div class="vocablib-modal-overlay" onclick="closeVocabAddModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:480px">\
+      <div class="vocablib-modal-header">\
+        <h3>新增分类</h3>\
+        <button class="vocablib-modal-close-btn" onclick="closeVocabAddModal()">✕</button>\
+      </div>\
+      <div class="vocablib-modal-body">\
+        <div class="vocablib-edit-field">\
+          <label>所属分类 <span style="font-weight:400;color:#9ca3af">（留空则创建一级分类，最多3级）</span></label>\
+          <select class="form-select" id="vocabAddParent" onchange="onVocabAddParentChange()">\
+            <option value="">无（一级分类）</option>\
+            '+buildVocabAddParentOptions(vocabCategoryData,1)+'\
+          </select>\
+        </div>\
+        <div id="vocabAddDepthHint" style="font-size:11px;color:#9ca3af;margin-bottom:4px"></div>\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 分类名称</label>\
+          <input class="vocablib-edit-input" id="vocabAddName" placeholder="请输入分类名称">\
+        </div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeVocabAddModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="saveVocabAddCategory()">保存</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='vocabAddWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+  if(prefillParentId){$('vocabAddParent').value=String(prefillParentId);}
+  onVocabAddParentChange();
+}
+
+function buildVocabAddParentOptions(nodes,depth){
+  let h='';
+  nodes.forEach(n=>{
+    const prefix=depth===2?'├─ ':(depth===3?'└─ ':'');
+    h+='<option value="'+n.id+'">'+prefix+escHtml(n.name)+'</option>';
+    if(depth<3&&n.children&&n.children.length){
+      h+=buildVocabAddParentOptions(n.children,depth+1);
+    }
+  });
+  return h;
+}
+
+function onVocabAddParentChange(){
+  const pid=$('vocabAddParent').value;
+  const hint=$('vocabAddDepthHint');
+  if(!pid){
+    hint.textContent='将创建一级分类';
+  } else {
+    const depth=getVocabNodeLevel(parseInt(pid));
+    hint.textContent='父级深度：'+depth+' → 新分类将为 '+(depth+1)+' 级分类';
+  }
+}
+
+function closeVocabAddModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('vocabAddWrap');
+  if(wrap)wrap.remove();
+}
+
+function saveVocabAddCategory(){
+  const name=$('vocabAddName').value.trim();
+  if(!name){showToast('请输入分类名称','error');return;}
+  const pidStr=$('vocabAddParent').value;
+  if(!pidStr){
+    // 一级分类
+    vocabCategoryData.push({id:++_vocabNextId,name:name,children:[]});
+    showToast('一级分类已添加','success');
+  } else {
+    const pid=parseInt(pidStr);
+    const parent=findVocabNode(pid);
+    if(!parent)return;
+    const depth=getVocabNodeLevel(pid);
+    if(depth>=3){showToast('已达最大层级（3级），无法继续添加子分类','error');return;}
+    if(!parent.children)parent.children=[];
+    parent.children.push({id:++_vocabNextId,name:name,children:[]});
+    // 展开祖先
+    vocabularyAncestors(pid).forEach(aid=>vocabCollapsed.delete(aid));
+    vocabCollapsed.delete(pid);
+    showToast('分类已添加（'+(depth+1)+'级）','success');
+  }
+  closeVocabAddModal();
   renderVocabCategoryMgr();
-  showToast('一级分类已添加','success');
+}
+
+function vocabularyAncestors(id,arr){
+  arr=arr||[];
+  const p=findVocabNodeParentId(id);
+  if(p){arr.push(p);vocabularyAncestors(p,arr);}
+  return arr;
 }
 
 // ---- 编辑/保存/删除 ----
@@ -6426,8 +6624,8 @@ let vocabLibData = [
   {id:1005,word:'ambitious',def:'adj. 有雄心的；野心勃勃的',status:'reviewing',createTime:'2026-07-10',creator:'赵老师',auditTime:'',auditor:'',catId:121},
   {id:1006,word:'arbitrary',def:'adj. 任意的；武断的',status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:'',catId:121},
   {id:1007,word:'benevolent',def:'adj. 仁慈的；慈善的',status:'reviewing',createTime:'2026-07-12',creator:'王教研',auditTime:'',auditor:'',catId:211},
-  {id:1008,word:'comprehensive',def:'adj. 全面的；综合的',status:'rejected',createTime:'2026-07-08',creator:'赵老师',auditTime:'2026-07-09',auditor:'李主任',catId:211},
-  {id:1009,word:'deteriorate',def:'v. 恶化；退化',status:'rejected',createTime:'2026-07-09',creator:'张老师',auditTime:'2026-07-10',auditor:'李主任',catId:212},
+  {id:1008,word:'comprehensive',def:'adj. 全面的；综合的',status:'rejected',createTime:'2026-07-08',creator:'赵老师',auditTime:'2026-07-09',auditor:'李主任',catId:211,rejectReason:'释义不准确，comprehensive 侧重\"广泛的\"而非\"全面的\"，建议修改并补充例句'},
+  {id:1009,word:'deteriorate',def:'v. 恶化；退化',status:'rejected',createTime:'2026-07-09',creator:'张老师',auditTime:'2026-07-10',auditor:'李主任',catId:212,rejectReason:'大纲分类选择有误，该词汇应归入核心词汇-低频词汇而非拓展词汇'},
 ];
 let _vocabLibNextId=1010;
 let vocabLibTab='published';
@@ -6654,6 +6852,7 @@ function showVocabLibDetail(id){
             <div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(v.auditTime||'-')+'</span></div>\
           </div>\
         </div>\
+        '+(v.status==='rejected'?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(v.rejectReason||'未填写')+'</div></div>':'')+'\
       </div>\
       <div class="vocablib-modal-footer">\
         <button class="btn btn-outline btn-sm" onclick="closeVocabLibModal();editVocabLibWord('+v.id+')">编辑</button>\
