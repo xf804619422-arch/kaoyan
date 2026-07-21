@@ -1549,7 +1549,7 @@ tr:hover td{background:#fafbfc}
       <div class="table-wrap">
         <table>
           <thead><tr>
-            <th>词汇</th><th>释义</th><th>大纲分类</th><th>录入时间</th><th>录入人</th><th>操作</th>
+            <th>词汇</th><th>音标</th><th>释义</th><th>大纲分类</th><th>录入时间</th><th>录入人</th><th>操作</th>
           </tr></thead>
           <tbody id="vabTableBody"></tbody>
         </table>
@@ -2141,6 +2141,18 @@ tr:hover td{background:#fafbfc}
             <div class="form-group">
               <label class="form-label"><span class="required">*</span> 词汇</label>
               <input class="form-input" id="veWordInput" placeholder="请输入英文词汇，如 abandon" autocomplete="off">
+            </div>
+          </div>
+          <div class="ve-word-row">
+            <div class="form-row" style="grid-template-columns:1fr 1fr">
+              <div class="form-group">
+                <label class="form-label">音标（英式） <span style="font-weight:400;color:#9ca3af">选填</span></label>
+                <input class="form-input" id="vePhoneUK" placeholder="如 /əˈbændən/" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label class="form-label">音标（美式） <span style="font-weight:400;color:#9ca3af">选填</span></label>
+                <input class="form-input" id="vePhoneUS" placeholder="如 /əˈbændən/" autocomplete="off">
+              </div>
             </div>
           </div>
           <div class="ve-editor-wrap">
@@ -3514,14 +3526,14 @@ let _currentFAId = null;
 
 // ==================== VOCAB AUDIT DATA ====================
 let vocabAuditData = [
-  {id:1101,word:'abandon',def:'v. 放弃；抛弃',catId:111,uploadTime:'2026-07-11 09:00',uploader:'教研员A',status:'pending'},
-  {id:1102,word:'abstract',def:'adj. 抽象的；n. 摘要',catId:111,uploadTime:'2026-07-12 14:30',uploader:'教研员B',status:'pending'},
-  {id:1103,word:'arbitrary',def:'adj. 任意的；武断的',catId:121,uploadTime:'2026-07-10 16:00',uploader:'教研员A',status:'pending'},
-  {id:1104,word:'accommodate',def:'v. 容纳；提供住宿',catId:112,uploadTime:'2026-07-05 10:15',uploader:'教研员B',status:'approved',auditor:'张组长',auditTime:'2026-07-06 09:00'},
-  {id:1105,word:'comprehensive',def:'adj. 全面的；综合的',catId:211,uploadTime:'2026-07-08 11:20',uploader:'教研员A',status:'approved',auditor:'李审核',auditTime:'2026-07-09 14:00'},
-  {id:1106,word:'acknowledge',def:'v. 承认；确认收到',catId:113,uploadTime:'2026-07-03 08:30',uploader:'教研员B',status:'approved',auditor:'张组长',auditTime:'2026-07-04 10:00'},
-  {id:1107,word:'ambitious',def:'adj. 有雄心的；野心勃勃的',catId:121,uploadTime:'2026-07-01 14:00',uploader:'教研员A',status:'rejected',auditor:'王审核',auditTime:'2026-07-03 09:00',rejectReason:'释义不完整，缺少"有野心"这一常见含义，请补充完整后重新提交。'},
-  {id:1108,word:'benevolent',def:'adj. 仁慈的；慈善的',catId:211,uploadTime:'2026-06-28 15:30',uploader:'教研员B',status:'rejected',auditor:'李审核',auditTime:'2026-07-01 11:00',rejectReason:'词汇分类错误，该词应归入"四级核心词汇-进阶类"而非"四级核心词汇-中阶类"，请确认后修正。'},
+  {id:1101,word:'abandon',def:'v. 放弃；抛弃',phoneUK:'/əˈbændən/',phoneUS:'/əˈbændən/',catId:111,uploadTime:'2026-07-11 09:00',uploader:'教研员A',status:'pending'},
+  {id:1102,word:'abstract',def:'adj. 抽象的；n. 摘要',phoneUK:'/ˈæbstrækt/',phoneUS:'/ˈæbstrækt/',catId:111,uploadTime:'2026-07-12 14:30',uploader:'教研员B',status:'pending'},
+  {id:1103,word:'arbitrary',def:'adj. 任意的；武断的',phoneUK:'/ˈɑːbɪtrəri/',phoneUS:'/ˈɑːrbɪtreri/',catId:121,uploadTime:'2026-07-10 16:00',uploader:'教研员A',status:'pending'},
+  {id:1104,word:'accommodate',def:'v. 容纳；提供住宿',phoneUK:'/əˈkɒmədeɪt/',phoneUS:'/əˈkɑːmədeɪt/',catId:112,uploadTime:'2026-07-05 10:15',uploader:'教研员B',status:'approved',auditor:'张组长',auditTime:'2026-07-06 09:00'},
+  {id:1105,word:'comprehensive',def:'adj. 全面的；综合的',phoneUK:'/ˌkɒmprɪˈhensɪv/',phoneUS:'/ˌkɑːmprɪˈhensɪv/',catId:211,uploadTime:'2026-07-08 11:20',uploader:'教研员A',status:'approved',auditor:'李审核',auditTime:'2026-07-09 14:00'},
+  {id:1106,word:'acknowledge',def:'v. 承认；确认收到',phoneUK:'/əkˈnɒlɪdʒ/',phoneUS:'/əkˈnɑːlɪdʒ/',catId:113,uploadTime:'2026-07-03 08:30',uploader:'教研员B',status:'approved',auditor:'张组长',auditTime:'2026-07-04 10:00'},
+  {id:1107,word:'ambitious',def:'adj. 有雄心的；野心勃勃的',phoneUK:'/æmˈbɪʃəs/',phoneUS:'/æmˈbɪʃəs/',catId:121,uploadTime:'2026-07-01 14:00',uploader:'教研员A',status:'rejected',auditor:'王审核',auditTime:'2026-07-03 09:00',rejectReason:'释义不完整，缺少"有野心"这一常见含义，请补充完整后重新提交。'},
+  {id:1108,word:'benevolent',def:'adj. 仁慈的；慈善的',phoneUK:'/bəˈnevələnt/',phoneUS:'/bəˈnevələnt/',catId:211,uploadTime:'2026-06-28 15:30',uploader:'教研员B',status:'rejected',auditor:'李审核',auditTime:'2026-07-01 11:00',rejectReason:'词汇分类错误，该词应归入"四级核心词汇-进阶类"而非"四级核心词汇-中阶类"，请确认后修正。'},
 ];
 let vabTab = 'pending';
 let _currentVABId = null;
@@ -6617,15 +6629,15 @@ function addVocabChild(parentId){
 
 // ==================== VOCAB LIBRARY MANAGER (词汇库管理) ====================
 let vocabLibData = [
-  {id:1001,word:'abandon',def:'v. 放弃；抛弃',status:'published',createTime:'2026-07-01',creator:'张老师',auditTime:'2026-07-03',auditor:'李主任',catId:111},
-  {id:1002,word:'abstract',def:'adj. 抽象的；n. 摘要',status:'published',createTime:'2026-07-01',creator:'张老师',auditTime:'2026-07-03',auditor:'李主任',catId:111},
-  {id:1003,word:'accommodate',def:'v. 容纳；提供住宿',status:'published',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任',catId:112},
-  {id:1004,word:'acknowledge',def:'v. 承认；确认收到',status:'published',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任',catId:113},
-  {id:1005,word:'ambitious',def:'adj. 有雄心的；野心勃勃的',status:'reviewing',createTime:'2026-07-10',creator:'赵老师',auditTime:'',auditor:'',catId:121},
-  {id:1006,word:'arbitrary',def:'adj. 任意的；武断的',status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:'',catId:121},
-  {id:1007,word:'benevolent',def:'adj. 仁慈的；慈善的',status:'reviewing',createTime:'2026-07-12',creator:'王教研',auditTime:'',auditor:'',catId:211},
-  {id:1008,word:'comprehensive',def:'adj. 全面的；综合的',status:'rejected',createTime:'2026-07-08',creator:'赵老师',auditTime:'2026-07-09',auditor:'李主任',catId:211,rejectReason:'释义不准确，comprehensive 侧重\"广泛的\"而非\"全面的\"，建议修改并补充例句'},
-  {id:1009,word:'deteriorate',def:'v. 恶化；退化',status:'rejected',createTime:'2026-07-09',creator:'张老师',auditTime:'2026-07-10',auditor:'李主任',catId:212,rejectReason:'大纲分类选择有误，该词汇应归入核心词汇-低频词汇而非拓展词汇'},
+  {id:1001,word:'abandon',def:'v. 放弃；抛弃',phoneUK:'/əˈbændən/',phoneUS:'/əˈbændən/',status:'published',createTime:'2026-07-01',creator:'张老师',auditTime:'2026-07-03',auditor:'李主任',catId:111},
+  {id:1002,word:'abstract',def:'adj. 抽象的；n. 摘要',phoneUK:'/ˈæbstrækt/',phoneUS:'/ˈæbstrækt/',status:'published',createTime:'2026-07-01',creator:'张老师',auditTime:'2026-07-03',auditor:'李主任',catId:111},
+  {id:1003,word:'accommodate',def:'v. 容纳；提供住宿',phoneUK:'/əˈkɒmədeɪt/',phoneUS:'/əˈkɑːmədeɪt/',status:'published',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任',catId:112},
+  {id:1004,word:'acknowledge',def:'v. 承认；确认收到',phoneUK:'/əkˈnɒlɪdʒ/',phoneUS:'/əkˈnɑːlɪdʒ/',status:'published',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任',catId:113},
+  {id:1005,word:'ambitious',def:'adj. 有雄心的；野心勃勃的',phoneUK:'/æmˈbɪʃəs/',phoneUS:'/æmˈbɪʃəs/',status:'reviewing',createTime:'2026-07-10',creator:'赵老师',auditTime:'',auditor:'',catId:121},
+  {id:1006,word:'arbitrary',def:'adj. 任意的；武断的',phoneUK:'/ˈɑːbɪtrəri/',phoneUS:'/ˈɑːrbɪtreri/',status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:'',catId:121},
+  {id:1007,word:'benevolent',def:'adj. 仁慈的；慈善的',phoneUK:'/bəˈnevələnt/',phoneUS:'/bəˈnevələnt/',status:'reviewing',createTime:'2026-07-12',creator:'王教研',auditTime:'',auditor:'',catId:211},
+  {id:1008,word:'comprehensive',def:'adj. 全面的；综合的',phoneUK:'/ˌkɒmprɪˈhensɪv/',phoneUS:'/ˌkɑːmprɪˈhensɪv/',status:'rejected',createTime:'2026-07-08',creator:'赵老师',auditTime:'2026-07-09',auditor:'李主任',catId:211,rejectReason:'释义不准确，comprehensive 侧重\"广泛的\"而非\"全面的\"，建议修改并补充例句'},
+  {id:1009,word:'deteriorate',def:'v. 恶化；退化',phoneUK:'/dɪˈtɪəriəreɪt/',phoneUS:'/dɪˈtɪriəreɪt/',status:'rejected',createTime:'2026-07-09',creator:'张老师',auditTime:'2026-07-10',auditor:'李主任',catId:212,rejectReason:'大纲分类选择有误，该词汇应归入核心词汇-低频词汇而非拓展词汇'},
 ];
 let _vocabLibNextId=1010;
 let vocabLibTab='published';
@@ -6667,13 +6679,15 @@ function renderVocabLibTable(){
     $('vocabLibTableWrap').innerHTML='<div class="vocab-empty">暂无数据</div>';
     return;
   }
-  let h='<table class="vocablib-table"><thead><tr><th>词汇ID</th><th>词汇</th><th>释义</th><th>大纲分类</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  let h='<table class="vocablib-table"><thead><tr><th>词汇ID</th><th>词汇</th><th>音标</th><th>释义</th><th>大纲分类</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
   filtered.forEach(v=>{
     const statusMap={published:'已发布',reviewing:'审核中',rejected:'已驳回'};
     const catPath=getVocabCatPath(v.catId);
+    const phone=(v.phoneUK||v.phoneUS)?('英 '+(v.phoneUK||'-')+'<br>美 '+(v.phoneUS||'-')):'-';
     h+='<tr>';
     h+='<td>'+v.id+'</td>';
     h+='<td><span class="vocablib-word">'+escHtml(v.word)+'</span></td>';
+    h+='<td style="font-size:11px;color:#6b7280;line-height:1.5">'+phone+'</td>';
     h+='<td><span class="vocablib-def" title="'+escAttr(v.def)+'">'+escHtml(v.def)+'</span></td>';
     h+='<td><span class="vocablib-cat-path" title="'+escAttr(catPath)+'">'+escHtml(catPath)+'</span></td>';
     h+='<td>'+v.createTime+'</td>';
@@ -6836,6 +6850,7 @@ function showVocabLibDetail(id){
         <div class="vocablib-modal-card">\
           <div class="card-title">词汇</div>\
           <div class="word-big">'+escHtml(v.word)+'</div>\
+          '+(v.phoneUK||v.phoneUS?'<div style="font-size:13px;color:#6b7280;margin-top:4px">英 '+(v.phoneUK||'-')+' &nbsp; 美 '+(v.phoneUS||'-')+'</div>':'')+'\
         </div>\
         <div class="vocablib-modal-card">\
           <div class="card-title">释义</div>\
@@ -6902,6 +6917,14 @@ function editVocabLibWord(id){
         <div class="vocablib-edit-field">\
           <label><span class="req">*</span> 词汇</label>\
           <input class="vocablib-edit-input" id="veEditWordInput" value="'+escAttr(v.word)+'" placeholder="请输入英文词汇">\
+        </div>\
+        <div class="vocablib-edit-field">\
+          <label>音标（英式） <span style="font-weight:400;color:#9ca3af">选填</span></label>\
+          <input class="vocablib-edit-input" id="veEditPhoneUK" value="'+escAttr(v.phoneUK||'')+'" placeholder="如 /əˈbændən/">\
+        </div>\
+        <div class="vocablib-edit-field">\
+          <label>音标（美式） <span style="font-weight:400;color:#9ca3af">选填</span></label>\
+          <input class="vocablib-edit-input" id="veEditPhoneUS" value="'+escAttr(v.phoneUS||'')+'" placeholder="如 /əˈbændən/">\
         </div>\
         <div class="vocablib-edit-field">\
           <label><span class="req">*</span> 释义</label>\
@@ -7020,11 +7043,15 @@ function saveVocabLibEdit(id){
   const word=document.getElementById('veEditWordInput').value.trim();
   const defEl=document.getElementById('veEditDefRichtext');
   const def=defEl?defEl.textContent.trim():'';
+  const phoneUK=document.getElementById('veEditPhoneUK').value.trim();
+  const phoneUS=document.getElementById('veEditPhoneUS').value.trim();
   if(!word){showToast('请输入词汇','error');return;}
   if(!def){showToast('请输入释义','error');return;}
   if(!veEditSelected.l3){showToast('请选择完整的三级大纲分类','error');return;}
   v.word=word;
   v.def=def;
+  v.phoneUK=phoneUK;
+  v.phoneUS=phoneUS;
   v.catId=veEditSelected.l3.id;
   closeVocabLibEditModal();
   renderVocabLibTable();
@@ -7056,6 +7083,8 @@ function initVocabEntry(){
   veSelected={l1:null,l2:null,l3:null};
   renderVeCatDisplay();
   $('veWordInput').value='';
+  $('vePhoneUK').value='';
+  $('vePhoneUS').value='';
   $('veRichtextDef').innerHTML='<p>请输入释义...</p>';
   $('veLivePreview').innerHTML='<span style="color:#9ca3af">填写词汇和释义后，此处将展示预览效果</span>';
   bindVePreviewEvents();
@@ -7156,6 +7185,11 @@ function refreshVePreview(){
     return;
   }
   let h='<div class="ve-preview-word">'+escHtml(word)+'</div>';
+  const phoneUK=$('vePhoneUK').value.trim();
+  const phoneUS=$('vePhoneUS').value.trim();
+  if(phoneUK||phoneUS){
+    h+='<div style="font-size:12px;color:#6b7280;margin-bottom:10px">英 '+(phoneUK||'-')+' &nbsp; 美 '+(phoneUS||'-')+'</div>';
+  }
   if(veSelected.l3){
     const path=getVocabCatPath(veSelected.l3.id);
     h+='<span class="ve-preview-cat">'+escHtml(path)+'</span>';
@@ -7188,6 +7222,8 @@ function clearVeForm(){
   veSelected={l1:null,l2:null,l3:null};
   renderVeCatDisplay();
   $('veWordInput').value='';
+  $('vePhoneUK').value='';
+  $('vePhoneUS').value='';
   $('veRichtextDef').innerHTML='<p>请输入释义...</p>';
   $('veLivePreview').innerHTML='<span style="color:#9ca3af">填写词汇和释义后，此处将展示预览效果</span>';
   showToast('表单已清空','success');
@@ -7206,6 +7242,8 @@ function saveVeWord(){
     id:++_vocabLibNextId,
     word:word,
     def:defText,
+    phoneUK:$('vePhoneUK').value.trim(),
+    phoneUS:$('vePhoneUS').value.trim(),
     status:'reviewing',
     createTime:new Date().toISOString().slice(0,10),
     creator:'当前用户',
@@ -7216,6 +7254,8 @@ function saveVeWord(){
   veSelected={l1:null,l2:null,l3:null};
   renderVeCatDisplay();
   $('veWordInput').value='';
+  $('vePhoneUK').value='';
+  $('vePhoneUS').value='';
   $('veRichtextDef').innerHTML='<p>请输入释义...</p>';
   $('veLivePreview').innerHTML='<span style="color:#9ca3af">填写词汇和释义后，此处将展示预览效果</span>';
   showToast('词汇已保存（状态：审核中）','success');
@@ -10602,8 +10642,10 @@ function renderVABTable(){
     } else {
       opBtn = '<button class="btn btn-ghost btn-xs" onclick="openVABDetailModal('+d.id+')">查看</button>';
     }
+    const phone=(d.phoneUK||d.phoneUS)?('英 '+(d.phoneUK||'-')+'<br>美 '+(d.phoneUS||'-')):'-';
     h += '<tr>'+
       '<td><span class="vocablib-word">'+escHtml(d.word)+'</span></td>'+
+      '<td style="font-size:11px;color:#6b7280;line-height:1.5">'+phone+'</td>'+
       '<td><span class="vocablib-def" title="'+escHtml(d.def)+'">'+escHtml(d.def)+'</span></td>'+
       '<td><span class="vocablib-cat-path" title="'+escHtml(catPath)+'">'+escHtml(catPath)+'</span></td>'+
       '<td>'+escHtml(d.uploadTime)+'</td>'+
@@ -10645,6 +10687,7 @@ function openVABDetailModal(id){
       '<div class="vocablib-modal-card" style="margin-bottom:16px">'+
         '<div class="card-title">词汇</div>'+
         '<div class="word-big">'+escHtml(d.word)+'</div>'+
+        (d.phoneUK||d.phoneUS?'<div style="font-size:13px;color:#6b7280;margin-top:4px">英 '+(d.phoneUK||'-')+' &nbsp; 美 '+(d.phoneUS||'-')+'</div>':'')+
       '</div>'+
       '<div class="vocablib-modal-card" style="margin-bottom:16px">'+
         '<div class="card-title">释义</div>'+
