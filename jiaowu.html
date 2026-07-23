@@ -39,6 +39,21 @@ table{border-collapse:collapse;width:100%}
 .nav-item.active{background:var(--sidebar-active);color:#fff;font-weight:500}
 .nav-item .nav-icon{width:20px;text-align:center;font-size:15px}
 
+/* 可展开菜单组 */
+.nav-group-header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius);color:#94a3b8;font-size:14px;cursor:pointer;transition:all var(--transition);margin-bottom:2px;user-select:none}
+.nav-group-header:hover{background:var(--sidebar-hover);color:#e2e8f0}
+.nav-group-header .nav-icon{width:20px;text-align:center;font-size:15px}
+.nav-group-header .nav-arrow{margin-left:auto;font-size:10px;transition:transform var(--transition)}
+.nav-group-body{overflow:hidden;max-height:0;transition:max-height .25s ease}
+.nav-group-body.open{max-height:300px}
+.nav-sub-item{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 42px;border-radius:var(--radius);color:#64748b;font-size:13px;cursor:pointer;transition:all var(--transition);text-decoration:none;user-select:none}
+.nav-sub-item:hover{background:var(--sidebar-hover);color:#cbd5e1}
+.nav-sub-item.active{background:var(--sidebar-active);color:#fff;font-weight:500}
+.nav-group-header .badge{margin-left:auto;margin-right:6px;background:var(--danger);color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center}
+.nav-group-header .badge:empty{display:none}
+.nav-sub-item .badge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;min-width:18px;text-align:center}
+.nav-sub-item .badge:empty{display:none}
+
 /* ========== Topbar ========== */
 .topbar{height:var(--topbar-h);min-height:var(--topbar-h);background:var(--card-bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:5}
 .topbar-title{font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
@@ -112,6 +127,82 @@ table{border-collapse:collapse;width:100%}
 .status-active{background:var(--success-bg);color:var(--success)}
 .status-inactive{background:var(--danger-bg);color:var(--danger)}
 .status-pending{background:var(--warning-bg);color:var(--warning)}
+.status-completed{background:#f1f5f9;color:#64748b}
+.status-reviewing{background:#eff6ff;color:#2563eb}
+.status-rejected{background:#fef2f2;color:#dc2626}
+
+/* ========== Switch disabled ========== */
+.switch.disabled{opacity:0.55;pointer-events:none}
+.switch.disabled .slider{cursor:not-allowed}
+
+/* ========== Student Tabs ========== */
+.student-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid var(--border)}
+.student-tab{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;position:relative;transition:all var(--transition);border:none;background:none}
+.student-tab:hover{color:var(--text)}
+.student-tab.active{color:var(--primary)}
+.student-tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--primary);border-radius:1px}
+
+/* ========== Class Tabs ========== */
+.class-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid var(--border)}
+.class-tab{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;position:relative;transition:all var(--transition);border:none;background:none}
+.class-tab:hover{color:var(--text)}
+.class-tab.active{color:var(--primary)}
+.class-tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--primary);border-radius:1px}
+
+/* ========== Headteacher Tabs ========== */
+.headteacher-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid var(--border)}
+.headteacher-tab{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;position:relative;transition:all var(--transition);border:none;background:none}
+.headteacher-tab:hover{color:var(--text)}
+.headteacher-tab.active{color:var(--primary)}
+.headteacher-tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--primary);border-radius:1px}
+
+/* ========== Review Banner ========== */
+.review-banner{display:none;padding:12px 16px;border-radius:var(--radius);margin-bottom:16px;font-size:13px;line-height:1.6}
+.review-banner.reviewing{display:block;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
+.review-banner.rejected{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.review-banner .review-banner-title{font-weight:600;font-size:14px;margin-bottom:4px}
+.review-banner .review-banner-reason{margin-top:4px;padding-top:6px;border-top:1px solid rgba(0,0,0,.1)}
+
+/* ========== Review Tabs ========== */
+.review-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid var(--border)}
+.review-tab{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;position:relative;transition:all var(--transition);border:none;background:none}
+.review-tab:hover{color:var(--text)}
+.review-tab.active{color:var(--primary)}
+.review-tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--primary);border-radius:1px}
+
+/* ========== Review Action Bar ========== */
+.review-action-bar{display:flex;gap:12px;padding:16px 0;border-top:1px solid var(--border);margin-top:20px;align-items:center}
+.review-action-bar .btn-approve{background:var(--success);color:#fff;border:none;padding:10px 24px;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition)}
+.review-action-bar .btn-approve:hover{background:#059669}
+.review-action-bar .btn-reject{background:var(--danger);color:#fff;border:none;padding:10px 24px;border-radius:var(--radius);font-size:14px;font-weight:500;cursor:pointer;transition:all var(--transition)}
+.review-action-bar .btn-reject:hover{background:#dc2626}
+
+/* ========== Review Log ========== */
+.review-log{margin-top:20px}
+.review-log-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.review-log-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;align-items:flex-start}
+.review-log-item:last-child{border-bottom:none}
+.review-log-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
+.review-log-icon.approved{background:#ecfdf5;color:#059669}
+.review-log-icon.rejected{background:#fef2f2;color:#dc2626}
+.review-log-body{flex:1}
+.review-log-result{font-weight:500;margin-bottom:2px}
+.review-log-result .approved{color:#059669}
+.review-log-result .rejected{color:#dc2626}
+.review-log-meta{color:var(--text-muted);font-size:12px}
+.review-log-reason{margin-top:4px;padding:6px 10px;background:#fef2f2;border-radius:4px;color:#991b1b;font-size:12px}
+
+/* ========== Inline Reject Panel ========== */
+.reject-panel{display:none;margin-top:16px;padding:16px;background:#fef2f2;border:1px solid #fecaca;border-radius:var(--radius)}
+.reject-panel.show{display:block}
+.reject-panel textarea{width:100%;min-height:70px;padding:8px 12px;border:1px solid #fecaca;border-radius:4px;font-size:13px;resize:vertical;outline:none;background:#fff}
+.reject-panel textarea:focus{border-color:var(--danger)}
+.reject-panel .reject-panel-actions{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.reject-panel .reject-panel-actions .btn-cancel-reject{background:#fff;color:var(--text);border:1px solid var(--border);padding:6px 16px;border-radius:var(--radius);font-size:12px;cursor:pointer}
+.reject-panel .reject-panel-actions .btn-confirm-reject{background:var(--danger);color:#fff;border:none;padding:6px 16px;border-radius:var(--radius);font-size:12px;cursor:pointer}
+
+/* ========== Review Count Badge ========== */
+.review-count{display:inline-block;min-width:18px;height:18px;border-radius:9px;background:var(--danger);color:#fff;font-size:11px;font-weight:600;text-align:center;line-height:18px;padding:0 5px;margin-left:4px}
 
 /* ========== Switch ========== */
 .switch{position:relative;display:inline-block;width:40px;height:22px}
@@ -125,7 +216,17 @@ table{border-collapse:collapse;width:100%}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:1000;justify-content:center;align-items:flex-start;padding:60px 20px 20px;overflow-y:auto}
 .modal-overlay.show{display:flex}
 .modal{background:var(--card-bg);border-radius:10px;box-shadow:var(--shadow-lg);width:100%;max-width:520px;animation:modalIn .25s ease}
-.modal.wide{max-width:680px}
+.modal.wide{width:720px;max-width:95vw;height:560px;max-height:85vh;display:flex;flex-direction:column}
+.modal.wide .modal-body{flex:1;overflow-y:auto}
+.modal.wide .modal-footer{flex-shrink:0}
+.modal.xlarge{width:860px;max-width:96vw;height:680px;max-height:90vh;display:flex;flex-direction:column}
+.modal.xlarge .modal-body{flex:1;overflow-y:auto;padding:20px 28px}
+.modal.xlarge .modal-footer{flex-shrink:0}
+.form-section{margin-bottom:20px}
+.form-section-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.form-section-title::before{content:"";width:3px;height:14px;background:var(--primary);border-radius:2px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+.form-grid.col3{grid-template-columns:1fr 1fr 1fr}
 @keyframes modalIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border)}
 .modal-header h3{font-size:16px;font-weight:600}
@@ -147,6 +248,21 @@ table{border-collapse:collapse;width:100%}
 .checkbox-group label:hover{border-color:var(--primary)}
 .checkbox-group input:checked+span{color:var(--primary)}
 .checkbox-group label:has(input:checked){border-color:var(--primary);background:var(--primary-light)}
+
+/* ========== 报名科目选择 ========== */
+.subject-selector{border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+.subject-selector .subject-row{display:flex;align-items:flex-start;gap:16px;margin-bottom:10px}
+.subject-selector .subject-row:last-child{margin-bottom:0}
+.subject-check{display:flex;align-items:center;gap:6px;min-width:80px;padding-top:6px}
+.subject-check input[type="checkbox"]{width:16px;height:16px;accent-color:var(--primary)}
+.subject-check span{font-size:13px;font-weight:500;color:var(--text)}
+.sub-subjects{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sub-chips{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.chip-label{display:flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:16px;font-size:12px;cursor:pointer;transition:all var(--transition);user-select:none;white-space:nowrap}
+.chip-label:hover{border-color:var(--primary);color:var(--primary)}
+.chip-label input[type="checkbox"]{display:none}
+.chip-label:has(input:checked){background:var(--primary-light);border-color:var(--primary);color:var(--primary)}
+.subject-hint{font-size:12px;color:var(--text-muted);padding-top:6px}
 
 /* ========== Steps ========== */
 .steps{display:flex;margin-bottom:24px;gap:0}
@@ -190,7 +306,42 @@ table{border-collapse:collapse;width:100%}
 .level-select-group select{flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:28px}
 .level-select-group span{font-size:13px;color:var(--text-muted);min-width:20px;text-align:center}
 
-/* ========== Empty state ========== */
+/* ========== Autocomplete 模糊搜索下拉 ========== */
+.autocomplete{position:relative;width:100%}
+.autocomplete-input{width:100%;padding:8px 32px 8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;outline:none;transition:border var(--transition);background:#fff;cursor:text}
+.autocomplete-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.autocomplete-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:transparent;display:none;align-items:center;justify-content:center;font-size:12px;color:var(--text-muted);cursor:pointer;transition:all var(--transition)}
+.autocomplete-clear:hover{background:var(--border);color:var(--text)}
+.autocomplete-clear.visible{display:flex}
+.autocomplete-arrow{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--text-muted);pointer-events:none;transition:transform var(--transition)}
+.autocomplete.open .autocomplete-arrow{transform:translateY(-50%) rotate(180deg)}
+.autocomplete-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;max-height:200px;overflow-y:auto;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:200}
+.autocomplete.open .autocomplete-dropdown{display:block}
+.autocomplete-item{padding:8px 12px;font-size:13px;color:var(--text);cursor:pointer;transition:background var(--transition);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.autocomplete-item:hover,.autocomplete-item.highlighted{background:var(--primary-light);color:var(--primary)}
+.autocomplete-item mark{background:transparent;color:var(--primary);font-weight:600}
+.autocomplete-empty{padding:10px 12px;font-size:13px;color:var(--text-muted);text-align:center}
+/* 筛选栏中的 autocomplete 宽度适配 */
+.filter-autocomplete{min-width:150px;max-width:200px}
+
+/* ========== Filter Panel ========== */
+.filter-panel{margin-bottom:16px}
+.filter-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.filter-row:last-child{margin-bottom:0}
+.filter-date{display:flex;align-items:center;gap:6px}
+.filter-date input[type="date"]{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;width:130px}
+.filter-date input[type="date"]:focus{border-color:var(--primary)}
+.filter-date span{font-size:12px;color:var(--text-muted)}
+.filter-label{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+.filter-actions{display:flex;gap:8px;margin-left:auto}
+.level-tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;margin-top:2px}
+.level-math-sub{background:#dbeafe;color:#1d4ed8}
+.level-eng-sub{background:#fef3c7;color:#92400e}
+.subject-cell{line-height:1.8}
+.subject-cell .subject-line{display:block}
+/* ========== Disabled score ========== */
+.score-disabled{opacity:0.4;pointer-events:none}
+.score-disabled select{pointer-events:none}
 .empty-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
 .empty-state .empty-icon{font-size:40px;margin-bottom:12px}
 
@@ -210,22 +361,43 @@ table{border-collapse:collapse;width:100%}
       <div class="text">考研学习平台</div>
     </div>
     <nav class="sidebar-nav">
+      <!-- ===== 教务管理 ===== -->
       <div class="nav-group">
-        <a class="nav-item" data-tab="district">
-          <span class="nav-icon">&#127970;</span> 学区管理
-        </a>
-        <a class="nav-item" data-tab="class">
-          <span class="nav-icon">&#127979;</span> 班级管理
-        </a>
-        <a class="nav-item active" data-tab="student">
-          <span class="nav-icon">&#127891;</span> 学员管理
-        </a>
-        <a class="nav-item" data-tab="headteacher">
-          <span class="nav-icon">&#128100;</span> 班主任账号管理
-        </a>
-        <a class="nav-item" data-tab="researcher">
-          <span class="nav-icon">&#128218;</span> 教研员账号管理
-        </a>
+        <div class="nav-group-header" onclick="toggleNavGroup(this)">
+          <span class="nav-icon">&#128218;</span> 教务管理
+          <span class="nav-arrow">&#9662;</span>
+          <span class="badge" id="jiaowuBadge"></span>
+        </div>
+        <div class="nav-group-body open">
+          <a class="nav-sub-item" data-tab="class">
+            <span class="nav-icon">&#127979;</span> 班级管理
+          </a>
+          <a class="nav-sub-item active" data-tab="student">
+            <span class="nav-icon">&#127891;</span> 学员管理
+          </a>
+          <a class="nav-sub-item" data-tab="headteacher">
+            <span class="nav-icon">&#128100;</span> 班主任管理
+          </a>
+        </div>
+      </div>
+      <!-- ===== 教务审核 ===== -->
+      <div class="nav-group">
+        <div class="nav-group-header" onclick="toggleNavGroup(this)">
+          <span class="nav-icon">&#128221;</span> 教务审核
+          <span class="nav-arrow">&#9662;</span>
+          <span class="badge" id="shenheBadge"></span>
+        </div>
+        <div class="nav-group-body open">
+          <a class="nav-sub-item" data-tab="review-class">
+            <span class="nav-icon">&#128221;</span> 班级审核
+          </a>
+          <a class="nav-sub-item" data-tab="review-student">
+            <span class="nav-icon">&#128221;</span> 学员审核
+          </a>
+          <a class="nav-sub-item" data-tab="review-headteacher">
+            <span class="nav-icon">&#128221;</span> 班主任审核
+          </a>
+        </div>
       </div>
     </nav>
   </aside>
@@ -259,44 +431,11 @@ table{border-collapse:collapse;width:100%}
     <!-- Content -->
     <div class="content">
 
-      <!-- ==================== 学区管理 ==================== -->
-      <div class="tab-panel" id="tab-district">
-        <div class="page-header">
-          <h2>学区管理</h2>
-          <button class="btn btn-primary" onclick="openModal('districtModal')">+ 新增学区</button>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="search-bar">
-              <div class="search-input">
-                <span class="search-icon">&#128269;</span>
-                <input type="text" placeholder="搜索学区名称..." oninput="filterTable('districtTable',this.value)">
-              </div>
-            </div>
-            <div style="overflow-x:auto">
-              <table class="data-table" id="districtTable">
-                <thead>
-                  <tr><th>学区名称</th><th>地址</th><th>联系方式</th><th>状态</th><th>创建时间</th><th style="width:140px">操作</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>海淀学区中心</td><td>北京市海淀区中关村大街1号</td><td>010-62880001</td><td><span class="status status-active">启用</span></td><td>2025-01-15</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
-                  <tr><td>朝阳学区中心</td><td>北京市朝阳区建国路88号</td><td>010-62880002</td><td><span class="status status-active">启用</span></td><td>2025-02-20</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
-                  <tr><td>西城学区中心</td><td>北京市西城区金融街15号</td><td>010-62880003</td><td><span class="status status-inactive">停用</span></td><td>2025-03-10</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
-                  <tr><td>丰台学区中心</td><td>北京市丰台区丰管路50号</td><td>010-62880004</td><td><span class="status status-active">启用</span></td><td>2025-04-05</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
-                  <tr><td>昌平学区中心</td><td>北京市昌平区府学路26号</td><td>010-62880005</td><td><span class="status status-active">启用</span></td><td>2025-05-18</td><td><button class="btn btn-ghost btn-xs" onclick="openModal('districtModal','edit')">编辑</button><label class="switch" style="margin-left:4px"><input type="checkbox" checked onchange="toggleStatus(this)"><span class="slider"></span></label></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pagination"><span class="pagination-info">共 5 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
-          </div>
-        </div>
-      </div>
-
       <!-- ==================== 班级管理 ==================== -->
       <div class="tab-panel" id="tab-class">
         <div class="page-header" id="classPageHeader">
           <h2>班级管理</h2>
-          <button class="btn btn-primary" onclick="openModal('classModal')">+ 新增班级</button>
+          <button class="btn btn-primary" onclick="openNewClassModal()">+ 新增班级</button>
         </div>
 
         <!-- 班级列表视图 -->
@@ -306,44 +445,46 @@ table{border-collapse:collapse;width:100%}
               <div class="search-bar">
                 <div class="search-input">
                   <span class="search-icon">&#128269;</span>
-                  <input type="text" placeholder="搜索班级名称..." oninput="filterTable('classTable',this.value)">
+                  <input type="text" placeholder="搜索班级名称..." id="classKeyword" oninput="doClassQuery()">
                 </div>
                 <div class="filter-select">
-                  <select onchange="filterClassTable()" id="classDistrictFilter">
+                  <select onchange="doClassQuery()" id="classDistrictFilter">
                     <option value="">全部学区</option>
                     <option>海淀学区中心</option>
                     <option>朝阳学区中心</option>
                     <option>西城学区中心</option>
                   </select>
                 </div>
-                <div class="filter-select">
-                  <select onchange="filterClassTable()" id="classTeacherFilter">
-                    <option value="">全部班主任</option>
-                    <option>张老师</option>
-                    <option>李老师</option>
-                    <option>王老师</option>
-                  </select>
+                <div class="filter-autocomplete">
+                  <div class="autocomplete" id="teacherFilterAc">
+                    <input class="autocomplete-input" type="text" placeholder="全部班主任" autocomplete="off">
+                    <span class="autocomplete-clear">&#10005;</span>
+                    <span class="autocomplete-arrow">&#9660;</span>
+                    <div class="autocomplete-dropdown"></div>
+                  </div>
                 </div>
-                <div class="filter-select">
-                  <select onchange="filterClassTable()" id="classStatusFilter">
-                    <option value="">全部状态</option>
-                    <option>已开班</option>
-                    <option>未开班</option>
-                    <option>已结课</option>
-                  </select>
-                </div>
+                <button class="btn btn-outline btn-xs" onclick="resetClassFilter()">重置</button>
+              </div>
+              <!-- TAB 切换 -->
+              <div class="class-tabs">
+                <button class="class-tab active" data-tab="" onclick="switchClassTab('',this)">全部</button>
+                <button class="class-tab" data-tab="已开班" onclick="switchClassTab('已开班',this)">已开班</button>
+                <button class="class-tab" data-tab="未开班" onclick="switchClassTab('未开班',this)">未开班</button>
+                <button class="class-tab" data-tab="审核中" onclick="switchClassTab('审核中',this)">审核中</button>
+                <button class="class-tab" data-tab="审核驳回" onclick="switchClassTab('审核驳回',this)">审核驳回</button>
+                <button class="class-tab" data-tab="已结课" onclick="switchClassTab('已结课',this)">已结课</button>
               </div>
               <div style="overflow-x:auto">
                 <table class="data-table" id="classTable">
                   <thead>
-                    <tr><th>班级名称</th><th>所属学区</th><th>班主任</th><th>学员数</th><th>开班时间</th><th>状态</th><th style="width:120px">操作</th></tr>
+                    <tr><th>班级名称</th><th>所属学区</th><th>班主任</th><th>学员数</th><th>开班时间</th><th>结课时间</th><th>状态</th><th style="width:120px">操作</th></tr>
                   </thead>
                   <tbody>
-                    <tr><td>25考研数学一班</td><td>海淀学区中心</td><td>张老师</td><td>32</td><td>2025-03-01</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研数学一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
-                    <tr><td>25考研英语一班</td><td>海淀学区中心</td><td>李老师</td><td>28</td><td>2025-03-01</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研英语一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
-                    <tr><td>25考研数学二班</td><td>朝阳学区中心</td><td>王老师</td><td>25</td><td>2025-04-15</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研数学二班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
-                    <tr><td>26考研英语预备班</td><td>西城学区中心</td><td>张老师</td><td>0</td><td>2025-09-01</td><td><span class="status status-pending">未开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('26考研英语预备班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
-                    <tr><td>25考研政治一班</td><td>海淀学区中心</td><td>李老师</td><td>30</td><td>2025-02-15</td><td><span class="status status-inactive">已结课</span></td><td><button class="btn btn-ghost btn-xs" onclick="showClassDetail('25考研政治一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openModal('classModal','edit')">编辑</button></td></tr>
+                    <tr><td>25考研数学一班</td><td>海淀学区中心</td><td>张老师</td><td>32</td><td>2025-03-01</td><td class="end-date">2026-12-31</td><td><span class="status status-active">已开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="openClassDetailModal('25考研数学一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openClassEditModal('25考研数学一班')">编辑</button></td></tr>
+                    <tr><td>25考研英语一班</td><td>海淀学区中心</td><td>李老师</td><td>28</td><td>2025-03-01</td><td class="end-date">2026-12-31</td><td><span class="status status-reviewing">审核中</span></td><td><button class="btn btn-ghost btn-xs" onclick="openClassDetailModal('25考研英语一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openClassEditModal('25考研英语一班')">编辑</button></td></tr>
+                    <tr><td>25考研数学二班</td><td>朝阳学区中心</td><td>王老师</td><td>25</td><td>2025-04-15</td><td class="end-date">2026-06-30</td><td><span class="status status-rejected">审核驳回</span></td><td><button class="btn btn-ghost btn-xs" onclick="openClassDetailModal('25考研数学二班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openClassEditModal('25考研数学二班')">编辑</button></td></tr>
+                    <tr><td>26考研英语预备班</td><td>西城学区中心</td><td>张老师</td><td>0</td><td>2025-09-01</td><td class="end-date">2026-12-31</td><td><span class="status status-pending">未开班</span></td><td><button class="btn btn-ghost btn-xs" onclick="openClassDetailModal('26考研英语预备班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openClassEditModal('26考研英语预备班')">编辑</button></td></tr>
+                    <tr><td>25考研政治一班</td><td>海淀学区中心</td><td>李老师</td><td>30</td><td>2025-02-15</td><td class="end-date">2025-12-31</td><td><span class="status status-inactive">已结课</span></td><td><button class="btn btn-ghost btn-xs" onclick="openClassDetailModal('25考研政治一班')">详情</button><button class="btn btn-ghost btn-xs" onclick="openClassEditModal('25考研政治一班')">编辑</button></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -351,39 +492,8 @@ table{border-collapse:collapse;width:100%}
             </div>
           </div>
         </div>
-
-        <!-- 班级详情视图 -->
-        <div class="detail-panel" id="classDetail">
-          <button class="back-link" onclick="hideClassDetail()">&#8592; 返回班级列表</button>
-          <div class="card" style="margin-bottom:20px">
-            <div class="card-body">
-              <h3 style="font-size:16px;margin-bottom:16px" id="detailClassName">班级详情</h3>
-              <div class="detail-grid">
-                <div class="detail-item"><label>班级名称</label><div class="value" id="detName">-</div></div>
-                <div class="detail-item"><label>所属学区</label><div class="value" id="detDistrict">-</div></div>
-                <div class="detail-item"><label>班主任</label><div class="value" id="detTeacher">-</div></div>
-                <div class="detail-item"><label>学员人数</label><div class="value" id="detCount">-</div></div>
-                <div class="detail-item"><label>开班时间</label><div class="value" id="detDate">-</div></div>
-                <div class="detail-item"><label>状态</label><div class="value" id="detStatus">-</div></div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-body">
-              <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">学员列表</h3>
-              <div style="overflow-x:auto">
-                <table class="data-table">
-                  <thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>层级</th><th>状态</th></tr></thead>
-                  <tbody id="classStudentList">
-                    <tr><td>2025001</td><td>张三</td><td>138****8001</td><td><span class="layer-tag layer-math">数学：80-120</span><span class="layer-tag layer-english">英语：70-85</span></td><td><span class="status status-active">在读</span></td></tr>
-                    <tr><td>2025002</td><td>李四</td><td>138****8002</td><td><span class="layer-tag layer-math">数学：65-110</span><span class="layer-tag layer-english">英语：60-80</span></td><td><span class="status status-active">在读</span></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+
 
       <!-- ==================== 学员管理（默认） ==================== -->
       <div class="tab-panel active" id="tab-student">
@@ -393,43 +503,84 @@ table{border-collapse:collapse;width:100%}
         </div>
         <div class="card">
           <div class="card-body">
-            <div class="search-bar">
+            <!-- 筛选区域 -->
+            <div class="filter-panel">
+              <div class="filter-row">
+                <div class="filter-autocomplete">
+                  <div class="autocomplete" id="studentClassFilterAc">
+                    <input class="autocomplete-input" type="text" placeholder="全部班级" autocomplete="off">
+                    <span class="autocomplete-clear">&#10005;</span>
+                    <span class="autocomplete-arrow">&#9660;</span>
+                    <div class="autocomplete-dropdown"></div>
+                  </div>
+                </div>
+                <div class="filter-autocomplete">
+                  <div class="autocomplete" id="studentDistrictFilterAc">
+                    <input class="autocomplete-input" type="text" placeholder="全部学区" autocomplete="off">
+                    <span class="autocomplete-clear">&#10005;</span>
+                    <span class="autocomplete-arrow">&#9660;</span>
+                    <div class="autocomplete-dropdown"></div>
+                  </div>
+                </div>
+                <div class="filter-date">
+                  <span class="filter-label">报名时间</span>
+                  <input type="date" id="stuFilterRegStart" onchange="doStudentQuery()">
+                  <span>至</span>
+                  <input type="date" id="stuFilterRegEnd" onchange="doStudentQuery()">
+                </div>
+                <div class="filter-date">
+                  <span class="filter-label">到期时间</span>
+                  <input type="date" id="stuFilterEndStart" onchange="doStudentQuery()">
+                  <span>至</span>
+                  <input type="date" id="stuFilterEndEnd" onchange="doStudentQuery()">
+                </div>
+                <div class="filter-actions">
+                  <button class="btn btn-primary" onclick="doStudentQuery()">查询</button>
+                  <button class="btn btn-outline" onclick="resetStudentFilter()">重置</button>
+                  <button class="btn btn-outline" onclick="exportStudentTable()">导出</button>
+                </div>
+              </div>
+              <div class="filter-row">
+                <div class="filter-select">
+                  <select onchange="doStudentQuery()" id="stuFilterMathCur"><option value="">全部数学当前水平</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+                </div>
+                <div class="filter-select">
+                  <select onchange="doStudentQuery()" id="stuFilterMathTarget"><option value="">全部数学目标水平</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+                </div>
+                <div class="filter-select">
+                  <select onchange="doStudentQuery()" id="stuFilterEngCur"><option value="">全部英语当前水平</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+                </div>
+                <div class="filter-select">
+                  <select onchange="doStudentQuery()" id="stuFilterEngTarget"><option value="">全部英语目标水平</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+                </div>
+              </div>
+            </div>
+            <div class="search-bar" style="margin-bottom:16px">
               <div class="search-input">
                 <span class="search-icon">&#128269;</span>
-                <input type="text" placeholder="搜索学号/姓名/手机号..." oninput="filterTable('studentTable',this.value)">
+                <input type="text" placeholder="搜索学号/姓名/手机号..." id="studentKeyword" oninput="doStudentQuery()">
               </div>
-              <div class="filter-select">
-                <select onchange="filterStudentByLevel()" id="studentLevelFilter">
-                  <option value="">全部层级</option>
-                  <option value="math_high">数学目标≥120</option>
-                  <option value="math_mid">数学目标80-120</option>
-                  <option value="math_low">数学目标&lt;80</option>
-                  <option value="eng_high">英语目标≥80</option>
-                  <option value="eng_mid">英语目标60-80</option>
-                  <option value="eng_low">英语目标&lt;60</option>
-                </select>
-              </div>
-              <div class="filter-select">
-                <select onchange="filterTable('studentTable',this.value,'status')" id="studentStatusFilter">
-                  <option value="">全部状态</option>
-                  <option>在读</option>
-                  <option>已结课</option>
-                  <option>休学</option>
-                </select>
-              </div>
+            </div>
+            <!-- TAB 切换 -->
+            <div class="student-tabs">
+              <button class="student-tab active" data-tab="" onclick="switchStudentTab('',this)">全部</button>
+              <button class="student-tab" data-tab="在读" onclick="switchStudentTab('在读',this)">在读</button>
+              <button class="student-tab" data-tab="审核中" onclick="switchStudentTab('审核中',this)">审核中</button>
+              <button class="student-tab" data-tab="审核驳回" onclick="switchStudentTab('审核驳回',this)">审核驳回</button>
+              <button class="student-tab" data-tab="已结课" onclick="switchStudentTab('已结课',this)">已结课</button>
             </div>
             <div style="overflow-x:auto">
               <table class="data-table" id="studentTable">
                 <thead>
-                  <tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属学区</th><th>所属班级</th><th>层级</th><th>状态</th><th style="width:100px">操作</th></tr>
+                  <tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属学区</th><th>所属班级</th><th>报名科目</th><th>层级</th><th>报名时间</th><th>到期时间</th><th>状态</th><th>账号状态</th><th style="width:100px">操作</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>2025001</td><td>张三</td><td>138****8001</td><td>海淀学区中心</td><td>25考研数学一班</td><td><span class="layer-tag layer-math">数：80<span class="layer-arrow">→</span>120</span><span class="layer-tag layer-english">英：70<span class="layer-arrow">→</span>85</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
-                  <tr><td>2025002</td><td>李四</td><td>138****8002</td><td>海淀学区中心</td><td>25考研数学一班</td><td><span class="layer-tag layer-math">数：65<span class="layer-arrow">→</span>110</span><span class="layer-tag layer-english">英：60<span class="layer-arrow">→</span>80</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
-                  <tr><td>2025003</td><td>王五</td><td>139****9003</td><td>朝阳学区中心</td><td>25考研数学二班</td><td><span class="layer-tag layer-math">数：90<span class="layer-arrow">→</span>130</span><span class="layer-tag layer-english">英：75<span class="layer-arrow">→</span>90</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
-                  <tr><td>2025004</td><td>赵六</td><td>137****7004</td><td>海淀学区中心</td><td>25考研英语一班</td><td><span class="layer-tag layer-math">数：55<span class="layer-arrow">→</span>90</span><span class="layer-tag layer-english">英：50<span class="layer-arrow">→</span>70</span></td><td><span class="status status-active">在读</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
-                  <tr><td>2025005</td><td>孙七</td><td>136****6005</td><td>西城学区中心</td><td>25考研政治一班</td><td><span class="layer-tag layer-math">数：70<span class="layer-arrow">→</span>105</span><span class="layer-tag layer-english">英：65<span class="layer-arrow">→</span>80</span></td><td><span class="status status-inactive">已结课</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
-                  <tr><td>2025006</td><td>周八</td><td>135****5006</td><td>朝阳学区中心</td><td>25考研数学二班</td><td><span class="layer-tag layer-math">数：45<span class="layer-arrow">→</span>85</span><span class="layer-tag layer-english">英：40<span class="layer-arrow">→</span>65</span></td><td><span class="status status-pending">休学</span></td><td><button class="btn btn-ghost btn-xs" onclick="showToast('查看详情')">详情</button><button class="btn btn-ghost btn-xs" onclick="showToast('编辑学员')">编辑</button></td></tr>
+                  <tr data-math-cur="80-99" data-math-target="120-139" data-eng-cur="70-79" data-eng-target="80-89" data-regdate="2025-03-01" data-class="25考研数学一班" data-district="海淀学区中心"><td>2025001</td><td>张三</td><td>138****8001</td><td>海淀学区中心</td><td>25考研数学一班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-math">数学</span><span class="level-tag level-math-sub">高数</span></span><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：80<span class="layer-arrow">→</span>120</span><span class="subject-line">英：70<span class="layer-arrow">→</span>85</span></td><td>2025-03-01</td><td class="end-date">2026-12-31</td><td><span class="status status-active">在读</span></td><td class="text-center"><label class="switch"><input type="checkbox" checked onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('张三','2025001','138****8001','海淀学区中心','25考研数学一班','数学-高数、英语','男','zhangsan@example.com','110101199001011234','2025-03-01','2026-12-31','北京大学','计算机科学','北京大学','软件工程','985','2026 - 工学[08]-工学照顾专业','数：80→120 英：70→85',true,'','')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','张三')">编辑</button></td></tr>
+                  <tr data-math-cur="60-79" data-math-target="100-119" data-eng-cur="60-69" data-eng-target="80-89" data-regdate="2025-03-01" data-class="25考研数学一班" data-district="海淀学区中心" data-review-status="审核中" data-review-reason=""><td>2025002</td><td>李四</td><td>138****8002</td><td>海淀学区中心</td><td>25考研数学一班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-math">数学</span><span class="level-tag level-math-sub">高数</span><span class="level-tag level-math-sub">线代</span></span><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：65<span class="layer-arrow">→</span>110</span><span class="subject-line">英：60<span class="layer-arrow">→</span>80</span></td><td>2025-03-01</td><td class="end-date">2026-12-31</td><td><span class="status status-reviewing">审核中</span></td><td class="text-center"><label class="switch disabled"><input type="checkbox" onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('李四','2025002','138****8002','海淀学区中心','25考研数学一班','数学-高数-线代、英语','男','lisi@example.com','220101199102025678','2025-03-01','2026-12-31','清华大学','电子信息','清华大学','计算机科学','985','2026 - 工学[08]-工学照顾专业','数：65→110 英：60→80',false,'审核中','')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','李四')">编辑</button></td></tr>
+                  <tr data-math-cur="80-99" data-math-target="120-139" data-eng-cur="70-79" data-eng-target="80-89" data-regdate="2025-04-15" data-class="25考研数学二班" data-district="朝阳学区中心" data-review-status="审核中" data-review-reason=""><td>2025003</td><td>王五</td><td>139****9003</td><td>朝阳学区中心</td><td>25考研数学二班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-math">数学</span><span class="level-tag level-math-sub">概统</span></span><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：90<span class="layer-arrow">→</span>130</span><span class="subject-line">英：75<span class="layer-arrow">→</span>90</span></td><td>2025-04-15</td><td class="end-date">2026-06-30</td><td><span class="status status-reviewing">审核中</span></td><td class="text-center"><label class="switch disabled"><input type="checkbox" onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('王五','2025003','139****9003','朝阳学区中心','25考研数学二班','数学-概统、英语','男','wangwu@example.com','330101199303037890','2025-04-15','2026-06-30','浙江大学','数学','复旦大学','应用数学','211','2026 - 理学[07]-各学科专业','数：90→130 英：75→90',false,'审核中','')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','王五')">编辑</button></td></tr>
+                  <tr data-math-cur="<60" data-math-target="80-99" data-eng-cur="50-59" data-eng-target="70-79" data-regdate="2025-03-01" data-class="25考研英语一班" data-district="海淀学区中心" data-review-status="审核驳回" data-review-reason="报名科目与当前水平不符，请重新选择科目"><td>2025004</td><td>赵六</td><td>137****7004</td><td>海淀学区中心</td><td>25考研英语一班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：55<span class="layer-arrow">→</span>90</span><span class="subject-line">英：50<span class="layer-arrow">→</span>70</span></td><td>2025-03-01</td><td class="end-date">2026-12-31</td><td><span class="status status-rejected">审核驳回</span></td><td class="text-center"><label class="switch disabled"><input type="checkbox" onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('赵六','2025004','137****7004','海淀学区中心','25考研英语一班','英语','女','zhaoliu@example.com','410101199404044321','2025-03-01','2026-12-31','武汉大学','英语','北京外国语大学','翻译','211','2026 - 历史学[06]-各学科专业','数：55→90 英：50→70',false,'审核驳回','报名科目与当前水平不符，请重新选择科目')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','赵六')">编辑</button></td></tr>
+                  <tr data-math-cur="60-79" data-math-target="100-119" data-eng-cur="60-69" data-eng-target="80-89" data-regdate="2025-02-15" data-class="25考研政治一班" data-district="西城学区中心"><td>2025005</td><td>孙七</td><td>136****6005</td><td>西城学区中心</td><td>25考研政治一班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-math">数学</span><span class="level-tag level-math-sub">高数</span><span class="level-tag level-math-sub">线代</span><span class="level-tag level-math-sub">概统</span></span><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：70<span class="layer-arrow">→</span>105</span><span class="subject-line">英：65<span class="layer-arrow">→</span>80</span></td><td>2025-02-15</td><td class="end-date">2025-12-31</td><td><span class="status status-completed">已结课</span></td><td class="text-center"><label class="switch disabled"><input type="checkbox" onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('孙七','2025005','136****6005','西城学区中心','25考研政治一班','数学-高数-线代-概统、英语','未知','sunqi@example.com','510101199505055678','2025-02-15','2025-12-31','中山大学','政治学','未确定','未确定','未确定','未确定','数：70→105 英：65→80',false,'','')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','孙七')">编辑</button></td></tr>
+                  <tr data-math-cur="<60" data-math-target="80-99" data-eng-cur="<50" data-eng-target="60-69" data-regdate="2025-04-15" data-class="25考研数学二班" data-district="朝阳学区中心"><td>2025006</td><td>周八</td><td>135****5006</td><td>朝阳学区中心</td><td>25考研数学二班</td><td class="subject-cell"><span class="subject-line"><span class="layer-tag layer-math">数学</span><span class="level-tag level-math-sub">线代</span></span><span class="subject-line"><span class="layer-tag layer-english">英语</span></span></td><td class="subject-cell"><span class="subject-line">数：45<span class="layer-arrow">→</span>85</span><span class="subject-line">英：40<span class="layer-arrow">→</span>65</span></td><td>2025-04-15</td><td class="end-date">2026-06-30</td><td><span class="status status-active">在读</span></td><td class="text-center"><label class="switch"><input type="checkbox" checked onchange="toggleAccountStatus(this)"><span class="slider"></span></label></td><td><button class="btn btn-ghost btn-xs" onclick="openStudentDetailModal('周八','2025006','135****5006','朝阳学区中心','25考研数学二班','数学-线代、英语','男','zhouba@example.com','320101199606067890','2025-04-15','2026-06-30','南京大学','物理','南京大学','理论物理','本校','2026 - 理学[07]-各学科专业','数：45→85 英：40→65',true,'','')">详情</button><button class="btn btn-ghost btn-xs" onclick="openStudentModal('edit','周八')">编辑</button></td></tr>
                 </tbody>
               </table>
             </div>
@@ -438,112 +589,200 @@ table{border-collapse:collapse;width:100%}
         </div>
       </div>
 
-      <!-- ==================== 班主任账号管理 ==================== -->
+      <!-- ==================== 班主任管理 ==================== -->
       <div class="tab-panel" id="tab-headteacher">
         <div class="page-header">
-          <h2>班主任账号管理</h2>
-          <button class="btn btn-primary" onclick="openModal('headteacherModal')">+ 新增班主任</button>
+          <h2>班主任管理</h2>
+          <button class="btn btn-primary" onclick="openNewHeadteacherModal()">+ 新增班主任</button>
         </div>
         <div class="card">
           <div class="card-body">
             <div class="search-bar">
               <div class="search-input">
                 <span class="search-icon">&#128269;</span>
-                <input type="text" placeholder="搜索账号名/姓名..." oninput="filterTable('headteacherTable',this.value)">
+                <input type="text" placeholder="搜索账号名/姓名/手机号..." id="htKeyword" oninput="doHeadteacherQuery()">
               </div>
+              <div class="filter-select">
+                <select onchange="doHeadteacherQuery()" id="htDistrictFilter">
+                  <option value="">全部学区</option>
+                  <option>海淀学区中心</option>
+                  <option>朝阳学区中心</option>
+                  <option>西城学区中心</option>
+                </select>
+              </div>
+              <div class="filter-select">
+                <select onchange="doHeadteacherQuery()" id="htSubjectFilter">
+                  <option value="">全部科目</option>
+                  <option>数学</option>
+                  <option>英语</option>
+                  <option>政治</option>
+                </select>
+              </div>
+              <button class="btn btn-outline btn-xs" onclick="resetHeadteacherFilter()">重置</button>
+            </div>
+            <!-- TAB 切换 -->
+            <div class="headteacher-tabs">
+              <button class="headteacher-tab active" data-tab="" onclick="switchHeadteacherTab('',this)">全部</button>
+              <button class="headteacher-tab" data-tab="使用中" onclick="switchHeadteacherTab('使用中',this)">使用中</button>
+              <button class="headteacher-tab" data-tab="审核中" onclick="switchHeadteacherTab('审核中',this)">审核中</button>
+              <button class="headteacher-tab" data-tab="审核驳回" onclick="switchHeadteacherTab('审核驳回',this)">审核驳回</button>
+              <button class="headteacher-tab" data-tab="已停用" onclick="switchHeadteacherTab('已停用',this)">已停用</button>
             </div>
             <div style="overflow-x:auto">
               <table class="data-table" id="headteacherTable">
                 <thead>
-                  <tr><th>账号名</th><th>姓名</th><th>手机号</th><th>任教班级</th><th>状态</th><th style="width:120px">操作</th></tr>
+                  <tr><th>账号名</th><th>姓名</th><th>所属学区</th><th>教学科目</th><th>任教班级</th><th>账号状态</th><th>审核状态</th><th style="width:140px">操作</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>zhanglaoshi</td><td>张老师</td><td>138****8001</td><td>25考研数学一班、26考研英语预备班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
-                  <tr><td>lilaoshi</td><td>李老师</td><td>138****8002</td><td>25考研英语一班、25考研政治一班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
-                  <tr><td>wanglaoshi</td><td>王老师</td><td>139****9003</td><td>25考研数学二班</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('headteacherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
+                  <tr data-district="海淀学区中心" data-subject="数学,政治">
+                    <td>zhanglaoshi</td><td>张老师</td><td>海淀学区中心</td><td>数学、政治</td>
+                    <td>25考研数学一班、26考研英语预备班</td>
+                    <td><label class="switch"><input type="checkbox" checked onchange="toggleHtAccountStatus(this)"><span class="slider"></span></label></td>
+                    <td><span class="status status-active">使用中</span></td>
+                    <td><button class="btn btn-ghost btn-xs" onclick="openHtDetailModal('zhanglaoshi')">详情</button><button class="btn btn-ghost btn-xs" onclick="openHtEditModal('zhanglaoshi')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="resetHtPassword('zhanglaoshi')">重置密码</button></td>
+                  </tr>
+                  <tr data-district="海淀学区中心" data-subject="英语">
+                    <td>lilaoshi</td><td>李老师</td><td>海淀学区中心</td><td>英语</td>
+                    <td>25考研英语一班、25考研政治一班</td>
+                    <td><label class="switch"><input type="checkbox" checked onchange="toggleHtAccountStatus(this)"><span class="slider"></span></label></td>
+                    <td><span class="status status-active">使用中</span></td>
+                    <td><button class="btn btn-ghost btn-xs" onclick="openHtDetailModal('lilaoshi')">详情</button><button class="btn btn-ghost btn-xs" onclick="openHtEditModal('lilaoshi')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="resetHtPassword('lilaoshi')">重置密码</button></td>
+                  </tr>
+                  <tr data-district="朝阳学区中心" data-subject="数学">
+                    <td>wanglaoshi</td><td>王老师</td><td>朝阳学区中心</td><td>数学</td>
+                    <td>25考研数学二班</td>
+                    <td><label class="switch disabled"><input type="checkbox" disabled><span class="slider"></span></label></td>
+                    <td><span class="status status-reviewing">审核中</span></td>
+                    <td><button class="btn btn-ghost btn-xs" onclick="openHtDetailModal('wanglaoshi')">详情</button><button class="btn btn-ghost btn-xs" onclick="openHtEditModal('wanglaoshi')">编辑</button></td>
+                  </tr>
+                  <tr data-district="西城学区中心" data-subject="英语">
+                    <td>zhaolaoshi</td><td>赵老师</td><td>西城学区中心</td><td>英语</td>
+                    <td>-</td>
+                    <td><label class="switch disabled"><input type="checkbox" disabled><span class="slider"></span></label></td>
+                    <td><span class="status status-rejected">审核驳回</span></td>
+                    <td><button class="btn btn-ghost btn-xs" onclick="openHtDetailModal('zhaolaoshi')">详情</button><button class="btn btn-ghost btn-xs" onclick="openHtEditModal('zhaolaoshi')">编辑</button></td>
+                  </tr>
+                  <tr data-district="昌平学区中心" data-subject="数学,英语,政治">
+                    <td>liulaoshi</td><td>刘老师</td><td>昌平学区中心</td><td>数学、英语、政治</td>
+                    <td>25考研政治一班</td>
+                    <td><label class="switch"><input type="checkbox" onchange="toggleHtAccountStatus(this)"><span class="slider"></span></label></td>
+                    <td><span class="status status-inactive">已停用</span></td>
+                    <td><button class="btn btn-ghost btn-xs" onclick="openHtDetailModal('liulaoshi')">详情</button><button class="btn btn-ghost btn-xs" onclick="openHtEditModal('liulaoshi')">编辑</button></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
-            <div class="pagination"><span class="pagination-info">共 3 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
+            <div class="pagination"><span class="pagination-info" id="htCount">共 5 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
           </div>
         </div>
       </div>
 
-      <!-- ==================== 教研员账号管理 ==================== -->
-      <div class="tab-panel" id="tab-researcher">
-        <div class="page-header">
-          <h2>教研员账号管理</h2>
-          <button class="btn btn-primary" onclick="openModal('researcherModal')">+ 新增教研员</button>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="search-bar">
-              <div class="search-input">
-                <span class="search-icon">&#128269;</span>
-                <input type="text" placeholder="搜索账号名/姓名..." oninput="filterTable('researcherTable',this.value)">
-              </div>
+      <!-- ==================== 班级审核 ==================== -->
+      <div class="tab-panel" id="tab-review-class">
+        <div class="page-header"><h2>班级审核</h2></div>
+        <div class="card"><div class="card-body">
+          <div class="search-bar">
+            <div class="search-input">
+              <span class="search-icon">&#128269;</span>
+              <input type="text" placeholder="搜索班级名称..." id="rvClassKeyword" oninput="doReviewClassQuery()">
             </div>
-            <div style="overflow-x:auto">
-              <table class="data-table" id="researcherTable">
-                <thead>
-                  <tr><th>账号名</th><th>姓名</th><th>手机号</th><th>状态</th><th style="width:120px">操作</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>liujiaoyuan</td><td>刘教研</td><td>138****9001</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
-                  <tr><td>chenjiaoyuan</td><td>陈教研</td><td>138****9002</td><td><span class="status status-active">启用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
-                  <tr><td>yangjiaoyuan</td><td>杨教研</td><td>139****8003</td><td><span class="status status-inactive">禁用</span></td><td><button class="btn btn-ghost btn-xs" onclick="openModal('researcherModal','edit')">编辑</button><button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="showToast('重置密码')">重置密码</button></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pagination"><span class="pagination-info">共 3 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>
           </div>
-        </div>
+          <div class="review-tabs">
+            <button class="review-tab active" data-tab="审核中" onclick="switchReviewClassTab('审核中',this)">待审核</button>
+            <button class="review-tab" data-tab="审核通过" onclick="switchReviewClassTab('审核通过',this)">审核通过</button>
+            <button class="review-tab" data-tab="审核驳回" onclick="switchReviewClassTab('审核驳回',this)">审核驳回</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="reviewClassTable">
+              <thead><tr><th>班级名称</th><th>所属学区</th><th>班主任</th><th>计划开班</th><th>提交时间</th><th style="width:100px">审核状态</th><th style="width:160px">审核信息</th><th style="width:100px">操作</th></tr></thead>
+              <tbody id="reviewClassTbody"></tbody>
+            </table>
+          </div>
+          <div class="pagination"><span class="pagination-info" id="rvClassCount">共 0 条记录</span></div>
+        </div></div>
+      </div>
+
+      <!-- ==================== 学员审核 ==================== -->
+      <div class="tab-panel" id="tab-review-student">
+        <div class="page-header"><h2>学员审核</h2></div>
+        <div class="card"><div class="card-body">
+          <div class="search-bar">
+            <div class="search-input">
+              <span class="search-icon">&#128269;</span>
+              <input type="text" placeholder="搜索学号/姓名/手机号..." id="rvStuKeyword" oninput="doReviewStudentQuery()">
+            </div>
+          </div>
+          <div class="review-tabs">
+            <button class="review-tab active" data-tab="审核中" onclick="switchReviewStudentTab('审核中',this)">待审核</button>
+            <button class="review-tab" data-tab="审核通过" onclick="switchReviewStudentTab('审核通过',this)">审核通过</button>
+            <button class="review-tab" data-tab="审核驳回" onclick="switchReviewStudentTab('审核驳回',this)">审核驳回</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="reviewStudentTable">
+              <thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属班级</th><th>报名科目</th><th>提交时间</th><th style="width:100px">审核状态</th><th style="width:160px">审核信息</th><th style="width:100px">操作</th></tr></thead>
+              <tbody id="reviewStudentTbody"></tbody>
+            </table>
+          </div>
+          <div class="pagination"><span class="pagination-info" id="rvStuCount">共 0 条记录</span></div>
+        </div></div>
+      </div>
+
+      <!-- ==================== 班主任审核 ==================== -->
+      <div class="tab-panel" id="tab-review-headteacher">
+        <div class="page-header"><h2>班主任审核</h2></div>
+        <div class="card"><div class="card-body">
+          <div class="search-bar">
+            <div class="search-input">
+              <span class="search-icon">&#128269;</span>
+              <input type="text" placeholder="搜索账号名/姓名..." id="rvHtKeyword" oninput="doReviewHtQuery()">
+            </div>
+          </div>
+          <div class="review-tabs">
+            <button class="review-tab active" data-tab="审核中" onclick="switchReviewHtTab('审核中',this)">待审核</button>
+            <button class="review-tab" data-tab="审核通过" onclick="switchReviewHtTab('审核通过',this)">审核通过</button>
+            <button class="review-tab" data-tab="审核驳回" onclick="switchReviewHtTab('审核驳回',this)">审核驳回</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="reviewHtTable">
+              <thead><tr><th>账号名</th><th>姓名</th><th>所属学区</th><th>教学科目</th><th>提交时间</th><th style="width:100px">审核状态</th><th style="width:160px">审核信息</th><th style="width:100px">操作</th></tr></thead>
+              <tbody id="reviewHtTbody"></tbody>
+            </table>
+          </div>
+          <div class="pagination"><span class="pagination-info" id="rvHtCount">共 0 条记录</span></div>
+        </div></div>
       </div>
 
     </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app -->
 
-<!-- ========== 学区新增/编辑弹窗 ========== -->
-<div class="modal-overlay" id="districtModal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="districtModalTitle">新增学区</h3>
-      <button class="modal-close" onclick="closeModal('districtModal')">&#10005;</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group"><label>学区名称 <span class="required">*</span></label><input class="form-control" placeholder="请输入学区名称"></div>
-      <div class="form-group"><label>地址</label><input class="form-control" placeholder="请输入地址"></div>
-      <div class="form-row">
-        <div class="form-group"><label>联系方式</label><input class="form-control" placeholder="请输入联系方式"></div>
-        <div class="form-group"><label>排序号</label><input class="form-control" type="number" placeholder="数字越小越靠前" min="0" value="1"></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('districtModal')">取消</button>
-      <button class="btn btn-primary" onclick="closeModal('districtModal');showToast('保存成功')">保存</button>
-    </div>
-  </div>
-</div>
-
 <!-- ========== 班级新增/编辑弹窗 ========== -->
 <div class="modal-overlay" id="classModal">
-  <div class="modal">
+  <div class="modal xlarge">
     <div class="modal-header">
       <h3 id="classModalTitle">新增班级</h3>
       <button class="modal-close" onclick="closeModal('classModal')">&#10005;</button>
     </div>
     <div class="modal-body">
-      <div class="form-group"><label>班级名称 <span class="required">*</span></label><input class="form-control" placeholder="请输入班级名称"></div>
-      <div class="form-row">
-        <div class="form-group"><label>所属学区 <span class="required">*</span></label>
-          <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option><option>丰台学区中心</option><option>昌平学区中心</option></select>
-        </div>
-        <div class="form-group"><label>班主任 <span class="required">*</span></label>
-          <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择班主任</option><option>张老师</option><option>李老师</option><option>王老师</option></select>
+      <div class="form-section">
+        <div class="form-section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>班级名称 <span class="required">*</span></label><input class="form-control" placeholder="请输入班级名称" id="classModalName"></div>
+          <div class="form-group"><label>所属学区 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="classModalDistrict"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option><option>丰台学区中心</option><option>昌平学区中心</option></select>
+          </div>
+          <div class="form-group"><label>班主任 <span class="required">*</span></label>
+            <div class="autocomplete" id="classModalTeacherAc">
+              <input class="autocomplete-input form-control" type="text" placeholder="请选择班主任" autocomplete="off">
+              <span class="autocomplete-clear">&#10005;</span>
+              <span class="autocomplete-arrow">&#9660;</span>
+              <div class="autocomplete-dropdown"></div>
+            </div>
+          </div>
+          <div class="form-group"><label>开班时间 <span class="required">*</span></label><input class="form-control" type="date" id="classModalStartDate"></div>
+          <div class="form-group"><label>结课时间 <span class="required">*</span></label><input class="form-control" type="date" id="classEndDate"></div>
         </div>
       </div>
-      <div class="form-group"><label>开班时间 <span class="required">*</span></label><input class="form-control" type="date"></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('classModal')">取消</button>
@@ -552,172 +791,362 @@ table{border-collapse:collapse;width:100%}
   </div>
 </div>
 
+<!-- ========== 班级详情弹窗 ========== -->
+<div class="modal-overlay" id="classDetailModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3 id="classDetailModalTitle">班级详情</h3>
+      <button class="modal-close" onclick="closeModal('classDetailModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="review-banner" id="detClassReviewBanner">
+        <div class="review-banner-title" id="detClassBannerTitle"></div>
+        <div class="review-banner-reason" id="detClassBannerReason" style="display:none"></div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">基本信息</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>班级名称</label><div class="value" id="detClassModalName">-</div></div>
+          <div class="detail-item"><label>所属学区</label><div class="value" id="detClassModalDistrict">-</div></div>
+          <div class="detail-item"><label>班主任</label><div class="value" id="detClassModalTeacher">-</div></div>
+          <div class="detail-item"><label>学员人数</label><div class="value" id="detClassModalCount">-</div></div>
+          <div class="detail-item"><label>开班时间</label><div class="value" id="detClassModalStartDate">-</div></div>
+          <div class="detail-item"><label>结课时间</label><div class="value" id="detClassModalEndDate">-</div></div>
+          <div class="detail-item"><label>状态</label><div class="value" id="detClassModalStatus">-</div></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">学员列表</div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>层级</th><th>状态</th></tr></thead>
+            <tbody id="classDetailStudentList">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('classDetailModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
 <!-- ========== 学员新增多步骤弹窗 ========== -->
 <div class="modal-overlay" id="studentModal">
-  <div class="modal wide">
+  <div class="modal xlarge">
     <div class="modal-header">
-      <h3>新增学员</h3>
+      <h3 id="studentModalTitle">新增学员</h3>
       <button class="modal-close" onclick="closeStudentModal()">&#10005;</button>
     </div>
     <div class="modal-body">
-      <!-- 步骤条 -->
-      <div class="steps" id="studentSteps">
-        <div class="step active" data-step="1"><div class="step-num">1</div><div class="step-label">基本信息</div></div>
-        <div class="step" data-step="2"><div class="step-num">2</div><div class="step-label">报名信息</div></div>
-        <div class="step" data-step="3"><div class="step-num">3</div><div class="step-label">本科背景</div></div>
-        <div class="step" data-step="4"><div class="step-num">4</div><div class="step-label">考研目标</div></div>
-        <div class="step" data-step="5"><div class="step-num">5</div><div class="step-label">科目信息</div></div>
-      </div>
-      <!-- 步骤1：基本信息 -->
-      <div class="step-content active" data-step="1">
-        <div class="form-row">
-          <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
-          <div class="form-group"><label>性别</label><select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option>男</option><option>女</option></select></div>
+      <!-- 基本信息 -->
+      <div class="form-section">
+        <div class="form-section-title">基本信息</div>
+      
+        <div class="form-grid col3">
+          <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名" id="stuName"></div>
+          <div class="form-group"><label>性别</label><select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="stuGender"><option value="">请选择</option><option>男</option><option>女</option><option>未知</option></select></div>
+          <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号" id="stuPhone"></div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
-          <div class="form-group"><label>身份证号</label><input class="form-control" placeholder="请输入身份证号"></div>
+        <div class="form-grid">
+          <div class="form-group"><label>身份证号</label><input class="form-control" placeholder="请输入身份证号" id="stuIdCard"></div>
+          <div class="form-group"><label>电子邮箱</label><input class="form-control" type="email" placeholder="请输入电子邮箱" id="stuEmail"></div>
         </div>
-        <div class="form-group"><label>电子邮箱</label><input class="form-control" type="email" placeholder="请输入电子邮箱"></div>
+        <div class="form-group"><label>备注</label><input class="form-control" placeholder="请输入备注信息" id="stuRemark"></div>
       </div>
-      <!-- 步骤2：报名信息 -->
-      <div class="step-content" data-step="2">
-        <div class="form-row">
-          <div class="form-group"><label>所属学区</label>
-            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option></select>
+      <!-- 报名信息 -->
+      <div class="form-section">
+        <div class="form-section-title">报名信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>所属学区 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="stuDistrict"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option></select>
           </div>
-          <div class="form-group"><label>所属班级</label>
-            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px"><option value="">请选择班级</option><option>25考研数学一班</option><option>25考研英语一班</option><option>25考研数学二班</option><option>25考研政治一班</option></select>
+          <div class="form-group"><label>所属班级 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="stuClass"><option value="">请选择班级</option><option>25考研数学一班</option><option>25考研英语一班</option><option>25考研数学二班</option><option>25考研政治一班</option></select>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label>报名日期</label><input class="form-control" type="date"></div>
-          <div class="form-group"><label>缴费金额</label><input class="form-control" type="number" placeholder="单位：元" min="0"></div>
+        <div class="form-grid">
+          <div class="form-group"><label>报名日期 <span class="required">*</span></label><input class="form-control" type="date" id="stuRegDate"></div>
+          <div class="form-group"><label>到期时间 <span class="required">*</span></label><input class="form-control" type="date" id="stuEndDate"></div>
+        </div>
+        <div class="form-group"><label>报名科目 <span class="required">*</span></label>
+          <div class="subject-selector">
+            <div class="subject-row">
+              <label class="subject-check"><input type="checkbox" id="subjMath" onchange="toggleSubSubjects('math')"><span>数学</span></label>
+              <div class="sub-chips" id="mathChips" style="display:none">
+                <label class="chip-label"><input type="checkbox" value="高数"><span>高数</span></label>
+                <label class="chip-label"><input type="checkbox" value="线代"><span>线代</span></label>
+                <label class="chip-label"><input type="checkbox" value="概统"><span>概统</span></label>
+              </div>
+            </div>
+            <div class="subject-row">
+              <label class="subject-check"><input type="checkbox" id="subjEnglish"><span>英语</span></label>
+              <span class="subject-hint">暂无子科目</span>
+            </div>
+          </div>
         </div>
       </div>
-      <!-- 步骤3：本科背景 -->
-      <div class="step-content" data-step="3">
-        <div class="form-row">
-          <div class="form-group"><label>本科院校</label><input class="form-control" placeholder="请输入本科院校"></div>
-          <div class="form-group"><label>本科专业</label><input class="form-control" placeholder="请输入本科专业"></div>
+      <!-- 背景与目标 -->
+      <div class="form-section">
+        <div class="form-section-title">背景与目标</div>
+        <div style="font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:8px">本科背景</div>
+        <div class="form-grid">
+          <div class="form-group"><label>本科院校</label><input class="form-control" placeholder="请输入本科院校" id="stuUni"></div>
+          <div class="form-group"><label>本科专业</label><input class="form-control" placeholder="请输入本科专业" id="stuMajor"></div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label>毕业年份</label><input class="form-control" type="number" placeholder="如：2025" min="2000" max="2030"></div>
-          <div class="form-group"><label>GPA</label><input class="form-control" placeholder="如：3.5/4.0"></div>
+        <div style="font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:8px;margin-top:12px">考研目标</div>
+        <div class="form-grid">
+          <div class="form-group"><label>目标院校</label><input class="form-control" placeholder="请输入目标院校" id="stuTargetUni"></div>
+          <div class="form-group"><label>目标专业</label><input class="form-control" placeholder="请输入目标专业" id="stuTargetMajor"></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>目标院校档次</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="stuTargetTier"><option value="">请选择</option><option>未确定</option><option>本校</option><option>985</option><option>211</option><option>一般院校</option></select>
+          </div>
+          <div class="form-group"><label>报考门类</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="stuCategory"><option value="">请选择</option><option>2026 - 历史学[06]-各学科专业</option><option>2026 - 理学[07]-各学科专业</option><option>2026 - 工学[08]-工学照顾专业</option></select>
+          </div>
         </div>
       </div>
-      <!-- 步骤4：考研目标 -->
-      <div class="step-content" data-step="4">
-        <div class="form-row">
-          <div class="form-group"><label>目标院校</label><input class="form-control" placeholder="请输入目标院校"></div>
-          <div class="form-group"><label>目标专业</label><input class="form-control" placeholder="请输入目标专业"></div>
-        </div>
-        <div class="form-group"><label>报考年份</label><input class="form-control" type="number" placeholder="如：2026" min="2025" max="2035"></div>
-      </div>
-      <!-- 步骤5：科目信息 -->
-      <div class="step-content" data-step="5">
-        <div style="margin-bottom:16px">
-          <h4 style="font-size:14px;font-weight:600;margin-bottom:10px;color:var(--primary)">数学</h4>
+      <!-- 科目信息 -->
+      <div class="form-section">
+        <div class="form-section-title">科目信息</div>
+        <div style="margin-bottom:12px" id="mathScoreSection" class="score-disabled">
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--primary)">数学</h4>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
-            <select><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+            <select id="stuMathCur"><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
             <span>→</span>
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">目标分数</span>
-            <select><option value="">请选择</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
+            <select id="stuMathTarget"><option value="">请选择</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
           </div>
         </div>
-        <div>
-          <h4 style="font-size:14px;font-weight:600;margin-bottom:10px;color:var(--warning)">英语</h4>
+        <div id="engScoreSection" class="score-disabled">
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--warning)">英语</h4>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
-            <select><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+            <select id="stuEngCur"><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
             <span>→</span>
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">目标分数</span>
-            <select><option value="">请选择</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
+            <select id="stuEngTarget"><option value="">请选择</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" id="studentPrevBtn" style="display:none" onclick="prevStudentStep()">上一步</button>
       <button class="btn btn-outline" onclick="closeStudentModal()">取消</button>
-      <button class="btn btn-primary" id="studentNextBtn" onclick="nextStudentStep()">下一步</button>
+      <button class="btn btn-primary" onclick="submitStudent()">保存</button>
     </div>
   </div>
 </div>
 
-<!-- ========== 班主任新增弹窗 ========== -->
-<div class="modal-overlay" id="headteacherModal">
-  <div class="modal">
+<!-- ========== 学员详情弹窗 ========== -->
+<div class="modal-overlay" id="studentDetailModal">
+  <div class="modal xlarge">
     <div class="modal-header">
-      <h3>新增班主任</h3>
+      <h3>学员详情</h3>
+      <button class="modal-close" onclick="closeModal('studentDetailModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="review-banner" id="detReviewBanner">
+        <div class="review-banner-title" id="detBannerTitle"></div>
+        <div class="review-banner-reason" id="detBannerReason" style="display:none"></div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">基本信息</div> <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>姓名</label><div class="value" id="detStuName">-</div></div>
+          <div class="detail-item"><label>学号</label><div class="value" id="detStuId">-</div></div>
+          <div class="detail-item"><label>性别</label><div class="value" id="detStuGender">-</div></div>
+          <div class="detail-item"><label>手机号</label><div class="value" id="detStuPhone">-</div></div>
+          <div class="detail-item"><label>身份证号</label><div class="value" id="detStuIdCard">-</div></div>
+          <div class="detail-item"><label>电子邮箱</label><div class="value" id="detStuEmail">-</div></div>
+          <div class="detail-item"><label>账号状态</label><div class="value" id="detStuAcctStatus">-</div></div>
+          <div class="detail-item"><label>学员状态</label><div class="value" id="detStuStatus">-</div></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">报名信息</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>所属学区</label><div class="value" id="detStuDistrict">-</div></div>
+          <div class="detail-item"><label>所属班级</label><div class="value" id="detStuClass">-</div></div>
+          <div class="detail-item"><label>报名日期</label><div class="value" id="detStuRegDate">-</div></div>
+          <div class="detail-item"><label>到期时间</label><div class="value" id="detStuEndDate">-</div></div>
+          <div class="detail-item" style="grid-column:1/-1"><label>报名科目</label><div class="value" id="detStuSubjects">-</div></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">背景与目标</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>本科院校</label><div class="value" id="detStuUni">-</div></div>
+          <div class="detail-item"><label>本科专业</label><div class="value" id="detStuMajor">-</div></div>
+          <div class="detail-item"><label>目标院校</label><div class="value" id="detStuTargetUni">-</div></div>
+          <div class="detail-item"><label>目标专业</label><div class="value" id="detStuTargetMajor">-</div></div>
+          <div class="detail-item"><label>目标院校档次</label><div class="value" id="detStuTargetTier">-</div></div>
+          <div class="detail-item"><label>报考门类</label><div class="value" id="detStuCategory">-</div></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">科目信息</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(1,1fr)">
+          <div class="detail-item"><label>科目层级</label><div class="value" id="detStuLevels">-</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('studentDetailModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 班主任新增/编辑弹窗 ========== -->
+<div class="modal-overlay" id="headteacherModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3 id="htModalTitle">新增班主任</h3>
       <button class="modal-close" onclick="closeModal('headteacherModal')">&#10005;</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label>账号名 <span class="required">*</span></label><input class="form-control" placeholder="请输入账号名"></div>
-        <div class="form-group"><label>密码 <span class="required">*</span></label><input class="form-control" type="password" placeholder="请输入密码"></div>
+      <div class="form-section">
+        <div class="form-section-title">账号信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>账号名 <span class="required">*</span></label><input class="form-control" placeholder="请输入账号名" id="htModalUsername"></div>
+          <div class="form-group" id="htPwdField"><label id="htPwdLabel">密码 <span class="required">*</span></label><input class="form-control" type="password" placeholder="请输入密码" id="htModalPassword"></div>
+          <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名" id="htModalName"></div>
+          <div class="form-group"><label>性别</label><select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="htModalGender"><option value="">请选择</option><option>男</option><option>女</option></select></div>
+          <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号" id="htModalPhone"></div>
+          <div class="form-group"><label>身份证号</label><input class="form-control" placeholder="请输入身份证号" id="htModalIdCard"></div>
+          <div class="form-group"><label>电子邮箱</label><input class="form-control" type="email" placeholder="请输入电子邮箱" id="htModalEmail"></div>
+        </div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
-        <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
-      </div>
-      <div class="form-group"><label>任教班级</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox"><span>25考研数学一班</span></label>
-          <label><input type="checkbox"><span>25考研英语一班</span></label>
-          <label><input type="checkbox"><span>25考研数学二班</span></label>
-          <label><input type="checkbox"><span>25考研政治一班</span></label>
-          <label><input type="checkbox"><span>26考研英语预备班</span></label>
+      <div class="form-section">
+        <div class="form-section-title">教学信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>所属学区 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="htModalDistrict"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option><option>丰台学区中心</option><option>昌平学区中心</option></select>
+          </div>
+          <div class="form-group"><label>教学科目 <span class="required">*</span></label>
+            <div style="display:flex;gap:16px;padding-top:6px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="数学" id="htSubjMath"> 数学</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="英语" id="htSubjEnglish"> 英语</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="政治" id="htSubjPolitics"> 政治</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group"><label>任教班级</label>
+          <div class="checkbox-group" id="htClassCheckboxes">
+            <label><input type="checkbox" value="25考研数学一班"><span>25考研数学一班</span></label>
+            <label><input type="checkbox" value="25考研英语一班"><span>25考研英语一班</span></label>
+            <label><input type="checkbox" value="25考研数学二班"><span>25考研数学二班</span></label>
+            <label><input type="checkbox" value="25考研政治一班"><span>25考研政治一班</span></label>
+            <label><input type="checkbox" value="26考研英语预备班"><span>26考研英语预备班</span></label>
+          </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('headteacherModal')">取消</button>
-      <button class="btn btn-primary" onclick="closeModal('headteacherModal');showToast('保存成功')">保存</button>
+      <button class="btn btn-primary" onclick="submitHeadteacher()">保存</button>
     </div>
   </div>
 </div>
 
-<!-- ========== 教研员新增弹窗 ========== -->
-<div class="modal-overlay" id="researcherModal">
-  <div class="modal">
+<!-- ========== 班主任详情弹窗 ========== -->
+<div class="modal-overlay" id="headteacherDetailModal">
+  <div class="modal xlarge">
     <div class="modal-header">
-      <h3>新增教研员</h3>
-      <button class="modal-close" onclick="closeModal('researcherModal')">&#10005;</button>
+      <h3 id="htDetailModalTitle">班主任详情</h3>
+      <button class="modal-close" onclick="closeModal('headteacherDetailModal')">&#10005;</button>
     </div>
     <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label>账号名 <span class="required">*</span></label><input class="form-control" placeholder="请输入账号名"></div>
-        <div class="form-group"><label>密码 <span class="required">*</span></label><input class="form-control" type="password" placeholder="请输入密码"></div>
+      <div class="review-banner" id="detHtReviewBanner">
+        <div class="review-banner-title" id="detHtBannerTitle"></div>
+        <div class="review-banner-reason" id="detHtBannerReason" style="display:none"></div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>姓名 <span class="required">*</span></label><input class="form-control" placeholder="请输入姓名"></div>
-        <div class="form-group"><label>手机号 <span class="required">*</span></label><input class="form-control" placeholder="请输入手机号"></div>
+      <div class="form-section">
+        <div class="form-section-title">账号信息</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>账号名</label><div class="value" id="detHtUsername">-</div></div>
+          <div class="detail-item"><label>姓名</label><div class="value" id="detHtName">-</div></div>
+          <div class="detail-item"><label>性别</label><div class="value" id="detHtGender">-</div></div>
+          <div class="detail-item"><label>手机号</label><div class="value" id="detHtPhone">-</div></div>
+          <div class="detail-item"><label>身份证号</label><div class="value" id="detHtIdCard">-</div></div>
+          <div class="detail-item"><label>电子邮箱</label><div class="value" id="detHtEmail">-</div></div>
+          <div class="detail-item"><label>账号状态</label><div class="value" id="detHtAcctStatus">-</div></div>
+          <div class="detail-item"><label>审核状态</label><div class="value" id="detHtReviewStatus">-</div></div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">教学信息</div>
+        <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
+          <div class="detail-item"><label>所属学区</label><div class="value" id="detHtDistrict">-</div></div>
+          <div class="detail-item"><label>教学科目</label><div class="value" id="detHtSubjects">-</div></div>
+          <div class="detail-item" style="grid-column:1/-1"><label>任教班级</label><div class="value" id="detHtClasses">-</div></div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('researcherModal')">取消</button>
-      <button class="btn btn-primary" onclick="closeModal('researcherModal');showToast('保存成功')">保存</button>
+      <button class="btn btn-outline" onclick="closeModal('headteacherDetailModal')">关闭</button>
     </div>
   </div>
 </div>
 
-<!-- ========== Toast ========== -->
-<div id="toast" style="display:none;position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 24px;border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:opacity .3s ease"></div>
+<!-- ========== 班级审核详情弹窗 ========== -->
+<div class="modal-overlay" id="reviewClassDetailModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3 id="rvClassDetailTitle">班级审核详情</h3>
+      <button class="modal-close" onclick="closeReviewClassDetail()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="rvClassDetailBody"></div>
+    <div class="modal-footer" id="rvClassDetailFooter"></div>
+  </div>
+</div>
+
+<!-- ========== 学员审核详情弹窗 ========== -->
+<div class="modal-overlay" id="reviewStudentDetailModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3 id="rvStuDetailTitle">学员审核详情</h3>
+      <button class="modal-close" onclick="closeReviewStudentDetail()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="rvStuDetailBody"></div>
+    <div class="modal-footer" id="rvStuDetailFooter"></div>
+  </div>
+</div>
+
+<!-- ========== 班主任审核详情弹窗 ========== -->
+<div class="modal-overlay" id="reviewHtDetailModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3 id="rvHtDetailTitle">班主任审核详情</h3>
+      <button class="modal-close" onclick="closeReviewHtDetail()">&#10005;</button>
+    </div>
+    <div class="modal-body" id="rvHtDetailBody"></div>
+    <div class="modal-footer" id="rvHtDetailFooter"></div>
+  </div>
+</div>
+
+
 
 <script>
 // ==================== 菜单切换 ====================
-document.querySelectorAll('.nav-item').forEach(function(item){
+function toggleNavGroup(header){
+  var body = header.nextElementSibling;
+  body.classList.toggle('open');
+  var arrow = header.querySelector('.nav-arrow');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(0deg)' : 'rotate(-90deg)';
+}
+document.querySelectorAll('.nav-sub-item').forEach(function(item){
   item.addEventListener('click',function(){
-    document.querySelectorAll('.nav-item').forEach(function(i){ i.classList.remove('active') });
+    document.querySelectorAll('.nav-sub-item').forEach(function(i){ i.classList.remove('active'); });
     this.classList.add('active');
     var tab = this.getAttribute('data-tab');
     document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active') });
     document.getElementById('tab-'+tab).classList.add('active');
-    // 切换时重置班级详情视图
+    // 切换时关闭班级详情弹窗
     if(tab !== 'class'){
-      hideClassDetail();
+      closeModal('classDetailModal');
     }
   });
 });
@@ -761,53 +1190,326 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
   });
 });
 
-// ==================== 学员多步骤弹窗 ====================
-var studentStep = 1;
-function openStudentModal(){
-  studentStep = 1;
-  updateStudentSteps();
+// ==================== 学员弹窗 ====================
+var studentMode = 'create'; // 'create' | 'edit'
+
+function openStudentModal(mode, name){
+  studentMode = mode || 'create';
+  var title = document.getElementById('studentModalTitle');
+  title.textContent = studentMode === 'edit' ? '编辑学员' : '新增学员';
+
+  // 重置表单
+  document.getElementById('stuName').value = '';
+  document.getElementById('stuGender').value = '';
+  document.getElementById('stuPhone').value = '';
+  document.getElementById('stuIdCard').value = '';
+  document.getElementById('stuEmail').value = '';
+  document.getElementById('stuDistrict').value = '';
+  document.getElementById('stuClass').value = '';
+  document.getElementById('stuRegDate').value = '';
+  document.getElementById('stuEndDate').value = '';
+  document.getElementById('subjMath').checked = false;
+  document.getElementById('subjEnglish').checked = false;
+  document.getElementById('mathChips').style.display = 'none';
+  document.querySelectorAll('#mathChips input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
+  document.getElementById('stuUni').value = '';
+  document.getElementById('stuMajor').value = '';
+  document.getElementById('stuTargetUni').value = '';
+  document.getElementById('stuTargetMajor').value = '';
+  document.getElementById('stuTargetTier').value = '';
+  document.getElementById('stuCategory').value = '';
+  document.getElementById('stuMathCur').value = '';
+  document.getElementById('stuMathTarget').value = '';
+  document.getElementById('stuEngCur').value = '';
+  document.getElementById('stuEngTarget').value = '';
+  document.getElementById('stuRemark').value = '';
+
+  // 重置分数禁用态
+  document.getElementById('mathScoreSection').classList.add('score-disabled');
+  document.getElementById('engScoreSection').classList.add('score-disabled');
+
+  // 自动填入当前日期
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('stuRegDate').value = today;
+
+  // 编辑模式预填数据（示例）
+  if(studentMode === 'edit' && name){
+    document.getElementById('stuName').value = name;
+    var editData = {
+      '张三': { gender:'男', phone:'138****8001', district:'海淀学区中心', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', uni:'北京大学', major:'计算机科学', targetUni:'北京大学', targetMajor:'软件工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true },
+      '李四': { gender:'男', phone:'138****8002', district:'海淀学区中心', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', uni:'清华大学', major:'电子信息', targetUni:'清华大学', targetMajor:'计算机科学', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true },
+      '王五': { gender:'男', phone:'139****9003', district:'朝阳学区中心', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', uni:'浙江大学', major:'数学', targetUni:'复旦大学', targetMajor:'应用数学', targetTier:'211', category:'2026 - 理学[07]-各学科专业', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true },
+      '赵六': { gender:'女', phone:'137****7004', district:'海淀学区中心', stuClass:'25考研英语一班', regDate:'2025-03-01', endDate:'2026-12-31', uni:'武汉大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 历史学[06]-各学科专业', mathCur:'&lt;60', mathTarget:'80-99', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true },
+      '孙七': { gender:'未知', phone:'136****6005', district:'西城学区中心', stuClass:'25考研政治一班', regDate:'2025-02-15', endDate:'2025-12-31', uni:'中山大学', major:'政治学', targetUni:'未确定', targetMajor:'未确定', targetTier:'未确定', category:'', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true },
+      '周八': { gender:'男', phone:'135****5006', district:'朝阳学区中心', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', uni:'南京大学', major:'物理', targetUni:'南京大学', targetMajor:'理论物理', targetTier:'本校', category:'2026 - 理学[07]-各学科专业', mathCur:'&lt;60', mathTarget:'80-99', engCur:'&lt;50', engTarget:'60-69', hasMath:true, hasEnglish:true }
+    };
+    var d = editData[name] || {};
+    if(d.gender) document.getElementById('stuGender').value = d.gender;
+    if(d.phone) document.getElementById('stuPhone').value = d.phone;
+    if(d.district) document.getElementById('stuDistrict').value = d.district;
+    if(d.stuClass) document.getElementById('stuClass').value = d.stuClass;
+    if(d.regDate) document.getElementById('stuRegDate').value = d.regDate;
+    if(d.endDate) document.getElementById('stuEndDate').value = d.endDate;
+    if(d.uni) document.getElementById('stuUni').value = d.uni;
+    if(d.major) document.getElementById('stuMajor').value = d.major;
+    if(d.targetUni) document.getElementById('stuTargetUni').value = d.targetUni;
+    if(d.targetMajor) document.getElementById('stuTargetMajor').value = d.targetMajor;
+    if(d.targetTier) document.getElementById('stuTargetTier').value = d.targetTier;
+    if(d.category) document.getElementById('stuCategory').value = d.category;
+    if(d.mathCur) document.getElementById('stuMathCur').value = d.mathCur;
+    if(d.mathTarget) document.getElementById('stuMathTarget').value = d.mathTarget;
+    if(d.engCur) document.getElementById('stuEngCur').value = d.engCur;
+    if(d.engTarget) document.getElementById('stuEngTarget').value = d.engTarget;
+    // 编辑模式下预勾选科目 + 恢复分数联动
+    if(d.hasMath){ document.getElementById('subjMath').checked = true; toggleSubSubjects('math'); }
+    if(d.hasEnglish){ document.getElementById('subjEnglish').checked = true; toggleSubSubjects('english'); }
+  }
+
   document.getElementById('studentModal').classList.add('show');
-  // 重置标题
-  document.querySelector('#studentModal .modal-header h3').textContent = '新增学员';
 }
+
 function closeStudentModal(){
   document.getElementById('studentModal').classList.remove('show');
-  studentStep = 1;
-  updateStudentSteps();
 }
-function nextStudentStep(){
-  if(studentStep < 5){
-    studentStep++;
-    updateStudentSteps();
+
+function submitStudent(){
+  // 验证必填项
+  var name = document.getElementById('stuName').value.trim();
+  var phone = document.getElementById('stuPhone').value.trim();
+  var district = document.getElementById('stuDistrict').value;
+  var stuClass = document.getElementById('stuClass').value;
+  var regDate = document.getElementById('stuRegDate').value;
+  var endDate = document.getElementById('stuEndDate').value;
+  var hasSubject = document.getElementById('subjMath').checked || document.getElementById('subjEnglish').checked;
+
+  if(!name){ showToast('请输入姓名'); return; }
+  if(!phone){ showToast('请输入手机号'); return; }
+  if(!district){ showToast('请选择所属学区'); return; }
+  if(!stuClass){ showToast('请选择所属班级'); return; }
+  if(!regDate){ showToast('请输入报名日期'); return; }
+  if(!endDate){ showToast('请输入到期时间'); return; }
+  if(!hasSubject){ showToast('请至少选择一项报名科目'); return; }
+
+  closeStudentModal();
+  showToast(studentMode === 'edit' ? '学员信息更新成功' : '学员添加成功');
+}
+
+// ==================== 学员详情弹窗 ====================
+function openStudentDetailModal(name, id, phone, district, stuClass, subjects, gender, email, idCard, regDate, endDate, uni, major, targetUni, targetMajor, targetTier, category, levels, acctEnabled, reviewStatus, reviewReason){
+  document.getElementById('detStuName').textContent = name || '-';
+  document.getElementById('detStuId').textContent = id || '-';
+  document.getElementById('detStuGender').textContent = gender || '-';
+  document.getElementById('detStuPhone').textContent = phone || '-';
+  document.getElementById('detStuIdCard').textContent = idCard || '-';
+  document.getElementById('detStuEmail').textContent = email || '-';
+  document.getElementById('detStuAcctStatus').textContent = acctEnabled ? '启用' : '停用';
+  // 学员状态：优先使用审核状态，否则根据到期时间判断
+  var statusText = reviewStatus || '';
+  if(!statusText){
+    if(endDate){ var ed = new Date(endDate); var td = new Date(); td.setHours(0,0,0,0); statusText = ed <= td ? '已结课' : '在读'; }
+    else { statusText = '在读'; }
+  }
+  document.getElementById('detStuStatus').textContent = statusText;
+  // 审核状态横幅
+  var banner = document.getElementById('detReviewBanner');
+  banner.className = 'review-banner';
+  if(reviewStatus){
+    var cls = reviewStatus === '审核驳回' ? 'rejected' : 'reviewing';
+    banner.classList.add(cls);
+    document.getElementById('detBannerTitle').textContent = reviewStatus === '审核驳回' ? '审核驳回' : '审核中 — 请等待管理员审核';
+    if(reviewStatus === '审核驳回' && reviewReason){
+      document.getElementById('detBannerReason').style.display = '';
+      document.getElementById('detBannerReason').textContent = '驳回原因：' + reviewReason;
+    } else {
+      document.getElementById('detBannerReason').style.display = 'none';
+    }
+  }
+  document.getElementById('detStuDistrict').textContent = district || '-';
+  document.getElementById('detStuClass').textContent = stuClass || '-';
+  document.getElementById('detStuRegDate').textContent = regDate || '-';
+  document.getElementById('detStuEndDate').textContent = endDate || '-';
+  document.getElementById('detStuSubjects').textContent = subjects || '-';
+  document.getElementById('detStuUni').textContent = uni || '-';
+  document.getElementById('detStuMajor').textContent = major || '-';
+  document.getElementById('detStuTargetUni').textContent = targetUni || '-';
+  document.getElementById('detStuTargetMajor').textContent = targetMajor || '-';
+  document.getElementById('detStuTargetTier').textContent = targetTier || '-';
+  document.getElementById('detStuCategory').textContent = category || '-';
+  document.getElementById('detStuLevels').textContent = levels || '-';
+  document.getElementById('studentDetailModal').classList.add('show');
+}
+
+// ==================== 账号状态切换 ====================
+function toggleAccountStatus(checkbox){
+  var row = checkbox.closest('tr');
+  var switchLabel = row.querySelector('.switch');
+  // 非在读状态不允许切换
+  if(switchLabel && switchLabel.classList.contains('disabled')){
+    checkbox.checked = false;
+    showToast('当前状态下无法更改账号状态');
+    return;
+  }
+  if(!checkbox.checked){
+    showToast('账号已停用');
   } else {
-    closeStudentModal();
-    showToast('学员添加成功');
+    showToast('账号已启用');
   }
 }
-function prevStudentStep(){
-  if(studentStep > 1){
-    studentStep--;
-    updateStudentSteps();
+
+// 报名科目子科目切换 + 分数联动
+function toggleSubSubjects(subject){
+  var chips = document.getElementById(subject === 'math' ? 'mathChips' : null);
+  var checkbox = document.getElementById(subject === 'math' ? 'subjMath' : 'subjEnglish');
+  if(chips){
+    chips.style.display = checkbox && checkbox.checked ? 'flex' : 'none';
+    if(!checkbox.checked){
+      chips.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
+    }
+  }
+  // 联动分数区域启用/禁用
+  if(subject === 'math' || subject === 'all'){
+    var mathSec = document.getElementById('mathScoreSection');
+    var mathChecked = document.getElementById('subjMath').checked;
+    if(mathSec){
+      if(mathChecked){ mathSec.classList.remove('score-disabled'); }
+      else { mathSec.classList.add('score-disabled'); document.getElementById('stuMathCur').value=''; document.getElementById('stuMathTarget').value=''; }
+    }
+  }
+  if(subject === 'english' || subject === 'all'){
+    var engSec = document.getElementById('engScoreSection');
+    var engChecked = document.getElementById('subjEnglish').checked;
+    if(engSec){
+      if(engChecked){ engSec.classList.remove('score-disabled'); }
+      else { engSec.classList.add('score-disabled'); document.getElementById('stuEngCur').value=''; document.getElementById('stuEngTarget').value=''; }
+    }
   }
 }
-function updateStudentSteps(){
-  // 步骤条
-  document.querySelectorAll('#studentSteps .step').forEach(function(s){
-    var sNum = parseInt(s.getAttribute('data-step'));
-    s.classList.remove('active','done');
-    if(sNum < studentStep) s.classList.add('done');
-    if(sNum === studentStep) s.classList.add('active');
+
+// 打开弹窗时也要检查分数联动
+var _origSubmitStudent = null;
+function refreshScoreLinkage(){
+  toggleSubSubjects('math');
+  toggleSubSubjects('english');
+}
+
+// ==================== 学员筛选 ====================
+var activeStudentTab = '';
+
+function doStudentQuery(){
+  var keyword = (document.getElementById('studentKeyword').value || '').toLowerCase();
+  var classInput = document.querySelector('#studentClassFilterAc .autocomplete-input');
+  var classVal = (classInput && classInput.getAttribute('data-value') || '').toLowerCase();
+  var districtInput = document.querySelector('#studentDistrictFilterAc .autocomplete-input');
+  var districtVal = (districtInput && districtInput.getAttribute('data-value') || '').toLowerCase();
+  var regStart = document.getElementById('stuFilterRegStart').value;
+  var regEnd = document.getElementById('stuFilterRegEnd').value;
+  var endStart = document.getElementById('stuFilterEndStart').value;
+  var endEnd = document.getElementById('stuFilterEndEnd').value;
+  var mathCur = document.getElementById('stuFilterMathCur').value;
+  var mathTarget = document.getElementById('stuFilterMathTarget').value;
+  var engCur = document.getElementById('stuFilterEngCur').value;
+  var engTarget = document.getElementById('stuFilterEngTarget').value;
+
+  var rows = document.querySelectorAll('#studentTable tbody tr');
+  rows.forEach(function(row){
+    var show = true;
+    // 关键字
+    if(keyword){
+      var text = row.textContent.toLowerCase();
+      if(text.indexOf(keyword) === -1) show = false;
+    }
+    // TAB 状态
+    if(show && activeStudentTab){
+      var statusCell = row.querySelector('.status');
+      if(!statusCell || statusCell.textContent.trim() !== activeStudentTab) show = false;
+    }
+    // 班级
+    if(show && classVal){
+      var classCell = row.getAttribute('data-class') || '';
+      if(classCell.toLowerCase().indexOf(classVal) === -1) show = false;
+    }
+    // 学区
+    if(show && districtVal){
+      var districtCell = row.getAttribute('data-district') || '';
+      if(districtCell.toLowerCase().indexOf(districtVal) === -1) show = false;
+    }
+    // 报名时间范围
+    if(show && (regStart || regEnd)){
+      var rd = row.getAttribute('data-regdate') || '';
+      if(regStart && rd < regStart) show = false;
+      if(regEnd && rd > regEnd) show = false;
+    }
+    // 到期时间范围
+    if(show && (endStart || endEnd)){
+      var ed = row.querySelector('.end-date');
+      var edVal = ed ? ed.textContent.trim() : '';
+      if(endStart && edVal < endStart) show = false;
+      if(endEnd && edVal > endEnd) show = false;
+    }
+    // 数学当前
+    if(show && mathCur){
+      if((row.getAttribute('data-math-cur') || '') !== mathCur) show = false;
+    }
+    // 数学目标
+    if(show && mathTarget){
+      if((row.getAttribute('data-math-target') || '') !== mathTarget) show = false;
+    }
+    // 英语当前
+    if(show && engCur){
+      if((row.getAttribute('data-eng-cur') || '') !== engCur) show = false;
+    }
+    // 英语目标
+    if(show && engTarget){
+      if((row.getAttribute('data-eng-target') || '') !== engTarget) show = false;
+    }
+    row.style.display = show ? '' : 'none';
   });
-  // 步骤内容
-  document.querySelectorAll('#studentModal .step-content').forEach(function(c){
-    c.classList.remove('active');
-    if(parseInt(c.getAttribute('data-step')) === studentStep) c.classList.add('active');
-  });
-  // 按钮
-  var prevBtn = document.getElementById('studentPrevBtn');
-  var nextBtn = document.getElementById('studentNextBtn');
-  prevBtn.style.display = studentStep > 1 ? 'inline-flex' : 'none';
-  nextBtn.textContent = studentStep === 5 ? '提交' : '下一步';
+  // 更新分页计数
+  updateStudentCount();
+}
+
+function updateStudentCount(){
+  var visible = document.querySelectorAll('#studentTable tbody tr:not([style*="display: none"])');
+  var countEl = document.querySelector('#studentTable').closest('.card-body').querySelector('.pagination-info');
+  if(countEl) countEl.textContent = '共 ' + visible.length + ' 条记录';
+}
+
+function switchStudentTab(tabName, btn){
+  activeStudentTab = tabName;
+  document.querySelectorAll('.student-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  doStudentQuery();
+}
+
+function resetStudentFilter(){
+  document.getElementById('studentKeyword').value = '';
+  document.getElementById('stuFilterRegStart').value = '';
+  document.getElementById('stuFilterRegEnd').value = '';
+  document.getElementById('stuFilterEndStart').value = '';
+  document.getElementById('stuFilterEndEnd').value = '';
+  document.getElementById('stuFilterMathCur').value = '';
+  document.getElementById('stuFilterMathTarget').value = '';
+  document.getElementById('stuFilterEngCur').value = '';
+  document.getElementById('stuFilterEngTarget').value = '';
+  // 重置班级 autocomplete
+  var classInput = document.querySelector('#studentClassFilterAc .autocomplete-input');
+  if(classInput){ classInput.value = ''; classInput.removeAttribute('data-value'); }
+  var classClear = document.querySelector('#studentClassFilterAc .autocomplete-clear');
+  if(classClear) classClear.classList.remove('visible');
+  // 重置学区 autocomplete
+  var districtInput = document.querySelector('#studentDistrictFilterAc .autocomplete-input');
+  if(districtInput){ districtInput.value = ''; districtInput.removeAttribute('data-value'); }
+  var districtClear = document.querySelector('#studentDistrictFilterAc .autocomplete-clear');
+  if(districtClear) districtClear.classList.remove('visible');
+  // 重置到全部 TAB
+  activeStudentTab = '';
+  document.querySelectorAll('.student-tab').forEach(function(t,i){ t.classList.toggle('active', i === 0); });
+  doStudentQuery();
+}
+
+function exportStudentTable(){
+  showToast('正在导出学员列表...');
+  setTimeout(function(){ showToast('导出完成（模拟）'); }, 800);
 }
 
 // ==================== 状态切换 ====================
@@ -836,69 +1538,537 @@ function filterTable(tableId, query, targetCol){
   });
 }
 
-function filterClassTable(){
+// ==================== 班级筛选与 TAB 切换 ====================
+var activeClassTab = '';
+
+function doClassQuery(){
+  var keyword = (document.getElementById('classKeyword').value || '').toLowerCase();
   var districtVal = document.getElementById('classDistrictFilter').value.toLowerCase();
-  var teacherVal = document.getElementById('classTeacherFilter').value.toLowerCase();
-  var statusVal = document.getElementById('classStatusFilter').value.toLowerCase();
-  var searchVal = document.querySelector('#tab-class .search-input input')?.value?.toLowerCase() || '';
+  var teacherInput = document.querySelector('#teacherFilterAc .autocomplete-input');
+  var teacherVal = (teacherInput && teacherInput.getAttribute('data-value') || '').toLowerCase();
   var rows = document.querySelectorAll('#classTable tbody tr');
   rows.forEach(function(row){
     var text = row.textContent.toLowerCase();
     var show = true;
+    if(keyword && text.indexOf(keyword) === -1) show = false;
     if(districtVal && text.indexOf(districtVal) === -1) show = false;
     if(teacherVal && text.indexOf(teacherVal) === -1) show = false;
-    if(statusVal && text.indexOf(statusVal) === -1) show = false;
-    if(searchVal && text.indexOf(searchVal) === -1) show = false;
+    // TAB 筛选
+    if(show && activeClassTab){
+      var statusCell = row.querySelector('.status');
+      if(!statusCell || statusCell.textContent.trim() !== activeClassTab) show = false;
+    }
     row.style.display = show ? '' : 'none';
   });
+  updateClassCount();
 }
 
-function filterStudentByLevel(){
-  var val = document.getElementById('studentLevelFilter').value;
-  var rows = document.querySelectorAll('#studentTable tbody tr');
+function updateClassCount(){
+  var visible = document.querySelectorAll('#classTable tbody tr:not([style*="display: none"])');
+  var countEl = document.querySelector('#classTable').closest('.card-body').querySelector('.pagination-info');
+  if(countEl) countEl.textContent = '共 ' + visible.length + ' 条记录';
+}
+
+function switchClassTab(tabName, btn){
+  activeClassTab = tabName;
+  document.querySelectorAll('.class-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  doClassQuery();
+}
+
+function resetClassFilter(){
+  document.getElementById('classKeyword').value = '';
+  document.getElementById('classDistrictFilter').value = '';
+  var teacherInput = document.querySelector('#teacherFilterAc .autocomplete-input');
+  if(teacherInput){ teacherInput.value = ''; teacherInput.removeAttribute('data-value'); }
+  var teacherClear = document.querySelector('#teacherFilterAc .autocomplete-clear');
+  if(teacherClear) teacherClear.classList.remove('visible');
+  // 重置到全部 TAB
+  activeClassTab = '';
+  document.querySelectorAll('.class-tab').forEach(function(t,i){ t.classList.toggle('active', i === 0); });
+  doClassQuery();
+}
+
+// ==================== 班级详情弹窗 ====================
+var classDetailData = {
+  '25考研数学一班': { district:'海淀学区中心', teacher:'张老师', count:'32', startDate:'2025-03-01', endDate:'2026-12-31', status:'已开班', reviewStatus:'', reviewReason:'', students:[
+    {id:'2025001',name:'张三',phone:'138****8001',levels:'<span class="layer-tag layer-math">数学：80-120</span><span class="layer-tag layer-english">英语：70-85</span>',status:'在读'},
+    {id:'2025002',name:'李四',phone:'138****8002',levels:'<span class="layer-tag layer-math">数学：65-110</span><span class="layer-tag layer-english">英语：60-80</span>',status:'在读'}
+  ]},
+  '25考研英语一班': { district:'海淀学区中心', teacher:'李老师', count:'28', startDate:'2025-03-01', endDate:'2026-12-31', status:'审核中', reviewStatus:'审核中', reviewReason:'', students:[
+    {id:'2025003',name:'王五',phone:'138****8003',levels:'<span class="layer-tag layer-english">英语：70-85</span>',status:'审核中'},
+    {id:'2025004',name:'赵六',phone:'138****8004',levels:'<span class="layer-tag layer-math">数学：70-120</span><span class="layer-tag layer-english">英语：60-80</span>',status:'在读'}
+  ]},
+  '25考研数学二班': { district:'朝阳学区中心', teacher:'王老师', count:'25', startDate:'2025-04-15', endDate:'2026-06-30', status:'审核驳回', reviewStatus:'审核驳回', reviewReason:'开班资料不齐全，请补充教学计划与师资证明', students:[
+    {id:'2025005',name:'钱七',phone:'138****8005',levels:'<span class="layer-tag layer-math">数学：90-130</span>',status:'审核驳回'}
+  ]},
+  '26考研英语预备班': { district:'西城学区中心', teacher:'张老师', count:'0', startDate:'2025-09-01', endDate:'2026-12-31', status:'未开班', reviewStatus:'', reviewReason:'', students:[]},
+  '25考研政治一班': { district:'海淀学区中心', teacher:'李老师', count:'30', startDate:'2025-02-15', endDate:'2025-12-31', status:'已结课', reviewStatus:'', reviewReason:'', students:[
+    {id:'2025006',name:'孙八',phone:'138****8006',levels:'<span class="layer-tag layer-english">英语：65-85</span>',status:'已结课'}
+  ]}
+};
+
+function openClassDetailModal(className){
+  document.getElementById('classDetailModalTitle').textContent = '班级详情 - ' + className;
+  var d = classDetailData[className] || { district:'-', teacher:'-', count:'-', startDate:'-', endDate:'-', status:'-', reviewStatus:'', reviewReason:'', students:[] };
+
+  // 审核状态横幅
+  var banner = document.getElementById('detClassReviewBanner');
+  banner.className = 'review-banner';
+  if(d.reviewStatus){
+    var cls = d.reviewStatus === '审核驳回' ? 'rejected' : 'reviewing';
+    banner.classList.add(cls);
+    document.getElementById('detClassBannerTitle').textContent = d.reviewStatus === '审核驳回' ? '审核驳回' : '审核中 — 请等待管理员审核';
+    if(d.reviewStatus === '审核驳回' && d.reviewReason){
+      document.getElementById('detClassBannerReason').style.display = '';
+      document.getElementById('detClassBannerReason').textContent = '驳回原因：' + d.reviewReason;
+    } else {
+      document.getElementById('detClassBannerReason').style.display = 'none';
+    }
+  }
+
+  // 基本信息
+  document.getElementById('detClassModalName').textContent = className;
+  document.getElementById('detClassModalDistrict').textContent = d.district;
+  document.getElementById('detClassModalTeacher').textContent = d.teacher;
+  document.getElementById('detClassModalCount').textContent = d.count;
+  document.getElementById('detClassModalStartDate').textContent = d.startDate;
+  document.getElementById('detClassModalEndDate').textContent = d.endDate;
+  document.getElementById('detClassModalStatus').textContent = d.status;
+
+  // 学员列表
+  var tbody = document.getElementById('classDetailStudentList');
+  tbody.innerHTML = '';
+  if(d.students.length === 0){
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px">暂无学员</td></tr>';
+  } else {
+    d.students.forEach(function(s){
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+s.levels+'</td><td><span class="status status-active">'+s.status+'</span></td>';
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('classDetailModal').classList.add('show');
+}
+
+function openClassEditModal(className){
+  var d = classDetailData[className];
+  if(d){
+    document.getElementById('classModalTitle').textContent = '编辑班级';
+    document.getElementById('classModalName').value = className;
+    document.getElementById('classModalDistrict').value = d.district;
+    var teacherInput = document.querySelector('#classModalTeacherAc .autocomplete-input');
+    if(teacherInput){ teacherInput.value = d.teacher; teacherInput.setAttribute('data-value', d.teacher); }
+    document.getElementById('classModalStartDate').value = d.startDate;
+    document.getElementById('classEndDate').value = d.endDate;
+  }
+  document.getElementById('classModal').classList.add('show');
+}
+
+function openNewClassModal(){
+  document.getElementById('classModalTitle').textContent = '新增班级';
+  document.getElementById('classModalName').value = '';
+  document.getElementById('classModalDistrict').value = '';
+  var teacherInput = document.querySelector('#classModalTeacherAc .autocomplete-input');
+  if(teacherInput){ teacherInput.value = ''; teacherInput.removeAttribute('data-value'); }
+  var teacherClear = document.querySelector('#classModalTeacherAc .autocomplete-clear');
+  if(teacherClear) teacherClear.classList.remove('visible');
+  document.getElementById('classModalStartDate').value = '';
+  document.getElementById('classEndDate').value = '';
+  document.getElementById('classModal').classList.add('show');
+}
+
+// ==================== 班主任筛选与 TAB 切换 ====================
+var activeHtTab = '';
+
+function doHeadteacherQuery(){
+  var keyword = (document.getElementById('htKeyword').value || '').toLowerCase();
+  var districtVal = document.getElementById('htDistrictFilter').value.toLowerCase();
+  var subjectVal = document.getElementById('htSubjectFilter').value.toLowerCase();
+  var rows = document.querySelectorAll('#headteacherTable tbody tr');
   rows.forEach(function(row){
-    if(!val){ row.style.display = ''; return; }
-    var text = row.textContent;
-    var show = false;
-    if(val === 'math_high' && /数.*→\s*1[2-9]\d|数.*→\s*[2-9]\d\d/.test(text)) show = true;
-    else if(val === 'math_mid' && /数.*→\s*(8\d|9\d|10\d|11\d)\b/.test(text)) show = true;
-    else if(val === 'math_low' && /数.*→\s*[0-7]\d\b/.test(text)) show = true;
-    else if(val === 'eng_high' && /英.*→\s*(8\d|9\d)\b/.test(text)) show = true;
-    else if(val === 'eng_mid' && /英.*→\s*(6\d|7\d)\b/.test(text)) show = true;
-    else if(val === 'eng_low' && /英.*→\s*[0-5]\d\b/.test(text)) show = true;
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword) === -1) show = false;
+    if(districtVal && text.indexOf(districtVal) === -1) show = false;
+    if(subjectVal && (row.getAttribute('data-subject') || '').toLowerCase().indexOf(subjectVal) === -1) show = false;
+    // TAB 筛选
+    if(show && activeHtTab){
+      var reviewCell = row.querySelector('td:nth-child(7) .status');
+      var reviewText = reviewCell ? reviewCell.textContent.trim() : '';
+      if(activeHtTab === '已停用'){
+        if(reviewText !== '已停用') show = false;
+      } else if(activeHtTab === '使用中'){
+        var switchLabel2 = row.querySelector('.switch');
+        var isDisabled2 = switchLabel2 && switchLabel2.classList.contains('disabled');
+        // 使用中：开关未禁用 + 审核状态为使用中 + 开关已开启
+        if(isDisabled2 || reviewText !== '使用中') show = false;
+        if(show && switchLabel2 && !switchLabel2.querySelector('input').checked) show = false;
+      } else {
+        if(reviewText !== activeHtTab) show = false;
+      }
+    }
     row.style.display = show ? '' : 'none';
+  });
+  updateHtCount();
+}
+
+function updateHtCount(){
+  var visible = document.querySelectorAll('#headteacherTable tbody tr:not([style*="display: none"])');
+  var countEl = document.getElementById('htCount');
+  if(countEl) countEl.textContent = '共 ' + visible.length + ' 条记录';
+}
+
+function switchHeadteacherTab(tabName, btn){
+  activeHtTab = tabName;
+  document.querySelectorAll('.headteacher-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  doHeadteacherQuery();
+}
+
+function resetHeadteacherFilter(){
+  document.getElementById('htKeyword').value = '';
+  document.getElementById('htDistrictFilter').value = '';
+  document.getElementById('htSubjectFilter').value = '';
+  activeHtTab = '';
+  document.querySelectorAll('.headteacher-tab').forEach(function(t,i){ t.classList.toggle('active', i === 0); });
+  doHeadteacherQuery();
+}
+
+// ==================== 班主任账号状态切换 ====================
+function toggleHtAccountStatus(checkbox){
+  var row = checkbox.closest('tr');
+  var switchLabel = row.querySelector('.switch');
+  if(switchLabel && switchLabel.classList.contains('disabled')){
+    checkbox.checked = false;
+    showToast('当前审核状态下无法更改账号状态');
+    return;
+  }
+  if(!checkbox.checked){
+    showToast('班主任账号已停用');
+  } else {
+    showToast('班主任账号已启用');
+  }
+  // 同步更新详情数据
+  var username = row.querySelector('td:first-child').textContent.trim();
+  if(htData[username]){
+    htData[username].acctEnabled = checkbox.checked;
+  }
+}
+
+// ==================== 班主任数据 ====================
+var htData = {
+  'zhanglaoshi': { name:'张老师', gender:'男', phone:'138****8001', idCard:'1101**********1234', email:'zhang@kaoyan.com', district:'海淀学区中心', subjects:['数学','政治'], classes:['25考研数学一班','26考研英语预备班'], reviewStatus:'使用中', reviewReason:'', acctEnabled:true },
+  'lilaoshi':   { name:'李老师', gender:'女', phone:'138****8002', idCard:'1101**********5678', email:'li@kaoyan.com', district:'海淀学区中心', subjects:['英语'], classes:['25考研英语一班','25考研政治一班'], reviewStatus:'使用中', reviewReason:'', acctEnabled:true },
+  'wanglaoshi': { name:'王老师', gender:'男', phone:'139****9003', idCard:'3201**********9012', email:'wang@kaoyan.com', district:'朝阳学区中心', subjects:['数学'], classes:['25考研数学二班'], reviewStatus:'审核中', reviewReason:'', acctEnabled:false },
+  'zhaolaoshi': { name:'赵老师', gender:'男', phone:'136****5004', idCard:'4401**********3456', email:'zhao@kaoyan.com', district:'西城学区中心', subjects:['英语'], classes:[], reviewStatus:'审核驳回', reviewReason:'教师资格证信息不符，请重新提交核验材料', acctEnabled:false },
+  'liulaoshi':  { name:'刘老师', gender:'女', phone:'137****6005', idCard:'5101**********7890', email:'liu@kaoyan.com', district:'昌平学区中心', subjects:['数学','英语','政治'], classes:['25考研政治一班'], reviewStatus:'已停用', reviewReason:'', acctEnabled:false }
+};
+
+// ==================== 班主任详情弹窗 ====================
+function openHtDetailModal(username){
+  document.getElementById('htDetailModalTitle').textContent = '班主任详情 - ' + username;
+  var d = htData[username] || { name:'-', gender:'-', phone:'-', idCard:'-', email:'-', district:'-', subjects:[], classes:[], reviewStatus:'-', reviewReason:'', acctEnabled:false };
+
+  // 审核横幅
+  var banner = document.getElementById('detHtReviewBanner');
+  banner.className = 'review-banner';
+  if(d.reviewStatus === '审核中' || d.reviewStatus === '审核驳回'){
+    var cls = d.reviewStatus === '审核驳回' ? 'rejected' : 'reviewing';
+    banner.classList.add(cls);
+    document.getElementById('detHtBannerTitle').textContent = d.reviewStatus === '审核驳回' ? '审核驳回' : '审核中 — 请等待管理员审核';
+    if(d.reviewStatus === '审核驳回' && d.reviewReason){
+      document.getElementById('detHtBannerReason').style.display = '';
+      document.getElementById('detHtBannerReason').textContent = '驳回原因：' + d.reviewReason;
+    } else {
+      document.getElementById('detHtBannerReason').style.display = 'none';
+    }
+  }
+
+  // 账号信息
+  document.getElementById('detHtUsername').textContent = username;
+  document.getElementById('detHtName').textContent = d.name;
+  document.getElementById('detHtGender').textContent = d.gender || '-';
+  document.getElementById('detHtPhone').textContent = d.phone || '-';
+  document.getElementById('detHtIdCard').textContent = d.idCard || '-';
+  document.getElementById('detHtEmail').textContent = d.email || '-';
+  document.getElementById('detHtAcctStatus').textContent = d.acctEnabled ? '启用' : '停用';
+  document.getElementById('detHtReviewStatus').textContent = d.reviewStatus || '-';
+
+  // 教学信息
+  document.getElementById('detHtDistrict').textContent = d.district || '-';
+  document.getElementById('detHtSubjects').textContent = d.subjects.length ? d.subjects.join('、') : '-';
+  document.getElementById('detHtClasses').textContent = d.classes.length ? d.classes.join('、') : '-';
+
+  document.getElementById('headteacherDetailModal').classList.add('show');
+}
+
+// ==================== 班主任编辑弹窗 ====================
+function openHtEditModal(username){
+  var d = htData[username];
+  document.getElementById('htModalTitle').textContent = '编辑班主任';
+  document.getElementById('htModalUsername').value = username;
+  document.getElementById('htModalUsername').disabled = true;
+  document.getElementById('htPwdField').style.display = 'none';
+  document.getElementById('htModalPassword').value = '';
+  document.getElementById('htModalName').value = d.name || '';
+  document.getElementById('htModalGender').value = d.gender || '';
+  document.getElementById('htModalPhone').value = (d.phone || '').replace(/\*/g,'');
+  document.getElementById('htModalIdCard').value = d.idCard || '';
+  document.getElementById('htModalEmail').value = d.email || '';
+  document.getElementById('htModalDistrict').value = d.district || '';
+  // 教学科目
+  document.getElementById('htSubjMath').checked = d.subjects.indexOf('数学') > -1;
+  document.getElementById('htSubjEnglish').checked = d.subjects.indexOf('英语') > -1;
+  document.getElementById('htSubjPolitics').checked = d.subjects.indexOf('政治') > -1;
+  // 任教班级
+  var checkboxes = document.querySelectorAll('#htClassCheckboxes input[type="checkbox"]');
+  checkboxes.forEach(function(cb){ cb.checked = d.classes.indexOf(cb.value) > -1; });
+  document.getElementById('headteacherModal').classList.add('show');
+}
+
+function openNewHeadteacherModal(){
+  document.getElementById('htModalTitle').textContent = '新增班主任';
+  document.getElementById('htModalUsername').value = '';
+  document.getElementById('htModalUsername').disabled = false;
+  // 新增时不显示密码字段（审核通过后自动分配默认密码）
+  document.getElementById('htPwdField').style.display = 'none';
+  document.getElementById('htModalPassword').value = '';
+  document.getElementById('htModalName').value = '';
+  document.getElementById('htModalGender').value = '';
+  document.getElementById('htModalPhone').value = '';
+  document.getElementById('htModalIdCard').value = '';
+  document.getElementById('htModalEmail').value = '';
+  document.getElementById('htModalDistrict').value = '';
+  document.getElementById('htSubjMath').checked = false;
+  document.getElementById('htSubjEnglish').checked = false;
+  document.getElementById('htSubjPolitics').checked = false;
+  var checkboxes = document.querySelectorAll('#htClassCheckboxes input[type="checkbox"]');
+  checkboxes.forEach(function(cb){ cb.checked = false; });
+  document.getElementById('headteacherModal').classList.add('show');
+}
+
+function submitHeadteacher(){
+  var username = document.getElementById('htModalUsername').value.trim();
+  var isNew = document.getElementById('htModalUsername').disabled === false;
+  var name = document.getElementById('htModalName').value.trim();
+  var phone = document.getElementById('htModalPhone').value.trim();
+  var district = document.getElementById('htModalDistrict').value;
+  var hasSubject = document.getElementById('htSubjMath').checked || document.getElementById('htSubjEnglish').checked || document.getElementById('htSubjPolitics').checked;
+
+  if(!username){ showToast('请输入账号名'); return; }
+  if(!name){ showToast('请输入姓名'); return; }
+  if(!phone){ showToast('请输入手机号'); return; }
+  if(!district){ showToast('请选择所属学区'); return; }
+  if(!hasSubject){ showToast('请至少选择一项教学科目'); return; }
+
+  closeModal('headteacherModal');
+  showToast(isNew ? '班主任创建成功，等待审核' : '保存成功');
+}
+
+// ==================== 重置密码 ====================
+function resetHtPassword(username){
+  showToast('密码已重置为123456');
+}
+
+// ==================== Autocomplete 模糊搜索 ====================
+// 班主任数据源（可扩展为从后端获取）
+var teacherOptions = ['张老师','李老师','王老师'];
+
+/**
+ * 初始化一个 autocomplete 实例
+ * @param {string} containerId - 外层 .autocomplete 的 id
+ * @param {string[]} dataSource - 选项列表
+ * @param {Function} onChange - 选中后的回调（参数：选中的值字符串）
+ */
+function initAutocomplete(containerId, dataSource, onChange){
+  var container = document.getElementById(containerId);
+  if(!container) return;
+  var input = container.querySelector('.autocomplete-input');
+  var clearBtn = container.querySelector('.autocomplete-clear');
+  var dropdown = container.querySelector('.autocomplete-dropdown');
+  var highlightedIdx = -1;
+
+  // 模糊搜索匹配
+  function fuzzyMatch(query, items){
+    var q = query.toLowerCase().replace(/\s+/g,'');
+    if(!q) return items.map(function(v,i){ return {value:v, idx:i}; });
+    return items
+      .map(function(v,i){
+        var lower = v.toLowerCase();
+        var score = 0;
+        var qi = 0;
+        for(var ci = 0; ci < lower.length && qi < q.length; ci++){
+          if(lower[ci] === q[qi]){ score++; qi++; }
+        }
+        return {value:v, idx:i, score:score, full:qi === q.length};
+      })
+      .filter(function(r){ return r.full; })
+      .sort(function(a,b){ return b.score - a.score; });
+  }
+
+  // 高亮匹配字符
+  function highlightText(text, query){
+    if(!query) return text;
+    var q = query.toLowerCase().replace(/\s+/g,'');
+    var result = '';
+    var qi = 0;
+    for(var i = 0; i < text.length && qi < q.length; i++){
+      if(text[i].toLowerCase() === q[qi]){
+        result += '<mark>' + text[i] + '</mark>';
+        qi++;
+      } else {
+        result += text[i];
+      }
+    }
+    result += text.slice(i !== undefined ? i : text.length);
+    return result;
+  }
+
+  function renderDropdown(query){
+    var matches = fuzzyMatch(query, dataSource.length === 0 ? ['(无数据)'] : dataSource);
+    highlightedIdx = matches.length > 0 ? 0 : -1;
+    if(matches.length === 0){
+      dropdown.innerHTML = '<div class="autocomplete-empty">无匹配结果</div>';
+    } else {
+      dropdown.innerHTML = matches.map(function(m,i){
+        var cls = i === 0 ? ' highlighted' : '';
+        return '<div class="autocomplete-item' + cls + '" data-idx="' + i + '" data-value="' + m.value.replace(/"/g,'&quot;') + '">' + highlightText(m.value, query) + '</div>';
+      }).join('');
+    }
+    container.classList.add('open');
+  }
+
+  function closeDropdown(){
+    container.classList.remove('open');
+    dropdown.innerHTML = '';
+    highlightedIdx = -1;
+  }
+
+  function selectValue(value){
+    input.value = value;
+    input.setAttribute('data-value', value);
+    clearBtn.classList.add('visible');
+    closeDropdown();
+    if(onChange) onChange(value);
+  }
+
+  function clearValue(){
+    input.value = '';
+    input.removeAttribute('data-value');
+    clearBtn.classList.remove('visible');
+    if(onChange) onChange('');
+  }
+
+  // 输入事件
+  input.addEventListener('input', function(){
+    var val = this.value.trim();
+    if(val){
+      clearBtn.classList.add('visible');
+      renderDropdown(val);
+    } else {
+      clearValue();
+      closeDropdown();
+    }
+  });
+
+  // 聚焦时显示全部选项
+  input.addEventListener('focus', function(){
+    if(!this.value.trim() && !container.classList.contains('open')){
+      renderDropdown('');
+    }
+  });
+
+  // 键盘导航
+  input.addEventListener('keydown', function(e){
+    var items = dropdown.querySelectorAll('.autocomplete-item');
+    if(!items.length) return;
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      highlightedIdx = Math.min(highlightedIdx + 1, items.length - 1);
+      items.forEach(function(it,i){ it.classList.toggle('highlighted', i === highlightedIdx); });
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      highlightedIdx = Math.max(highlightedIdx - 1, 0);
+      items.forEach(function(it,i){ it.classList.toggle('highlighted', i === highlightedIdx); });
+    } else if(e.key === 'Enter'){
+      e.preventDefault();
+      if(items[highlightedIdx]){
+        selectValue(items[highlightedIdx].getAttribute('data-value'));
+      }
+    } else if(e.key === 'Escape'){
+      closeDropdown();
+    }
+  });
+
+  // 点击选项
+  dropdown.addEventListener('click', function(e){
+    var item = e.target.closest('.autocomplete-item');
+    if(item){
+      selectValue(item.getAttribute('data-value'));
+    }
+  });
+
+  // 清除按钮
+  clearBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    clearValue();
+    input.focus();
+  });
+
+  // 点击外部关闭
+  document.addEventListener('click', function(e){
+    if(!container.contains(e.target)){
+      closeDropdown();
+    }
   });
 }
 
-// ==================== 班级详情 ====================
-function showClassDetail(className){
-  document.getElementById('classListView').style.display = 'none';
-  document.getElementById('classPageHeader').style.display = 'none';
-  var detail = document.getElementById('classDetail');
-  detail.classList.add('show');
-  document.getElementById('detName').textContent = className;
-  // 根据班级名称填充详情数据
-  var classData = {
-    '25考研数学一班': { district:'海淀学区中心', teacher:'张老师', count:'32', date:'2025-03-01', status:'已开班' },
-    '25考研英语一班': { district:'海淀学区中心', teacher:'李老师', count:'28', date:'2025-03-01', status:'已开班' },
-    '25考研数学二班': { district:'朝阳学区中心', teacher:'王老师', count:'25', date:'2025-04-15', status:'已开班' },
-    '26考研英语预备班': { district:'西城学区中心', teacher:'张老师', count:'0', date:'2025-09-01', status:'未开班' },
-    '25考研政治一班': { district:'海淀学区中心', teacher:'李老师', count:'30', date:'2025-02-15', status:'已结课' }
-  };
-  var d = classData[className] || { district:'-', teacher:'-', count:'-', date:'-', status:'-' };
-  document.getElementById('detDistrict').textContent = d.district;
-  document.getElementById('detTeacher').textContent = d.teacher;
-  document.getElementById('detCount').textContent = d.count;
-  document.getElementById('detDate').textContent = d.date;
-  document.getElementById('detStatus').textContent = d.status;
-}
-function hideClassDetail(){
-  document.getElementById('classListView').style.display = '';
-  document.getElementById('classPageHeader').style.display = '';
-  document.getElementById('classDetail').classList.remove('show');
-}
+// 初始化两个 autocomplete 实例
+initAutocomplete('teacherFilterAc', teacherOptions, function(val){
+  doClassQuery();
+});
 
-// ==================== Toast ====================
+initAutocomplete('classModalTeacherAc', teacherOptions, function(val){
+  // 弹窗选中后存储数据用于保存
+});
+
+// 班级筛选 autocomplete
+var classOptions = ['25考研数学一班','25考研英语一班','25考研数学二班','25考研政治一班','26考研英语预备班'];
+initAutocomplete('studentClassFilterAc', classOptions, function(val){
+  doStudentQuery();
+});
+
+// 学区筛选 autocomplete
+var districtOptions = ['海淀学区中心','朝阳学区中心','西城学区中心'];
+initAutocomplete('studentDistrictFilterAc', districtOptions, function(val){
+  doStudentQuery();
+});
+
+// ==================== 结课时间自动检测 ====================
+function checkClassEndDates(){
+  var today = new Date();
+  today.setHours(0,0,0,0);
+  var rows = document.querySelectorAll('#classTable tbody tr');
+  rows.forEach(function(row){
+    var endDateCell = row.querySelector('.end-date');
+    if(!endDateCell) return;
+    var endDateText = endDateCell.textContent.trim();
+    if(!endDateText) return;
+    var endDate = new Date(endDateText);
+    endDate.setHours(0,0,0,0);
+    var statusCell = row.querySelector('.status');
+    var currentStatus = statusCell ? statusCell.textContent.trim() : '';
+    // 仅对"已开班"状态的班级进行结课检测（审核中/审核驳回/未开班/已结课均跳过）
+    if(currentStatus === '已开班' && endDate <= today){
+      statusCell.textContent = '已结课';
+      statusCell.className = 'status status-inactive';
+    }
+  });
+}
+// 页面加载时执行检测
+checkClassEndDates();
 var toastTimer;
 function showToast(msg){
   var toast = document.getElementById('toast');
@@ -907,6 +2077,765 @@ function showToast(msg){
   clearTimeout(toastTimer);
   toastTimer = setTimeout(function(){ toast.style.display = 'none'; }, 2000);
 }
+
+// ==================== 审核数据 ====================
+// 审核日志：{ type:'class'|'student'|'headteacher', id:'xxx', label:'xxx', result:'通过'|'驳回', reason:'', time:'', operator:'管理员' }
+var reviewLogs = [
+  // ---- 班级审核演示数据 ----
+  { type:'class', id:'25考研数学一班', label:'25考研数学一班', result:'通过', reason:'', time:'2025-02-20 14:30', operator:'张管理' },
+  { type:'class', id:'25考研数学二班', label:'25考研数学二班', result:'驳回', reason:'开班资料不齐全，请补充教学计划与师资证明', time:'2025-04-01 10:30', operator:'李审核' },
+  // ---- 学员审核演示数据 ----
+  { type:'student', id:'2025004', label:'赵六', result:'驳回', reason:'报名科目与当前水平不符，请重新选择科目', time:'2025-03-02 09:15', operator:'李审核' },
+  { type:'student', id:'2025005', label:'孙七', result:'通过', reason:'', time:'2025-02-15 16:00', operator:'王主任' },
+  // ---- 班主任审核演示数据 ----
+  { type:'headteacher', id:'zhanglaoshi', label:'张老师', result:'通过', reason:'', time:'2025-01-10 11:00', operator:'张管理' },
+  { type:'headteacher', id:'zhaolaoshi', label:'赵老师', result:'驳回', reason:'教学经验证明不足，请补充资质材料后重新提交', time:'2025-03-10 08:45', operator:'李审核' }
+];
+// TAB 切换状态
+var activeReviewClassTab = '审核中';
+var activeReviewStudentTab = '审核中';
+var activeReviewHtTab = '审核中';
+// 当前审核项
+var pendingReviewItem = null;
+
+// ==================== 班级审核 ====================
+function switchReviewClassTab(tab, btn){
+  activeReviewClassTab = tab;
+  var tabs = document.querySelectorAll('#tab-review-class .review-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderReviewClassTable();
+}
+
+function getReviewClassData(){
+  var rows = [];
+  for(var name in classDetailData){
+    var d = classDetailData[name];
+    // 审核历史（已通过）
+    var lastLog = null;
+    reviewLogs.forEach(function(log){
+      if(log.type==='class' && log.id===name){ lastLog = log; }
+    });
+    if(d.reviewStatus==='审核中' || d.reviewStatus==='审核驳回'){
+      rows.push({
+        type:'class', id:name, label:name, district:d.district, teacher:d.teacher,
+        startDate:d.startDate, status:d.reviewStatus, reviewReason:d.reviewReason||'',
+        detail:d, reviewer:lastLog ? lastLog.operator : '', reviewTime:lastLog ? lastLog.time : ''
+      });
+    } else if(lastLog && lastLog.result==='通过'){
+      rows.push({
+        type:'class', id:name, label:name, district:d.district, teacher:d.teacher,
+        startDate:d.startDate, status:'审核通过', reviewReason:'', detail:d,
+        reviewer:lastLog.operator, reviewTime:lastLog.time
+      });
+    }
+  }
+  // 去重
+  var seen = {};
+  return rows.filter(function(r){ var k=r.id+'_'+r.status; if(seen[k]) return false; seen[k]=true; return true; });
+}
+
+function renderReviewClassTable(){
+  var allData = getReviewClassData();
+  var data = allData.filter(function(r){ return r.status === activeReviewClassTab; });
+  var tbody = document.getElementById('reviewClassTbody');
+  tbody.innerHTML = '';
+  if(data.length===0){
+    var emptyMsg = activeReviewClassTab==='审核中'?'暂无待审核的班级':activeReviewClassTab==='审核通过'?'暂无审核通过的班级':'暂无审核驳回的班级';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:24px">'+emptyMsg+'</td></tr>';
+  } else {
+    data.forEach(function(item){
+      var statusHtml = '';
+      if(item.status==='审核中') statusHtml = '<span class="status status-reviewing">审核中</span>';
+      else if(item.status==='审核驳回') statusHtml = '<span class="status status-rejected">审核驳回</span>';
+      else statusHtml = '<span class="status status-active">审核通过</span>';
+      var reviewInfoHtml = '';
+      if(item.status==='审核通过' && item.reviewer){
+        reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'</div>';
+      } else if(item.status==='审核驳回'){
+        if(item.reviewer){
+          reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'<span style="color:var(--danger);margin-left:4px">·驳回</span></div>';
+        } else {
+          reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+        }
+      } else {
+        reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+      }
+      var btnHtml = '';
+      if(item.status==='审核中'){
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewClassDetail(\''+item.id+'\')">审核</button>';
+      } else {
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewClassDetail(\''+item.id+'\')">查看详情</button>';
+      }
+      tbody.innerHTML += '<tr data-id="'+item.id+'" data-status="'+item.status+'">'+
+        '<td>'+item.label+'</td><td>'+item.district+'</td><td>'+item.teacher+'</td><td>'+item.startDate+'</td><td>2025-02-20</td>'+
+        '<td>'+statusHtml+'</td><td>'+reviewInfoHtml+'</td><td>'+btnHtml+'</td></tr>';
+    });
+  }
+  document.getElementById('rvClassCount').textContent = '共 '+data.length+' 条记录';
+}
+
+function doReviewClassQuery(){
+  var keyword = (document.getElementById('rvClassKeyword').value||'').toLowerCase();
+  var rows = document.querySelectorAll('#reviewClassTbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword)===-1) show=false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('rvClassCount').textContent = '共 '+count+' 条记录';
+}
+
+function closeReviewClassDetail(){
+  document.getElementById('reviewClassDetailModal').classList.remove('show');
+}
+
+function openReviewClassDetail(id){
+  var d = classDetailData[id];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('rvClassDetailTitle').textContent = '班级审核详情 - '+id;
+  var body = document.getElementById('rvClassDetailBody');
+  // 基本信息（完整字段）
+  body.innerHTML =
+    '<div class="form-section"><div class="form-section-title">基本信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>班级名称</label><div class="value">'+id+'</div></div>'+
+    '<div class="detail-item"><label>所属学区</label><div class="value">'+(d.district||'-')+'</div></div>'+
+    '<div class="detail-item"><label>班主任</label><div class="value">'+(d.teacher||'-')+'</div></div>'+
+    '<div class="detail-item"><label>学员人数</label><div class="value">'+(d.count||'-')+'</div></div>'+
+    '<div class="detail-item"><label>计划开班时间</label><div class="value">'+(d.startDate||'-')+'</div></div>'+
+    '<div class="detail-item"><label>计划结课时间</label><div class="value">'+(d.endDate||'-')+'</div></div>'+
+    '<div class="detail-item"><label>审核状态</label><div class="value">'+(d.reviewStatus||'-')+'</div></div>'+
+    '</div></div>';
+  // 审核信息（审核人/审核时间）
+  var classLastLog = null;
+  reviewLogs.forEach(function(l){
+    if(l.type==='class' && l.id===id){ classLastLog = l; }
+  });
+  // 展示审核信息：有日志时展示审核人+时间，无日志但已审核时也展示状态
+  if(classLastLog || d.reviewStatus==='审核驳回' || d.reviewStatus==='审核通过'){
+    body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
+      '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+      (classLastLog ? '<div class="detail-item"><label>审核人</label><div class="value">'+classLastLog.operator+'</div></div>' : '')+
+      (classLastLog ? '<div class="detail-item"><label>审核时间</label><div class="value">'+classLastLog.time+'</div></div>' : '')+
+      (d.reviewStatus ? '<div class="detail-item"><label>审核状态</label><div class="value">'+d.reviewStatus+'</div></div>' : '')+
+      ((d.reviewReason||(classLastLog&&classLastLog.reason)) ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+(d.reviewReason||classLastLog.reason)+'</div></div>' : '')+
+      '</div></div>';
+  }
+  // 审核日志
+  var logsHtml = '';
+  var relevantLogs = reviewLogs.filter(function(l){ return l.type==='class' && l.id===id; });
+  if(relevantLogs.length>0){
+    logsHtml += '<div class="form-section"><div class="form-section-title">审核记录</div><div class="review-log">';
+    relevantLogs.forEach(function(log){
+      var iconCls = log.result==='通过' ? 'approved' : 'rejected';
+      logsHtml += '<div class="review-log-item"><div class="review-log-icon '+iconCls+'">'+(log.result==='通过'?'&#10003;':'&#10007;')+'</div>'+
+        '<div class="review-log-body"><div class="review-log-result">审核<span class="'+iconCls+'">'+log.result+'</span></div>'+
+        '<div class="review-log-meta">操作人：'+log.operator+' | 时间：'+log.time+'</div>'+
+        (log.reason ? '<div class="review-log-reason">驳回原因：'+log.reason+'</div>' : '')+
+        '</div></div>';
+    });
+    logsHtml += '</div></div>';
+  }
+  body.innerHTML += logsHtml;
+  // 驳回面板（内联）
+  body.innerHTML += '<div class="reject-panel" id="reviewClassRejectPanel">'+
+    '<div style="font-size:13px;font-weight:600;color:var(--danger);margin-bottom:8px">填写驳回原因</div>'+
+    '<textarea placeholder="请输入驳回原因..." id="reviewClassRejectReason"></textarea>'+
+    '<div class="reject-panel-actions">'+
+    '<button class="btn btn-cancel-reject" onclick="hideRejectPanel(\'reviewClassRejectPanel\')">取消</button>'+
+    '<button class="btn btn-confirm-reject" onclick="submitReject(\'class\',\''+id+'\')">确认驳回</button>'+
+    '</div></div>';
+  // 操作按钮
+  var footer = document.getElementById('rvClassDetailFooter');
+  if(d.reviewStatus==='审核中'){
+    footer.innerHTML = '<div class="review-action-bar"><button class="btn btn-approve" onclick="approveReview(\'class\',\''+id+'\')">&#10003; 审核通过</button>'+
+      '<button class="btn btn-reject" onclick="showRejectPanel(\'reviewClassRejectPanel\')">&#10007; 审核驳回</button>'+
+      '<span style="flex:1"></span><button class="btn btn-outline" onclick="closeReviewClassDetail()">关闭</button></div>';
+  } else {
+    footer.innerHTML = '<button class="btn btn-outline" onclick="closeReviewClassDetail()">关闭</button>';
+  }
+  document.getElementById('reviewClassDetailModal').classList.add('show');
+}
+
+// ==================== 学员审核 ====================
+function switchReviewStudentTab(tab, btn){
+  activeReviewStudentTab = tab;
+  var tabs = document.querySelectorAll('#tab-review-student .review-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderReviewStudentTable();
+}
+
+// 从表格行解析学员详情按钮参数
+function parseStudentRowData(row){
+  var btn = row.querySelector('button[onclick*="openStudentDetailModal"]');
+  if(!btn) return null;
+  var onclick = btn.getAttribute('onclick');
+  var match = onclick.match(/openStudentDetailModal\((.+)\)/);
+  if(!match) return null;
+  // 解析逗号分隔的字符串参数（引号包裹）
+  var args = [];
+  var s = match[1], i = 0, cur = '', inQ = false;
+  for(i = 0; i < s.length; i++){
+    var ch = s[i];
+    if(ch === "'"){ inQ = !inQ; continue; }
+    if(ch === ',' && !inQ){ args.push(cur.replace(/^'|'$/g,'')); cur = ''; continue; }
+    cur += ch;
+  }
+  if(cur !== undefined) args.push(cur.replace(/^'|'$/g,''));
+  if(args.length < 21) return null;
+  return {
+    name:args[0], id:args[1], phone:args[2], district:args[3], stuClass:args[4],
+    subjects:args[5], gender:args[6], email:args[7], idCard:args[8], regDate:args[9],
+    endDate:args[10], uni:args[11], major:args[12], targetUni:args[13], targetMajor:args[14],
+    targetTier:args[15], category:args[16], levels:args[17], acctEnabled:args[18]==='true',
+    reviewStatus:args[19], reviewReason:args[20]
+  };
+}
+
+function getReviewStudentData(){
+  var rows = [];
+  var stuRows = document.querySelectorAll('#studentTable tbody tr');
+  stuRows.forEach(function(row){
+    var cells = row.querySelectorAll('td');
+    if(cells.length < 10) return;
+    var reviewStatus = row.getAttribute('data-review-status') || '';
+    var reviewReason = row.getAttribute('data-review-reason') || '';
+    // 审核中和审核驳回
+    if(reviewStatus === '审核中' || reviewStatus === '审核驳回'){
+      // 查找审核日志获取审核人和时间（驳回项）
+      var stuLastLog = null;
+      reviewLogs.forEach(function(l){
+        if(l.type==='student' && l.id===cells[0].textContent.trim()){ stuLastLog = l; }
+      });
+      rows.push({
+        type:'student',
+        id: cells[0].textContent.trim(),
+        name: cells[1].textContent.trim(),
+        phone: cells[2].textContent.trim(),
+        district: cells[3].textContent.trim(),
+        stuClass: cells[4].textContent.trim(),
+        subjects: cells[5].textContent.trim(),
+        status: reviewStatus,
+        reviewReason: reviewReason,
+        row: row,
+        reviewer: stuLastLog ? stuLastLog.operator : '',
+        reviewTime: stuLastLog ? stuLastLog.time : ''
+      });
+    }
+  });
+  // 审核历史已通过
+  reviewLogs.forEach(function(log){
+    if(log.type === 'student' && log.result === '通过'){
+      var found = false;
+      stuRows.forEach(function(row){
+        var cells = row.querySelectorAll('td');
+        if(cells.length >= 10 && cells[0].textContent.trim() === log.id){
+          var rs = row.getAttribute('data-review-status') || '';
+          if(rs !== '审核中' && rs !== '审核驳回'){
+            rows.push({
+              type:'student', id:log.id, name:log.label, phone:cells[2].textContent.trim(),
+              district:cells[3].textContent.trim(), stuClass:cells[4].textContent.trim(),
+              subjects:cells[5].textContent.trim(), status:'审核通过', reviewReason:'',
+              row:row, reviewer:log.operator, reviewTime:log.time
+            });
+            found = true;
+          }
+        }
+      });
+      if(!found){
+        rows.push({
+          type:'student', id:log.id, name:log.label, phone:'', district:'', stuClass:'',
+          subjects:'', status:'审核通过', reviewReason:'', row:null, reviewer:log.operator, reviewTime:log.time
+        });
+      }
+    }
+  });
+  // 去重
+  var seen = {};
+  return rows.filter(function(r){ var k=r.type+'_'+r.id+'_'+r.status; if(seen[k]) return false; seen[k]=true; return true; });
+}
+
+function renderReviewStudentTable(){
+  var allData = getReviewStudentData();
+  var data = allData.filter(function(r){ return r.status === activeReviewStudentTab; });
+  var tbody = document.getElementById('reviewStudentTbody');
+  tbody.innerHTML = '';
+  if(data.length===0){
+    var emptyMsg = activeReviewStudentTab==='审核中'?'暂无待审核的学员':activeReviewStudentTab==='审核通过'?'暂无审核通过的学员':'暂无审核驳回的学员';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">'+emptyMsg+'</td></tr>';
+  } else {
+    data.forEach(function(item){
+      var statusHtml = '';
+      if(item.status==='审核中') statusHtml = '<span class="status status-reviewing">审核中</span>';
+      else if(item.status==='审核驳回') statusHtml = '<span class="status status-rejected">审核驳回</span>';
+      else statusHtml = '<span class="status status-active">审核通过</span>';
+      var reviewInfoHtml = '';
+      if(item.status==='审核通过' && item.reviewer){
+        reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'</div>';
+      } else if(item.status==='审核驳回'){
+        if(item.reviewer){
+          reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'<span style="color:var(--danger);margin-left:4px">·驳回</span></div>';
+        } else {
+          reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+        }
+      } else {
+        reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+      }
+      var btnHtml = '';
+      if(item.status==='审核中'){
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewStudentDetail(\''+item.id+'\')">审核</button>';
+      } else {
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewStudentDetail(\''+item.id+'\')">查看详情</button>';
+      }
+      tbody.innerHTML += '<tr data-id="'+item.id+'" data-status="'+item.status+'">'+
+        '<td>'+item.id+'</td><td>'+item.name+'</td><td>'+item.phone+'</td><td>'+item.stuClass+'</td><td>'+item.subjects+'</td><td>2025-02-20</td>'+
+        '<td>'+statusHtml+'</td><td>'+reviewInfoHtml+'</td><td>'+btnHtml+'</td></tr>';
+    });
+  }
+  document.getElementById('rvStuCount').textContent = '共 '+data.length+' 条记录';
+}
+
+function doReviewStudentQuery(){
+  var keyword = (document.getElementById('rvStuKeyword').value||'').toLowerCase();
+  var rows = document.querySelectorAll('#reviewStudentTbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword)===-1) show=false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('rvStuCount').textContent = '共 '+count+' 条记录';
+}
+
+function closeReviewStudentDetail(){
+  document.getElementById('reviewStudentDetailModal').classList.remove('show');
+}
+
+function openReviewStudentDetail(id){
+  // 从学员表格行获取完整数据
+  var stuRows = document.querySelectorAll('#studentTable tbody tr');
+  var row = null, reviewStatus = '', reviewReason = '';
+  stuRows.forEach(function(r){
+    var cells = r.querySelectorAll('td');
+    if(cells.length >= 10 && cells[0].textContent.trim() === id){
+      row = r;
+      reviewStatus = r.getAttribute('data-review-status') || '';
+      reviewReason = r.getAttribute('data-review-reason') || '';
+    }
+  });
+  if(!row){ showToast('数据未找到'); return; }
+  var d = parseStudentRowData(row);
+  if(!d){ showToast('无法解析学员数据'); return; }
+  document.getElementById('rvStuDetailTitle').textContent = '学员审核详情 - '+d.name;
+  var body = document.getElementById('rvStuDetailBody');
+  // 基本信息
+  body.innerHTML =
+    '<div class="form-section"><div class="form-section-title">基本信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>学号</label><div class="value">'+d.id+'</div></div>'+
+    '<div class="detail-item"><label>姓名</label><div class="value">'+d.name+'</div></div>'+
+    '<div class="detail-item"><label>性别</label><div class="value">'+(d.gender||'-')+'</div></div>'+
+    '<div class="detail-item"><label>手机号</label><div class="value">'+d.phone+'</div></div>'+
+    '<div class="detail-item"><label>身份证号</label><div class="value">'+(d.idCard||'-')+'</div></div>'+
+    '<div class="detail-item"><label>电子邮箱</label><div class="value">'+(d.email||'-')+'</div></div>'+
+    '</div></div>'+
+    // 报名信息
+    '<div class="form-section"><div class="form-section-title">报名信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>所属学区</label><div class="value">'+d.district+'</div></div>'+
+    '<div class="detail-item"><label>所属班级</label><div class="value">'+d.stuClass+'</div></div>'+
+    '<div class="detail-item"><label>报名科目</label><div class="value">'+d.subjects+'</div></div>'+
+    '<div class="detail-item"><label>报名日期</label><div class="value">'+(d.regDate||'-')+'</div></div>'+
+    '<div class="detail-item"><label>到期时间</label><div class="value">'+(d.endDate||'-')+'</div></div>'+
+    '</div></div>'+
+    // 背景与目标
+    '<div class="form-section"><div class="form-section-title">背景与目标</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>本科院校</label><div class="value">'+(d.uni||'-')+'</div></div>'+
+    '<div class="detail-item"><label>本科专业</label><div class="value">'+(d.major||'-')+'</div></div>'+
+    '<div class="detail-item"><label>目标院校</label><div class="value">'+(d.targetUni||'-')+'</div></div>'+
+    '<div class="detail-item"><label>目标专业</label><div class="value">'+(d.targetMajor||'-')+'</div></div>'+
+    '<div class="detail-item"><label>目标院校档次</label><div class="value">'+(d.targetTier||'-')+'</div></div>'+
+    '<div class="detail-item"><label>报考门类</label><div class="value">'+(d.category||'-')+'</div></div>'+
+    '<div class="detail-item"><label>科目信息</label><div class="value">'+(d.levels||'-')+'</div></div>'+
+    '</div></div>';
+  // 审核状态
+  var lastLog = null;
+  reviewLogs.forEach(function(l){
+    if(l.type==='student' && l.id===id){ lastLog = l; }
+  });
+  body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>审核状态</label><div class="value">'+(reviewStatus||'-')+'</div></div>'+
+    (lastLog ? '<div class="detail-item"><label>审核人</label><div class="value">'+lastLog.operator+'</div></div>' : '')+
+    (lastLog ? '<div class="detail-item"><label>审核时间</label><div class="value">'+lastLog.time+'</div></div>' : '')+
+    (reviewReason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+reviewReason+'</div></div>' : '')+
+    '</div></div>';
+  // 审核日志
+  var relevantLogs = reviewLogs.filter(function(l){ return l.type==='student' && l.id===id; });
+  if(relevantLogs.length>0){
+    body.innerHTML += '<div class="form-section"><div class="form-section-title">审核记录</div><div class="review-log">';
+    relevantLogs.forEach(function(log){
+      var iconCls = log.result==='通过' ? 'approved' : 'rejected';
+      body.innerHTML += '<div class="review-log-item"><div class="review-log-icon '+iconCls+'">'+(log.result==='通过'?'&#10003;':'&#10007;')+'</div>'+
+        '<div class="review-log-body"><div class="review-log-result">审核<span class="'+iconCls+'">'+log.result+'</span></div>'+
+        '<div class="review-log-meta">操作人：'+log.operator+' | 时间：'+log.time+'</div>'+
+        (log.reason ? '<div class="review-log-reason">驳回原因：'+log.reason+'</div>' : '')+'</div></div>';
+    });
+    body.innerHTML += '</div></div>';
+  }
+  // 驳回面板
+  body.innerHTML += '<div class="reject-panel" id="reviewStudentRejectPanel">'+
+    '<div style="font-size:13px;font-weight:600;color:var(--danger);margin-bottom:8px">填写驳回原因</div>'+
+    '<textarea placeholder="请输入驳回原因..." id="reviewStudentRejectReason"></textarea>'+
+    '<div class="reject-panel-actions">'+
+    '<button class="btn btn-cancel-reject" onclick="hideRejectPanel(\'reviewStudentRejectPanel\')">取消</button>'+
+    '<button class="btn btn-confirm-reject" onclick="submitReject(\'student\',\''+id+'\')">确认驳回</button>'+
+    '</div></div>';
+  // 操作按钮
+  var footer = document.getElementById('rvStuDetailFooter');
+  if(reviewStatus==='审核中'){
+    footer.innerHTML = '<div class="review-action-bar"><button class="btn btn-approve" onclick="approveReview(\'student\',\''+id+'\')">&#10003; 审核通过</button>'+
+      '<button class="btn btn-reject" onclick="showRejectPanel(\'reviewStudentRejectPanel\')">&#10007; 审核驳回</button>'+
+      '<span style="flex:1"></span><button class="btn btn-outline" onclick="closeReviewStudentDetail()">关闭</button></div>';
+  } else {
+    footer.innerHTML = '<button class="btn btn-outline" onclick="closeReviewStudentDetail()">关闭</button>';
+  }
+  document.getElementById('reviewStudentDetailModal').classList.add('show');
+}
+
+// ==================== 班主任审核 ====================
+function switchReviewHtTab(tab, btn){
+  activeReviewHtTab = tab;
+  var tabs = document.querySelectorAll('#tab-review-headteacher .review-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderReviewHtTable();
+}
+
+function getReviewHtData(){
+  var rows = [];
+  for(var username in htData){
+    var d = htData[username];
+    // 审核历史
+    var lastLog = null;
+    reviewLogs.forEach(function(log){
+      if(log.type==='headteacher' && log.id===username){ lastLog = log; }
+    });
+    if(d.reviewStatus==='审核中' || d.reviewStatus==='审核驳回'){
+      rows.push({
+        type:'headteacher', id:username, label:username, name:d.name, district:d.district,
+        subjects:d.subjects.join('、'), status:d.reviewStatus, reviewReason:d.reviewReason||'',
+        reviewer:lastLog ? lastLog.operator : '', reviewTime:lastLog ? lastLog.time : ''
+      });
+    } else if(lastLog && lastLog.result==='通过'){
+      rows.push({
+        type:'headteacher', id:username, label:username, name:d.name, district:d.district,
+        subjects:d.subjects.join('、'), status:'审核通过', reviewReason:'',
+        reviewer:lastLog.operator, reviewTime:lastLog.time
+      });
+    }
+  }
+  var seen = {};
+  return rows.filter(function(r){ var k=r.type+'_'+r.id+'_'+r.status; if(seen[k]) return false; seen[k]=true; return true; });
+}
+
+function renderReviewHtTable(){
+  var allData = getReviewHtData();
+  var data = allData.filter(function(r){ return r.status === activeReviewHtTab; });
+  var tbody = document.getElementById('reviewHtTbody');
+  tbody.innerHTML = '';
+  if(data.length===0){
+    var emptyMsg = activeReviewHtTab==='审核中'?'暂无待审核的班主任':activeReviewHtTab==='审核通过'?'暂无审核通过的班主任':'暂无审核驳回的班主任';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:24px">'+emptyMsg+'</td></tr>';
+  } else {
+    data.forEach(function(item){
+      var statusHtml = '';
+      if(item.status==='审核中') statusHtml = '<span class="status status-reviewing">审核中</span>';
+      else if(item.status==='审核驳回') statusHtml = '<span class="status status-rejected">审核驳回</span>';
+      else statusHtml = '<span class="status status-active">审核通过</span>';
+      var reviewInfoHtml = '';
+      if(item.status==='审核通过' && item.reviewer){
+        reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'</div>';
+      } else if(item.status==='审核驳回'){
+        if(item.reviewer){
+          reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'<span style="color:var(--danger);margin-left:4px">·驳回</span></div>';
+        } else {
+          reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+        }
+      } else {
+        reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
+      }
+      var btnHtml = '';
+      if(item.status==='审核中'){
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewHtDetail(\''+item.id+'\')">审核</button>';
+      } else {
+        btnHtml = '<button class="btn btn-ghost btn-xs" onclick="openReviewHtDetail(\''+item.id+'\')">查看详情</button>';
+      }
+      tbody.innerHTML += '<tr data-id="'+item.id+'" data-status="'+item.status+'">'+
+        '<td>'+item.label+'</td><td>'+item.name+'</td><td>'+item.district+'</td><td>'+item.subjects+'</td><td>2025-02-20</td>'+
+        '<td>'+statusHtml+'</td><td>'+reviewInfoHtml+'</td><td>'+btnHtml+'</td></tr>';
+    });
+  }
+  document.getElementById('rvHtCount').textContent = '共 '+data.length+' 条记录';
+}
+
+function doReviewHtQuery(){
+  var keyword = (document.getElementById('rvHtKeyword').value||'').toLowerCase();
+  var rows = document.querySelectorAll('#reviewHtTbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword)===-1) show=false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('rvHtCount').textContent = '共 '+count+' 条记录';
+}
+
+function closeReviewHtDetail(){
+  document.getElementById('reviewHtDetailModal').classList.remove('show');
+}
+
+function openReviewHtDetail(username){
+  var d = htData[username];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('rvHtDetailTitle').textContent = '班主任审核详情 - '+d.name;
+  var body = document.getElementById('rvHtDetailBody');
+  body.innerHTML =
+    '<div class="form-section"><div class="form-section-title">账号信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>账号名</label><div class="value">'+username+'</div></div>'+
+    '<div class="detail-item"><label>姓名</label><div class="value">'+(d.name||'-')+'</div></div>'+
+    '<div class="detail-item"><label>性别</label><div class="value">'+(d.gender||'-')+'</div></div>'+
+    '<div class="detail-item"><label>手机号</label><div class="value">'+(d.phone||'-')+'</div></div>'+
+    '<div class="detail-item"><label>身份证号</label><div class="value">'+(d.idCard||'-')+'</div></div>'+
+    '<div class="detail-item"><label>电子邮箱</label><div class="value">'+(d.email||'-')+'</div></div>'+
+    '<div class="detail-item"><label>审核状态</label><div class="value">'+(d.reviewStatus||'-')+'</div></div>'+
+    '</div></div>'+
+    '<div class="form-section"><div class="form-section-title">教学信息</div>'+
+    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+    '<div class="detail-item"><label>所属学区</label><div class="value">'+(d.district||'-')+'</div></div>'+
+    '<div class="detail-item"><label>教学科目</label><div class="value">'+(d.subjects.length?d.subjects.join('、'):'-')+'</div></div>'+
+    '<div class="detail-item" style="grid-column:1/-1"><label>任教班级</label><div class="value">'+(d.classes.length?d.classes.join('、'):'-')+'</div></div>'+
+    '</div></div>';
+  // 审核信息（审核人/审核时间）
+  var htLastLog = null;
+  reviewLogs.forEach(function(l){
+    if(l.type==='headteacher' && l.id===username){ htLastLog = l; }
+  });
+  if(htLastLog){
+    body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
+      '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
+      '<div class="detail-item"><label>审核人</label><div class="value">'+htLastLog.operator+'</div></div>'+
+      '<div class="detail-item"><label>审核时间</label><div class="value">'+htLastLog.time+'</div></div>'+
+      (htLastLog.reason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+htLastLog.reason+'</div></div>' : '')+
+      '</div></div>';
+  }
+  // 审核日志
+  var relevantLogs = reviewLogs.filter(function(l){ return l.type==='headteacher' && l.id===username; });
+  if(relevantLogs.length>0){
+    body.innerHTML += '<div class="form-section"><div class="form-section-title">审核记录</div><div class="review-log">';
+    relevantLogs.forEach(function(log){
+      var iconCls = log.result==='通过' ? 'approved' : 'rejected';
+      body.innerHTML += '<div class="review-log-item"><div class="review-log-icon '+iconCls+'">'+(log.result==='通过'?'&#10003;':'&#10007;')+'</div>'+
+        '<div class="review-log-body"><div class="review-log-result">审核<span class="'+iconCls+'">'+log.result+'</span></div>'+
+        '<div class="review-log-meta">操作人：'+log.operator+' | 时间：'+log.time+'</div>'+
+        (log.reason ? '<div class="review-log-reason">驳回原因：'+log.reason+'</div>' : '')+'</div></div>';
+    });
+    body.innerHTML += '</div></div>';
+  }
+  // 驳回面板
+  body.innerHTML += '<div class="reject-panel" id="reviewHtRejectPanel">'+
+    '<div style="font-size:13px;font-weight:600;color:var(--danger);margin-bottom:8px">填写驳回原因</div>'+
+    '<textarea placeholder="请输入驳回原因..." id="reviewHtRejectReason"></textarea>'+
+    '<div class="reject-panel-actions">'+
+    '<button class="btn btn-cancel-reject" onclick="hideRejectPanel(\'reviewHtRejectPanel\')">取消</button>'+
+    '<button class="btn btn-confirm-reject" onclick="submitReject(\'headteacher\',\''+username+'\')">确认驳回</button>'+
+    '</div></div>';
+  // 操作按钮
+  var footer = document.getElementById('rvHtDetailFooter');
+  if(d.reviewStatus==='审核中'){
+    footer.innerHTML = '<div class="review-action-bar"><button class="btn btn-approve" onclick="approveReview(\'headteacher\',\''+username+'\')">&#10003; 审核通过</button>'+
+      '<button class="btn btn-reject" onclick="showRejectPanel(\'reviewHtRejectPanel\')">&#10007; 审核驳回</button>'+
+      '<span style="flex:1"></span><button class="btn btn-outline" onclick="closeReviewHtDetail()">关闭</button></div>';
+  } else {
+    footer.innerHTML = '<button class="btn btn-outline" onclick="closeReviewHtDetail()">关闭</button>';
+  }
+  document.getElementById('reviewHtDetailModal').classList.add('show');
+}
+
+// ==================== 审核操作 ====================
+function showRejectPanel(panelId){
+  document.getElementById(panelId).classList.add('show');
+}
+function hideRejectPanel(panelId){
+  document.getElementById(panelId).classList.remove('show');
+}
+function submitReject(type, id){
+  var reasonId = '';
+  if(type==='class') reasonId = 'reviewClassRejectReason';
+  else if(type==='student') reasonId = 'reviewStudentRejectReason';
+  else reasonId = 'reviewHtRejectReason';
+  var reason = document.getElementById(reasonId).value.trim();
+  if(!reason){ showToast('请输入驳回原因'); return; }
+  var now = new Date();
+  var timeStr = now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2)+' '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  var label = '';
+  if(type==='class'){ label = id; } else if(type==='student'){
+    var stuRows = document.querySelectorAll('#studentTable tbody tr');
+    stuRows.forEach(function(row){ var cells = row.querySelectorAll('td'); if(cells.length>=10 && cells[0].textContent.trim()===id){ label = cells[1].textContent.trim(); } });
+  } else { label = (htData[id]||{}).name || id; }
+  reviewLogs.push({
+    type:type, id:id, label:label,
+    result:'驳回', reason:reason, time:timeStr, operator:'管理员'
+  });
+  // 更新源数据
+  if(type==='class'){
+    classDetailData[id].reviewStatus = '审核驳回';
+    classDetailData[id].reviewReason = reason;
+    classDetailData[id].status = '审核驳回';
+    updateClassRowStatus(id, '审核驳回');
+    activeReviewClassTab = '审核中'; // 保持当前TAB
+  } else if(type==='student'){
+    var stuRows2 = document.querySelectorAll('#studentTable tbody tr');
+    stuRows2.forEach(function(row){
+      var cells = row.querySelectorAll('td');
+      if(cells.length>=10 && cells[0].textContent.trim()===id){
+        row.setAttribute('data-review-status','审核驳回');
+        row.setAttribute('data-review-reason',reason);
+        var statusCell = row.querySelector('td:nth-child(10)');
+        if(statusCell){
+          statusCell.innerHTML = '<span class="status status-rejected">审核驳回</span>';
+        }
+        var sw = row.querySelector('.switch');
+        if(sw){ sw.classList.add('disabled'); sw.querySelector('input').disabled=true; sw.querySelector('input').checked=false; }
+      }
+    });
+  } else if(type==='headteacher'){
+    htData[id].reviewStatus = '审核驳回';
+    htData[id].reviewReason = reason;
+    updateHtRowStatus(id, '审核驳回');
+  }
+  showToast('已驳回');
+  refreshAllReviewTables();
+  // 关闭详情弹窗
+  if(type==='class') closeReviewClassDetail();
+  else if(type==='student') closeReviewStudentDetail();
+  else closeReviewHtDetail();
+}
+
+function approveReview(type, id){
+  var now = new Date();
+  var timeStr = now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2)+' '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  var label = '';
+  if(type==='class'){ label = id; } else if(type==='student'){
+    var stuRows = document.querySelectorAll('#studentTable tbody tr');
+    stuRows.forEach(function(row){ var cells = row.querySelectorAll('td'); if(cells.length>=10 && cells[0].textContent.trim()===id){ label = cells[1].textContent.trim(); } });
+  } else { label = (htData[id]||{}).name || id; }
+  reviewLogs.push({
+    type:type, id:id, label:label,
+    result:'通过', reason:'', time:timeStr, operator:'管理员'
+  });
+  // 更新源数据
+  if(type==='class'){
+    classDetailData[id].reviewStatus = '';
+    classDetailData[id].reviewReason = '';
+    classDetailData[id].status = '已开班';
+    updateClassRowStatus(id, '已开班');
+  } else if(type==='student'){
+    var stuRows2 = document.querySelectorAll('#studentTable tbody tr');
+    stuRows2.forEach(function(row){
+      var cells = row.querySelectorAll('td');
+      if(cells.length>=10 && cells[0].textContent.trim()===id){
+        row.setAttribute('data-review-status','');
+        row.setAttribute('data-review-reason','');
+        var statusCell = row.querySelector('td:nth-child(10)');
+        if(statusCell){
+          statusCell.innerHTML = '<span class="status status-active">在读</span>';
+        }
+        var sw = row.querySelector('.switch');
+        if(sw){ sw.classList.remove('disabled'); sw.querySelector('input').disabled=false; sw.querySelector('input').checked=true; }
+      }
+    });
+  } else if(type==='headteacher'){
+    htData[id].reviewStatus = '使用中';
+    htData[id].reviewReason = '';
+    htData[id].acctEnabled = true;
+    updateHtRowStatus(id, '使用中');
+  }
+  showToast('审核通过');
+  refreshAllReviewTables();
+  // 关闭审核详情弹窗
+  if(type==='class') closeReviewClassDetail();
+  else if(type==='student') closeReviewStudentDetail();
+  else closeReviewHtDetail();
+}
+
+// ==================== 审核回写辅助函数 ====================
+function updateClassRowStatus(className, newStatus){
+  var rows = document.querySelectorAll('#classTable tbody tr');
+  rows.forEach(function(row){
+    if(row.querySelector('td:first-child').textContent.trim()===className){
+      var statusCell = row.querySelector('.status');
+      if(statusCell){
+        statusCell.textContent = newStatus;
+        if(newStatus==='已开班') statusCell.className = 'status status-active';
+        else if(newStatus==='审核驳回') statusCell.className = 'status status-rejected';
+      }
+    }
+  });
+}
+function updateHtRowStatus(username, newStatus){
+  var rows = document.querySelectorAll('#headteacherTable tbody tr');
+  rows.forEach(function(row){
+    if(row.querySelector('td:first-child').textContent.trim()===username){
+      var statusCell = row.querySelector('td:nth-child(7) .status');
+      if(statusCell){
+        statusCell.textContent = newStatus;
+        if(newStatus==='使用中') statusCell.className = 'status status-active';
+        else if(newStatus==='审核驳回') statusCell.className = 'status status-rejected';
+      }
+      if(newStatus==='使用中'){
+        var sw = row.querySelector('.switch');
+        if(sw){ sw.classList.remove('disabled'); sw.querySelector('input').disabled=false; sw.querySelector('input').checked=true; }
+      } else if(newStatus==='审核驳回'){
+        var sw2 = row.querySelector('.switch');
+        if(sw2){ sw2.classList.add('disabled'); sw2.querySelector('input').disabled=true; sw2.querySelector('input').checked=false; }
+      }
+    }
+  });
+}
+function refreshAllReviewTables(){
+  renderReviewClassTable(); renderReviewStudentTable(); renderReviewHtTable();
+  // 更新学生TAB中的状态显示
+  if(typeof switchStudentTab === 'function' && typeof activeStudentTab !== 'undefined'){
+    switchStudentTab(activeStudentTab, document.querySelector('.student-tab.active')||document.querySelector('.student-tab'));
+  }
+}
+
+// 生成审核数据统计（用于"审核中"计数徽标）
+function getPendingReviewCounts(){
+  var counts = { class:0, student:0, headteacher:0 };
+  for(var name in classDetailData){ if(classDetailData[name].reviewStatus==='审核中') counts.class++; }
+  var stuRows = document.querySelectorAll('#studentTable tbody tr');
+  stuRows.forEach(function(row){ if(row.getAttribute('data-review-status')==='审核中') counts.student++; });
+  for(var un in htData){ if(htData[un].reviewStatus==='审核中') counts.headteacher++; }
+  return counts;
+}
+
+// 页面首次渲染审核表
+renderReviewClassTable();
+renderReviewStudentTable();
+renderReviewHtTable();
 </script>
 </body>
 </html>
