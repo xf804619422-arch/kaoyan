@@ -1082,6 +1082,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <a class="nav-sub-item" data-page="zuoye-mingxi" href="javascript:void(0)">
           <span class="sub-dot"></span>作业明细
         </a>
+        <a class="nav-sub-item" data-page="wendang-mingxi" href="javascript:void(0)">
+          <span class="sub-dot"></span>文档明细
+        </a>
+        <a class="nav-sub-item" data-page="tixing-mingxi" href="javascript:void(0)">
+          <span class="sub-dot"></span>提醒明细
+        </a>
         <a class="nav-sub-item" data-page="kanke-mingxi" href="javascript:void(0)">
           <span class="sub-dot"></span>看课明细
         </a>
@@ -1517,6 +1523,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'gonggong-wendang': { title: '公共文档', group: '公共资料' },
     'lianCe-mingxi':    { title: '练测明细', group: '学情管理' },
     'zuoye-mingxi':     { title: '作业明细', group: '学情管理' },
+    'wendang-mingxi':   { title: '文档明细', group: '学情管理' },
+    'tixing-mingxi':    { title: '提醒明细', group: '学情管理' },
     'kanke-mingxi':     { title: '看课明细', group: '学情管理' },
     'cihui-pinggu':     { title: '词汇评估', group: '学情管理' },
     'cuoti-tongji':     { title: '错题统计', group: '错题管理' },
@@ -1553,6 +1561,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'gonggong-wendang') renderWenDangPage();
     else if(pageKey === 'lianCe-mingxi') renderLianCeMingxiPage();
     else if(pageKey === 'zuoye-mingxi') renderZuoYeMingxiPage();
+    else if(pageKey === 'wendang-mingxi') renderWenDangMingxiPage();
+    else if(pageKey === 'tixing-mingxi') renderTiXingMingxiPage();
     else if(pageKey === 'kanke-mingxi') renderKankeMingxiPage();
     else if(pageKey === 'cihui-pinggu') renderCihuiPingguPage();
     else if(pageKey === 'cuoti-tongji') renderCuotiTongjiPage();
@@ -4725,6 +4735,276 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._toggleZyQuestionDetail = function(idx){
     var card = document.getElementById('qm-card-zy-'+idx);
     if(card){ card.classList.toggle('expanded'); }
+  };
+
+  // ==================== 文档明细 ====================
+  // --- Mock Data: 文档记录列表 ---
+  var wenDangMingxiData = [
+    { id:'wd1',  docName:'考研数学公式手册',            subject:'数学', docType:'PDF',   studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-16', submitStatus:'submitted',   submitTime:'2026-08-17 15:22:08', imageUrl:'' },
+    { id:'wd2',  docName:'考研数学公式手册',            subject:'数学', docType:'PDF',   studentName:'李四', className:'26届数一A班',   keBiaoDate:'2026-08-16', submitStatus:'submitted',   submitTime:'2026-08-17 10:05:33', imageUrl:'' },
+    { id:'wd3',  docName:'考研数学公式手册',            subject:'数学', docType:'PDF',   studentName:'王五', className:'26届数一B班',   keBiaoDate:'2026-08-16', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' },
+    { id:'wd4',  docName:'英语阅读理解技巧总结',        subject:'英语', docType:'Word',  studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-19', submitStatus:'submitted',   submitTime:'2026-08-20 20:18:41', imageUrl:'' },
+    { id:'wd5',  docName:'英语阅读理解技巧总结',        subject:'英语', docType:'Word',  studentName:'赵六', className:'26届数一B班',   keBiaoDate:'2026-08-19', submitStatus:'submitted',   submitTime:'2026-08-19 18:30:12', imageUrl:'' },
+    { id:'wd6',  docName:'政治时事热点汇编',            subject:'政治', docType:'PDF',   studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-22', submitStatus:'submitted',   submitTime:'2026-08-23 09:45:30', imageUrl:'' },
+    { id:'wd7',  docName:'政治时事热点汇编',            subject:'政治', docType:'PDF',   studentName:'李四', className:'26届数一A班',   keBiaoDate:'2026-08-22', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' },
+    { id:'wd8',  docName:'高等数学习题集答案',          subject:'数学', docType:'PDF',   studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-09-03', submitStatus:'submitted',   submitTime:'2026-09-04 16:55:11', imageUrl:'' },
+    { id:'wd9',  docName:'考研英语词汇表',              subject:'英语', docType:'Excel', studentName:'王五', className:'26届数一B班',   keBiaoDate:'2026-09-06', submitStatus:'submitted',   submitTime:'2026-09-07 12:10:04', imageUrl:'' },
+    { id:'wd10', docName:'线性代数讲义',                subject:'数学', docType:'PPT',   studentName:'孙七', className:'26届数二A班',   keBiaoDate:'2026-09-12', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' }
+  ];
+
+  // --- State ---
+  var wdMingxiClassFilter = 'all';
+  var wdMingxiSubjectFilter = 'all';
+  var wdMingxiDocSearch = '';
+  var wdMingxiStudentSearch = '';
+  var wdMingxiSubmitStart = '';
+  var wdMingxiSubmitEnd = '';
+  var wdMingxiKeBiaoStart = '';
+  var wdMingxiKeBiaoEnd = '';
+
+  function renderWenDangMingxiPage(){
+    var docKw = wdMingxiDocSearch ? wdMingxiDocSearch.toLowerCase() : '';
+    var studentKw = wdMingxiStudentSearch ? wdMingxiStudentSearch.toLowerCase() : '';
+
+    var filtered = wenDangMingxiData.filter(function(r){
+      if(wdMingxiClassFilter !== 'all' && r.className !== wdMingxiClassFilter) return false;
+      if(wdMingxiSubjectFilter !== 'all' && r.subject !== wdMingxiSubjectFilter) return false;
+      if(docKw && r.docName.toLowerCase().indexOf(docKw)===-1) return false;
+      if(studentKw && r.studentName.toLowerCase().indexOf(studentKw)===-1) return false;
+      if(wdMingxiSubmitStart && r.submitTime < wdMingxiSubmitStart) return false;
+      if(wdMingxiSubmitEnd   && r.submitTime > wdMingxiSubmitEnd + ' 23:59:59') return false;
+      if(wdMingxiKeBiaoStart && r.keBiaoDate < wdMingxiKeBiaoStart) return false;
+      if(wdMingxiKeBiaoEnd   && r.keBiaoDate > wdMingxiKeBiaoEnd) return false;
+      return true;
+    });
+
+    var classNames = [];
+    wenDangMingxiData.forEach(function(r){ if(classNames.indexOf(r.className)===-1) classNames.push(r.className); });
+    classNames.sort();
+
+    var subjects = [];
+    wenDangMingxiData.forEach(function(r){ if(subjects.indexOf(r.subject)===-1) subjects.push(r.subject); });
+    subjects.sort();
+
+    var html = '';
+    html += '<div class="page-header"><h2>文档明细</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+
+    // Filter row 1
+    html += '<div class="lcmx-filter-row">';
+    html += '<div class="filter-select"><select id="wdMingxiSubjectFilter" onchange="window._wdMingxiDoFilter()"><option value="all">全部学科</option>';
+    subjects.forEach(function(s){ html += '<option value="'+s+'"'+(wdMingxiSubjectFilter===s?' selected':'')+'>'+s+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-select"><select id="wdMingxiClassFilter" onchange="window._wdMingxiDoFilter()"><option value="all">全部班级</option>';
+    classNames.forEach(function(c){ html += '<option value="'+c+'"'+(wdMingxiClassFilter===c?' selected':'')+'>'+c+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索文档名称..." id="wdMingxiDocSearch" value="'+wdMingxiDocSearch.replace(/"/g,'&quot;')+'" oninput="window._wdMingxiDoFilter()"></div>';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名..." id="wdMingxiStudentSearch" value="'+wdMingxiStudentSearch.replace(/"/g,'&quot;')+'" oninput="window._wdMingxiDoFilter()"></div>';
+    html += '</div>';
+
+    // Filter row 2
+    html += '<div class="lcmx-filter-row">';
+    html += '<div class="filter-date"><span class="filter-label">提交日期</span><input type="date" id="wdMingxiSubmitStart" value="'+wdMingxiSubmitStart+'" onchange="window._wdMingxiDoFilter()"><span>至</span><input type="date" id="wdMingxiSubmitEnd" value="'+wdMingxiSubmitEnd+'" onchange="window._wdMingxiDoFilter()"></div>';
+    html += '<div class="filter-date"><span class="filter-label">课表日期</span><input type="date" id="wdMingxiKeBiaoStart" value="'+wdMingxiKeBiaoStart+'" onchange="window._wdMingxiDoFilter()"><span>至</span><input type="date" id="wdMingxiKeBiaoEnd" value="'+wdMingxiKeBiaoEnd+'" onchange="window._wdMingxiDoFilter()"></div>';
+    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._wdMingxiResetFilter()">重置</button></div>';
+    html += '</div>';
+
+    // Table
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
+    html += '<th>文档名称</th><th>学科</th><th>文档类型</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>图片</th>';
+    html += '</tr></thead><tbody>';
+
+    if(filtered.length===0){
+      html += '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的文档记录</td></tr>';
+    } else {
+      filtered.forEach(function(r){
+        var subjCls = r.subject==='数学' ? 'layer-math' : r.subject==='英语' ? 'layer-english' : '';
+        var submitTagCls = r.submitStatus==='submitted' ? 'submitted' : 'unsubmitted';
+        var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
+        var submitTimeText = r.submitTime || '—';
+        var imgHtml = r.imageUrl
+          ? '<img class="lcmx-img-thumb" src="'+r.imageUrl+'" alt="文档图片" onclick="event.stopPropagation()">'
+          : '<span style="color:var(--text-muted);font-size:12px">—</span>';
+
+        html += '<tr>' +
+          '<td style="font-weight:500">'+r.docName+'</td>' +
+          '<td><span class="layer-tag '+subjCls+'">'+r.subject+'</span></td>' +
+          '<td style="font-size:12px">'+r.docType+'</td>' +
+          '<td>'+r.studentName+'</td>' +
+          '<td>'+r.className+'</td>' +
+          '<td>'+r.keBiaoDate+'</td>' +
+          '<td><span class="lcmx-submit-tag '+submitTagCls+'">'+submitTagText+'</span></td>' +
+          '<td style="white-space:nowrap">'+submitTimeText+'</td>' +
+          '<td class="text-center">'+imgHtml+'</td>' +
+        '</tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+
+    html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    html += '</div></div>';
+    contentArea.innerHTML = html;
+  }
+
+  window._wdMingxiDoFilter = function(){
+    var sel;
+    sel = document.getElementById('wdMingxiClassFilter'); if(sel) wdMingxiClassFilter = sel.value;
+    sel = document.getElementById('wdMingxiSubjectFilter'); if(sel) wdMingxiSubjectFilter = sel.value;
+    var inp;
+    inp = document.getElementById('wdMingxiDocSearch'); if(inp) wdMingxiDocSearch = inp.value;
+    inp = document.getElementById('wdMingxiStudentSearch'); if(inp) wdMingxiStudentSearch = inp.value;
+    inp = document.getElementById('wdMingxiSubmitStart'); if(inp) wdMingxiSubmitStart = inp.value;
+    inp = document.getElementById('wdMingxiSubmitEnd'); if(inp) wdMingxiSubmitEnd = inp.value;
+    inp = document.getElementById('wdMingxiKeBiaoStart'); if(inp) wdMingxiKeBiaoStart = inp.value;
+    inp = document.getElementById('wdMingxiKeBiaoEnd'); if(inp) wdMingxiKeBiaoEnd = inp.value;
+    renderWenDangMingxiPage();
+  };
+
+  window._wdMingxiResetFilter = function(){
+    wdMingxiClassFilter = 'all';
+    wdMingxiSubjectFilter = 'all';
+    wdMingxiDocSearch = '';
+    wdMingxiStudentSearch = '';
+    wdMingxiSubmitStart = '';
+    wdMingxiSubmitEnd = '';
+    wdMingxiKeBiaoStart = '';
+    wdMingxiKeBiaoEnd = '';
+    renderWenDangMingxiPage();
+  };
+
+  // ==================== 提醒明细 ====================
+  // --- Mock Data: 提醒记录列表 ---
+  var tiXingMingxiData = [
+    { id:'tx1',  title:'请及时完成数学公式手册学习',          subject:'数学', docType:'文档提醒', studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-16', submitStatus:'submitted',   submitTime:'2026-08-17 15:22:08', imageUrl:'' },
+    { id:'tx2',  title:'请及时完成数学公式手册学习',          subject:'数学', docType:'文档提醒', studentName:'李四', className:'26届数一A班',   keBiaoDate:'2026-08-16', submitStatus:'submitted',   submitTime:'2026-08-17 10:05:33', imageUrl:'' },
+    { id:'tx3',  title:'请及时完成数学公式手册学习',          subject:'数学', docType:'文档提醒', studentName:'王五', className:'26届数一B班',   keBiaoDate:'2026-08-16', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' },
+    { id:'tx4',  title:'阅读理解作业截止提醒',                subject:'英语', docType:'作业提醒', studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-19', submitStatus:'submitted',   submitTime:'2026-08-20 20:18:41', imageUrl:'' },
+    { id:'tx5',  title:'阅读理解作业截止提醒',                subject:'英语', docType:'作业提醒', studentName:'赵六', className:'26届数一B班',   keBiaoDate:'2026-08-19', submitStatus:'submitted',   submitTime:'2026-08-19 18:30:12', imageUrl:'' },
+    { id:'tx6',  title:'词汇背诵打卡提醒',                    subject:'英语', docType:'打卡提醒', studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-08-22', submitStatus:'submitted',   submitTime:'2026-08-23 09:45:30', imageUrl:'' },
+    { id:'tx7',  title:'词汇背诵打卡提醒',                    subject:'英语', docType:'打卡提醒', studentName:'李四', className:'26届数一A班',   keBiaoDate:'2026-08-22', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' },
+    { id:'tx8',  title:'导数应用专项练习提醒',                subject:'数学', docType:'作业提醒', studentName:'张三', className:'26届数一A班',   keBiaoDate:'2026-09-03', submitStatus:'submitted',   submitTime:'2026-09-04 16:55:11', imageUrl:'' },
+    { id:'tx9',  title:'政治时政热点学习提醒',                subject:'政治', docType:'文档提醒', studentName:'王五', className:'26届数一B班',   keBiaoDate:'2026-09-06', submitStatus:'submitted',   submitTime:'2026-09-07 12:10:04', imageUrl:'' },
+    { id:'tx10', title:'线代讲义预习提醒',                    subject:'数学', docType:'文档提醒', studentName:'孙七', className:'26届数二A班',   keBiaoDate:'2026-09-12', submitStatus:'not_submitted', submitTime:'',                    imageUrl:'' }
+  ];
+
+  // --- State ---
+  var txMingxiClassFilter = 'all';
+  var txMingxiSubjectFilter = 'all';
+  var txMingxiTitleSearch = '';
+  var txMingxiStudentSearch = '';
+  var txMingxiSubmitStart = '';
+  var txMingxiSubmitEnd = '';
+  var txMingxiKeBiaoStart = '';
+  var txMingxiKeBiaoEnd = '';
+
+  function renderTiXingMingxiPage(){
+    var titleKw = txMingxiTitleSearch ? txMingxiTitleSearch.toLowerCase() : '';
+    var studentKw = txMingxiStudentSearch ? txMingxiStudentSearch.toLowerCase() : '';
+
+    var filtered = tiXingMingxiData.filter(function(r){
+      if(txMingxiClassFilter !== 'all' && r.className !== txMingxiClassFilter) return false;
+      if(txMingxiSubjectFilter !== 'all' && r.subject !== txMingxiSubjectFilter) return false;
+      if(titleKw && r.title.toLowerCase().indexOf(titleKw)===-1) return false;
+      if(studentKw && r.studentName.toLowerCase().indexOf(studentKw)===-1) return false;
+      if(txMingxiSubmitStart && r.submitTime < txMingxiSubmitStart) return false;
+      if(txMingxiSubmitEnd   && r.submitTime > txMingxiSubmitEnd + ' 23:59:59') return false;
+      if(txMingxiKeBiaoStart && r.keBiaoDate < txMingxiKeBiaoStart) return false;
+      if(txMingxiKeBiaoEnd   && r.keBiaoDate > txMingxiKeBiaoEnd) return false;
+      return true;
+    });
+
+    var classNames = [];
+    tiXingMingxiData.forEach(function(r){ if(classNames.indexOf(r.className)===-1) classNames.push(r.className); });
+    classNames.sort();
+
+    var subjects = [];
+    tiXingMingxiData.forEach(function(r){ if(subjects.indexOf(r.subject)===-1) subjects.push(r.subject); });
+    subjects.sort();
+
+    var html = '';
+    html += '<div class="page-header"><h2>提醒明细</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+
+    // Filter row 1
+    html += '<div class="lcmx-filter-row">';
+    html += '<div class="filter-select"><select id="txMingxiSubjectFilter" onchange="window._txMingxiDoFilter()"><option value="all">全部学科</option>';
+    subjects.forEach(function(s){ html += '<option value="'+s+'"'+(txMingxiSubjectFilter===s?' selected':'')+'>'+s+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-select"><select id="txMingxiClassFilter" onchange="window._txMingxiDoFilter()"><option value="all">全部班级</option>';
+    classNames.forEach(function(c){ html += '<option value="'+c+'"'+(txMingxiClassFilter===c?' selected':'')+'>'+c+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索提醒标题..." id="txMingxiTitleSearch" value="'+txMingxiTitleSearch.replace(/"/g,'&quot;')+'" oninput="window._txMingxiDoFilter()"></div>';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名..." id="txMingxiStudentSearch" value="'+txMingxiStudentSearch.replace(/"/g,'&quot;')+'" oninput="window._txMingxiDoFilter()"></div>';
+    html += '</div>';
+
+    // Filter row 2
+    html += '<div class="lcmx-filter-row">';
+    html += '<div class="filter-date"><span class="filter-label">提交日期</span><input type="date" id="txMingxiSubmitStart" value="'+txMingxiSubmitStart+'" onchange="window._txMingxiDoFilter()"><span>至</span><input type="date" id="txMingxiSubmitEnd" value="'+txMingxiSubmitEnd+'" onchange="window._txMingxiDoFilter()"></div>';
+    html += '<div class="filter-date"><span class="filter-label">课表日期</span><input type="date" id="txMingxiKeBiaoStart" value="'+txMingxiKeBiaoStart+'" onchange="window._txMingxiDoFilter()"><span>至</span><input type="date" id="txMingxiKeBiaoEnd" value="'+txMingxiKeBiaoEnd+'" onchange="window._txMingxiDoFilter()"></div>';
+    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._txMingxiResetFilter()">重置</button></div>';
+    html += '</div>';
+
+    // Table
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
+    html += '<th>提醒标题</th><th>学科</th><th>文档类型</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>图片</th>';
+    html += '</tr></thead><tbody>';
+
+    if(filtered.length===0){
+      html += '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的提醒记录</td></tr>';
+    } else {
+      filtered.forEach(function(r){
+        var subjCls = r.subject==='数学' ? 'layer-math' : r.subject==='英语' ? 'layer-english' : '';
+        var submitTagCls = r.submitStatus==='submitted' ? 'submitted' : 'unsubmitted';
+        var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
+        var submitTimeText = r.submitTime || '—';
+        var imgHtml = r.imageUrl
+          ? '<img class="lcmx-img-thumb" src="'+r.imageUrl+'" alt="提醒图片" onclick="event.stopPropagation()">'
+          : '<span style="color:var(--text-muted);font-size:12px">—</span>';
+
+        html += '<tr>' +
+          '<td style="font-weight:500">'+r.title+'</td>' +
+          '<td><span class="layer-tag '+subjCls+'">'+r.subject+'</span></td>' +
+          '<td style="font-size:12px">'+r.docType+'</td>' +
+          '<td>'+r.studentName+'</td>' +
+          '<td>'+r.className+'</td>' +
+          '<td>'+r.keBiaoDate+'</td>' +
+          '<td><span class="lcmx-submit-tag '+submitTagCls+'">'+submitTagText+'</span></td>' +
+          '<td style="white-space:nowrap">'+submitTimeText+'</td>' +
+          '<td class="text-center">'+imgHtml+'</td>' +
+        '</tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+
+    html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    html += '</div></div>';
+    contentArea.innerHTML = html;
+  }
+
+  window._txMingxiDoFilter = function(){
+    var sel;
+    sel = document.getElementById('txMingxiClassFilter'); if(sel) txMingxiClassFilter = sel.value;
+    sel = document.getElementById('txMingxiSubjectFilter'); if(sel) txMingxiSubjectFilter = sel.value;
+    var inp;
+    inp = document.getElementById('txMingxiTitleSearch'); if(inp) txMingxiTitleSearch = inp.value;
+    inp = document.getElementById('txMingxiStudentSearch'); if(inp) txMingxiStudentSearch = inp.value;
+    inp = document.getElementById('txMingxiSubmitStart'); if(inp) txMingxiSubmitStart = inp.value;
+    inp = document.getElementById('txMingxiSubmitEnd'); if(inp) txMingxiSubmitEnd = inp.value;
+    inp = document.getElementById('txMingxiKeBiaoStart'); if(inp) txMingxiKeBiaoStart = inp.value;
+    inp = document.getElementById('txMingxiKeBiaoEnd'); if(inp) txMingxiKeBiaoEnd = inp.value;
+    renderTiXingMingxiPage();
+  };
+
+  window._txMingxiResetFilter = function(){
+    txMingxiClassFilter = 'all';
+    txMingxiSubjectFilter = 'all';
+    txMingxiTitleSearch = '';
+    txMingxiStudentSearch = '';
+    txMingxiSubmitStart = '';
+    txMingxiSubmitEnd = '';
+    txMingxiKeBiaoStart = '';
+    txMingxiKeBiaoEnd = '';
+    renderTiXingMingxiPage();
   };
 
   // ==================== 看课明细 ====================
