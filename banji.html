@@ -1607,6 +1607,94 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   .lct-left-panel{width:100%;min-width:auto;max-height:300px}
   .lct-right-panel{flex:1}
 }
+
+/* ========== 成绩登记 Styles ========== */
+.cj-filter-bar{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow);flex-wrap:wrap}
+.cj-filter-select{padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text);background:#fff;cursor:pointer;min-width:160px;outline:none;transition:border-color var(--transition)}
+.cj-filter-select:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
+.cj-search-box{position:relative;flex:1;min-width:200px}
+.cj-search-input{width:100%;padding:8px 36px 8px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text);outline:none;transition:border-color var(--transition)}
+.cj-search-input:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
+.cj-search-icon{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;opacity:.5}
+.cj-reset-btn{padding:8px 18px;border-radius:var(--radius);font-size:13px;color:var(--text-secondary);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.cj-reset-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+
+/* Table */
+.cj-table-wrap{background:var(--card-bg);border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+.cj-table thead{background:#f8fafc}
+.cj-table th{font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:none;letter-spacing:.3px}
+.cj-table td{vertical-align:middle}
+
+/* Paper name + class name inline */
+.cj-paper-name{display:block;font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px}
+.cj-paper-class{display:block;font-size:11px;color:var(--text-muted)}
+
+/* Question count */
+.cj-q-count{font-size:13px;font-weight:600;color:var(--text);background:#f1f5f9;padding:3px 10px;border-radius:12px}
+
+/* Category badge */
+.cj-cat-badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600}
+.cj-cat-lc{background:#eff6ff;color:#2563eb}
+.cj-cat-zy{background:#fef3c7;color:#92400e}
+
+/* Action buttons */
+.cj-action-btn{padding:6px 14px;border-radius:var(--radius);font-size:12px;font-weight:500;cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.cj-action-btn + .cj-action-btn{margin-left:8px}
+.cj-action-btn.import-btn{background:var(--primary-light);color:var(--primary);border:1px solid #bfdbfe}
+.cj-action-btn.import-btn:hover{background:var(--primary);color:#fff}
+.cj-action-btn.export-btn{background:var(--success-bg);color:var(--success);border:1px solid #bbf7d0}
+.cj-action-btn.export-btn:hover{background:var(--success);color:#fff}
+
+/* Modal */
+.cj-modal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card-bg);border-radius:12px;box-shadow:var(--shadow-lg);width:520px;max-width:90vw;max-height:85vh;overflow-y:auto;display:flex;flex-direction:column}
+.cj-modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--border)}
+.cj-modal-header h3{font-size:17px;font-weight:600;color:var(--text);margin:0 0 4px}
+.cj-modal-sub{font-size:12px;color:var(--text-muted)}
+.cj-modal-body{padding:20px 24px;flex:1}
+.cj-modal-footer{padding:12px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* Import steps */
+.cj-modal-step{display:flex;gap:14px;margin-bottom:20px}
+.cj-modal-step:last-child{margin-bottom:0}
+.cj-step-num{width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px}
+.cj-step-content{flex:1}
+.cj-step-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.cj-step-desc{font-size:12px;color:var(--text-muted);margin-bottom:10px}
+
+/* Upload area */
+.cj-upload-area{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:all var(--transition);background:var(--bg)}
+.cj-upload-area:hover{border-color:var(--primary);background:var(--primary-light)}
+.cj-upload-icon{font-size:32px;display:block;margin-bottom:8px;opacity:.5}
+.cj-upload-text{font-size:13px;color:var(--text-muted)}
+
+/* Buttons */
+.cj-btn-primary{padding:8px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;background:var(--primary);color:#fff;cursor:pointer;transition:all var(--transition)}
+.cj-btn-primary:hover{background:var(--primary-hover)}
+.cj-btn-cancel{padding:8px 20px;border-radius:var(--radius);font-size:13px;color:var(--text-secondary);background:var(--bg);border:1px solid var(--border);cursor:pointer;transition:all var(--transition)}
+.cj-btn-cancel:hover{color:var(--text);border-color:var(--text-muted)}
+
+/* Export form */
+.cj-export-form{margin-bottom:20px}
+.cj-export-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px}
+.cj-export-select{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--text);background:#fff;cursor:pointer;outline:none;transition:border-color var(--transition)}
+.cj-export-select:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
+
+/* Export field preview */
+.cj-export-preview{background:var(--bg);border-radius:8px;padding:14px 16px}
+.cj-export-preview-title{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.cj-export-fields{display:flex;flex-wrap:wrap;gap:6px}
+.cj-field-tag{display:inline-block;padding:4px 10px;background:#fff;border:1px solid var(--border);border-radius:4px;font-size:12px;color:var(--text);font-family:"SF Mono","Consolas","Monaco",monospace}
+
+/* Modal overlay */
+.cj-overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:1000;display:flex;align-items:center;justify-content:center}
+
+/* Responsive */
+@media (max-width:768px){
+  .cj-filter-bar{flex-direction:column;align-items:stretch}
+  .cj-filter-select{min-width:auto}
+  .cj-search-box{min-width:auto}
+  .cj-modal{width:95vw;max-height:90vh}
+}
 </style>
 </head>
 <body>
@@ -1714,6 +1802,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="danci-xiaoce" href="javascript:void(0)">
           <span class="sub-dot"></span>单词小测
+        </a>
+        <a class="nav-sub-item" data-page="chengji-dengji" href="javascript:void(0)">
+          <span class="sub-dot"></span>成绩登记
         </a>
       </div>
 
@@ -2336,6 +2427,27 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   var danciXiaoceKeyword = '';
   var danciXiaoceClassFilter = '';
 
+  // ==================== Mock Data - 成绩登记试卷数据 ====================
+  var chengjiShijuanData = [
+    { id:'SJ001', name:'2026届考研英语一模试卷', questionCount:25, category:'练测', className:'2026届考研英语一班' },
+    { id:'SJ002', name:'2026届考研数学一模拟卷一', questionCount:30, category:'练测', className:'2026届考研数学一班' },
+    { id:'SJ003', name:'英语阅读理解专项作业（第3周）', questionCount:15, category:'作业', className:'2026届考研英语一班' },
+    { id:'SJ004', name:'高数第三章课后练习', questionCount:20, category:'作业', className:'2026届考研数学一班' },
+    { id:'SJ005', name:'2026届考研英语二模试卷', questionCount:25, category:'练测', className:'2026届考研英语二班' },
+    { id:'SJ006', name:'线代矩阵运算作业', questionCount:12, category:'作业', className:'2026届考研数学一班' },
+    { id:'SJ007', name:'2027届考研政治模拟卷一', questionCount:28, category:'练测', className:'2027届考研政治一班' },
+    { id:'SJ008', name:'英语长难句翻译作业（第5周）', questionCount:10, category:'作业', className:'2026届考研英语二班' },
+    { id:'SJ009', name:'2026届考研数学一模拟卷二', questionCount:30, category:'练测', className:'2026届考研数学一班' },
+    { id:'SJ010', name:'概统概率分布专题作业', questionCount:18, category:'作业', className:'2026届考研数学一班' },
+    { id:'SJ011', name:'2025届考研英语冲刺模考', questionCount:35, category:'练测', className:'2025届考研英语冲刺班' },
+    { id:'SJ012', name:'政治思修章节练习', questionCount:16, category:'作业', className:'2027届考研政治一班' }
+  ];
+
+  // 成绩登记筛选状态
+  var cjClassFilter = '';
+  var cjCategoryFilter = '';
+  var cjNameKeyword = '';
+
   // ==================== Mock Data - 提醒数据 ====================
   var reminderData = [
     { id: '1', title: '高数第三章复习提醒',   content: '请同学们完成高数第三章课后习题1-10，重点复习极限运算与连续性证明题。', subject: '数学', subSubject: '高数', createdAt: '2026-07-20 14:30' },
@@ -2408,6 +2520,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'cihui-pinggu':     { title: '词汇评估', group: '学情管理' },
     'danci-beisong':    { title: '单词背诵', group: '学情管理' },
     'danci-xiaoce':     { title: '单词小测', group: '学情管理' },
+    'chengji-dengji':   { title: '成绩登记', group: '学情管理' },
     'cuoti-tongji':     { title: '错题统计', group: '错题管理' },
     'cuoti-dayin':      { title: '错题打印', group: '错题管理' },
     'cuoti-piliang-dayin': { title: '批量打印', group: '错题管理' },
@@ -2453,6 +2566,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'cihui-pinggu') renderCihuiPingguPage();
     else if(pageKey === 'danci-beisong') renderDanciBeisongPage();
     else if(pageKey === 'danci-xiaoce') renderDanciXiaocePage();
+    else if(pageKey === 'chengji-dengji') renderChengjiDengjiPage();
     else if(pageKey === 'cuoti-tongji') renderCuotiTongjiPage();
     else if(pageKey === 'cuoti-dayin') renderCuotiDayinPage();
     else if(pageKey === 'cuoti-piliang-dayin') renderCuotiPiliangDayinPage();
@@ -10143,6 +10257,307 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var ov = document.getElementById('dzConfirmOverlay');
     if(ov) ov.remove();
   }
+
+  // ==================== 成绩登记 ====================
+  function renderChengjiDengjiPage(){
+    // Collect unique class names from data
+    var classNames = [];
+    chengjiShijuanData.forEach(function(sj){
+      if(classNames.indexOf(sj.className) === -1) classNames.push(sj.className);
+    });
+
+    // Filter data
+    var filtered = chengjiShijuanData.filter(function(sj){
+      if(cjClassFilter && sj.className !== cjClassFilter) return false;
+      if(cjCategoryFilter && sj.category !== cjCategoryFilter) return false;
+      if(cjNameKeyword){
+        var kw = cjNameKeyword.toLowerCase();
+        if(sj.name.toLowerCase().indexOf(kw) === -1) return false;
+      }
+      return true;
+    });
+
+    var html = '';
+
+    // Filter bar
+    html += '<div class="cj-filter-bar">';
+    html += '<select class="cj-filter-select" id="cjClassFilter" onchange="window._cjClassFilterChange()">';
+    html += '<option value="">全部班级</option>';
+    classNames.forEach(function(cn){
+      html += '<option value="'+cn+'"'+(cjClassFilter===cn?' selected':'')+'>'+cn+'</option>';
+    });
+    html += '</select>';
+    // Category filter
+    html += '<select class="cj-filter-select" id="cjCategoryFilter" onchange="window._cjCategoryFilterChange()">';
+    html += '<option value="">全部分类</option>';
+    html += '<option value="练测"'+(cjCategoryFilter==='练测'?' selected':'')+'>练测</option>';
+    html += '<option value="作业"'+(cjCategoryFilter==='作业'?' selected':'')+'>作业</option>';
+    html += '</select>';
+    // Search
+    html += '<div class="cj-search-box">';
+    html += '<input type="text" class="cj-search-input" id="cjNameSearch" placeholder="搜索试卷名称..." value="'+cjNameKeyword+'" oninput="window._cjSearchChange()">';
+    html += '<span class="cj-search-icon">&#x1F50D;</span>';
+    html += '</div>';
+    // Reset
+    html += '<button class="cj-reset-btn" onclick="window._cjResetFilter()">重置筛选</button>';
+    html += '</div>';
+
+    // Table
+    if(filtered.length === 0){
+      html += '<div class="empty-state"><div class="empty-icon">&#x1F4ED;</div><p>暂无匹配的试卷数据</p></div>';
+    } else {
+      html += '<div class="cj-table-wrap"><table class="data-table cj-table"><thead><tr>';
+      html += '<th>试卷名称</th>';
+      html += '<th class="text-center">题目数量</th>';
+      html += '<th class="text-center">分类</th>';
+      html += '<th class="text-center">操作</th>';
+      html += '</tr></thead><tbody>';
+
+      filtered.forEach(function(sj){
+        var catBadgeClass = sj.category === '练测' ? 'cj-cat-lc' : 'cj-cat-zy';
+        html += '<tr>';
+        html += '<td><span class="cj-paper-name">'+sj.name+'</span><span class="cj-paper-class">'+sj.className+'</span></td>';
+        html += '<td class="text-center"><span class="cj-q-count">'+sj.questionCount+' 题</span></td>';
+        html += '<td class="text-center"><span class="cj-cat-badge '+catBadgeClass+'">'+sj.category+'</span></td>';
+        html += '<td class="text-center">';
+        html += '<button class="cj-action-btn import-btn" onclick="window._cjImportGrades(\''+sj.id+'\')">导入成绩</button>';
+        html += '<button class="cj-action-btn export-btn" onclick="window._cjExportGrades(\''+sj.id+'\')">导出成绩</button>';
+        html += '</td>';
+        html += '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+    }
+
+    contentArea.innerHTML = html;
+  }
+
+  // --- Filter Handlers ---
+  window._cjClearClassFilter = function(){
+    cjClassFilter = '';
+    cjCategoryFilter = '';
+    cjNameKeyword = '';
+    renderChengjiDengjiPage();
+  };
+
+  window._cjClassFilterChange = function(){
+    var sel = document.getElementById('cjClassFilter');
+    cjClassFilter = sel ? sel.value : '';
+    renderChengjiDengjiPage();
+  };
+
+  window._cjCategoryFilterChange = function(){
+    var sel = document.getElementById('cjCategoryFilter');
+    cjCategoryFilter = sel ? sel.value : '';
+    renderChengjiDengjiPage();
+  };
+
+  window._cjSearchChange = function(){
+    var inp = document.getElementById('cjNameSearch');
+    cjNameKeyword = inp ? inp.value : '';
+    renderChengjiDengjiPage();
+  };
+
+  window._cjResetFilter = function(){
+    cjClassFilter = '';
+    cjCategoryFilter = '';
+    cjNameKeyword = '';
+    renderChengjiDengjiPage();
+  };
+
+  // --- Import Grades: Download template & show upload ---
+  window._cjImportGrades = function(paperId){
+    var paper = null;
+    for(var i=0; i<chengjiShijuanData.length; i++){
+      if(chengjiShijuanData[i].id === paperId){ paper = chengjiShijuanData[i]; break; }
+    }
+    if(!paper) return;
+
+    // Show upload modal (template download triggered by button inside modal)
+    _cjShowImportModal(paper);
+  };
+
+  window._cjShowImportModal = function(paper){
+    var existing = document.getElementById('cjImportOverlay');
+    if(existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'cjImportOverlay';
+    overlay.className = 'cj-overlay';
+    overlay.innerHTML = '<div class="cj-modal" onclick="event.stopPropagation()">' +
+      '<div class="cj-modal-header">' +
+        '<h3>导入成绩</h3>' +
+        '<span class="cj-modal-sub">试卷：'+paper.name+'</span>' +
+      '</div>' +
+      '<div class="cj-modal-body">' +
+        '<div class="cj-modal-step">' +
+          '<div class="cj-step-num">1</div>' +
+          '<div class="cj-step-content">' +
+            '<div class="cj-step-title">下载导入模板</div>' +
+            '<div class="cj-step-desc">模板包含字段：姓名、班级、第1题~第'+paper.questionCount+'题</div>' +
+            '<button class="cj-btn-primary" onclick="window._cjDownloadTemplateAgain(\''+paper.id+'\')">下载模板</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cj-modal-step">' +
+          '<div class="cj-step-num">2</div>' +
+          '<div class="cj-step-content">' +
+            '<div class="cj-step-title">上传填写好的成绩文件</div>' +
+            '<div class="cj-step-desc">支持 .xlsx / .csv 格式</div>' +
+            '<div class="cj-upload-area" onclick="this.querySelector(\'input\').click()">' +
+              '<input type="file" accept=".xlsx,.csv" style="display:none" onchange="window._cjHandleFileUpload(this)">' +
+              '<span class="cj-upload-icon">&#x1F4C2;</span>' +
+              '<span class="cj-upload-text">点击选择文件或拖拽到此处</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cj-modal-footer">' +
+        '<button class="cj-btn-cancel" onclick="window._cjCloseImportModal()">关闭</button>' +
+      '</div>' +
+    '</div>';
+
+    overlay.addEventListener('click', function(){ window._cjCloseImportModal(); });
+    document.body.appendChild(overlay);
+  };
+
+  window._cjDownloadTemplateAgain = function(paperId){
+    var paper = null;
+    for(var i=0; i<chengjiShijuanData.length; i++){
+      if(chengjiShijuanData[i].id === paperId){ paper = chengjiShijuanData[i]; break; }
+    }
+    if(!paper) return;
+    var qHeaders = [];
+    for(var q=1; q<=paper.questionCount; q++){ qHeaders.push('第'+q+'题'); }
+    var csvContent = '\uFEFF姓名,班级,' + qHeaders.join(',') + '\n';
+    csvContent += '张三,'+paper.className+',' + qHeaders.map(function(){ return ''; }).join(',') + '\n';
+    csvContent += '李四,'+paper.className+',' + qHeaders.map(function(){ return ''; }).join(',') + '\n';
+    var blob = new Blob([csvContent], {type:'text/csv;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = paper.name + '-成绩导入模板.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  window._cjHandleFileUpload = function(input){
+    if(input.files && input.files.length > 0){
+      showToast('文件「'+input.files[0].name+'」上传成功，成绩已导入');
+      setTimeout(function(){ window._cjCloseImportModal(); }, 800);
+    }
+  };
+
+  window._cjCloseImportModal = function(){
+    var ov = document.getElementById('cjImportOverlay');
+    if(ov) ov.remove();
+  };
+
+  // --- Export Grades: Select class then export ---
+  window._cjExportGrades = function(paperId){
+    var paper = null;
+    for(var i=0; i<chengjiShijuanData.length; i++){
+      if(chengjiShijuanData[i].id === paperId){ paper = chengjiShijuanData[i]; break; }
+    }
+    if(!paper) return;
+
+    var existing = document.getElementById('cjExportOverlay');
+    if(existing) existing.remove();
+
+    // Get unique class names
+    var classNames = [];
+    chengjiShijuanData.forEach(function(sj){
+      if(classNames.indexOf(sj.className) === -1) classNames.push(sj.className);
+    });
+
+    var overlay = document.createElement('div');
+    overlay.id = 'cjExportOverlay';
+    overlay.className = 'cj-overlay';
+    overlay.innerHTML = '<div class="cj-modal" onclick="event.stopPropagation()">' +
+      '<div class="cj-modal-header">' +
+        '<h3>导出成绩</h3>' +
+        '<span class="cj-modal-sub">试卷：'+paper.name+'</span>' +
+      '</div>' +
+      '<div class="cj-modal-body">' +
+        '<div class="cj-export-form">' +
+          '<label class="cj-export-label">选择班级</label>' +
+          '<select class="cj-export-select" id="cjExportClassSelect">' +
+            '<option value="">请选择班级</option>' +
+            classNames.map(function(cn){ return '<option value="'+cn+'">'+cn+'</option>'; }).join('') +
+          '</select>' +
+        '</div>' +
+        '<div class="cj-export-preview">' +
+          '<div class="cj-export-preview-title">导出字段预览</div>' +
+          '<div class="cj-export-fields">' +
+            '<span class="cj-field-tag">学号</span>' +
+            '<span class="cj-field-tag">姓名</span>' +
+            '<span class="cj-field-tag">班级</span>' +
+            Array.from({length:paper.questionCount},function(_,i){ return '<span class="cj-field-tag">第'+(i+1)+'题</span>'; }).join('') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cj-modal-footer">' +
+        '<button class="cj-btn-cancel" onclick="window._cjCloseExportModal()">取消</button>' +
+        '<button class="cj-btn-primary" id="cjExportConfirmBtn" onclick="window._cjDoExport(\''+paperId+'\')">确认导出</button>' +
+      '</div>' +
+    '</div>';
+
+    overlay.addEventListener('click', function(){ window._cjCloseExportModal(); });
+    document.body.appendChild(overlay);
+
+    // Pre-select the paper's class as default
+    setTimeout(function(){
+      var sel = document.getElementById('cjExportClassSelect');
+      if(sel){ sel.value = paper.className; }
+    }, 50);
+  };
+
+  window._cjDoExport = function(paperId){
+    var sel = document.getElementById('cjExportClassSelect');
+    var className = sel ? sel.value : '';
+    if(!className){ showToast('请先选择班级'); return; }
+
+    var paper = null;
+    for(var i=0; i<chengjiShijuanData.length; i++){
+      if(chengjiShijuanData[i].id === paperId){ paper = chengjiShijuanData[i]; break; }
+    }
+    if(!paper) return;
+
+    // Build CSV export content
+    var qHeaders = [];
+    for(var q=1; q<=paper.questionCount; q++){ qHeaders.push('第'+q+'题'); }
+    var csvContent = '\uFEFF学号,姓名,班级,' + qHeaders.join(',') + '\n';
+    // Simulate some student data
+    var students = [
+      { id:'2025001', name:'张三' },
+      { id:'2025002', name:'李四' },
+      { id:'2025003', name:'王五' },
+      { id:'2025004', name:'赵六' }
+    ];
+    students.forEach(function(stu){
+      var scores = [];
+      for(var q=1; q<=paper.questionCount; q++){
+        scores.push(Math.floor(Math.random()*6 + 5)); // random score 5-10
+      }
+      csvContent += stu.id + ',' + stu.name + ',' + className + ',' + scores.join(',') + '\n';
+    });
+
+    var blob = new Blob([csvContent], {type:'text/csv;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = paper.name + '-' + className + '-成绩导出.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showToast('成绩导出成功');
+    window._cjCloseExportModal();
+  };
+
+  window._cjCloseExportModal = function(){
+    var ov = document.getElementById('cjExportOverlay');
+    if(ov) ov.remove();
+  };
 
   // ==================== Init Page ====================
   renderPage('banji-guanli');

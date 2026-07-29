@@ -446,7 +446,7 @@ table{border-collapse:collapse;width:100%}
     <div class="content">
 
       <!-- ==================== 班级管理 ==================== -->
-      <div class="tab-panel" id="tab-class">
+      <div class="tab-panel active" id="tab-class">
         <div class="page-header" id="classPageHeader">
           <h2>班级管理</h2>
           <button class="btn btn-primary" onclick="openNewClassModal()">+ 新增班级</button>
@@ -883,6 +883,43 @@ table{border-collapse:collapse;width:100%}
 
 
 <script>
+// ==================== 数据 & 状态变量 ====================
+var htData = {};
+var classDetailData = {};
+var reviewLogs = [
+  // 班级审核日志
+  {type:'class', id:'25考研数学二班', label:'25考研数学二班', result:'驳回', reason:'班级人数不足开班标准（最少15人），建议合并至数学一班', time:'2025-02-21 14:30', operator:'教务管理员'},
+  {type:'class', id:'25考研英语一班', label:'25考研英语一班', result:'驳回', reason:'班主任李老师教师资格证已过期，请更新证书后重新提交', time:'2025-02-22 09:15', operator:'教务管理员'},
+  {type:'class', id:'25考研数学三班', label:'25考研数学三班', result:'通过', reason:'', time:'2025-02-20 16:45', operator:'教务管理员'},
+  {type:'class', id:'26考研政治一班', label:'26考研政治一班', result:'通过', reason:'', time:'2025-02-23 10:30', operator:'教务管理员'},
+  // 学员审核日志
+  {type:'student', id:'2025003', label:'王五', result:'驳回', reason:'身份证照片模糊不清，无法核验身份信息，请重新上传清晰照片', time:'2025-02-21 11:20', operator:'教务管理员'},
+  {type:'student', id:'2025006', label:'周八', result:'驳回', reason:'报名科目与目标院校专业不匹配，请核实后重新提交', time:'2025-02-23 15:45', operator:'教务管理员'},
+  {type:'student', id:'2025004', label:'赵六', result:'通过', reason:'', time:'2025-02-22 08:30', operator:'教务管理员'},
+  {type:'student', id:'2025007', label:'吴九', result:'通过', reason:'', time:'2025-02-24 09:00', operator:'教务管理员'},
+  // 班主任审核日志
+  {type:'headteacher', id:'zhaolaoshi', label:'赵老师', result:'驳回', reason:'教师资格证扫描件不清晰，且缺少学历证书复印件', time:'2025-02-20 15:00', operator:'教务管理员'},
+  {type:'headteacher', id:'sunlaoshi', label:'孙老师', result:'驳回', reason:'所申报教学科目与本科专业不符，需提供相关培训证明', time:'2025-02-21 16:30', operator:'教务管理员'},
+  {type:'headteacher', id:'zhanglaoshi', label:'张老师', result:'通过', reason:'', time:'2025-02-15 09:00', operator:'教务管理员'},
+  {type:'headteacher', id:'lilaoshi', label:'李老师', result:'通过', reason:'', time:'2025-02-15 10:00', operator:'教务管理员'},
+  {type:'headteacher', id:'qianlaoshi', label:'钱老师', result:'通过', reason:'', time:'2025-02-18 14:00', operator:'教务管理员'},
+];
+var activeReviewClassTab = '审核中';
+var activeReviewStudentTab = '审核中';
+var activeReviewHtTab = '审核中';
+var currentClassFilter = '';
+var currentHeadteacherFilter = '';
+
+// ==================== Utility ====================
+function showToast(msg){
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 24px;border-radius:6px;font-size:14px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);pointer-events:none';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 2000);
+}
+window.showToast = showToast;
+
 // ==================== 菜单切换 ====================
 function toggleNavGroup(header){
   var body = header.nextElementSibling;
@@ -942,6 +979,335 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
     }
   });
 });
+// ==================== 班级管理 ====================
+var classList = [
+  {name:'25考研数学一班',district:'海淀学区中心',teacher:'张老师',count:32,startDate:'2025-03-01',endDate:'2026-12-31',status:'已开班',reviewStatus:'',reviewReason:''},
+  {name:'25考研英语一班',district:'海淀学区中心',teacher:'李老师',count:28,startDate:'2025-03-01',endDate:'2026-12-31',status:'审核中',reviewStatus:'审核中',reviewReason:''},
+  {name:'25考研数学二班',district:'朝阳学区中心',teacher:'王老师',count:25,startDate:'2025-04-15',endDate:'2026-06-30',status:'审核驳回',reviewStatus:'审核驳回',reviewReason:'班级人数不足开班标准（最少15人），建议合并至数学一班'},
+  {name:'26考研英语预备班',district:'西城学区中心',teacher:'张老师',count:0,startDate:'2025-09-01',endDate:'2026-12-31',status:'未开班',reviewStatus:'',reviewReason:''},
+  {name:'25考研政治一班',district:'海淀学区中心',teacher:'李老师',count:30,startDate:'2025-02-15',endDate:'2025-12-31',status:'已结课',reviewStatus:'',reviewReason:''},
+  // 班级审核演示数据
+  {name:'25考研英语二班',district:'朝阳学区中心',teacher:'赵老师',count:20,startDate:'2025-03-15',endDate:'2026-09-30',status:'审核中',reviewStatus:'审核中',reviewReason:''},
+  {name:'25考研数学三班',district:'海淀学区中心',teacher:'张老师',count:35,startDate:'2025-02-10',endDate:'2026-12-31',status:'已开班',reviewStatus:'',reviewReason:''},
+  {name:'26考研政治一班',district:'西城学区中心',teacher:'刘老师',count:22,startDate:'2025-08-01',endDate:'2026-12-31',status:'已开班',reviewStatus:'',reviewReason:''},
+  {name:'26考研数学预备班',district:'丰台学区中心',teacher:'孙老师',count:0,startDate:'2025-10-01',endDate:'2027-03-31',status:'审核中',reviewStatus:'审核中',reviewReason:''},
+  {name:'25考研英语三班',district:'昌平学区中心',teacher:'钱老师',count:18,startDate:'2025-04-01',endDate:'2026-08-31',status:'审核驳回',reviewStatus:'审核驳回',reviewReason:'开班时间与学区其他班级冲突，请调整时间安排'},
+];
+classList.forEach(function(c){ classDetailData[c.name] = c; });
+
+function openNewClassModal(){ openModal('classModal'); }
+function openClassEditModal(name){ openModal('classModal','edit'); }
+function openClassDetailModal(name){
+  var d = classDetailData[name];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('classDetailModalTitle').textContent = '班级详情 - '+name;
+  document.getElementById('detClassModalName').textContent = name;
+  document.getElementById('detClassModalDistrict').textContent = d.district||'-';
+  document.getElementById('detClassModalTeacher').textContent = d.teacher||'-';
+  document.getElementById('detClassModalCount').textContent = d.count||'-';
+  document.getElementById('detClassModalStartDate').textContent = d.startDate||'-';
+  document.getElementById('detClassModalEndDate').textContent = d.endDate||'-';
+  document.getElementById('detClassModalStatus').textContent = d.status||'-';
+  // Review banner
+  var banner = document.getElementById('detClassReviewBanner');
+  if(d.reviewStatus==='审核中'){ banner.className='review-banner reviewing'; document.getElementById('detClassBannerTitle').textContent='当前状态：审核中，班级暂未生效'; document.getElementById('detClassBannerReason').style.display='none'; }
+  else if(d.reviewStatus==='审核驳回'){ banner.className='review-banner rejected'; document.getElementById('detClassBannerTitle').textContent='审核已驳回'; document.getElementById('detClassBannerReason').style.display='block'; document.getElementById('detClassBannerReason').textContent='驳回原因：'+(d.reviewReason||'未填写'); }
+  else { banner.className='review-banner'; banner.style.display='none'; }
+  // Student list
+  var tbody = document.getElementById('classDetailStudentList');
+  var students = [
+    {id:'2025001',name:'张三',phone:'138****1234',levels:'数学一丨英语一',status:'在读'},
+    {id:'2025002',name:'李四',phone:'138****5678',levels:'数学一丨英语一',status:'在读'}
+  ];
+  tbody.innerHTML = '';
+  students.forEach(function(s){
+    tbody.innerHTML += '<tr><td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+s.levels+'</td><td><span class="status status-active">'+s.status+'</span></td></tr>';
+  });
+  document.getElementById('classDetailModal').classList.add('show');
+}
+function doClassQuery(){
+  var keyword = (document.getElementById('classKeyword').value||'').toLowerCase();
+  var district = document.getElementById('classDistrictFilter').value;
+  var rows = document.querySelectorAll('#classTable tbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    if(row.querySelector('.status')){ // skip empty rows
+      var text = row.textContent.toLowerCase();
+      var show = true;
+      if(keyword && text.indexOf(keyword)===-1) show = false;
+      if(district && row.querySelector('td:nth-child(2)') && row.querySelector('td:nth-child(2)').textContent.indexOf(district)===-1) show = false;
+      row.style.display = show ? '' : 'none';
+      if(show) count++;
+    }
+  });
+}
+function resetClassFilter(){
+  document.getElementById('classKeyword').value = '';
+  document.getElementById('classDistrictFilter').value = '';
+  doClassQuery();
+}
+function switchClassTab(tab, btn){
+  currentClassFilter = tab;
+  var tabs = document.querySelectorAll('#tab-class .class-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  var rows = document.querySelectorAll('#classTable tbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var statusCell = row.querySelector('.status');
+    if(!statusCell) return;
+    var show = true;
+    if(tab && statusCell.textContent.trim()!==tab) show = false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+}
+
+// ==================== 班主任管理 ====================
+htData = {
+  'zhanglaoshi':{name:'张老师',district:'海淀学区中心',subjects:['数学','政治'],classes:['25考研数学一班','26考研英语预备班'],reviewStatus:'使用中',acctEnabled:true,gender:'男',phone:'138****1111',idCard:'',email:''},
+  'lilaoshi':{name:'李老师',district:'海淀学区中心',subjects:['英语'],classes:['25考研英语一班','25考研政治一班'],reviewStatus:'使用中',acctEnabled:true,gender:'女',phone:'138****2222',idCard:'',email:''},
+  'wanglaoshi':{name:'王老师',district:'朝阳学区中心',subjects:['数学'],classes:['25考研数学二班'],reviewStatus:'审核中',acctEnabled:false,gender:'男',phone:'138****3333',idCard:'',email:''},
+  'zhaolaoshi':{name:'赵老师',district:'西城学区中心',subjects:['英语'],classes:[],reviewStatus:'审核驳回',reviewReason:'教师资格证扫描件不清晰，且缺少学历证书复印件',acctEnabled:false,gender:'女',phone:'138****4444',idCard:'',email:''},
+  'liulaoshi':{name:'刘老师',district:'昌平学区中心',subjects:['数学','英语','政治'],classes:['25考研政治一班'],reviewStatus:'已停用',acctEnabled:false,gender:'男',phone:'138****5555',idCard:'',email:''},
+  // 班主任审核演示数据
+  'sunlaoshi':{name:'孙老师',district:'丰台学区中心',subjects:['数学'],classes:[],reviewStatus:'审核驳回',reviewReason:'所申报教学科目与本科专业不符，需提供相关培训证明',acctEnabled:false,gender:'男',phone:'138****6666',idCard:'',email:''},
+  'qianlaoshi':{name:'钱老师',district:'海淀学区中心',subjects:['英语','政治'],classes:['25考研英语一班'],reviewStatus:'使用中',acctEnabled:true,gender:'女',phone:'138****7777',idCard:'',email:''},
+  'malin':{name:'马老师',district:'朝阳学区中心',subjects:['政治'],classes:[],reviewStatus:'审核中',acctEnabled:false,gender:'女',phone:'138****8888',idCard:'',email:''},
+  'chenlin':{name:'陈老师',district:'昌平学区中心',subjects:['数学','英语'],classes:[],reviewStatus:'审核中',acctEnabled:false,gender:'男',phone:'138****9999',idCard:'',email:''},
+};
+var htEditTarget = '';
+
+function openNewHeadteacherModal(){
+  htEditTarget = '';
+  document.getElementById('htModalTitle').textContent = '新增班主任';
+  document.getElementById('htModalUsername').value = '';
+  document.getElementById('htModalPassword').value = '';
+  document.getElementById('htModalName').value = '';
+  document.getElementById('htModalGender').value = '';
+  document.getElementById('htModalPhone').value = '';
+  document.getElementById('htModalIdCard').value = '';
+  document.getElementById('htModalEmail').value = '';
+  document.getElementById('htModalDistrict').value = '';
+  document.getElementById('htSubjMath').checked = false;
+  document.getElementById('htSubjEnglish').checked = false;
+  document.getElementById('htSubjPolitics').checked = false;
+  var cbs = document.querySelectorAll('#htClassCheckboxes input[type="checkbox"]');
+  cbs.forEach(function(cb){ cb.checked = false; });
+  document.getElementById('htPwdField').style.display = '';
+  document.getElementById('htPwdLabel').textContent = '密码 *';
+  openModal('headteacherModal');
+}
+function openHtEditModal(username){
+  htEditTarget = username;
+  var d = htData[username];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('htModalTitle').textContent = '编辑班主任';
+  document.getElementById('htModalUsername').value = username;
+  document.getElementById('htModalUsername').disabled = true;
+  document.getElementById('htModalPassword').value = '';
+  document.getElementById('htModalName').value = d.name||'';
+  document.getElementById('htModalGender').value = d.gender||'';
+  document.getElementById('htModalPhone').value = d.phone||'';
+  document.getElementById('htModalIdCard').value = d.idCard||'';
+  document.getElementById('htModalEmail').value = d.email||'';
+  document.getElementById('htModalDistrict').value = d.district||'';
+  document.getElementById('htSubjMath').checked = d.subjects.indexOf('数学')>-1;
+  document.getElementById('htSubjEnglish').checked = d.subjects.indexOf('英语')>-1;
+  document.getElementById('htSubjPolitics').checked = d.subjects.indexOf('政治')>-1;
+  var cbs = document.querySelectorAll('#htClassCheckboxes input[type="checkbox"]');
+  cbs.forEach(function(cb){ cb.checked = d.classes.indexOf(cb.value)>-1; });
+  document.getElementById('htPwdField').style.display = '';
+  document.getElementById('htPwdLabel').textContent = '密码（留空不修改）';
+  openModal('headteacherModal');
+}
+function openHtDetailModal(username){
+  var d = htData[username];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('htDetailModalTitle').textContent = '班主任详情 - '+d.name;
+  document.getElementById('detHtUsername').textContent = username;
+  document.getElementById('detHtName').textContent = d.name||'-';
+  document.getElementById('detHtGender').textContent = d.gender||'-';
+  document.getElementById('detHtPhone').textContent = d.phone||'-';
+  document.getElementById('detHtIdCard').textContent = d.idCard||'-';
+  document.getElementById('detHtEmail').textContent = d.email||'-';
+  document.getElementById('detHtAcctStatus').textContent = d.acctEnabled?'使用中':'已停用';
+  document.getElementById('detHtReviewStatus').textContent = d.reviewStatus||'-';
+  document.getElementById('detHtDistrict').textContent = d.district||'-';
+  document.getElementById('detHtSubjects').textContent = d.subjects.length?d.subjects.join('、'):'-';
+  document.getElementById('detHtClasses').textContent = d.classes.length?d.classes.join('、'):'-';
+  // Review banner
+  var banner = document.getElementById('detHtReviewBanner');
+  if(d.reviewStatus==='审核中'){ banner.className='review-banner reviewing'; document.getElementById('detHtBannerTitle').textContent='当前状态：审核中'; document.getElementById('detHtBannerReason').style.display='none'; }
+  else if(d.reviewStatus==='审核驳回'){ banner.className='review-banner rejected'; document.getElementById('detHtBannerTitle').textContent='审核已驳回'; document.getElementById('detHtBannerReason').style.display='block'; document.getElementById('detHtBannerReason').textContent='驳回原因：'+(d.reviewReason||'未填写'); }
+  else { banner.className='review-banner'; banner.style.display='none'; }
+  document.getElementById('headteacherDetailModal').classList.add('show');
+}
+function resetHtPassword(username){ showToast('密码已重置（模拟）'); }
+function toggleHtAccountStatus(el){
+  var row = el.closest('tr');
+  var username = row.querySelector('td:first-child').textContent.trim();
+  var d = htData[username];
+  if(!d || d.reviewStatus!=='使用中'){ el.checked = !el.checked; showToast('仅使用中状态可以切换'); return; }
+  d.acctEnabled = el.checked;
+  showToast(el.checked?'账号已启用':'账号已停用');
+}
+function submitHeadteacher(){
+  var username = document.getElementById('htModalUsername').value.trim();
+  var password = document.getElementById('htModalPassword').value;
+  var name = document.getElementById('htModalName').value.trim();
+  var gender = document.getElementById('htModalGender').value;
+  var phone = document.getElementById('htModalPhone').value.trim();
+  var idCard = document.getElementById('htModalIdCard').value.trim();
+  var email = document.getElementById('htModalEmail').value.trim();
+  var district = document.getElementById('htModalDistrict').value;
+  var subjects = [];
+  if(document.getElementById('htSubjMath').checked) subjects.push('数学');
+  if(document.getElementById('htSubjEnglish').checked) subjects.push('英语');
+  if(document.getElementById('htSubjPolitics').checked) subjects.push('政治');
+  var classes = [];
+  document.querySelectorAll('#htClassCheckboxes input[type="checkbox"]:checked').forEach(function(cb){ classes.push(cb.value); });
+  if(!username || !name || !phone || !district || subjects.length===0){ showToast('请填写必填项'); return; }
+  if(!htEditTarget && !password){ showToast('请输入密码'); return; }
+  if(!htEditTarget && htData[username]){ showToast('账号名已存在'); return; }
+  if(htEditTarget){
+    var d = htData[htEditTarget];
+    d.name = name; d.gender = gender; d.phone = phone; d.idCard = idCard; d.email = email; d.district = district; d.subjects = subjects; d.classes = classes;
+    if(password) d.password = password;
+  } else {
+    htData[username] = {name:name,gender:gender,phone:phone,idCard:idCard,email:email,district:district,subjects:subjects,classes:classes,reviewStatus:'审核中',acctEnabled:false,password:password};
+  }
+  closeModal('headteacherModal');
+  document.getElementById('htModalUsername').disabled = false;
+  showToast('保存成功');
+  renderReviewHtTable();
+}
+function doHeadteacherQuery(){
+  var keyword = (document.getElementById('htKeyword').value||'').toLowerCase();
+  var district = document.getElementById('htDistrictFilter').value;
+  var subject = document.getElementById('htSubjectFilter').value;
+  var rows = document.querySelectorAll('#headteacherTable tbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword)===-1) show = false;
+    if(district && row.getAttribute('data-district').indexOf(district)===-1) show = false;
+    if(subject && row.getAttribute('data-subject').indexOf(subject)===-1) show = false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('htCount').textContent = '共 '+count+' 条记录';
+}
+function resetHeadteacherFilter(){
+  document.getElementById('htKeyword').value = '';
+  document.getElementById('htDistrictFilter').value = '';
+  document.getElementById('htSubjectFilter').value = '';
+  doHeadteacherQuery();
+}
+function switchHeadteacherTab(tab, btn){
+  currentHeadteacherFilter = tab;
+  var tabs = document.querySelectorAll('#tab-headteacher .headteacher-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  var rows = document.querySelectorAll('#headteacherTable tbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var statusCell = row.querySelector('td:nth-child(7) .status');
+    if(!statusCell) return;
+    var show = true;
+    if(tab && statusCell.textContent.trim()!==tab) show = false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('htCount').textContent = '共 '+count+' 条记录';
+}
+
+// ==================== 班级审核 ====================
+function getReviewClassData(){
+  var rows = [];
+  for(var name in classDetailData){
+    var d = classDetailData[name];
+    if(d.reviewStatus==='审核中' || d.reviewStatus==='审核驳回'){
+      var lastLog = null;
+      reviewLogs.forEach(function(l){ if(l.type==='class' && l.id===name) lastLog = l; });
+      rows.push({
+        type:'class', id:name, label:name, district:d.district||'', teacher:d.teacher||'',
+        startDate:d.startDate||'', endDate:d.endDate||'', count:d.count||0,
+        status:d.reviewStatus, reviewReason:d.reviewReason||'',
+        reviewer:lastLog?lastLog.operator:'', reviewTime:lastLog?lastLog.time:''
+      });
+    } else {
+      var lastLog2 = null;
+      reviewLogs.forEach(function(l){ if(l.type==='class' && l.id===name && l.result==='通过') lastLog2 = l; });
+      if(lastLog2){
+        rows.push({
+          type:'class', id:name, label:name, district:d.district||'', teacher:d.teacher||'',
+          startDate:d.startDate||'', endDate:d.endDate||'', count:d.count||0,
+          status:'审核通过', reviewReason:'',
+          reviewer:lastLog2.operator, reviewTime:lastLog2.time
+        });
+      }
+    }
+  }
+  return rows;
+}
+function renderReviewClassTable(){
+  var allData = getReviewClassData();
+  var data = allData.filter(function(r){ return r.status === activeReviewClassTab; });
+  var tbody = document.getElementById('reviewClassTbody');
+  tbody.innerHTML = '';
+  if(data.length===0){
+    var emptyMsg = activeReviewClassTab==='审核中'?'暂无待审核的班级':activeReviewClassTab==='审核通过'?'暂无审核通过的班级':'暂无审核驳回的班级';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:24px">'+emptyMsg+'</td></tr>';
+  } else {
+    data.forEach(function(item){
+      var statusHtml = '';
+      if(item.status==='审核中') statusHtml = '<span class="status status-reviewing">审核中</span>';
+      else if(item.status==='审核驳回') statusHtml = '<span class="status status-rejected">审核驳回</span>';
+      else statusHtml = '<span class="status status-active">审核通过</span>';
+      var reviewInfoHtml = '';
+      if(item.status==='审核通过' && item.reviewer){
+        reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'</div>';
+      } else if(item.status==='审核驳回'){
+        reviewInfoHtml = item.reviewer ? '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'</div>' : '<span style="color:var(--text-muted);font-size:12px">-</span>';
+        if(item.reviewReason) reviewInfoHtml += '<div style="font-size:11px;color:var(--danger);margin-top:2px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+item.reviewReason+'">'+item.reviewReason+'</div>';
+      } else { reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>'; }
+      var btnHtml = item.status==='审核中' ? '<button class="btn btn-ghost btn-xs" onclick="openReviewClassDetail(\''+item.id+'\')">审核</button>' : '<button class="btn btn-ghost btn-xs" onclick="openReviewClassDetail(\''+item.id+'\')">查看详情</button>';
+      tbody.innerHTML += '<tr data-id="'+item.id+'" data-status="'+item.status+'"><td>'+item.label+'</td><td>'+item.district+'</td><td>'+item.teacher+'</td><td>'+item.startDate+'</td><td>2025-02-20</td><td>'+statusHtml+'</td><td>'+reviewInfoHtml+'</td><td>'+btnHtml+'</td></tr>';
+    });
+  }
+  document.getElementById('rvClassCount').textContent = '共 '+data.length+' 条记录';
+}
+function doReviewClassQuery(){
+  var keyword = (document.getElementById('rvClassKeyword').value||'').toLowerCase();
+  var rows = document.querySelectorAll('#reviewClassTbody tr');
+  var count = 0;
+  rows.forEach(function(row){
+    var text = row.textContent.toLowerCase();
+    var show = true;
+    if(keyword && text.indexOf(keyword)===-1) show = false;
+    row.style.display = show ? '' : 'none';
+    if(show) count++;
+  });
+  document.getElementById('rvClassCount').textContent = '共 '+count+' 条记录';
+}
+function switchReviewClassTab(tab, btn){
+  activeReviewClassTab = tab;
+  var tabs = document.querySelectorAll('#tab-review-class .review-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  renderReviewClassTable();
+}
+function closeReviewClassDetail(){
+  document.getElementById('reviewClassDetailModal').classList.remove('show');
+}
+
+function openReviewClassDetail(id){
+  var d = classDetailData[id];
+  if(!d){ showToast('数据未找到'); return; }
+  document.getElementById('rvClassDetailTitle').textContent = '班级审核详情 - '+id;
+  var body = document.getElementById('rvClassDetailBody');
   body.innerHTML =
     '<div class="form-section"><div class="form-section-title">基本信息</div>'+
     '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
@@ -953,12 +1319,10 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
     '<div class="detail-item"><label>计划结课时间</label><div class="value">'+(d.endDate||'-')+'</div></div>'+
     '<div class="detail-item"><label>审核状态</label><div class="value">'+(d.reviewStatus||'-')+'</div></div>'+
     '</div></div>';
-  // 审核信息（审核人/审核时间）
   var classLastLog = null;
   reviewLogs.forEach(function(l){
     if(l.type==='class' && l.id===id){ classLastLog = l; }
   });
-  // 展示审核信息：有日志时展示审核人+时间，无日志但已审核时也展示状态
   if(classLastLog || d.reviewStatus==='审核驳回' || d.reviewStatus==='审核通过'){
     body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
       '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
@@ -968,7 +1332,6 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
       ((d.reviewReason||(classLastLog&&classLastLog.reason)) ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+(d.reviewReason||classLastLog.reason)+'</div></div>' : '')+
       '</div></div>';
   }
-  // 审核日志
   var logsHtml = '';
   var relevantLogs = reviewLogs.filter(function(l){ return l.type==='class' && l.id===id; });
   if(relevantLogs.length>0){
@@ -984,7 +1347,6 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
     logsHtml += '</div></div>';
   }
   body.innerHTML += logsHtml;
-  // 驳回面板（内联）
   body.innerHTML += '<div class="reject-panel" id="reviewClassRejectPanel">'+
     '<div style="font-size:13px;font-weight:600;color:var(--danger);margin-bottom:8px">填写驳回原因</div>'+
     '<textarea placeholder="请输入驳回原因..." id="reviewClassRejectReason"></textarea>'+
@@ -992,7 +1354,6 @@ document.querySelectorAll('.modal-overlay').forEach(function(overlay){
     '<button class="btn btn-cancel-reject" onclick="hideRejectPanel(\'reviewClassRejectPanel\')">取消</button>'+
     '<button class="btn btn-confirm-reject" onclick="submitReject(\'class\',\''+id+'\')">确认驳回</button>'+
     '</div></div>';
-  // 操作按钮
   var footer = document.getElementById('rvClassDetailFooter');
   if(d.reviewStatus==='审核中'){
     footer.innerHTML = '<div class="review-action-bar"><button class="btn btn-approve" onclick="approveReview(\'class\',\''+id+'\')">&#10003; 审核通过</button>'+
@@ -1041,7 +1402,19 @@ function parseStudentRowData(row){
 }
 
 function getReviewStudentData(){
-  return [];
+  // 学员审核演示数据 - 从 reviewLogs 中关联状态
+  var rows = [];
+  // 审核中
+  rows.push({id:'2025003',name:'王五',phone:'138****5555',stuClass:'25考研数学一班',subjects:'数学、英语',status:'审核中',reviewer:'',reviewTime:'',reason:''});
+  rows.push({id:'2025006',name:'周八',phone:'138****8888',stuClass:'26考研英语预备班',subjects:'英语',status:'审核中',reviewer:'',reviewTime:'',reason:''});
+  rows.push({id:'2025008',name:'郑十',phone:'138****9999',stuClass:'25考研政治一班',subjects:'政治',status:'审核中',reviewer:'',reviewTime:'',reason:''});
+  // 审核驳回
+  rows.push({id:'2025004',name:'赵六',phone:'138****6666',stuClass:'25考研英语一班',subjects:'英语、政治',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-21 11:20',reason:'身份证照片模糊不清，无法核验身份信息，请重新上传清晰照片'});
+  rows.push({id:'2025007',name:'吴九',phone:'138****7777',stuClass:'25考研数学二班',subjects:'数学',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-23 15:45',reason:'报名科目与目标院校专业不匹配，请核实后重新提交'});
+  // 审核通过
+  rows.push({id:'2025005',name:'陈一',phone:'139****1111',stuClass:'25考研数学一班',subjects:'数学、英语、政治',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-22 08:30',reason:''});
+  rows.push({id:'2025009',name:'刘二',phone:'139****2222',stuClass:'25考研英语一班',subjects:'英语',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-24 09:00',reason:''});
+  return rows;
 }
 
 function renderReviewStudentTable(){
@@ -1064,6 +1437,9 @@ function renderReviewStudentTable(){
       } else if(item.status==='审核驳回'){
         if(item.reviewer){
           reviewInfoHtml = '<div style="font-size:12px;color:var(--text-secondary)">'+item.reviewer+'</div><div style="font-size:11px;color:var(--text-muted)">'+item.reviewTime+'<span style="color:var(--danger);margin-left:4px">·驳回</span></div>';
+          if(item.reason) reviewInfoHtml += '<div style="font-size:11px;color:var(--danger);margin-top:2px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+item.reason+'">'+item.reason+'</div>';
+        } else if(item.reason){
+          reviewInfoHtml = '<div style="font-size:11px;color:var(--danger);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+item.reason+'">'+item.reason+'</div>';
         } else {
           reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
         }
@@ -1103,20 +1479,13 @@ function closeReviewStudentDetail(){
 }
 
 function openReviewStudentDetail(id){
-  // 从学员表格行获取完整数据
-  var stuRows = document.querySelectorAll('#studentTable tbody tr');
-  var row = null, reviewStatus = '', reviewReason = '';
-  stuRows.forEach(function(r){
-    var cells = r.querySelectorAll('td');
-    if(cells.length >= 10 && cells[0].textContent.trim() === id){
-      row = r;
-      reviewStatus = r.getAttribute('data-review-status') || '';
-      reviewReason = r.getAttribute('data-review-reason') || '';
-    }
-  });
-  if(!row){ showToast('数据未找到'); return; }
-  var d = parseStudentRowData(row);
-  if(!d){ showToast('无法解析学员数据'); return; }
+  // 从审核数据中查找学员
+  var allData = getReviewStudentData();
+  var d = null;
+  for(var i = 0; i < allData.length; i++){
+    if(allData[i].id === id){ d = allData[i]; break; }
+  }
+  if(!d){ showToast('数据未找到'); return; }
   document.getElementById('rvStuDetailTitle').textContent = '学员审核详情 - '+d.name;
   var body = document.getElementById('rvStuDetailBody');
   // 基本信息
@@ -1125,33 +1494,11 @@ function openReviewStudentDetail(id){
     '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
     '<div class="detail-item"><label>学号</label><div class="value">'+d.id+'</div></div>'+
     '<div class="detail-item"><label>姓名</label><div class="value">'+d.name+'</div></div>'+
-    '<div class="detail-item"><label>性别</label><div class="value">'+(d.gender||'-')+'</div></div>'+
     '<div class="detail-item"><label>手机号</label><div class="value">'+d.phone+'</div></div>'+
-    '<div class="detail-item"><label>身份证号</label><div class="value">'+(d.idCard||'-')+'</div></div>'+
-    '<div class="detail-item"><label>电子邮箱</label><div class="value">'+(d.email||'-')+'</div></div>'+
-    '</div></div>'+
-    // 报名信息
-    '<div class="form-section"><div class="form-section-title">报名信息</div>'+
-    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
-    '<div class="detail-item"><label>所属学区</label><div class="value">'+d.district+'</div></div>'+
     '<div class="detail-item"><label>所属班级</label><div class="value">'+d.stuClass+'</div></div>'+
     '<div class="detail-item"><label>报名科目</label><div class="value">'+d.subjects+'</div></div>'+
-    '<div class="detail-item"><label>报名日期</label><div class="value">'+(d.regDate||'-')+'</div></div>'+
-    '<div class="detail-item"><label>到期时间</label><div class="value">'+(d.endDate||'-')+'</div></div>'+
-    '</div></div>'+
-    // 背景与目标
-    '<div class="form-section"><div class="form-section-title">背景与目标</div>'+
-    '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
-    '<div class="detail-item"><label>本科院校</label><div class="value">'+(d.uni||'-')+'</div></div>'+
-    '<div class="detail-item"><label>本科专业</label><div class="value">'+(d.major||'-')+'</div></div>'+
-    '<div class="detail-item"><label>目标院校</label><div class="value">'+(d.targetUni||'-')+'</div></div>'+
-    '<div class="detail-item"><label>目标专业</label><div class="value">'+(d.targetMajor||'-')+'</div></div>'+
-    '<div class="detail-item"><label>目标院校档次</label><div class="value">'+(d.targetTier||'-')+'</div></div>'+
-    '<div class="detail-item"><label>报考门类</label><div class="value">'+(d.category||'-')+'</div></div>'+
-    '<div class="detail-item"><label>科目信息</label><div class="value">'+(d.levels||'-')+'</div></div>'+
-    '</div></div>'+
-    '<div class="form-section"><div class="form-section-title">附件图片</div>'+
-    '<div class="detail-img-wrap" style="min-height:40px">'+(d.photo||'-')+'</div></div>';
+    '<div class="detail-item"><label>报名日期</label><div class="value">2025-02-20</div></div>'+
+    '</div></div>';
   // 审核状态
   var lastLog = null;
   reviewLogs.forEach(function(l){
@@ -1159,10 +1506,10 @@ function openReviewStudentDetail(id){
   });
   body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
     '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
-    '<div class="detail-item"><label>审核状态</label><div class="value">'+(reviewStatus||'-')+'</div></div>'+
+    '<div class="detail-item"><label>审核状态</label><div class="value">'+(d.status||'-')+'</div></div>'+
     (lastLog ? '<div class="detail-item"><label>审核人</label><div class="value">'+lastLog.operator+'</div></div>' : '')+
     (lastLog ? '<div class="detail-item"><label>审核时间</label><div class="value">'+lastLog.time+'</div></div>' : '')+
-    (reviewReason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+reviewReason+'</div></div>' : '')+
+    (d.reason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+d.reason+'</div></div>' : (lastLog&&lastLog.reason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+lastLog.reason+'</div></div>' : ''))+
     '</div></div>';
   // 审核日志
   var relevantLogs = reviewLogs.filter(function(l){ return l.type==='student' && l.id===id; });
@@ -1187,7 +1534,7 @@ function openReviewStudentDetail(id){
     '</div></div>';
   // 操作按钮
   var footer = document.getElementById('rvStuDetailFooter');
-  if(reviewStatus==='审核中'){
+  if(d.status==='审核中'){
     footer.innerHTML = '<div class="review-action-bar"><button class="btn btn-approve" onclick="approveReview(\'student\',\''+id+'\')">&#10003; 审核通过</button>'+
       '<button class="btn btn-reject" onclick="showRejectPanel(\'reviewStudentRejectPanel\')">&#10007; 审核驳回</button>'+
       '<span style="flex:1"></span><button class="btn btn-outline" onclick="closeReviewStudentDetail()">关闭</button></div>';
@@ -1256,6 +1603,7 @@ function renderReviewHtTable(){
         } else {
           reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
         }
+        if(item.reviewReason) reviewInfoHtml += '<div style="font-size:11px;color:var(--danger);margin-top:2px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+item.reviewReason+'">'+item.reviewReason+'</div>';
       } else {
         reviewInfoHtml = '<span style="color:var(--text-muted);font-size:12px">-</span>';
       }
@@ -1318,12 +1666,13 @@ function openReviewHtDetail(username){
   reviewLogs.forEach(function(l){
     if(l.type==='headteacher' && l.id===username){ htLastLog = l; }
   });
-  if(htLastLog){
+  if(htLastLog || d.reviewStatus==='审核驳回'){
     body.innerHTML += '<div class="form-section"><div class="form-section-title">审核信息</div>'+
       '<div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">'+
-      '<div class="detail-item"><label>审核人</label><div class="value">'+htLastLog.operator+'</div></div>'+
-      '<div class="detail-item"><label>审核时间</label><div class="value">'+htLastLog.time+'</div></div>'+
-      (htLastLog.reason ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+htLastLog.reason+'</div></div>' : '')+
+      (htLastLog ? '<div class="detail-item"><label>审核人</label><div class="value">'+htLastLog.operator+'</div></div>' : '')+
+      (htLastLog ? '<div class="detail-item"><label>审核时间</label><div class="value">'+htLastLog.time+'</div></div>' : '')+
+      (d.reviewStatus ? '<div class="detail-item"><label>审核状态</label><div class="value">'+d.reviewStatus+'</div></div>' : '')+
+      ((d.reviewReason||(htLastLog&&htLastLog.reason)) ? '<div class="detail-item" style="grid-column:1/-1"><label>驳回原因</label><div class="value" style="color:var(--danger)">'+(d.reviewReason||htLastLog.reason)+'</div></div>' : '')+
       '</div></div>';
   }
   // 审核日志
