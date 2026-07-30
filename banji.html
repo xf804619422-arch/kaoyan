@@ -18,7 +18,7 @@
   --radius:6px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 4px 16px rgba(0,0,0,.12);
   --transition:.2s ease;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
 button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
 /* ========== Layout ========== */
@@ -155,11 +155,25 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 /* Switch (read-only for 学员信息) */
 .switch{position:relative;display:inline-block;width:40px;height:22px}
 .switch input{opacity:0;width:0;height:0}
-.switch .slider{position:absolute;cursor:default;top:0;left:0;right:0;bottom:0;background-color:#cbd5e1;transition:.3s;border-radius:22px}
+.switch .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#cbd5e1;transition:.3s;border-radius:22px}
 .switch .slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;bottom:3px;background-color:#fff;transition:.3s;border-radius:50%}
 .switch input:checked+.slider{background-color:var(--success)}
 .switch input:checked+.slider::before{transform:translateX(18px)}
 .switch.disabled{opacity:.55}
+.switch.disabled .slider{cursor:default}
+
+/* Action Dropdown */
+.action-cell{white-space:nowrap}
+.action-wrap{position:relative;display:inline-block;white-space:nowrap}
+.action-dropdown{display:none;position:absolute;top:100%;right:0;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:100;min-width:140px;padding:4px 0;margin-top:2px}
+.action-dropdown.show{display:block}
+.action-dropdown .dropdown-item{display:block;width:100%;padding:8px 14px;font-size:13px;color:var(--text);text-align:left;background:none;border:none;cursor:pointer;transition:all var(--transition)}
+.action-dropdown .dropdown-item:hover{background:var(--primary-light);color:var(--primary)}
+.action-dropdown .dropdown-item.danger:hover{background:var(--danger-bg);color:var(--danger)}
+
+/* Price Info */
+.price-info{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--warning-bg);border:1px solid #fde68a;border-radius:var(--radius);font-size:13px;font-weight:600;color:#b45309;margin-left:8px}
+.price-info .price-amount{font-size:15px;font-weight:700}
 
 /* Student Tabs */
 .student-tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid var(--border)}
@@ -283,6 +297,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 /* Card */
 .card{background:var(--card-bg);border-radius:8px;border:1px solid var(--border);overflow:hidden}
 .card-body{padding:20px}
+
+/* 列表页卡片撑满底部 */
+.content > .card{flex:1;display:flex;flex-direction:column;min-height:0}
+.content > .card > .card-body{flex:1;overflow-y:auto;min-height:0}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);font-weight:500;transition:all var(--transition);white-space:nowrap}
@@ -1444,6 +1462,23 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .bpd-modal-btn-confirm{background:var(--primary);color:#fff;border:1px solid var(--primary)}
 .bpd-modal-btn-confirm:hover{background:var(--primary-hover)}
 
+/* --- BPD Modal Rule Radio Group --- */
+.bpd-modal-rule-section{margin-bottom:20px}
+.bpd-modal-rule-label{font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.bpd-modal-radio-group{display:flex;flex-direction:column;gap:8px}
+.bpd-modal-radio{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all var(--transition);font-size:13px;color:var(--text);background:var(--bg);user-select:none}
+.bpd-modal-radio:hover{border-color:#c7d2fe}
+.bpd-modal-radio.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:500}
+.bpd-modal-radio .radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.bpd-modal-radio.active .radio-dot{border-color:var(--primary)}
+.bpd-modal-radio.active .radio-dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--primary)}
+.bpd-modal-rule-hidden{display:none}
+.bpd-modal-range-row{display:flex;align-items:center;gap:8px;margin-top:4px}
+.bpd-modal-range-row .bpd-range-input{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:14px;outline:none;width:80px;text-align:center}
+.bpd-modal-range-row .bpd-range-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.bpd-modal-range-row .bpd-range-sep{font-size:13px;color:var(--text-muted)}
+.bpd-modal-range-hint{font-size:11px;color:var(--text-muted);margin-top:6px}
+
 /* --- BPD Questions Modal --- */
 .bpd-modal-body{flex:1;overflow-y:auto;padding-right:4px}
 .bpd-modal-body::-webkit-scrollbar{width:5px}
@@ -1695,6 +1730,111 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   .cj-search-box{min-width:auto}
   .cj-modal{width:95vw;max-height:90vh}
 }
+
+/* ========== Floating 需求说明 Button ========== */
+.req-floating-btn{
+  display:none;
+  position:fixed;
+  top:80px; right:120px;
+  width:56px; height:56px;
+  border-radius:50%;
+  background:#dc2626;
+  color:#fff;
+  box-shadow:0 4px 20px rgba(220,38,38,.35);
+  cursor:grab;
+  z-index:900;
+  align-items:center; justify-content:center;
+  font-size:14px;
+  font-weight:700;
+  user-select:none;
+  transition:box-shadow .25s ease, transform .15s ease, background .2s ease;
+  touch-action:none;
+}
+.req-floating-btn.visible{display:flex}
+.req-floating-btn:hover{
+  box-shadow:0 6px 28px rgba(220,38,38,.45);
+  transform:scale(1.06);
+}
+.req-floating-btn:active{cursor:grabbing}
+.req-floating-btn.dragging{
+  box-shadow:0 8px 32px rgba(220,38,38,.5);
+  transform:scale(1.08);
+  background:#b91c1c;
+  transition:none;
+}
+
+/* Popup overlay */
+.req-popup-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.45);
+  z-index:1100;
+  align-items:center; justify-content:center;
+}
+.req-popup-overlay.show{display:flex}
+
+.req-popup{
+  background:var(--card-bg);
+  border-radius:12px;
+  box-shadow:0 12px 48px rgba(0,0,0,.18);
+  width:90vw;
+  max-width:640px;
+  max-height:80vh;
+  display:flex; flex-direction:column;
+  animation:reqPopupIn .3s ease;
+}
+@keyframes reqPopupIn{
+  from{opacity:0; transform:translateY(-16px) scale(.97)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+.req-popup-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 24px;
+  border-bottom:1px solid var(--border);
+}
+.req-popup-header h3{
+  font-size:16px; font-weight:600;
+  display:flex; align-items:center; gap:10px;
+}
+.req-popup-header h3 .req-popup-icon{
+  width:32px; height:32px;
+  border-radius:8px;
+  background:var(--primary-light);
+  color:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px;
+}
+.req-popup-close{
+  width:32px; height:32px;
+  border-radius:50%;
+  background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:var(--text-muted);
+  transition:all var(--transition);
+}
+.req-popup-close:hover{background:var(--bg); color:var(--text)}
+
+.req-popup-body{
+  flex:1; overflow-y:auto;
+  padding:24px;
+  font-size:14px; line-height:1.8; color:var(--text-secondary);
+}
+.req-popup-body .req-placeholder{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:40px 20px;
+  color:var(--text-muted);
+  text-align:center;
+  gap:12px;
+}
+.req-popup-body .req-placeholder .ph-icon{font-size:36px; opacity:.5}
+
+.req-popup-footer{
+  display:flex; justify-content:flex-end;
+  padding:14px 24px;
+  border-top:1px solid var(--border);
+}
 </style>
 </head>
 <body>
@@ -1720,7 +1860,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           <span class="sub-dot"></span>服务班级
         </a>
         <a class="nav-sub-item" data-page="xueyuan-guanli" href="javascript:void(0)">
-          <span class="sub-dot"></span>学员管理
+          <span class="sub-dot"></span>学员录入
         </a>
         <a class="nav-sub-item" data-page="xueyuan-xinxi" href="javascript:void(0)">
           <span class="sub-dot"></span>学员信息
@@ -1742,6 +1882,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="fenfa-rizhi" href="javascript:void(0)">
           <span class="sub-dot"></span>分发日志
+        </a>
+        <a class="nav-sub-item" data-page="kebiao-rili" href="javascript:void(0)">
+          <span class="sub-dot"></span>课表日历
         </a>
         <a class="nav-sub-item" data-page="qingkong-kebiao" href="javascript:void(0)">
           <span class="sub-dot"></span>清空课表
@@ -1846,6 +1989,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <span class="breadcrumb">/ 服务管理</span>
       </div>
       <div class="topbar-right">
+        <div style="font-size:13px;color:var(--text-secondary);display:flex;align-items:center;gap:4px" id="topBalance">
+          <span>余额</span>
+          <span style="font-size:16px;font-weight:700;color:var(--text)">12,580</span>
+          <span>元</span>
+        </div>
         <div class="notify-btn" title="消息通知">
           &#x1F514;
           <span class="dot"></span>
@@ -1891,7 +2039,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <div class="review-banner-reason" id="detBannerReason" style="display:none"></div>
       </div>
       <div id="studentDetailBody"></div>
-      <div class="form-section" id="detPhotoSection">
+      <div class="form-section" id="detPhotoSection" style="display:none">
         <div class="form-section-title">附件图片</div>
         <div class="detail-img-wrap" id="detStuPhoto" style="min-height:40px">-</div>
       </div>
@@ -1910,18 +2058,34 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       <button class="modal-close" onclick="closeModal('studentEditModal')">&#10005;</button>
     </div>
     <div class="modal-body">
-      <!-- 学员基本信息（只读展示） -->
+      <!-- 报名信息（只读） -->
       <div class="form-section">
-        <div class="form-section-title">学员基本信息</div>
+        <div class="form-section-title">报名信息（只读）</div>
         <div class="detail-grid" style="grid-template-columns:repeat(4,1fr)">
           <div class="detail-item"><label>学号</label><div class="value" id="editStuId">-</div></div>
-          <div class="detail-item"><label>姓名</label><div class="value" id="editStuName">-</div></div>
-          <div class="detail-item"><label>手机号</label><div class="value" id="editStuPhone">-</div></div>
+          <div class="detail-item"><label>届数</label><div class="value" id="editStuJieshu">-</div></div>
           <div class="detail-item"><label>所属班级</label><div class="value" id="editStuClass">-</div></div>
           <div class="detail-item"><label>报名日期</label><div class="value" id="editStuRegDate">-</div></div>
           <div class="detail-item"><label>到期时间</label><div class="value" id="editStuEndDate">-</div></div>
-          <div class="detail-item"><label>学员状态</label><div class="value" id="editStuStatus">-</div></div>
-          <div class="detail-item"><label>账号状态</label><div class="value" id="editStuAcctStatus">-</div></div>
+          <div class="detail-item" style="grid-column:1/-1"><label>报名科目</label><div class="value" id="editStuSubjects">-</div></div>
+        </div>
+      </div>
+      <!-- 基本信息（可编辑） -->
+      <div class="form-section">
+        <div class="form-section-title">基本信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>姓名</label><input class="form-control" placeholder="请输入姓名" id="editStuName"></div>
+          <div class="form-group"><label>手机号</label><input class="form-control" placeholder="请输入手机号" id="editStuPhone"></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>性别</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="editStuGender"><option value="">请选择</option><option>男</option><option>女</option><option>未知</option></select>
+          </div>
+          <div class="form-group"><label>身份证号</label><input class="form-control" placeholder="请输入身份证号" id="editStuIdCard"></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>电子邮箱</label><input class="form-control" placeholder="请输入电子邮箱" id="editStuEmail"></div>
+          <div class="form-group" style="visibility:hidden"></div>
         </div>
       </div>
       <!-- 背景与目标（可编辑） -->
@@ -1978,6 +2142,71 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   </div>
 </div>
 
+<!-- ========== 调整报名信息弹窗 ========== -->
+<div class="modal-overlay" id="adjustRegModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>调整报名信息</h3>
+      <button class="modal-close" onclick="closeModal('adjustRegModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="review-banner" id="adjReviewBanner">
+        <div class="review-banner-title" id="adjBannerTitle"></div>
+        <div class="review-banner-reason" id="adjBannerReason" style="display:none"></div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">报名信息</div>
+        <div class="form-grid">
+          <div class="form-group"><label>届数 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="adjRegJieshu" onchange="window._adjOnJieshuChange()"><option value="">请选择</option><option>2024届</option><option>2025届</option><option>2026届</option><option>2027届</option><option>2028届</option></select>
+          </div>
+          <div class="form-group"><label>所属班级 <span class="required">*</span></label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="adjRegClass"><option value="">请选择班级</option></select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>报名日期</label><div class="value" id="adjRegDateDisplay" style="padding:8px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius);font-size:14px">-</div></div>
+          <div class="form-group"><label>到期时间</label><div class="value" id="adjRegEndDateDisplay" style="padding:8px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius);font-size:14px">-</div></div>
+        </div>
+        <div class="form-group"><label>报名科目 <span class="required">*</span></label>
+          <div style="display:flex;gap:16px;padding-top:6px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegMath" onchange="window._adjCalcPrice()"> 数学</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegEnglish" onchange="window._adjCalcPrice()"> 英语</label>
+          </div>
+        </div>
+        <div class="form-group"><label>备注</label><textarea class="form-control" id="adjRegRemark" rows="2" placeholder="请输入调整备注（选填）" style="resize:vertical"></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('adjustRegModal')">取消</button>
+      <span class="price-info" id="adjPriceInfo" style="display:none">
+        需补差价：<span class="price-amount" id="adjPriceAmount">0</span> 元
+      </span>
+      <button class="btn btn-primary" id="adjRegSubmitBtn" onclick="window._submitAdjustReg()">提交</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 调整记录弹窗 ========== -->
+<div class="modal-overlay" id="adjustRecordModal">
+  <div class="modal xlarge">
+    <div class="modal-header">
+      <h3>调整记录</h3>
+      <button class="modal-close" onclick="closeModal('adjustRecordModal')">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div id="adjustRecordBody" style="overflow-x:auto">
+        <table class="data-table"><thead><tr>
+          <th>所属班级</th><th>届数</th><th>报名科目</th><th>价格</th><th>备注</th><th>教务审核</th><th>财务审核</th><th>调整时间</th><th>驳回原因</th>
+        </tr></thead><tbody id="adjustRecordTbody"><tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">暂无调整记录</td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('adjustRecordModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
 <!-- ========== 新增学员弹窗 ========== -->
 <div class="modal-overlay" id="studentCreateModal">
   <div class="modal xlarge">
@@ -2007,9 +2236,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           <div class="form-group"><label>所属学区 <span class="required">*</span></label>
             <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="createStuDistrict"><option value="">请选择学区</option><option>海淀学区中心</option><option>朝阳学区中心</option><option>西城学区中心</option></select>
           </div>
+          <div class="form-group"><label>届数</label>
+            <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="createStuJieshu"><option value="">请选择</option><option>2024届</option><option>2025届</option><option>2026届</option><option>2027届</option><option>2028届</option></select>
+          </div>
+        </div>
+        <div class="form-grid">
           <div class="form-group"><label>所属班级 <span class="required">*</span></label>
             <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="createStuClass"><option value="">请选择班级</option><option>25考研数学一班</option><option>25考研英语一班</option><option>25考研数学二班</option><option>25考研政治一班</option></select>
           </div>
+          <div style="visibility:hidden"></div>
         </div>
         <div class="form-grid">
           <div class="form-group"><label>报名日期 <span class="required">*</span></label><input class="form-control" type="date" id="createStuRegDate"></div>
@@ -2086,10 +2321,16 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           </div>
         </div>
       </div>
+      <!-- 附件图片 -->
+      <div class="form-section" id="editPhotoSection" style="display:none">
+        <div class="form-section-title">附件图片</div>
+        <div class="detail-img-wrap" id="editStuPhoto" style="min-height:40px">-</div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('studentCreateModal')">取消</button>
-      <button class="btn btn-primary" onclick="submitCreateStudent()">保存</button>
+      <div style="flex:1;text-align:right;line-height:1.5" id="createFeeDisplay">支付费用：<span style="font-size:20px;font-weight:700;color:var(--primary)">0</span> 元<div style="font-size:11px;color:var(--text-muted)">若审核被驳回，费用将全额退回</div></div>
+      <button class="btn btn-primary" onclick="submitCreateStudent()">提交</button>
     </div>
   </div>
 </div>
@@ -2309,23 +2550,44 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // ==================== Mock Data - 学员数据 ====================
   var studentData = [
     { id:'2025001', name:'张三', phone:'138****8001', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:true,
-      subjects:'数学-高数、英语', levels:'数：80→120  英：70→85', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数学、英语', levels:'数：80→120  英：70→85', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
       gender:'男', email:'zhangsan@example.com', idCard:'110101199001011234', uni:'北京大学', major:'计算机科学', targetUni:'北京大学', targetMajor:'软件工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
     { id:'2025002', name:'李四', phone:'138****8002', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
-      subjects:'数学-高数-线代、英语', levels:'数：65→110  英：60→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数学、英语', levels:'数：65→110  英：60→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
       gender:'男', email:'lisi@example.com', idCard:'220101199102025678', uni:'清华大学', major:'电子信息', targetUni:'清华大学', targetMajor:'计算机科学', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
     { id:'2025003', name:'王五', phone:'139****9003', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:false,
-      subjects:'数学-概统、英语', levels:'数：90→130  英：75→90', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数学、英语', levels:'数：90→130  英：75→90', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
       gender:'男', email:'wangwu@example.com', idCard:'330101199303037890', uni:'浙江大学', major:'数学', targetUni:'复旦大学', targetMajor:'应用数学', targetTier:'211', category:'2026 - 理学[07]-各学科专业' },
     { id:'2025004', name:'赵六', phone:'137****7004', district:'海淀学区', stuClass:'25考研英语一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
       subjects:'英语', levels:'数：55→90  英：50→70', mathCur:'<60', mathTarget:'80-99', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
       gender:'女', email:'zhaoliu@example.com', idCard:'410101199404044321', uni:'武汉大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 历史学[06]-各学科专业' },
     { id:'2025005', name:'孙七', phone:'136****6005', district:'西城学区', stuClass:'25考研政治一班', regDate:'2025-02-15', endDate:'2025-12-31', status:'已结课', acctEnabled:false,
-      subjects:'数学-高数-线代-概统、英语', levels:'数：70→105  英：65→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数学、英语', levels:'数：70→105  英：65→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
       gender:'未知', email:'sunqi@example.com', idCard:'510101199505055678', uni:'中山大学', major:'政治学', targetUni:'未确定', targetMajor:'未确定', targetTier:'未确定', category:'' },
     { id:'2025006', name:'周八', phone:'135****5006', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:true,
-      subjects:'数学-线代、英语', levels:'数：45→85  英：40→65', mathCur:'<60', mathTarget:'80-99', engCur:'<50', engTarget:'60-69', hasMath:true, hasEnglish:true,
-      gender:'男', email:'zhouba@example.com', idCard:'320101199606067890', uni:'南京大学', major:'物理', targetUni:'南京大学', targetMajor:'理论物理', targetTier:'本校', category:'2026 - 理学[07]-各学科专业' }
+      subjects:'数学、英语', levels:'数：45→85  英：40→65', mathCur:'<60', mathTarget:'80-99', engCur:'<50', engTarget:'60-69', hasMath:true, hasEnglish:true,
+      gender:'男', email:'zhouba@example.com', idCard:'320101199606067890', uni:'南京大学', major:'物理', targetUni:'南京大学', targetMajor:'理论物理', targetTier:'本校', category:'2026 - 理学[07]-各学科专业' },
+    // ---- 审核中 / 审核驳回 演示数据 ----
+    { id:'2025007', name:'吴九', phone:'158****9007', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-20', endDate:'2027-07-20', status:'审核中', acctEnabled:false,
+      subjects:'英语', levels:'英：55→75', mathCur:'', mathTarget:'', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
+      gender:'女', email:'wujiu@example.com', idCard:'350101199707078901', uni:'厦门大学', major:'日语', targetUni:'北京外国语大学', targetMajor:'英语笔译', targetTier:'211', category:'2026 - 文学[05]-各学科专业',
+      jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-21 09:30:00' },
+      caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
+    { id:'2025008', name:'郑十', phone:'159****9008', district:'朝阳学区', stuClass:'2026届考研数学二班', regDate:'2026-07-22', endDate:'2027-07-22', status:'审核中', acctEnabled:false,
+      subjects:'数学、英语', levels:'数：95→135  英：80→90', mathCur:'80-99', mathTarget:'120-139', engCur:'80-89', engTarget:'90+', hasMath:true, hasEnglish:true,
+      gender:'男', email:'zhengshi@example.com', idCard:'440101199808080123', uni:'华南理工大学', major:'土木工程', targetUni:'同济大学', targetMajor:'结构工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业',
+      jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
+      caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
+    { id:'2025009', name:'陈一', phone:'177****9009', district:'丰台学区', stuClass:'2026届考研政治二班', regDate:'2026-07-18', endDate:'2027-07-18', status:'审核驳回', acctEnabled:false,
+      subjects:'数学、英语', levels:'数：70→110  英：60→75', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'70-79', hasMath:true, hasEnglish:true,
+      gender:'女', email:'chenyi@example.com', idCard:'610101199909090456', uni:'西安交通大学', major:'经济学', targetUni:'中国人民大学', targetMajor:'金融学', targetTier:'985', category:'2026 - 经济学[02]-各学科专业',
+      jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-19 10:00:00' },
+      caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-20 14:30:00' } },
+    { id:'2025010', name:'林二', phone:'188****9010', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-25', endDate:'2027-07-25', status:'审核中', acctEnabled:false,
+      subjects:'英语', levels:'英：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', hasMath:false, hasEnglish:true,
+      gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
+      jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
+      caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
   ];
 
   // ==================== Mock Data - 词汇评估数据 ====================
@@ -2501,10 +2763,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // ==================== Page Names ====================
   var pageNames = {
     'banji-guanli':     { title: '服务班级', group: '服务管理' },
-    'xueyuan-guanli':   { title: '学员管理', group: '服务管理' },
+    'xueyuan-guanli':   { title: '学员录入', group: '服务管理' },
     'xueyuan-xinxi':    { title: '学员信息', group: '服务管理' },
     'tixing-guanli':    { title: '提醒管理', group: '课表管理' },
     'renwu-fenfa':      { title: '任务分发', group: '课表管理' },
+    'kebiao-rili':      { title: '课表日历', group: '课表管理' },
     'fenfa-rizhi':      { title: '分发日志', group: '课表管理' },
     'qingkong-kebiao':  { title: '清空课表', group: '课表管理' },
     'gonggong-lianCe':  { title: '公共练测', group: '公共资料' },
@@ -2544,6 +2807,107 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window.closeModal = closeModal;
 
   // ==================== Page Render ====================
+  // ========== 需求说明 Floating Button (per-page scope) ==========
+  // Call _bindReqButtonEvents(btnId, overlayId, popupCloseId, closeBtnId) after the page renders
+  function _bindReqButtonEvents(btnId, overlayId, popupCloseId, closeBtnId){
+    var reqBtn     = document.getElementById(btnId);
+    var reqOverlay = document.getElementById(overlayId);
+    if(!reqBtn || !reqOverlay) return;
+    var reqDragState = { isDragging:false, startX:0, startY:0, startLeft:0, startTop:0, hasMoved:false };
+
+    function _open(){ reqOverlay.classList.add('show'); }
+    function _close(){ reqOverlay.classList.remove('show'); }
+
+    reqBtn.addEventListener('mousedown', function(e){
+      if(e.button !== 0) return;
+      e.preventDefault();
+      var rect = reqBtn.getBoundingClientRect();
+      reqDragState.isDragging = true;
+      reqDragState.hasMoved = false;
+      reqDragState.startX = e.clientX;
+      reqDragState.startY = e.clientY;
+      reqDragState.startLeft = rect.left;
+      reqDragState.startTop = rect.top;
+      reqBtn.classList.add('dragging');
+      reqBtn.style.left = rect.left + 'px';
+      reqBtn.style.top = rect.top + 'px';
+      reqBtn.style.right = 'auto';
+      reqBtn.style.bottom = 'auto';
+    });
+
+    document.addEventListener('mousemove', function(e){
+      if(!reqDragState.isDragging) return;
+      var dx = e.clientX - reqDragState.startX;
+      var dy = e.clientY - reqDragState.startY;
+      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) reqDragState.hasMoved = true;
+      var newLeft = reqDragState.startLeft + dx;
+      var newTop = reqDragState.startTop + dy;
+      newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - 56));
+      newTop = Math.max(0, Math.min(newTop, window.innerHeight - 56));
+      reqBtn.style.left = newLeft + 'px';
+      reqBtn.style.top = newTop + 'px';
+    });
+
+    document.addEventListener('mouseup', function(e){
+      if(!reqDragState.isDragging) return;
+      reqDragState.isDragging = false;
+      reqBtn.classList.remove('dragging');
+      if(!reqDragState.hasMoved){ _open(); }
+    });
+
+    // Touch support
+    reqBtn.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      var touch = e.touches[0];
+      var rect = reqBtn.getBoundingClientRect();
+      reqDragState.isDragging = true;
+      reqDragState.hasMoved = false;
+      reqDragState.startX = touch.clientX;
+      reqDragState.startY = touch.clientY;
+      reqDragState.startLeft = rect.left;
+      reqDragState.startTop = rect.top;
+      reqBtn.classList.add('dragging');
+      reqBtn.style.left = rect.left + 'px';
+      reqBtn.style.top = rect.top + 'px';
+      reqBtn.style.right = 'auto';
+      reqBtn.style.bottom = 'auto';
+    }, {passive: false});
+
+    document.addEventListener('touchmove', function(e){
+      if(!reqDragState.isDragging) return;
+      e.preventDefault();
+      var touch = e.touches[0];
+      var dx = touch.clientX - reqDragState.startX;
+      var dy = touch.clientY - reqDragState.startY;
+      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) reqDragState.hasMoved = true;
+      var newLeft = reqDragState.startLeft + dx;
+      var newTop = reqDragState.startTop + dy;
+      newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - 56));
+      newTop = Math.max(0, Math.min(newTop, window.innerHeight - 56));
+      reqBtn.style.left = newLeft + 'px';
+      reqBtn.style.top = newTop + 'px';
+    }, {passive: false});
+
+    document.addEventListener('touchend', function(e){
+      if(!reqDragState.isDragging) return;
+      reqDragState.isDragging = false;
+      reqBtn.classList.remove('dragging');
+      if(!reqDragState.hasMoved){ _open(); }
+    });
+
+    // Popup close buttons
+    document.getElementById(popupCloseId).addEventListener('click', _close);
+    document.getElementById(closeBtnId).addEventListener('click', _close);
+    reqOverlay.addEventListener('click', function(e){
+      if(e.target === reqOverlay) _close();
+    });
+
+    // ESC key to close
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && reqOverlay.classList.contains('show')){ _close(); }
+    });
+  }
+
   function renderPage(pageKey){
     currentPage = pageKey;
     if(pageKey === 'banji-guanli') renderClassPage();
@@ -2551,6 +2915,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'xueyuan-xinxi') renderStudentInfoPage();
     else if(pageKey === 'tixing-guanli') renderReminderPage();
     else if(pageKey === 'renwu-fenfa') renderTaskDispatchPage();
+    else if(pageKey === 'kebiao-rili') renderKebiaoRiliPage();
     else if(pageKey === 'fenfa-rizhi') renderFenfaRizhiPage();
     else if(pageKey === 'qingkong-kebiao') renderQingkongKebiaoPage();
     else if(pageKey === 'gonggong-lianCe') renderLianCePage();
@@ -2607,6 +2972,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         html += '<div class="class-card">' +
           '<div class="class-card-header"><span class="class-card-name">'+c.name+'</span><span class="status-badge '+sc.cls+'"><span class="badge-dot"></span>'+sc.label+'</span></div>' +
           '<div class="class-card-body">' +
+            '<div class="class-card-row"><span class="field-label">届数</span><span class="field-value">'+getJieShuFromClass(c.name)+'</span></div>' +
             '<div class="class-card-row"><span class="field-label">所属学区</span><span class="field-value">'+c.district+'</span></div>' +
             '<div class="class-card-row"><span class="field-label">学生数量</span><span class="field-value student-count">'+(c.status==='not-started'?'—':c.studentCount+' 人')+'</span></div>' +
             '<div class="class-card-row"><span class="field-label">开班时间</span><span class="field-value">'+c.startDate+'</span></div>' +
@@ -2631,45 +2997,48 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     tabs.forEach(function(tab){ tab.addEventListener('click', function(){ currentClassFilter=this.dataset.filter; renderClassPage(); }); });
   }
 
-  // ========== 学员信息 ==========
+  // ========== 学员录入 ==========
+  // Helper: get 届数 from student (prefer stored field, fallback to derive from class name)
+  function getStudentJieshu(s){
+    return s.jieshu || getJieShuFromClass(s.stuClass) || '-';
+  }
+
+  // Helper: derive 届数 from class name
+  function getJieShuFromClass(stuClass){
+    var m = stuClass.match(/(\d{2,4})考研/);
+    if(m){
+      var yr = parseInt(m[1], 10);
+      if(yr < 100) yr = 2000 + yr;
+      return yr + '届';
+    }
+    return '-';
+  }
+
   function getFilteredStudents(){
     var result = studentData.slice();
-    // Tab filter
+    // Always exclude 在读 and 已结课 statuses on 学员录入 page
+    result = result.filter(function(s){
+      return s.status !== '在读' && s.status !== '已结课';
+    });
+    // Tab filter (审核中 / 审核驳回)
     if(currentStudentFilter && currentStudentFilter!=='all'){
       result = result.filter(function(s){
         return s.status===currentStudentFilter;
       });
     }
-    // Class filter (autocomplete)
+    // Class filter
     var classFilter = document.getElementById('stuClassFilter') ? document.getElementById('stuClassFilter').value : '';
     if(classFilter){ result = result.filter(function(s){ return s.stuClass===classFilter; }); }
-    // District filter
-    var districtFilter = document.getElementById('stuDistrictFilter') ? document.getElementById('stuDistrictFilter').value : '';
-    if(districtFilter){ result = result.filter(function(s){ return s.district===districtFilter; }); }
-    // Date range - reg date
-    var regStart = document.getElementById('stuFilterRegStart') ? document.getElementById('stuFilterRegStart').value : '';
-    var regEnd = document.getElementById('stuFilterRegEnd') ? document.getElementById('stuFilterRegEnd').value : '';
-    if(regStart){ result = result.filter(function(s){ return s.regDate >= regStart; }); }
-    if(regEnd){ result = result.filter(function(s){ return s.regDate <= regEnd; }); }
-    // Date range - end date
-    var endStart = document.getElementById('stuFilterEndStart') ? document.getElementById('stuFilterEndStart').value : '';
-    var endEnd = document.getElementById('stuFilterEndEnd') ? document.getElementById('stuFilterEndEnd').value : '';
-    if(endStart){ result = result.filter(function(s){ return s.endDate >= endStart; }); }
-    if(endEnd){ result = result.filter(function(s){ return s.endDate <= endEnd; }); }
-    // Math/English level filter
-    var mathCur = document.getElementById('stuFilterMathCur') ? document.getElementById('stuFilterMathCur').value : '';
-    var mathTarget = document.getElementById('stuFilterMathTarget') ? document.getElementById('stuFilterMathTarget').value : '';
-    var engCur = document.getElementById('stuFilterEngCur') ? document.getElementById('stuFilterEngCur').value : '';
-    var engTarget = document.getElementById('stuFilterEngTarget') ? document.getElementById('stuFilterEngTarget').value : '';
-    if(mathCur){ result = result.filter(function(s){ return s.mathCur===mathCur; }); }
-    if(mathTarget){ result = result.filter(function(s){ return s.mathTarget===mathTarget; }); }
-    if(engCur){ result = result.filter(function(s){ return s.engCur===engCur; }); }
-    if(engTarget){ result = result.filter(function(s){ return s.engTarget===engTarget; }); }
-    // Keyword search
+    // 届数 filter
+    var jieshuFilter = document.getElementById('stuJieshuFilter') ? document.getElementById('stuJieshuFilter').value : '';
+    if(jieshuFilter){
+      result = result.filter(function(s){ return getStudentJieshu(s) === jieshuFilter; });
+    }
+    // Keyword search (姓名/手机号)
     var keyword = document.getElementById('studentKeyword') ? document.getElementById('studentKeyword').value.toLowerCase() : '';
     if(keyword){
       result = result.filter(function(s){
-        return s.id.toLowerCase().indexOf(keyword)>-1 || s.name.toLowerCase().indexOf(keyword)>-1 || s.phone.toLowerCase().indexOf(keyword)>-1;
+        return s.name.toLowerCase().indexOf(keyword)>-1 || s.phone.toLowerCase().indexOf(keyword)>-1;
       });
     }
     return result;
@@ -2720,64 +3089,58 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   function renderStudentPage(){
     var filtered = getFilteredStudents();
-    var classes=[], districts=[];
+    var classes=[];
     studentData.forEach(function(s){
       if(classes.indexOf(s.stuClass)===-1) classes.push(s.stuClass);
-      if(districts.indexOf(s.district)===-1 && s.district) districts.push(s.district);
     });
-    classes.sort(); districts.sort();
+    classes.sort();
 
-    var html = '<div class="page-header"><h2>学员管理</h2>';
+    var html = '<div class="page-header"><h2>学员录入</h2>';
     html += '<div class="actions"><button class="btn btn-primary" onclick="window._openCreateStudent()">+ 新增学员</button></div>';
     html += '</div><div class="card"><div class="card-body">';
 
-    // Filter panel
-    html += '<div class="filter-panel">';
-    html += '<div class="filter-row">';
+    // Search bar
+    html += '<div class="search-bar" style="margin-bottom:12px">';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名/手机号..." id="studentKeyword" oninput="window._doStudentQuery()"></div>';
     html += '<div class="filter-select"><select id="stuClassFilter" onchange="window._doStudentQuery()"><option value="">全部班级</option>';
     classes.forEach(function(c){ html += '<option>'+c+'</option>'; });
     html += '</select></div>';
-    html += '<div class="filter-select"><select id="stuDistrictFilter" onchange="window._doStudentQuery()"><option value="">全部学区</option>';
-    districts.forEach(function(d){ html += '<option>'+d+'</option>'; });
+    // 届数 filter
+    var jieshuSet = {};
+    studentData.forEach(function(s){
+      if(s.status==='在读' || s.status==='已结课') return;
+      var js = getStudentJieshu(s);
+      if(js !== '-') jieshuSet[js] = true;
+    });
+    var jieshuList = Object.keys(jieshuSet).sort();
+    html += '<div class="filter-select"><select id="stuJieshuFilter" onchange="window._doStudentQuery()"><option value="">全部届数</option>';
+    jieshuList.forEach(function(j){ html += '<option>'+j+'</option>'; });
     html += '</select></div>';
-    html += '<div class="filter-date"><span class="filter-label">报名时间</span><input type="date" id="stuFilterRegStart" onchange="window._doStudentQuery()"><span>至</span><input type="date" id="stuFilterRegEnd" onchange="window._doStudentQuery()"></div>';
-    html += '<div class="filter-date"><span class="filter-label">到期时间</span><input type="date" id="stuFilterEndStart" onchange="window._doStudentQuery()"><span>至</span><input type="date" id="stuFilterEndEnd" onchange="window._doStudentQuery()"></div>';
-    html += '<div class="filter-actions"><button class="btn btn-primary" onclick="window._doStudentQuery()">查询</button><button class="btn btn-outline" onclick="window._resetStudentFilter()">重置</button><button class="btn btn-outline" onclick="window._exportStudent()">导出</button></div>';
-    html += '</div>';
-    html += '<div class="filter-row">';
-    html += '<div class="filter-select"><select onchange="window._doStudentQuery()" id="stuFilterMathCur"><option value="">全部数学当前水平</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select></div>';
-    html += '<div class="filter-select"><select onchange="window._doStudentQuery()" id="stuFilterMathTarget"><option value="">全部数学目标水平</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select></div>';
-    html += '<div class="filter-select"><select onchange="window._doStudentQuery()" id="stuFilterEngCur"><option value="">全部英语当前水平</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select></div>';
-    html += '<div class="filter-select"><select onchange="window._doStudentQuery()" id="stuFilterEngTarget"><option value="">全部英语目标水平</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select></div>';
-    html += '</div>';
+    html += '<button class="btn btn-outline btn-xs" onclick="window._resetStudentFilter()">重置</button>';
     html += '</div>';
 
-    // Search bar
-    html += '<div class="search-bar"><div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学号/姓名/手机号..." id="studentKeyword" oninput="window._doStudentQuery()"></div></div>';
-
-    // Tabs
+    // Tabs (仅审核中/审核驳回，不含在读/已结课)
     html += '<div class="student-tabs">' +
       '<button class="student-tab'+ (currentStudentFilter==='all'?' active':'') +'" data-tab="all" onclick="window._switchStudentTab(\'all\',this)">全部</button>' +
-      '<button class="student-tab'+ (currentStudentFilter==='在读'?' active':'') +'" data-tab="在读" onclick="window._switchStudentTab(\'在读\',this)">在读</button>' +
       '<button class="student-tab'+ (currentStudentFilter==='审核中'?' active':'') +'" data-tab="审核中" onclick="window._switchStudentTab(\'审核中\',this)">审核中</button>' +
       '<button class="student-tab'+ (currentStudentFilter==='审核驳回'?' active':'') +'" data-tab="审核驳回" onclick="window._switchStudentTab(\'审核驳回\',this)">审核驳回</button>' +
-      '<button class="student-tab'+ (currentStudentFilter==='已结课'?' active':'') +'" data-tab="已结课" onclick="window._switchStudentTab(\'已结课\',this)">已结课</button>' +
     '</div>';
 
     // Table
-    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属学区</th><th>所属班级</th><th>报名科目</th><th>层级</th><th>报名时间</th><th>到期时间</th><th>状态</th><th>账号状态</th><th style="width:100px">操作</th></tr></thead><tbody>';
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>届数</th><th>所属班级</th><th>报名科目</th><th>层级</th><th>报名时间</th><th>到期时间</th><th>状态</th><th style="width:100px">操作</th></tr></thead><tbody>';
 
     if(filtered.length===0){
-      html += '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的学员数据</td></tr>';
+      html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的学员数据</td></tr>';
     } else {
       filtered.forEach(function(s){
         html += '<tr data-id="'+s.id+'">' +
-          '<td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+(s.district||'-')+'</td><td>'+s.stuClass+'</td>' +
+          '<td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td>' +
+          '<td>'+getStudentJieshu(s)+'</td>' +
+          '<td>'+s.stuClass+'</td>' +
           '<td class="subject-cell">'+buildSubjectHtml(s)+'</td>' +
           '<td class="subject-cell">'+buildLevelHtml(s)+'</td>' +
           '<td>'+s.regDate+'</td><td>'+s.endDate+'</td>' +
           '<td>'+getStudentStatusHtml(s)+'</td>' +
-          '<td class="text-center">'+getStudentAccountHtml(s)+'</td>' +
           '<td><button class="btn btn-ghost btn-xs" onclick="window._openStudentDetail(\''+s.id+'\')">详情</button><button class="btn btn-ghost btn-xs" onclick="window._openStudentEdit(\''+s.id+'\')">编辑</button></td>' +
         '</tr>';
       });
@@ -2785,12 +3148,27 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '</tbody></table></div>';
     html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
     html += '</div></div>';
+    // 需求说明浮动按钮（本页面专属）
+    html += '<button class="req-floating-btn visible" id="reqFloatingBtn" title="需求说明">说明</button>';
+    html += '<div class="req-popup-overlay" id="reqPopupOverlay">';
+    html += '<div class="req-popup"><div class="req-popup-header"><h3><span class="req-popup-icon">&#x1F4CB;</span>需求说明</h3><button class="req-popup-close" id="reqPopupClose">&times;</button></div>';
+    html += '<div class="req-popup-body" id="reqPopupBody"><p style="margin-bottom:16px;font-weight:500;color:var(--text)">当前页面需根据账号所属学区类型，差异化展示功能与审核流程。</p>';
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px;margin-bottom:16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--warning)"></span>余额与费用</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;line-height:1.7"><div><span style="font-weight:600;color:var(--text)">总部学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>不显示余额信息</li><li>新增学员无需支付费用</li><li>不展示费用相关字段</li></ul></div>';
+    html += '<div><span style="font-weight:600;color:var(--text)">加盟学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>展示学区余额</li><li>新增学员需按学区设置支付对应费用</li></ul></div></div></div>';
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--info)"></span>学员录入审核</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;line-height:1.7"><div><span style="font-weight:600;color:var(--text)">总部学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>教务审核 + 财务审核（双重审核）</li><li>均通过后学员状态变更为<b>在读</b></li></ul></div>';
+    html += '<div><span style="font-weight:600;color:var(--text)">加盟学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>仅需<b>教务审核</b></li><li>财务审核字段显示为空</li></ul></div></div></div>';
+    html += '</div><div class="req-popup-footer"><button class="btn btn-outline" id="reqPopupCloseBtn">关闭</button></div></div></div>';
 
     contentArea.innerHTML = html;
+    _bindReqButtonEvents('reqFloatingBtn', 'reqPopupOverlay', 'reqPopupClose', 'reqPopupCloseBtn');
   }
 
   // ==================== 学员信息（只读简版） ====================
   var currentStudentInfoFilter = 'all';
+  var studentInfoPage = 1;
+  var studentInfoPageSize = 5;
 
   function renderStudentInfoPage(){
     var result = studentData.slice();
@@ -2800,6 +3178,16 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     // Class filter
     var classFilter = document.getElementById('stuInfoClassFilter') ? document.getElementById('stuInfoClassFilter').value : '';
     if(classFilter){ result = result.filter(function(s){ return s.stuClass===classFilter; }); }
+    // 届数 filter
+    var jieshuFilter = document.getElementById('stuInfoJieshuFilter') ? document.getElementById('stuInfoJieshuFilter').value : '';
+    if(jieshuFilter){
+      result = result.filter(function(s){ return getStudentJieshu(s) === jieshuFilter; });
+    }
+    // 当前水平 filter (mathCur + engCur combined)
+    var levelFilter = document.getElementById('stuInfoLevelFilter') ? document.getElementById('stuInfoLevelFilter').value : '';
+    if(levelFilter){
+      result = result.filter(function(s){ return s.mathCur===levelFilter || s.engCur===levelFilter; });
+    }
     // Keyword
     var keyword = document.getElementById('stuInfoKeyword') ? document.getElementById('stuInfoKeyword').value.toLowerCase() : '';
     if(keyword){
@@ -2812,6 +3200,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     studentData.forEach(function(s){ if(classes.indexOf(s.stuClass)===-1) classes.push(s.stuClass); });
     classes.sort();
 
+    // 届数 options
+    var jieshuSet = {};
+    studentData.forEach(function(s){
+      var js = getStudentJieshu(s);
+      if(js !== '-') jieshuSet[js] = true;
+    });
+    var jieshuList = Object.keys(jieshuSet).sort();
+
     var html = '<div class="page-header"><h2>学员信息</h2></div><div class="card"><div class="card-body">';
 
     // Filter bar
@@ -2819,6 +3215,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学号/姓名/手机号..." id="stuInfoKeyword" oninput="window._doStudentInfoQuery()"></div>';
     html += '<div class="filter-select"><select id="stuInfoClassFilter" onchange="window._doStudentInfoQuery()"><option value="">全部班级</option>';
     classes.forEach(function(c){ html += '<option>'+c+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-select"><select id="stuInfoJieshuFilter" onchange="window._doStudentInfoQuery()"><option value="">全部届数</option>';
+    jieshuList.forEach(function(j){ html += '<option>'+j+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-select"><select id="stuInfoLevelFilter" onchange="window._doStudentInfoQuery()"><option value="">全部当前水平</option>';
+    html += '<option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option>';
+    html += '<option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option>';
     html += '</select></div>';
     html += '<button class="btn btn-outline btn-xs" onclick="window._resetStudentInfoFilter()">重置</button>';
     html += '</div>';
@@ -2831,28 +3234,71 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     '</div>';
 
     // Table
-    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属班级</th><th>报名科目</th><th>层级</th><th>报名时间</th><th>到期时间</th><th>状态</th><th>账号状态</th><th style="width:100px">操作</th></tr></thead><tbody>';
+    var totalResults = result.length;
+    var totalPages = Math.max(1, Math.ceil(totalResults / studentInfoPageSize));
+    if(studentInfoPage > totalPages) studentInfoPage = totalPages;
+    var startIdx = (studentInfoPage - 1) * studentInfoPageSize;
+    var pageItems = result.slice(startIdx, startIdx + studentInfoPageSize);
 
-    if(result.length===0){
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>学号</th><th>姓名</th><th>手机号</th><th>所属班级</th><th>报名科目</th><th>层级</th><th>报名时间</th><th>到期时间</th><th>状态</th><th>账号状态</th><th style="width:120px">操作</th></tr></thead><tbody>';
+
+    if(pageItems.length===0){
       html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的学员数据</td></tr>';
     } else {
-      result.forEach(function(s){
+      pageItems.forEach(function(s){
         html += '<tr data-id="'+s.id+'">' +
           '<td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+s.stuClass+'</td>' +
           '<td class="subject-cell">'+buildSubjectHtml(s)+'</td>' +
           '<td class="subject-cell">'+buildLevelHtml(s)+'</td>' +
           '<td>'+s.regDate+'</td><td>'+s.endDate+'</td>' +
           '<td>'+getStudentInfoStatusHtml(s)+'</td>' +
-          '<td class="text-center"><label class="switch disabled"><input type="checkbox"'+(s.acctEnabled?' checked':'')+' disabled><span class="slider"></span></label></td>' +
-          '<td><button class="btn btn-ghost btn-xs" onclick="window._openStudentDetail(\''+s.id+'\')">详情</button></td>' +
+          '<td class="text-center">'+(s.status==='在读'
+            ? '<label class="switch"><input type="checkbox"'+(s.acctEnabled?' checked':'')+' onchange="window._toggleStudentAcct(\''+s.id+'\',this.checked)"><span class="slider"></span></label>'
+            : '<label class="switch disabled"><input type="checkbox"'+(s.acctEnabled?' checked':'')+' disabled><span class="slider"></span></label>')+'</td>' +
+          '<td class="action-cell"><div class="action-wrap"><button class="btn btn-ghost btn-xs" onclick="window._openStudentDetail(\''+s.id+'\')">详情</button><button class="btn btn-ghost btn-xs" onclick="window._openStudentEdit(\''+s.id+'\')">编辑</button><button class="btn btn-ghost btn-xs" onclick="window._toggleActionDropdown(event,\''+s.id+'\')">更多 ▾</button><div class="action-dropdown" id="actionDrop_'+s.id+'"><button class="dropdown-item" onclick="window._openKebiaoRili(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">查看课表</button><button class="dropdown-item" onclick="window._openAdjustReg(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整报名信息</button><button class="dropdown-item" onclick="window._openAdjustRecords(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整记录</button><button class="dropdown-item danger" onclick="window._resetStudentPwd();window._closeActionDropdown(\''+s.id+'\')">重置密码</button></div></div></td>' +
         '</tr>';
       });
     }
     html += '</tbody></table></div>';
-    html += '<div class="pagination"><span class="pagination-info">共 '+result.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    // Pagination
+    html += '<div class="pagination"><span class="pagination-info">共 '+totalResults+' 条记录，第 '+studentInfoPage+'/'+totalPages+' 页</span><div class="pagination-btns">';
+    if(totalPages <= 1){
+      html += '<button class="active">1</button>';
+    } else {
+      for(var p=1; p<=totalPages; p++){
+        html += '<button class="'+(p===studentInfoPage?'active':'')+'" onclick="window._goStudentInfoPage('+p+')">'+p+'</button>';
+      }
+    }
+    html += '</div></div>';
+    html += '</div></div>';
+
+    // 需求说明浮动按钮（学员信息页专属）
+    html += '<button class="req-floating-btn visible" id="reqFloatingBtn2" title="需求说明">说明</button>';
+    html += '<div class="req-popup-overlay" id="reqPopupOverlay2">';
+    html += '<div class="req-popup"><div class="req-popup-header"><h3><span class="req-popup-icon">&#x1F4CB;</span>需求说明</h3><button class="req-popup-close" id="reqPopupClose2">&times;</button></div>';
+    html += '<div class="req-popup-body" id="reqPopupBody2">';
+    // 账号状态
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px;margin-bottom:16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--success)"></span>账号状态</div>';
+    html += '<ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary);font-size:13px;line-height:1.8">';
+    html += '<li>在读状态下的账号状态<span style="font-weight:600;color:var(--text)">可以控制</span>；</li>';
+    html += '<li>结课状态下的账号状态<span style="font-weight:600;color:var(--text)">自动关闭且不可控制</span>；</li>';
+    html += '</ul></div>';
+    // 调整报名信息
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px;margin-bottom:16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--warning)"></span>调整报名信息</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;line-height:1.7"><div><span style="font-weight:600;color:var(--text)">总部学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>调整报名科目<span style="font-weight:600;color:var(--text)">无需支付差价费用</span></li><li>提交后需要<span style="font-weight:600;color:var(--text)">教务和财务审核</span></li></ul></div>';
+    html += '<div><span style="font-weight:600;color:var(--text)">加盟学区</span><ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)"><li>调整报名需<span style="font-weight:600;color:var(--text)">按学区设定价格支付差价</span></li><li>提交后<span style="font-weight:600;color:var(--text)">仅需教务审核</span></li></ul></div></div></div>';
+    // 调整记录
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px;margin-bottom:16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--info)"></span>调整记录</div>';
+    html += '<ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary);font-size:13px;line-height:1.8"><li>展示学员报名信息调整的记录列表；</li></ul></div>';
+    // 学员密码
+    html += '<div style="background:var(--bg);border-radius:8px;padding:14px 16px"><div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:6px;height:6px;border-radius:2px;background:var(--primary)"></span>学员密码</div>';
+    html += '<ul style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary);font-size:13px;line-height:1.8"><li>学员录入审核通过后，账号开通，可使用<span style="font-weight:600;color:var(--text)">手机号和默认密码123456</span>登录平板；</li><li>重置密码可将学员登录密码重置为<span style="font-weight:600;color:var(--text)">默认密码123456</span>；</li></ul></div>';
+    html += '</div>';
+    html += '<div class="req-popup-footer"><button class="btn btn-outline" id="reqPopupCloseBtn2">关闭</button></div>';
     html += '</div></div>';
 
     contentArea.innerHTML = html;
+    _bindReqButtonEvents('reqFloatingBtn2', 'reqPopupOverlay2', 'reqPopupClose2', 'reqPopupCloseBtn2');
   }
 
   function getStudentInfoStatusHtml(s){
@@ -2861,14 +3307,868 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     return '<span class="status status-active">在读</span>';
   }
 
-  window._doStudentInfoQuery = function(){ renderStudentInfoPage(); };
+  window._doStudentInfoQuery = function(){ studentInfoPage = 1; renderStudentInfoPage(); };
   window._resetStudentInfoFilter = function(){
     currentStudentInfoFilter = 'all';
+    studentInfoPage = 1;
     renderStudentInfoPage();
   };
   window._switchStudentInfoTab = function(tab, btn){
     currentStudentInfoFilter = tab;
+    studentInfoPage = 1;
     renderStudentInfoPage();
+  };
+  window._goStudentInfoPage = function(p){
+    studentInfoPage = p;
+    renderStudentInfoPage();
+  };
+
+  // ==================== Student Info Actions ====================
+
+  // Mock adjust registration records
+  var adjustRegRecords = {
+    '2025001': [
+      { id:'AR001', jieshu:'2026届', stuClass:'25考研数学一班', subjects:'数学、英语', hasMath:true, hasEnglish:true, regDate:'2025-09-01', endDate:'2026-12-31', remark:'', price:188, priceDiff:0, time:'2026-07-15 10:30:22', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-15 14:20:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-16 09:15:00' }, rejectReason:'' },
+      { id:'AR002', jieshu:'2027届', stuClass:'2027届考研数学一班', subjects:'数学', hasMath:true, hasEnglish:false, regDate:'2026-09-01', endDate:'2027-12-31', remark:'学员申请转为纯数学方向', price:100, priceDiff:0, time:'2026-07-28 08:45:10', jiaowuReview:{ status:'审核中', reviewer:'', time:'' }, caiwuReview:{ status:'审核中', reviewer:'', time:'' }, rejectReason:'' }
+    ],
+    '2025002': [
+      { id:'AR003', jieshu:'2026届', stuClass:'2026届考研英语一班', subjects:'英语', hasMath:false, hasEnglish:true, regDate:'2025-09-01', endDate:'2026-12-31', remark:'只报英语单科', price:100, priceDiff:0, time:'2026-06-20 16:12:05', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-06-21 10:00:00' }, caiwuReview:{ status:'通过', reviewer:'张会计', time:'2026-06-21 15:30:00' }, rejectReason:'' },
+      { id:'AR004', jieshu:'2027届', stuClass:'2027届考研英语二班', subjects:'数学、英语', hasMath:true, hasEnglish:true, regDate:'2026-09-01', endDate:'2027-12-31', remark:'增加数学科目', price:188, priceDiff:88, time:'2026-07-25 11:20:33', jiaowuReview:{ status:'审核驳回', reviewer:'李主任', time:'2026-07-26 09:30:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 14:00:00' }, rejectReason:'该班级数学科目名额已满，暂无法转入' }
+    ],
+    '2025006': [
+      { id:'AR005', jieshu:'2028届', stuClass:'2028届考研数学二班', subjects:'数学', hasMath:true, hasEnglish:false, regDate:'2027-09-01', endDate:'2028-12-31', remark:'申请调整到下一届', price:100, priceDiff:0, time:'2026-07-30 09:05:42', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-30 10:30:00' }, caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-30 11:15:00' }, rejectReason:'差价未补缴，请先完成支付后再重新提交' }
+    ]
+  };
+
+  // Keep track of currently open dropdown for the adjust modal
+  var _adjustRegStudentId = null;
+  var _adjustRegOriginalSubjects = ''; // 'math', 'english', 'math_english'
+  var _adjustRegPendingExists = false; // Is there a pending review for this student?
+
+  // Jieshu → date mapping
+  var _jieshuDateMap = {
+    '2024届': { reg: '2023-09-01', end: '2024-12-31' },
+    '2025届': { reg: '2024-09-01', end: '2025-12-31' },
+    '2026届': { reg: '2025-09-01', end: '2026-12-31' },
+    '2027届': { reg: '2026-09-01', end: '2027-12-31' },
+    '2028届': { reg: '2027-09-01', end: '2028-12-31' }
+  };
+
+  // Toggle account switch
+  window._toggleStudentAcct = function(id, enabled){
+    var s = studentData.filter(function(x){ return x.id===id; })[0];
+    if(!s) return;
+    s.acctEnabled = enabled;
+    showToast(enabled ? '账号已启用' : '账号已停用');
+  };
+
+  // Toggle action dropdown
+  window._toggleActionDropdown = function(e, id){
+    e.stopPropagation();
+    var dd = document.getElementById('actionDrop_'+id);
+    if(!dd) return;
+    var allDrops = document.querySelectorAll('.action-dropdown.show');
+    for(var i=0; i<allDrops.length; i++){
+      if(allDrops[i] !== dd) allDrops[i].classList.remove('show');
+    }
+    dd.classList.toggle('show');
+  };
+
+  window._closeActionDropdown = function(id){
+    var dd = document.getElementById('actionDrop_'+id);
+    if(dd) dd.classList.remove('show');
+  };
+
+  document.addEventListener('click', function(e){
+    var drops = document.querySelectorAll('.action-dropdown.show');
+    for(var i=0; i<drops.length; i++){
+      var cell = drops[i].parentNode;
+      if(!cell.contains(e.target)) drops[i].classList.remove('show');
+    }
+  });
+
+  // Helper: check if student has a pending adjustment
+  function _hasPendingAdjust(id){
+    var recs = adjustRegRecords[id];
+    if(!recs || recs.length===0) return false;
+    for(var i=0; i<recs.length; i++){
+      if(recs[i].jiaowuReview.status==='审核中' || recs[i].caiwuReview.status==='审核中') return true;
+    }
+    return false;
+  }
+
+  // Open adjust registration modal
+  window._openAdjustReg = function(id){
+    var s = studentData.filter(function(x){ return x.id===id; })[0];
+    if(!s) return;
+
+    _adjustRegStudentId = id;
+
+    // Check if there's a pending review
+    _adjustRegPendingExists = _hasPendingAdjust(id);
+
+    // Collect all unique classes
+    var classes = [];
+    studentData.forEach(function(st){ if(classes.indexOf(st.stuClass)===-1) classes.push(st.stuClass); });
+    classes.sort();
+
+    // Populate jieshu first
+    document.getElementById('adjRegJieshu').value = getStudentJieshu(s);
+
+    // Populate class dropdown
+    var clsSel = document.getElementById('adjRegClass');
+    clsSel.innerHTML = '<option value="">请选择班级</option>';
+    classes.forEach(function(c){ clsSel.innerHTML += '<option value="'+c+'">'+c+'</option>'; });
+    clsSel.value = s.stuClass || '';
+
+    // Auto-populate dates from jieshu
+    var ji = getStudentJieshu(s);
+    var dm = _jieshuDateMap[ji];
+    document.getElementById('adjRegDateDisplay').textContent = dm ? dm.reg : s.regDate;
+    document.getElementById('adjRegEndDateDisplay').textContent = dm ? dm.end : s.endDate;
+
+    // Populate subjects
+    document.getElementById('adjRegMath').checked = s.hasMath;
+    document.getElementById('adjRegEnglish').checked = s.hasEnglish;
+    document.getElementById('adjRegRemark').value = '';
+
+    // Record original subjects
+    if(s.hasMath && s.hasEnglish) _adjustRegOriginalSubjects = 'math_english';
+    else if(s.hasMath) _adjustRegOriginalSubjects = 'math';
+    else if(s.hasEnglish) _adjustRegOriginalSubjects = 'english';
+    else _adjustRegOriginalSubjects = 'none';
+
+    // Hide price info initially
+    document.getElementById('adjPriceInfo').style.display = 'none';
+
+    // Review banner logic
+    var banner = document.getElementById('adjReviewBanner');
+    var bannerTitle = document.getElementById('adjBannerTitle');
+    var bannerReason = document.getElementById('adjBannerReason');
+    bannerReason.style.display = 'none';
+
+    var submitBtn = document.getElementById('adjRegSubmitBtn');
+    var fieldsEditable = !_adjustRegPendingExists;
+
+    if(_adjustRegPendingExists){
+      banner.className = 'review-banner reviewing';
+      bannerTitle.textContent = '该学员的报名信息调整正在审核中，暂不可编辑';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.5';
+      submitBtn.style.pointerEvents = 'none';
+    } else {
+      banner.className = 'review-banner';
+      bannerTitle.textContent = '';
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+      submitBtn.style.pointerEvents = '';
+    }
+
+    // Enable/disable fields
+    document.getElementById('adjRegJieshu').disabled = !fieldsEditable;
+    document.getElementById('adjRegClass').disabled = !fieldsEditable;
+    document.getElementById('adjRegMath').disabled = !fieldsEditable;
+    document.getElementById('adjRegEnglish').disabled = !fieldsEditable;
+    document.getElementById('adjRegRemark').disabled = !fieldsEditable;
+
+    document.getElementById('adjustRegModal').classList.add('show');
+  };
+
+  // When jieshu changes, auto-populate dates
+  window._adjOnJieshuChange = function(){
+    var ji = document.getElementById('adjRegJieshu').value;
+    var dm = _jieshuDateMap[ji];
+    document.getElementById('adjRegDateDisplay').textContent = dm ? dm.reg : '-';
+    document.getElementById('adjRegEndDateDisplay').textContent = dm ? dm.end : '-';
+  };
+
+  // Calculate price difference
+  window._adjCalcPrice = function(){
+    if(_adjustRegPendingExists) return;
+    var math = document.getElementById('adjRegMath').checked;
+    var eng = document.getElementById('adjRegEnglish').checked;
+    var priceInfo = document.getElementById('adjPriceInfo');
+    var priceAmount = document.getElementById('adjPriceAmount');
+
+    var newSubjects = '';
+    if(math && eng) newSubjects = 'math_english';
+    else if(math) newSubjects = 'math';
+    else if(eng) newSubjects = 'english';
+    else newSubjects = 'none';
+
+    var priceMap = { 'none': 0, 'math': 100, 'english': 100, 'math_english': 188 };
+    var oldPrice = priceMap[_adjustRegOriginalSubjects] || 0;
+    var newPrice = priceMap[newSubjects] || 0;
+    var diff = newPrice - oldPrice;
+
+    if(diff > 0){
+      priceAmount.textContent = diff;
+      priceInfo.style.display = '';
+    } else {
+      priceInfo.style.display = 'none';
+    }
+  };
+
+  // Submit adjust registration (creates a record, no longer updates student immediately)
+  window._submitAdjustReg = function(){
+    if(_adjustRegPendingExists) return;
+
+    var cls = document.getElementById('adjRegClass').value;
+    var jieshu = document.getElementById('adjRegJieshu').value;
+    var hasMath = document.getElementById('adjRegMath').checked;
+    var hasEnglish = document.getElementById('adjRegEnglish').checked;
+    var remark = document.getElementById('adjRegRemark').value.trim();
+    var regDate = document.getElementById('adjRegDateDisplay').textContent;
+    var endDate = document.getElementById('adjRegEndDateDisplay').textContent;
+
+    if(!jieshu){ showToast('请选择届数'); return; }
+    if(!cls){ showToast('请选择所属班级'); return; }
+    if(!hasMath && !hasEnglish){ showToast('请至少选择一项报名科目'); return; }
+
+    var newSubjects = '';
+    if(hasMath && hasEnglish) newSubjects = 'math_english';
+    else if(hasMath) newSubjects = 'math';
+    else newSubjects = 'english';
+
+    var priceMap = { 'none': 0, 'math': 100, 'english': 100, 'math_english': 188 };
+    var oldPrice = priceMap[_adjustRegOriginalSubjects] || 0;
+    var newPriceVal = priceMap[newSubjects] || 0;
+    var diff = newPriceVal - oldPrice;
+
+    var subjectsLabel = '';
+    if(hasMath && !hasEnglish) subjectsLabel = '数学';
+    else if(!hasMath && hasEnglish) subjectsLabel = '英语';
+    else if(hasMath && hasEnglish) subjectsLabel = '数学、英语';
+
+    // Create adjust record
+    var record = {
+      id: 'AR' + Date.now(),
+      jieshu: jieshu,
+      stuClass: cls,
+      subjects: subjectsLabel,
+      hasMath: hasMath,
+      hasEnglish: hasEnglish,
+      regDate: regDate,
+      endDate: endDate,
+      remark: remark,
+      price: newPriceVal,
+      priceDiff: diff,
+      time: new Date().toISOString().replace('T',' ').substring(0,19),
+      jiaowuReview: { status: '审核中', reviewer: '', time: '' },
+      caiwuReview: { status: '审核中', reviewer: '', time: '' },
+      rejectReason: ''
+    };
+
+    if(!adjustRegRecords[_adjustRegStudentId]) adjustRegRecords[_adjustRegStudentId] = [];
+    adjustRegRecords[_adjustRegStudentId].push(record);
+
+    closeModal('adjustRegModal');
+    showToast('报名信息调整已提交，请等待审核');
+    studentInfoPage = 1;
+    renderStudentInfoPage();
+  };
+
+  // Open adjust records modal
+  window._openAdjustRecords = function(id){
+    var s = studentData.filter(function(x){ return x.id===id; })[0];
+    if(!s) return;
+
+    var recs = adjustRegRecords[id] || [];
+    var tbody = document.getElementById('adjustRecordTbody');
+
+    if(recs.length===0){
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">暂无调整记录</td></tr>';
+    } else {
+      var html = '';
+      for(var i=recs.length-1; i>=0; i--){
+        var r = recs[i];
+        var jwStatus = r.jiaowuReview.status || '审核中';
+        var cwStatus = r.caiwuReview.status || '审核中';
+        var jwHtml = '<span class="status '+(jwStatus==='通过'?'status-active':jwStatus==='审核驳回'?'status-rejected':'status-reviewing')+'">'+(jwStatus==='通过'?'教务通过':jwStatus==='审核驳回'?'教务驳回':'教务审核中')+'</span>';
+        var cwHtml = '<span class="status '+(cwStatus==='通过'?'status-active':cwStatus==='审核驳回'?'status-rejected':'status-reviewing')+'">'+(cwStatus==='通过'?'财务通过':cwStatus==='审核驳回'?'财务驳回':'财务审核中')+'</span>';
+        var rejectHtml = '-';
+        if(jwStatus==='审核驳回' || cwStatus==='审核驳回'){
+          rejectHtml = r.rejectReason || '无';
+        }
+        html += '<tr>' +
+          '<td>'+r.stuClass+'</td>' +
+          '<td>'+r.jieshu+'</td>' +
+          '<td>'+r.subjects+'</td>' +
+          '<td>'+(r.priceDiff>0?'<span style="color:#b45309;font-weight:600">补 '+r.priceDiff+' 元</span>':'<span style="color:var(--text-muted)">无需补差价</span>')+'</td>' +
+          '<td>'+(r.remark||'-')+'</td>' +
+          '<td>'+jwHtml+'</td>' +
+          '<td>'+cwHtml+'</td>' +
+          '<td style="font-size:12px;color:var(--text-secondary)">'+r.time+'</td>' +
+          '<td style="font-size:12px;color:var(--danger)">'+rejectHtml+'</td>' +
+        '</tr>';
+      }
+      tbody.innerHTML = html;
+    }
+
+    document.getElementById('adjustRecordModal').classList.add('show');
+  };
+
+  // Reset password
+  window._resetStudentPwd = function(){
+    showToast('密码已重置为123456');
+  };
+
+  // ==================== 课表日历页面 ====================
+
+  var kebiaoStudentId = null;
+
+  // Navigate to calendar page for a student
+  window._openKebiaoRili = function(id){
+    kebiaoStudentId = id;
+    // Activate sidebar nav
+    var allSubItems = document.querySelectorAll('.nav-sub-item');
+    allSubItems.forEach(function(s){ s.classList.remove('active'); });
+    var targetItem = document.querySelector('.nav-sub-item[data-page="kebiao-rili"]');
+    if(targetItem) targetItem.classList.add('active');
+    var topbarTitle = document.querySelector('.topbar-title');
+    if(topbarTitle) topbarTitle.childNodes[0].textContent = '课表日历';
+    var breadcrumb = document.getElementById('breadcrumb');
+    if(breadcrumb) breadcrumb.textContent = '/ 课表管理';
+    renderPage('kebiao-rili');
+  };
+
+  // Calendar state (kr = ke biao ri li)
+  var krCalendarYear = new Date().getFullYear();
+  var krCalendarMonth = new Date().getMonth() + 1;
+  var krCalendarData = {};
+  var krContentType = 'course';
+  var krBatchMode = false;
+  var krBatchSelected = {};
+  var krTreeExpanded = {};
+  // Filter state
+  var krSubSubjectFilter = '';
+  var krCourseTypeFilter = '';
+  var krDocTypeFilter = '';
+  var krHomeworkCategoryFilter = '';
+  var krHomeworkSubCategoryFilter = '';
+  var krPracticeCategoryFilter = '';
+  var krPracticeSubCategoryFilter = '';
+  var krContentKeyword = '';
+
+  // Mock some calendar data for demo
+  (function(){
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth()+1;
+    var pad = function(n){ return n<10?'0'+n:''+n; };
+    krCalendarData[y+'-'+pad(m)+'-'+pad(3)] = [{id:'c001',type:'course',title:'高数基础-函数极限'}];
+    krCalendarData[y+'-'+pad(m)+'-'+pad(5)] = [{id:'c002',type:'course',title:'线代基础-行列式'}];
+    krCalendarData[y+'-'+pad(m)+'-'+pad(8)] = [{id:'d001',type:'doc',title:'高数公式手册'}];
+    krCalendarData[y+'-'+pad(m)+'-'+pad(10)] = [{id:'c003',type:'course',title:'概统基础-随机事件'},{id:'h001',type:'homework',title:'函数极限课后作业'}];
+    krCalendarData[y+'-'+pad(m)+'-'+pad(15)] = [{id:'p001',type:'practice',title:'高数章节练习（一）'}];
+    krCalendarData[y+'-'+pad(m)+'-'+pad(18)] = [{id:'c004',type:'course',title:'英语词汇-高频词'}];
+  })();
+
+  // --- Content helpers (reuse courseData/docData etc.) ---
+
+  function krGetFilteredContent(){
+    var list = [];
+    if(krContentType === 'course'){
+      list = courseData.slice();
+      if(krSubSubjectFilter){ list = list.filter(function(c){ return c.subSubject === krSubSubjectFilter; }); }
+      if(krCourseTypeFilter){ list = list.filter(function(c){ return c.courseType === krCourseTypeFilter; }); }
+      if(krContentKeyword){
+        var kw = krContentKeyword.toLowerCase();
+        list = list.filter(function(c){
+          return c.title.toLowerCase().indexOf(kw)>-1 ||
+            (c.children||[]).some(function(ch){
+              return ch.title.toLowerCase().indexOf(kw)>-1 ||
+                (ch.children||[]).some(function(gc){ return gc.title.toLowerCase().indexOf(kw)>-1; });
+            });
+        });
+      }
+    } else {
+      var src;
+      if(krContentType==='doc') src = docData;
+      else if(krContentType==='homework') src = homeworkData;
+      else if(krContentType==='practice') src = practiceData;
+      else src = tdReminderData;
+      list = src.slice();
+      if(krSubSubjectFilter && krContentType!=='homework' && krContentType!=='practice'){
+        list = list.filter(function(item){ return item.subSubject === krSubSubjectFilter; });
+      }
+      if(krContentType==='doc' && krDocTypeFilter){ list = list.filter(function(d){ return d.docType === krDocTypeFilter; }); }
+      if(krContentType==='homework' && krHomeworkCategoryFilter){ list = list.filter(function(h){ return h.category === krHomeworkCategoryFilter; }); }
+      if(krContentType==='homework' && krHomeworkSubCategoryFilter){ list = list.filter(function(h){ return h.subCategory === krHomeworkSubCategoryFilter; }); }
+      if(krContentType==='practice' && krPracticeCategoryFilter){ list = list.filter(function(p){ return p.category === krPracticeCategoryFilter; }); }
+      if(krContentType==='practice' && krPracticeSubCategoryFilter){ list = list.filter(function(p){ return p.subCategory === krPracticeSubCategoryFilter; }); }
+      if(krContentKeyword){
+        var kw = krContentKeyword.toLowerCase();
+        list = list.filter(function(item){ return item.title.toLowerCase().indexOf(kw)>-1; });
+      }
+    }
+    return list;
+  }
+
+  function krRenderContentFiltersHtml(){
+    var html = '';
+    if(krContentType === 'course'){
+      html += '<div class="selection-filter-row" style="margin-bottom:8px">';
+      html += '<select id="krSubSubjectFilter" onchange="window._krContentFilterChange()"><option value="">全部子科目</option>';
+      html += '<optgroup label="数学"><option value="高数"'+(krSubSubjectFilter==='高数'?' selected':'')+'>高数</option><option value="线代"'+(krSubSubjectFilter==='线代'?' selected':'')+'>线代</option><option value="概统"'+(krSubSubjectFilter==='概统'?' selected':'')+'>概统</option></optgroup>';
+      html += '<option value="英语"'+(krSubSubjectFilter==='英语'?' selected':'')+'>英语</option>';
+      html += '</select>';
+      html += '<select id="krCourseTypeFilter" onchange="window._krContentFilterChange()"><option value="">全部课程类型</option><option value="基础"'+(krCourseTypeFilter==='基础'?' selected':'')+'>基础</option><option value="强化"'+(krCourseTypeFilter==='强化'?' selected':'')+'>强化</option><option value="冲刺"'+(krCourseTypeFilter==='冲刺'?' selected':'')+'>冲刺</option></select>';
+      html += '</div>';
+    } else if(krContentType === 'doc'){
+      html += '<div class="selection-filter-row" style="margin-bottom:8px">';
+      html += '<select id="krSubSubjectFilter" onchange="window._krContentFilterChange()"><option value="">全部子科目</option>';
+      html += '<optgroup label="数学"><option value="高数"'+(krSubSubjectFilter==='高数'?' selected':'')+'>高数</option><option value="线代"'+(krSubSubjectFilter==='线代'?' selected':'')+'>线代</option><option value="概统"'+(krSubSubjectFilter==='概统'?' selected':'')+'>概统</option></optgroup>';
+      html += '<option value="英语"'+(krSubSubjectFilter==='英语'?' selected':'')+'>英语</option>';
+      html += '</select>';
+      html += '<select id="krDocTypeFilter" onchange="window._krContentFilterChange()"><option value="">全部文档类型</option><option value="思维导图"'+(krDocTypeFilter==='思维导图'?' selected':'')+'>思维导图</option><option value="公式手册"'+(krDocTypeFilter==='公式手册'?' selected':'')+'>公式手册</option><option value="笔记"'+(krDocTypeFilter==='笔记'?' selected':'')+'>笔记</option><option value="技巧总结"'+(krDocTypeFilter==='技巧总结'?' selected':'')+'>技巧总结</option><option value="词汇表"'+(krDocTypeFilter==='词汇表'?' selected':'')+'>词汇表</option><option value="错题集"'+(krDocTypeFilter==='错题集'?' selected':'')+'>错题集</option><option value="方法汇编"'+(krDocTypeFilter==='方法汇编'?' selected':'')+'>方法汇编</option><option value="模板"'+(krDocTypeFilter==='模板'?' selected':'')+'>模板</option></select>';
+      html += '</div>';
+    } else if(krContentType === 'homework'){
+      html += '<div class="selection-filter-row" style="margin-bottom:8px">';
+      html += '<select id="krHomeworkCategoryFilter" onchange="window._krHomeworkCat1Change()"><option value="">全部一级分类</option><option value="课后作业"'+(krHomeworkCategoryFilter==='课后作业'?' selected':'')+'>课后作业</option><option value="专项训练"'+(krHomeworkCategoryFilter==='专项训练'?' selected':'')+'>专项训练</option><option value="阶段测评"'+(krHomeworkCategoryFilter==='阶段测评'?' selected':'')+'>阶段测评</option></select>';
+      var hwSubsKr = krHomeworkCategoryFilter ? (homeworkCategoryTree[krHomeworkCategoryFilter] || []) : [];
+      html += '<select id="krHomeworkSubCategoryFilter" onchange="window._krContentFilterChange()"'+(hwSubsKr.length===0?' disabled style="opacity:.5"':'')+'><option value="">全部二级分类</option>';
+      hwSubsKr.forEach(function(sc){ html += '<option value="'+sc+'"'+(krHomeworkSubCategoryFilter===sc?' selected':'')+'>'+sc+'</option>'; });
+      html += '</select>';
+      html += '</div>';
+    } else if(krContentType === 'practice'){
+      html += '<div class="selection-filter-row" style="margin-bottom:8px">';
+      html += '<select id="krPracticeCategoryFilter" onchange="window._krPracticeCat1Change()"><option value="">全部一级分类</option><option value="章节练习"'+(krPracticeCategoryFilter==='章节练习'?' selected':'')+'>章节练习</option><option value="模拟卷"'+(krPracticeCategoryFilter==='模拟卷'?' selected':'')+'>模拟卷</option><option value="专项练习"'+(krPracticeCategoryFilter==='专项练习'?' selected':'')+'>专项练习</option><option value="真题"'+(krPracticeCategoryFilter==='真题'?' selected':'')+'>真题</option></select>';
+      var prSubsKr2 = krPracticeCategoryFilter ? (practiceCategoryTree[krPracticeCategoryFilter] || []) : [];
+      html += '<select id="krPracticeSubCategoryFilter" onchange="window._krContentFilterChange()"'+(prSubsKr2.length===0?' disabled style="opacity:.5"':'')+'><option value="">全部二级分类</option>';
+      prSubsKr2.forEach(function(sc){ html += '<option value="'+sc+'"'+(krPracticeSubCategoryFilter===sc?' selected':'')+'>'+sc+'</option>'; });
+      html += '</select>';
+      html += '</div>';
+    } else if(krContentType === 'reminder'){
+      html += '<div class="selection-filter-row" style="margin-bottom:8px">';
+      html += '<select id="krSubSubjectFilter" onchange="window._krContentFilterChange()"><option value="">全部子科目</option>';
+      html += '<optgroup label="数学"><option value="高数"'+(krSubSubjectFilter==='高数'?' selected':'')+'>高数</option><option value="线代"'+(krSubSubjectFilter==='线代'?' selected':'')+'>线代</option><option value="概统"'+(krSubSubjectFilter==='概统'?' selected':'')+'>概统</option></optgroup>';
+      html += '<option value="英语"'+(krSubSubjectFilter==='英语'?' selected':'')+'>英语</option>';
+      html += '</select>';
+      html += '</div>';
+    }
+    // Keyword
+    html += '<div style="display:flex;gap:8px"><input type="text" class="filter-search" id="krContentKeyword" placeholder="搜索..." value="'+krContentKeyword.replace(/"/g,'&quot;')+'" oninput="window._krContentFilterChange()" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px"></div>';
+    return html;
+  }
+
+  // --- Calendar rendering ---
+
+  function krRenderDayCell(dayNum, dateStr, isOtherMonth, isWeekend, isToday){
+    var chips = krCalendarData[dateStr] || [];
+    var cls = 'calendar-day';
+    if(isOtherMonth) cls += ' other-month';
+    if(isWeekend) cls += ' weekend';
+    if(isToday) cls += ' today';
+    var html = '<div class="'+cls+'" data-date="'+dateStr+'">';
+    html += '<span class="day-num">'+dayNum+'</span>';
+    html += '<div class="day-content">';
+    chips.forEach(function(chip, ci){
+      html += '<div class="cal-chip '+chip.type+'" title="'+chip.title+'">';
+      var icon = chip.type==='course'?'&#x1F4F9;':chip.type==='doc'?'&#x1F4C4;':chip.type==='homework'?'&#x1F4DD;':chip.type==='practice'?'&#x270F;':'&#x1F514;';
+      html += icon + ' ' + (chip.title.length > 12 ? chip.title.substring(0,12)+'...' : chip.title);
+      html += '<span class="chip-remove" onclick="event.stopPropagation();window._krRemoveFromCalendar(\''+dateStr+'\','+ci+')">&times;</span>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+    return html;
+  }
+
+  function krRenderCalendar(){
+    var container = document.getElementById('krCalendarDays');
+    if(!container) return;
+    document.getElementById('krCalMonthLabel').textContent = krCalendarYear+'年 '+krCalendarMonth+'月';
+    var firstDay = new Date(krCalendarYear, krCalendarMonth-1, 1);
+    var lastDay = new Date(krCalendarYear, krCalendarMonth, 0);
+    var daysInMonth = lastDay.getDate();
+    var startDow = firstDay.getDay();
+    var today = new Date();
+    var todayStr = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+    var prevLastDay = new Date(krCalendarYear, krCalendarMonth-1, 0).getDate();
+    var html = '';
+    for(var i = startDow-1; i >= 0; i--){
+      var day = prevLastDay - i;
+      var dateStr = (krCalendarMonth===1 ? (krCalendarYear-1) : krCalendarYear) + '-' + String(krCalendarMonth===1?12:krCalendarMonth-1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+      html += krRenderDayCell(day, dateStr, true, false);
+    }
+    for(var d = 1; d <= daysInMonth; d++){
+      var dateStr = krCalendarYear+'-'+String(krCalendarMonth).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      var isWeekend = new Date(krCalendarYear, krCalendarMonth-1, d).getDay()===0 || new Date(krCalendarYear, krCalendarMonth-1, d).getDay()===6;
+      var isToday = dateStr === todayStr;
+      html += krRenderDayCell(d, dateStr, false, isWeekend, isToday);
+    }
+    var totalCells = startDow + daysInMonth;
+    var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for(var nd = 1; nd <= remaining; nd++){
+      var dateStr = (krCalendarMonth===12 ? (krCalendarYear+1) : krCalendarYear) + '-' + String(krCalendarMonth===12?1:krCalendarMonth+1).padStart(2,'0')+'-'+String(nd).padStart(2,'0');
+      html += krRenderDayCell(nd, dateStr, true, false);
+    }
+    container.innerHTML = html;
+    // Bind drop events
+    var cells = container.querySelectorAll('.calendar-day');
+    cells.forEach(function(cell){
+      cell.addEventListener('dragover', function(e){ e.preventDefault(); this.classList.add('drag-over'); });
+      cell.addEventListener('dragleave', function(e){ this.classList.remove('drag-over'); });
+      cell.addEventListener('drop', function(e){
+        e.preventDefault();
+        this.classList.remove('drag-over');
+        window._krDropOnDate(this.dataset.date);
+      });
+    });
+  }
+
+  // --- Drag & Drop ---
+  var krDragItem = null;
+  window._krDragStart = function(e){
+    var el = e.target.closest('[draggable]');
+    if(!el) return;
+    krDragItem = { id: el.dataset.itemId, type: el.dataset.itemType, title: el.dataset.itemTitle };
+    el.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'copy';
+    var ghost = document.createElement('div');
+    ghost.className = 'drag-ghost';
+    ghost.textContent = krDragItem.title;
+    ghost.id = 'krDragGhost';
+    document.body.appendChild(ghost);
+    e.dataTransfer.setDragImage(ghost, ghost.offsetWidth/2, ghost.offsetHeight/2);
+    setTimeout(function(){ var g=document.getElementById('krDragGhost'); if(g) g.remove(); }, 0);
+  };
+  window._krDragEnd = function(e){
+    var el = e.target.closest('[draggable]');
+    if(el) el.classList.remove('dragging');
+    krDragItem = null;
+  };
+  window._krDropOnDate = function(dateStr){
+    if(!krDragItem) return;
+    if(!krCalendarData[dateStr]) krCalendarData[dateStr] = [];
+    var exists = krCalendarData[dateStr].some(function(c){ return c.id===krDragItem.id && c.type===krDragItem.type; });
+    if(!exists){
+      krCalendarData[dateStr].push({ id: krDragItem.id, type: krDragItem.type, title: krDragItem.title });
+    }
+    krDragItem = null;
+    renderKebiaoRiliPage();
+  };
+  window._krRemoveFromCalendar = function(dateStr, index){
+    krCalendarData[dateStr].splice(index, 1);
+    if(krCalendarData[dateStr].length===0) delete krCalendarData[dateStr];
+    renderKebiaoRiliPage();
+  };
+
+  // --- Navigation ---
+  window._krPrevMonth = function(){
+    if(krCalendarMonth===1){ krCalendarYear--; krCalendarMonth=12; }
+    else { krCalendarMonth--; }
+    renderKebiaoRiliPage();
+  };
+  window._krNextMonth = function(){
+    if(krCalendarMonth===12){ krCalendarYear++; krCalendarMonth=1; }
+    else { krCalendarMonth++; }
+    renderKebiaoRiliPage();
+  };
+  window._krGoToday = function(){
+    var now = new Date();
+    krCalendarYear = now.getFullYear();
+    krCalendarMonth = now.getMonth()+1;
+    renderKebiaoRiliPage();
+  };
+
+  // --- Content switching ---
+  window._krSwitchContentType = function(type){
+    krContentType = type;
+    krSubSubjectFilter = ''; krCourseTypeFilter = ''; krDocTypeFilter = '';
+    krHomeworkCategoryFilter = ''; krHomeworkSubCategoryFilter = '';
+    krPracticeCategoryFilter = ''; krPracticeSubCategoryFilter = '';
+    krContentKeyword = '';
+    krBatchSelected = {}; krTreeExpanded = {};
+    renderKebiaoRiliPage();
+  };
+  window._krContentFilterChange = function(){
+    var subEl = document.getElementById('krSubSubjectFilter');
+    if(subEl) krSubSubjectFilter = subEl.value;
+    var ctEl = document.getElementById('krCourseTypeFilter');
+    if(ctEl) krCourseTypeFilter = ctEl.value;
+    var dtEl = document.getElementById('krDocTypeFilter');
+    if(dtEl) krDocTypeFilter = dtEl.value;
+    var kwEl = document.getElementById('krContentKeyword');
+    if(kwEl) krContentKeyword = kwEl.value;
+    var hcEl = document.getElementById('krHomeworkCategoryFilter');
+    if(hcEl) krHomeworkCategoryFilter = hcEl.value;
+    var hsEl = document.getElementById('krHomeworkSubCategoryFilter');
+    if(hsEl) krHomeworkSubCategoryFilter = hsEl.value;
+    var pcEl = document.getElementById('krPracticeCategoryFilter');
+    if(pcEl) krPracticeCategoryFilter = pcEl.value;
+    var psEl = document.getElementById('krPracticeSubCategoryFilter');
+    if(psEl) krPracticeSubCategoryFilter = psEl.value;
+    renderKebiaoRiliPage();
+  };
+  window._krHomeworkCat1Change = function(){
+    var el = document.getElementById('krHomeworkCategoryFilter');
+    krHomeworkCategoryFilter = el?el.value:'';
+    krHomeworkSubCategoryFilter = '';
+    renderKebiaoRiliPage();
+  };
+  window._krPracticeCat1Change = function(){
+    var el = document.getElementById('krPracticeCategoryFilter');
+    krPracticeCategoryFilter = el?el.value:'';
+    krPracticeSubCategoryFilter = '';
+    renderKebiaoRiliPage();
+  };
+  window._krSetMode = function(batch){
+    krBatchMode = batch;
+    krBatchSelected = {};
+    krTreeExpanded = {};
+    renderKebiaoRiliPage();
+  };
+
+  // --- Tree helpers (batch mode, simplified) ---
+  function _krCollectNodeLeafKeys(node){
+    var keys = [];
+    function walk(n){
+      if(!n.children || n.children.length===0){ keys.push(n.id+'_course'); }
+      else { n.children.forEach(function(c){ walk(c); }); }
+    }
+    walk(node);
+    return keys;
+  }
+  function _krGetNodeCheckState(node){
+    if(!node.children || node.children.length===0){ return krBatchSelected[node.id+'_course']?'checked':'none'; }
+    var leafKeys = _krCollectNodeLeafKeys(node);
+    var checked = 0;
+    leafKeys.forEach(function(k){ if(krBatchSelected[k]) checked++; });
+    if(checked===0) return 'none';
+    if(checked===leafKeys.length) return 'checked';
+    return 'partial';
+  }
+  window._krToggleTreeNode = function(key){
+    krTreeExpanded[key] = !krTreeExpanded[key];
+    renderKebiaoRiliPage();
+  };
+  window._krToggleBatchItem = function(batchKey, id, type, title){
+    if(krBatchSelected[batchKey]){ delete krBatchSelected[batchKey]; }
+    else { krBatchSelected[batchKey] = true; }
+    renderKebiaoRiliPage();
+  };
+  window._krToggleBatchLeaf = function(key, id, title){
+    var batchKey = id+'_course';
+    if(krBatchSelected[batchKey]){ delete krBatchSelected[batchKey]; }
+    else { krBatchSelected[batchKey] = true; }
+    renderKebiaoRiliPage();
+  };
+  window._krToggleBatchExpand = function(e, key){
+    e.stopPropagation();
+    krTreeExpanded[key] = !krTreeExpanded[key];
+    renderKebiaoRiliPage();
+  };
+  window._krToggleBatchParent = function(key, id){
+    // For simplicity, just toggle expansion
+    krTreeExpanded[key] = !krTreeExpanded[key];
+    renderKebiaoRiliPage();
+  };
+  window._krOpenScheduleModal = function(){
+    showToast('排课规则功能（开发中）');
+  };
+
+  function krRenderContentListHtml(){
+    var filtered = krGetFilteredContent();
+    var html = '';
+    if(krContentType === 'course'){
+      html += '<div style="padding:8px 0">';
+      if(filtered.length===0){ html += '<div class="panel-empty"><p>暂无匹配的课程</p></div>'; }
+      else {
+        html += '<ul class="tree-list">';
+        filtered.forEach(function(course, ci){ html += krRenderTreeNode(course, 0, 'c'+ci); });
+        html += '</ul>';
+      }
+      html += '</div>';
+    } else {
+      html += '<div style="padding:4px 0">';
+      if(filtered.length===0){ html += '<div class="panel-empty"><p>暂无匹配的内容</p></div>'; }
+      else {
+        html += '<ul class="content-list">';
+        filtered.forEach(function(item){
+          var icon, typeTag, typeCls;
+          if(krContentType==='doc'){ icon='&#x1F4C4;'; typeTag='文档'; typeCls='doc'; }
+          else if(krContentType==='homework'){ icon='&#x1F4DD;'; typeTag='作业'; typeCls='homework'; }
+          else if(krContentType==='practice'){ icon='&#x270F;'; typeTag='练测'; typeCls='practice'; }
+          else { icon='&#x1F514;'; typeTag='提醒'; typeCls='reminder'; }
+          var meta = '';
+          if(krContentType==='doc' && item.docType) meta = item.docType;
+          else if(krContentType==='homework') meta = item.category + (item.subCategory?' / '+item.subCategory:'');
+          else if(krContentType==='practice') meta = item.category + (item.subCategory?' / '+item.subCategory:'');
+          else if(krContentType==='reminder' && item.subSubject) meta = item.subSubject;
+          var batchKey = item.id+'_'+krContentType;
+          var isChecked = !!krBatchSelected[batchKey];
+          if(krBatchMode){
+            html += '<div class="content-list-item" style="cursor:pointer" onclick="window._krToggleBatchItem(\''+batchKey+'\',\''+item.id+'\',\''+krContentType+'\',\''+item.title.replace(/'/g,'\\x27').replace(/"/g,'&quot;')+'\')">';
+            html += '<span class="tree-checkbox'+(isChecked?' checked':'')+'" style="margin-right:4px"></span>';
+            html += '<span class="item-icon">'+icon+'</span>';
+            html += '<div class="item-info"><div class="item-title">'+item.title+'</div>';
+            if(meta) html += '<div class="item-meta">'+meta+'</div>';
+            html += '</div>';
+            html += '<span class="item-type-tag '+typeCls+'">'+typeTag+'</span>';
+            html += '</div>';
+          } else {
+            html += '<div class="content-list-item" draggable="true" data-item-id="'+item.id+'" data-item-type="'+krContentType+'" data-item-title="'+item.title.replace(/"/g,'&quot;')+'" ondragstart="window._krDragStart(event)" ondragend="window._krDragEnd(event)">';
+            html += '<span class="item-icon">'+icon+'</span>';
+            html += '<div class="item-info"><div class="item-title">'+item.title+'</div>';
+            if(meta) html += '<div class="item-meta">'+meta+'</div>';
+            html += '</div>';
+            html += '<span class="item-type-tag '+typeCls+'">'+typeTag+'</span>';
+            html += '</div>';
+          }
+        });
+        html += '</ul>';
+      }
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function krRenderTreeNode(node, depth, key){
+    var hasChildren = node.children && node.children.length > 0;
+    var isLeaf = !hasChildren;
+    var isExpanded = !!krTreeExpanded[key];
+    if(krBatchMode){
+      var chkState = _krGetNodeCheckState(node);
+      var html = '<li class="tree-node" data-node-key="'+key+'">';
+      if(hasChildren){
+        html += '<div class="tree-node-header" onclick="window._krToggleBatchParent(\''+key+'\',\''+node.id+'\')">';
+        html += '<span class="tree-arrow'+(isExpanded?' expanded':'')+'" id="krTreeArrow_'+key+'" onclick="window._krToggleBatchExpand(event,\''+key+'\')">&#9654;</span>';
+      } else {
+        html += '<div class="tree-node-header" onclick="window._krToggleBatchLeaf(\''+key+'\',\''+node.id+'\',\''+node.title.replace(/'/g,'\\x27').replace(/"/g,'&quot;')+'\')">';
+        html += '<span style="width:16px;flex-shrink:0"></span>';
+      }
+      html += '<span class="tree-checkbox'+(chkState==='checked'?' checked':'')+(chkState==='partial'?' partial':'')+'" id="krTreeChk_'+key+'"></span>';
+      html += '<span class="tree-icon">'+(hasChildren?'&#x1F4C1;':'&#x1F4F9;')+'</span>';
+      html += '<span class="tree-label">'+node.title+'</span>';
+      if(isLeaf && node.duration){ html += '<span class="tree-duration">'+node.duration+'</span>'; }
+      html += '</div>';
+      if(hasChildren){
+        html += '<ul class="tree-children'+(isExpanded?' open':'')+'" id="krTreeChildren_'+key+'">';
+        node.children.forEach(function(child, ci){ html += krRenderTreeNode(child, depth+1, key+'-'+ci); });
+        html += '</ul>';
+      }
+      html += '</li>';
+      return html;
+    }
+    // Drag mode
+    var html = '<li class="tree-node'+(isLeaf?' draggable':'')+'" data-node-key="'+key+'">';
+    if(isLeaf){
+      html += '<div class="tree-node-header" draggable="true" data-item-id="'+node.id+'" data-item-type="course" data-item-title="'+node.title.replace(/"/g,'&quot;')+'" ondragstart="window._krDragStart(event)" ondragend="window._krDragEnd(event)">';
+      html += '<span style="width:16px;flex-shrink:0"></span>';
+      html += '<span class="tree-icon">&#x1F4F9;</span>';
+      html += '<span class="tree-label">'+node.title+'</span>';
+      if(node.duration){ html += '<span class="tree-duration">'+node.duration+'</span>'; }
+      html += '</div>';
+    } else {
+      html += '<div class="tree-node-header" onclick="window._krToggleTreeNode(\''+key+'\')">';
+      html += '<span class="tree-arrow'+(isExpanded?' expanded':'')+'" id="krTreeArrow_'+key+'">&#9654;</span>';
+      html += '<span class="tree-icon">&#x1F4C1;</span>';
+      html += '<span class="tree-label">'+node.title+'</span>';
+      html += '</div>';
+    }
+    if(hasChildren){
+      html += '<ul class="tree-children'+(isExpanded?' open':'')+'" id="krTreeChildren_'+key+'">';
+      node.children.forEach(function(child, ci){ html += krRenderTreeNode(child, depth+1, key+'-'+ci); });
+      html += '</ul>';
+    }
+    html += '</li>';
+    return html;
+  }
+
+  // --- Main page render ---
+  function renderKebiaoRiliPage(){
+    var s = null;
+    if(kebiaoStudentId){
+      s = studentData.filter(function(x){ return x.id===kebiaoStudentId; })[0];
+    }
+
+    var html = '<div class="page-header"><h2>'+(s? s.name+'的课表' : '课表日历')+'</h2>';
+    html += '<button class="btn btn-outline" onclick="window._goBackToStudentInfo()">&#8592; 返回学员信息</button>';
+    html += '</div>';
+
+    var calCount = 0;
+    Object.keys(krCalendarData).forEach(function(k){ calCount += krCalendarData[k].length; });
+
+    html += '<div class="split-layout asymmetric" style="flex:1">';
+
+    // --- Left Panel ---
+    html += '<div class="split-left"><div class="split-panel" style="flex:1">';
+    html += '<div class="split-panel-header"><h4>选择内容</h4>';
+    html += '<div class="mode-toggle">';
+    html += '<button class="mode-toggle-btn'+(krBatchMode?'':' active')+'" onclick="window._krSetMode(false)">拖拽加入</button>';
+    html += '<button class="mode-toggle-btn'+(krBatchMode?' active':'')+'" onclick="window._krSetMode(true)">批量加入</button>';
+    html += '</div>';
+    html += '</div>';
+
+    // Content type tabs
+    var tabs = [
+      { key:'course', label:'课程', icon:'&#x1F4F9;' },
+      { key:'doc', label:'文档', icon:'&#x1F4C4;' },
+      { key:'homework', label:'作业', icon:'&#x1F4DD;' },
+      { key:'practice', label:'练测', icon:'&#x270F;' },
+      { key:'reminder', label:'提醒', icon:'&#x1F514;' }
+    ];
+    html += '<div class="content-type-tabs" style="flex-shrink:0">';
+    tabs.forEach(function(t){
+      html += '<button class="content-type-tab'+(krContentType===t.key?' active':'')+'" onclick="window._krSwitchContentType(\''+t.key+'\')">'+t.icon+' '+t.label+'</button>';
+    });
+    html += '</div>';
+
+    // Filters
+    html += '<div style="padding:10px 12px">'+krRenderContentFiltersHtml()+'</div>';
+
+    // Content list
+    html += '<div class="split-panel-body">'+krRenderContentListHtml()+'</div>';
+
+    // Batch action bar
+    if(krBatchMode){
+      var selCount = Object.keys(krBatchSelected).length;
+      html += '<div class="batch-action-bar">';
+      html += '<span class="batch-count">已选 <strong>'+selCount+'</strong> 项</span>';
+      html += '<button class="btn-batch-schedule" onclick="window._krOpenScheduleModal()"'+(selCount===0?' disabled':'')+'>使用排课规则</button>';
+      html += '</div>';
+    }
+
+    html += '</div></div>';
+
+    // --- Right Panel: Calendar ---
+    html += '<div class="split-right"><div class="split-panel" style="flex:1">';
+    html += '<div class="calendar-header">';
+    html += '<span class="cal-month" id="krCalMonthLabel"></span>';
+    html += '<div class="cal-nav">';
+    html += '<button class="cal-nav-btn" onclick="window._krPrevMonth()" title="上个月">&#9664;</button>';
+    html += '<button class="cal-today-btn" onclick="window._krGoToday()">今天</button>';
+    html += '<button class="cal-nav-btn" onclick="window._krNextMonth()" title="下个月">&#9654;</button>';
+    html += '</div></div>';
+
+    html += '<div class="calendar-grid">';
+    html += '<div class="calendar-weekdays">';
+    ['日','一','二','三','四','五','六'].forEach(function(d,i){
+      html += '<div class="calendar-weekday'+(i===0||i===6?' weekend':'')+'">'+d+'</div>';
+    });
+    html += '</div>';
+    html += '<div class="calendar-days" id="krCalendarDays"></div>';
+    html += '</div>';
+
+    html += '</div></div>';
+    html += '</div>'; // close split-layout
+
+    contentArea.innerHTML = html;
+    krRenderCalendar();
+  }
+
+  // Return to student info page
+  window._goBackToStudentInfo = function(){
+    kebiaoStudentId = null;
+    var allSubItems = document.querySelectorAll('.nav-sub-item');
+    allSubItems.forEach(function(s){ s.classList.remove('active'); });
+    var targetItem = document.querySelector('.nav-sub-item[data-page="xueyuan-xinxi"]');
+    if(targetItem) targetItem.classList.add('active');
+    var topbarTitle = document.querySelector('.topbar-title');
+    if(topbarTitle) topbarTitle.childNodes[0].textContent = '学员信息';
+    var breadcrumb = document.getElementById('breadcrumb');
+    if(breadcrumb) breadcrumb.textContent = '/ 服务管理';
+    renderPage('xueyuan-xinxi');
   };
 
   // ==================== Student Global Functions ====================
@@ -2901,6 +4201,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '</div></div>' +
       '<div class="form-section"><div class="form-section-title">报名信息</div><div class="detail-grid">' +
         '<div class="detail-item"><label>所属班级</label><div class="value">'+s.stuClass+'</div></div>' +
+        '<div class="detail-item"><label>届数</label><div class="value">'+getStudentJieshu(s)+'</div></div>' +
         '<div class="detail-item"><label>报名日期</label><div class="value">'+s.regDate+'</div></div>' +
         '<div class="detail-item"><label>到期时间</label><div class="value">'+s.endDate+'</div></div>' +
         '<div class="detail-item" style="grid-column:1/-1"><label>报名科目</label><div class="value">'+s.subjects+'</div></div>' +
@@ -2916,14 +4217,60 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '<div class="form-section"><div class="form-section-title">科目信息</div><div class="detail-grid">' +
         '<div class="detail-item"><label>科目层级</label><div class="value">'+s.levels+'</div></div>' +
       '</div></div>';
+    // 审核记录 — 只对审核中/审核驳回展示
+    if(s.status==='审核中' || s.status==='审核驳回'){
+      // Helper: render a single review card
+      function renderReviewCard(label, review){
+        var statusCls = review.status==='通过' ? 'status-active' : (review.status==='审核驳回' ? 'status-rejected' : 'status-reviewing');
+        var statusLabel = review.status;
+        var reviewer = review.reviewer || '-';
+        var time = review.time || '-';
+        return '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+            '<span style="font-weight:600;font-size:14px">'+label+'</span>' +
+            '<span class="status '+statusCls+'">'+statusLabel+'</span>' +
+          '</div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">' +
+            '<div><span style="color:var(--text-muted)">审核人：</span><span>'+reviewer+'</span></div>' +
+            '<div><span style="color:var(--text-muted)">审核时间：</span><span>'+time+'</span></div>' +
+          '</div>' +
+        '</div>';
+      }
+      var jw = s.jiaowuReview || { status:'审核中', reviewer:'', time:'' };
+      var cw = s.caiwuReview || { status:'审核中', reviewer:'', time:'' };
+      body.innerHTML += '<div class="form-section"><div class="form-section-title">审核记录</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+          renderReviewCard('教务审核', jw) +
+          renderReviewCard('财务审核', cw) +
+        '</div>' +
+        '<div style="margin-top:8px;font-size:12px;color:var(--text-muted)">教务审核与财务审核均通过后，学员状态变更为在读</div>' +
+      '</div>';
+    }
     // Review banner (for students with review status)
     var banner = document.getElementById('detReviewBanner');
-    banner.className = 'review-banner';
-    // Photo
+    var bannerTitle = document.getElementById('detBannerTitle');
+    var bannerReason = document.getElementById('detBannerReason');
+    if(s.status === '审核驳回'){
+      banner.className = 'review-banner rejected';
+      bannerTitle.textContent = '该学员报名审核已被驳回';
+      bannerReason.style.display = '';
+      bannerReason.textContent = '驳回部门：教务' + (s.caiwuReview && s.caiwuReview.status==='审核驳回' ? '、财务' : '') + '，请联系审核人了解详情';
+    } else if(s.status === '审核中'){
+      banner.className = 'review-banner reviewing';
+      bannerTitle.textContent = '该学员报名审核中，请耐心等待';
+      bannerReason.style.display = 'none';
+    } else {
+      banner.className = 'review-banner';
+      bannerReason.style.display = 'none';
+    }
+    // Photo — only show on 学员录入 page
     var photoSection = document.getElementById('detPhotoSection');
-    var photoEl = document.getElementById('detStuPhoto');
-    photoSection.style.display = '';
-    photoEl.textContent = '-';
+    if(currentPage === 'xueyuan-guanli'){
+      photoSection.style.display = '';
+      document.getElementById('detStuPhoto').textContent = s.photoUrl ? '<img src="'+s.photoUrl+'" style="max-width:200px;border-radius:6px" alt="附件">' : '-';
+    } else {
+      photoSection.style.display = 'none';
+    }
     document.getElementById('studentDetailModal').classList.add('show');
   };
 
@@ -2932,15 +4279,19 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var s = studentData.filter(function(x){ return x.id===id; })[0];
     if(!s) return;
     editingStudentId = id;
-    // Read-only info
+    // Read-only info (报名信息)
     document.getElementById('editStuId').textContent = s.id;
-    document.getElementById('editStuName').textContent = s.name;
-    document.getElementById('editStuPhone').textContent = s.phone;
     document.getElementById('editStuClass').textContent = s.stuClass;
     document.getElementById('editStuRegDate').textContent = s.regDate;
     document.getElementById('editStuEndDate').textContent = s.endDate;
-    document.getElementById('editStuStatus').textContent = s.status || '-';
-    document.getElementById('editStuAcctStatus').textContent = s.acctEnabled ? '启用' : '停用';
+    document.getElementById('editStuJieshu').textContent = getStudentJieshu(s);
+    document.getElementById('editStuSubjects').textContent = s.subjects || '-';
+    // Editable fields - 基本信息
+    document.getElementById('editStuName').value = s.name || '';
+    document.getElementById('editStuPhone').value = s.phone || '';
+    document.getElementById('editStuGender').value = s.gender || '';
+    document.getElementById('editStuIdCard').value = s.idCard || '';
+    document.getElementById('editStuEmail').value = s.email || '';
     // Editable fields - 背景与目标
     document.getElementById('editStuUni').value = s.uni || '';
     document.getElementById('editStuMajor').value = s.major || '';
@@ -2958,6 +4309,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var engSec = document.getElementById('editEngScoreSection');
     if(s.hasMath){ mathSec.classList.remove('score-disabled'); } else { mathSec.classList.add('score-disabled'); }
     if(s.hasEnglish){ engSec.classList.remove('score-disabled'); } else { engSec.classList.add('score-disabled'); }
+    // Photo — only show on 学员录入 page
+    var editPhotoSec = document.getElementById('editPhotoSection');
+    if(currentPage === 'xueyuan-guanli'){
+      editPhotoSec.style.display = '';
+      document.getElementById('editStuPhoto').textContent = s.photoUrl ? '<img src="'+s.photoUrl+'" style="max-width:200px;border-radius:6px" alt="附件">' : '-';
+    } else {
+      editPhotoSec.style.display = 'none';
+    }
     document.getElementById('studentEditTitle').textContent = '编辑学员 - ' + s.name;
     document.getElementById('studentEditModal').classList.add('show');
   };
@@ -2965,6 +4324,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window.submitStudentEdit = function(){
     var s = studentData.filter(function(x){ return x.id===editingStudentId; })[0];
     if(!s) return;
+    // Update 基本信息
+    s.name = document.getElementById('editStuName').value;
+    s.phone = document.getElementById('editStuPhone').value;
+    s.gender = document.getElementById('editStuGender').value;
+    s.idCard = document.getElementById('editStuIdCard').value;
+    s.email = document.getElementById('editStuEmail').value;
     // Update 背景与目标
     s.uni = document.getElementById('editStuUni').value;
     s.major = document.getElementById('editStuMajor').value;
@@ -2984,7 +4349,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     s.levels = levelsParts.join('  ');
     closeModal('studentEditModal');
     showToast('学员信息更新成功');
-    renderStudentPage();
+    if(currentPage === 'xueyuan-xinxi'){
+      studentInfoPage = 1;
+      renderStudentInfoPage();
+    } else {
+      renderStudentPage();
+    }
   };
 
   window.submitStudentEdit = window.submitStudentEdit;
@@ -2998,6 +4368,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     document.getElementById('createStuIdCard').value = '';
     document.getElementById('createStuEmail').value = '';
     document.getElementById('createStuDistrict').value = '';
+    document.getElementById('createStuJieshu').value = '';
     document.getElementById('createStuClass').value = '';
     document.getElementById('createStuRegDate').value = new Date().toISOString().split('T')[0];
     document.getElementById('createStuEndDate').value = '';
@@ -3017,6 +4388,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     clearCreateStuImage();
     document.getElementById('createMathScoreSection').classList.add('score-disabled');
     document.getElementById('createEngScoreSection').classList.add('score-disabled');
+    updateCreateFee();
     document.getElementById('studentCreateModal').classList.add('show');
   };
 
@@ -3024,6 +4396,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var name = document.getElementById('createStuName').value.trim();
     var phone = document.getElementById('createStuPhone').value.trim();
     var district = document.getElementById('createStuDistrict').value;
+    var jieshu = document.getElementById('createStuJieshu').value;
     var stuClass = document.getElementById('createStuClass').value;
     var regDate = document.getElementById('createStuRegDate').value;
     var endDate = document.getElementById('createStuEndDate').value;
@@ -3043,8 +4416,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(hasEnglish){ if(subjects) subjects += '、'; subjects += '英语'; levelsParts.push('英：'+(document.getElementById('createStuEngCur').value||'—')+'→'+(document.getElementById('createStuEngTarget').value||'—')); }
 
     studentData.push({
-      id:newId, name:name, phone:phone, district:district, stuClass:stuClass,
-      regDate:regDate, endDate:endDate, status:'在读', acctEnabled:true,
+      id:newId, name:name, phone:phone, district:district, jieshu:jieshu, stuClass:stuClass,
+      regDate:regDate, endDate:endDate, status:'审核中', acctEnabled:false,
       subjects:subjects, levels:levelsParts.join('  '),
       mathCur:document.getElementById('createStuMathCur').value,
       mathTarget:document.getElementById('createStuMathTarget').value,
@@ -3084,7 +4457,18 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         else { engSec.classList.add('score-disabled'); document.getElementById('createStuEngCur').value=''; document.getElementById('createStuEngTarget').value=''; }
       }
     }
+    updateCreateFee();
   };
+
+  function updateCreateFee(){
+    var math = document.getElementById('createSubjMath').checked;
+    var eng = document.getElementById('createSubjEnglish').checked;
+    var fee = 0;
+    if(math && eng) fee = 188;
+    else if(math || eng) fee = 100;
+    var display = document.getElementById('createFeeDisplay');
+    display.innerHTML = '支付费用：<span style="font-size:20px;font-weight:700;color:var(--primary)">'+fee+'</span> 元<div style="font-size:11px;color:var(--text-muted)">若审核被驳回，费用将全额退回</div>';
+  }
 
   // 图片上传预览
   window.previewCreateStuImage = function(input){
@@ -9829,26 +11213,69 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     renderBpdLimitModal();
   };
 
-  // === 错题数量限制弹窗 ===
+  // === 错题规则弹窗（随机 / 顺序） ===
   function renderBpdLimitModal(){
     var html = '<div class="bpd-modal-overlay" id="bpdLimitModal">';
-    html += '<div class="bpd-modal-dialog">';
-    html += '<div class="bpd-modal-title">设置错题数量限制</div>';
-    html += '<div class="bpd-modal-desc">设置每位学员打印错题数量上限，超出部分的错题将不会被打印。</div>';
+    html += '<div class="bpd-modal-dialog" style="max-width:460px">';
+    html += '<div class="bpd-modal-title">设置错题规则</div>';
+    html += '<div class="bpd-modal-desc">选择错题选取方式，控制每位学员的错题打印范围。</div>';
+
+    // Rule selection - Radio group
+    html += '<div class="bpd-modal-rule-section">';
+    html += '<div class="bpd-modal-rule-label">选取方式</div>';
+    html += '<div class="bpd-modal-radio-group">';
+    html += '<div class="bpd-modal-radio active" id="bpdRuleRandom" data-rule="random" onclick="onBpdRuleSwitch(\'random\')">';
+    html += '<div class="radio-dot"></div>随机选取</div>';
+    html += '<div class="bpd-modal-radio" id="bpdRuleSequential" data-rule="sequential" onclick="onBpdRuleSwitch(\'sequential\')">';
+    html += '<div class="radio-dot"></div>按顺序选取</div>';
+    html += '</div>';
+    html += '</div>';
+
+    // Random - quantity limit
+    html += '<div id="bpdRandomPanel">';
     html += '<div class="bpd-modal-input-row">';
     html += '<label for="bpdLimitInput">数量上限</label>';
     html += '<input type="number" id="bpdLimitInput" value="10" min="1" max="50">';
-    html += '<span class="bpd-input-hint">题/人（1-50）</span>';
+    html += '<span class="bpd-input-hint">题/人</span>';
     html += '</div>';
+    html += '</div>';
+
+    // Sequential - range
+    html += '<div id="bpdSequentialPanel" class="bpd-modal-rule-hidden">';
+    html += '<div class="bpd-modal-input-row" style="align-items:center">';
+    html += '<label>题目范围</label>';
+    html += '<div class="bpd-modal-range-row">';
+    html += '<span style="font-size:12px;color:var(--text-muted)">第</span>';
+    html += '<input type="number" class="bpd-range-input" id="bpdRangeStart" value="1" min="1">';
+    html += '<span class="bpd-range-sep">—</span>';
+    html += '<input type="number" class="bpd-range-input" id="bpdRangeEnd" value="5" min="1">';
+    html += '<span style="font-size:12px;color:var(--text-muted)">题</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="bpd-modal-range-hint">按错题原始列表顺序，截取指定区间的题目（含起止）</div>';
+    html += '</div>';
+
     html += '<div class="bpd-modal-actions">';
     html += '<button class="bpd-modal-btn bpd-modal-btn-cancel" onclick="closeBpdLimitModal()">取消</button>';
     html += '<button class="bpd-modal-btn bpd-modal-btn-confirm" onclick="onBpdConfirmPrint()">确认打印</button>';
     html += '</div>';
     html += '</div></div>';
     document.body.insertAdjacentHTML('beforeend', html);
-    // Focus input
+    // Focus the first input
     setTimeout(function(){ var inp=document.getElementById('bpdLimitInput'); if(inp){inp.focus();inp.select();} }, 100);
   }
+
+  window.onBpdRuleSwitch = function(rule){
+    document.getElementById('bpdRuleRandom').classList.toggle('active', rule==='random');
+    document.getElementById('bpdRuleSequential').classList.toggle('active', rule==='sequential');
+    document.getElementById('bpdRandomPanel').classList.toggle('bpd-modal-rule-hidden', rule!=='random');
+    document.getElementById('bpdSequentialPanel').classList.toggle('bpd-modal-rule-hidden', rule!=='sequential');
+    // Focus appropriate input
+    setTimeout(function(){
+      if(rule==='random'){ var inp=document.getElementById('bpdLimitInput'); if(inp){inp.focus();inp.select();} }
+      else { var inp=document.getElementById('bpdRangeStart'); if(inp)inp.focus(); }
+    }, 100);
+  };
 
   window.closeBpdLimitModal = function(){
     var ov = document.getElementById('bpdLimitModal');
@@ -9856,9 +11283,19 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   };
 
   window.onBpdConfirmPrint = function(){
-    var limitInput = document.getElementById('bpdLimitInput');
-    var limit = parseInt(limitInput.value) || 10;
-    limit = Math.max(1, Math.min(50, limit));
+    // Determine selected rule
+    var isSequential = document.getElementById('bpdRuleSequential').classList.contains('active');
+
+    var limit = 10, rangeStart = 1, rangeEnd = 5;
+    if(isSequential){
+      rangeStart = parseInt(document.getElementById('bpdRangeStart').value) || 1;
+      rangeEnd = parseInt(document.getElementById('bpdRangeEnd').value) || 5;
+      if(rangeStart < 1) rangeStart = 1;
+      if(rangeEnd < rangeStart) rangeEnd = rangeStart;
+    } else {
+      limit = parseInt(document.getElementById('bpdLimitInput').value) || 10;
+      limit = Math.max(1, Math.min(50, limit));
+    }
     closeBpdLimitModal();
 
     // Collect filtered student data
@@ -9870,7 +11307,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     if(paperStudents.length===0){ showToast('当前筛选条件下无学员数据可打印'); return; }
 
-    // Collect questions from cuotiDayinData with per-student limit
+    // Collect questions from cuotiDayinData with rule applied
     var allQuestions = [];
     var studentNames = [];
     paperStudents.forEach(function(ps){
@@ -9881,7 +11318,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           if(bpdTimeStart) qs = qs.filter(function(q){ return q.submitTime >= bpdTimeStart; });
           if(bpdTimeEnd) qs = qs.filter(function(q){ return q.submitTime <= bpdTimeEnd+' 23:59:59'; });
           if(bpdCorrectionFilter) qs = qs.filter(function(q){ return q.correctionStatus===bpdCorrectionFilter; });
-          qs = qs.slice(0, limit); // Apply per-student limit
+          if(isSequential){
+            qs = qs.slice(rangeStart - 1, rangeEnd); // 1-based to 0-based
+          } else {
+            qs = qs.slice(0, limit);
+          }
           qs.forEach(function(q){
             q._studentName = ps.studentName;
             q._className = ps.className;
