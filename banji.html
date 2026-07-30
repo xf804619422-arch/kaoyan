@@ -10988,6 +10988,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // 批量打印筛选状态
   var bpdSelectedPaper = null;         // 当前选中的试卷
   var bpdSubjectFilter = '';           // 科目筛选: '' | '数学' | '英语'
+  var bpdSourceFilter = '';            // 来源筛选: '' | 'lianCe' | 'zuoye'
   var bpdCategoryFilter = '';          // 一级分类筛选
   var bpdSubCategoryFilter = '';       // 二级分类筛选
   var bpdPaperSearch = '';             // 练测名称搜索
@@ -11008,6 +11009,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     leftHtml += '<div class="bpd-subject-tab'+(bpdSubjectFilter==='数学'?' active':'')+'" onclick="onBpdSubjectFilter(\'数学\')">数学</div>';
     leftHtml += '<div class="bpd-subject-tab'+(bpdSubjectFilter==='英语'?' active':'')+'" onclick="onBpdSubjectFilter(\'英语\')">英语</div>';
     leftHtml += '</div>';
+
+    // 来源筛选（练测/作业）
+    leftHtml += '<div class="bpd-subcat-row"><select class="bpd-cat-select" id="bpdSourceFilter" onchange="onBpdSourceChange()">';
+    leftHtml += '<option value="">全部来源</option>';
+    leftHtml += '<option value="lianCe"'+(bpdSourceFilter==='lianCe'?' selected':'')+'>练测</option>';
+    leftHtml += '<option value="zuoye"'+(bpdSourceFilter==='zuoye'?' selected':'')+'>作业</option>';
+    leftHtml += '</select></div>';
 
     // 一级分类筛选（下拉）
     leftHtml += '<div class="bpd-cat-row"><select class="bpd-cat-select" id="bpdCategoryFilter" onchange="onBpdCategorySelectChange()">';
@@ -11159,6 +11167,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     bpdSubjectFilter = subject;
     bpdCategoryFilter = '';
     bpdSubCategoryFilter = '';
+    renderCuotiPiliangDayinPage();
+  };
+
+  window.onBpdSourceChange = function(){
+    bpdSourceFilter = document.getElementById('bpdSourceFilter').value;
     renderCuotiPiliangDayinPage();
   };
 
