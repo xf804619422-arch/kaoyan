@@ -1169,6 +1169,13 @@ table{border-collapse:collapse;width:100%}
         <div class="form-section-title">科目信息</div>
         <div style="margin-bottom:12px" id="editMathScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--primary)">数学</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="editStuMathBaoming">
+                <option value="数一">数一</option><option value="数二">数二</option><option value="数三">数三</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="editStuMathCur"><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
@@ -1179,6 +1186,13 @@ table{border-collapse:collapse;width:100%}
         </div>
         <div id="editEngScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--warning)">英语</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="editStuEngBaoming">
+                <option value="英一">英一</option><option value="英二">英二</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="editStuEngCur"><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
@@ -2230,15 +2244,15 @@ function getReviewStudentData(){
   // 学员审核演示数据 - 从 reviewLogs 中关联状态
   var rows = [];
   // 审核中
-  rows.push({id:'2025003',name:'王五',phone:'138****5555',stuClass:'25考研数学一班',subjects:'数学、英语',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'2025006',name:'周八',phone:'138****8888',stuClass:'26考研英语预备班',subjects:'英语',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'西城学区中心',cohort:'2026届'});
-  rows.push({id:'2025008',name:'郑十',phone:'138****9999',stuClass:'25考研政治一班',subjects:'政治',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'2025003',name:'王五',phone:'138****5555',stuClass:'25考研数学一班',subjects:'数三、英一',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'2025006',name:'周八',phone:'138****8888',stuClass:'26考研英语预备班',subjects:'英一',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'西城学区中心',cohort:'2026届'});
+  rows.push({id:'2025008',name:'郑十',phone:'138****9999',stuClass:'25考研政治一班',subjects:'数一、英二',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
   // 审核驳回
-  rows.push({id:'2025004',name:'赵六',phone:'138****6666',stuClass:'25考研英语一班',subjects:'英语、政治',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-21 11:20',reason:'身份证照片模糊不清，无法核验身份信息，请重新上传清晰照片',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'2025007',name:'吴九',phone:'138****7777',stuClass:'25考研数学二班',subjects:'数学',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-23 15:45',reason:'报名科目与目标院校专业不匹配，请核实后重新提交',district:'朝阳学区中心',cohort:'2025届'});
+  rows.push({id:'2025004',name:'赵六',phone:'138****6666',stuClass:'25考研英语一班',subjects:'英二',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-21 11:20',reason:'身份证照片模糊不清，无法核验身份信息，请重新上传清晰照片',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'2025007',name:'吴九',phone:'138****7777',stuClass:'25考研数学二班',subjects:'英一',status:'审核驳回',reviewer:'教务管理员',reviewTime:'2025-02-23 15:45',reason:'报名科目与目标院校专业不匹配，请核实后重新提交',district:'朝阳学区中心',cohort:'2025届'});
   // 审核通过
-  rows.push({id:'2025005',name:'陈一',phone:'139****1111',stuClass:'25考研数学一班',subjects:'数学、英语、政治',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-22 08:30',reason:'',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'2025009',name:'刘二',phone:'139****2222',stuClass:'25考研英语一班',subjects:'英语',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-24 09:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'2025005',name:'陈一',phone:'139****1111',stuClass:'25考研数学一班',subjects:'数一、英一',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-22 08:30',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'2025009',name:'刘二',phone:'139****2222',stuClass:'25考研英语一班',subjects:'数三、英一',status:'审核通过',reviewer:'教务管理员',reviewTime:'2025-02-24 09:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
   return rows;
 }
 
@@ -2559,13 +2573,13 @@ function switchReviewFinanceTab(tab, btn){
 
 function getReviewFinanceData(){
   var rows = [];
-  rows.push({id:'F2025001',name:'张三',phone:'138****1234',stuClass:'25考研数学一班',subjects:'数学、英语',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'F2025002',name:'李四',phone:'138****5678',stuClass:'25考研英语一班',subjects:'英语',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'F2025003',name:'王小明',phone:'139****1111',stuClass:'25考研数学二班',subjects:'数学、政治',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'朝阳学区中心',cohort:'2025届'});
-  rows.push({id:'F2025004',name:'陈红',phone:'139****2222',stuClass:'25考研政治一班',subjects:'政治',status:'审核驳回',reviewer:'财务管理员',reviewTime:'2025-02-22 10:30',reason:'缴费凭证金额与实际应缴金额不符，请重新上传缴费凭证',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'F2025005',name:'刘刚',phone:'139****3333',stuClass:'26考研英语预备班',subjects:'英语',status:'审核驳回',reviewer:'财务管理员',reviewTime:'2025-02-24 14:00',reason:'银行转账截图不清晰，无法核对付款账户信息',district:'西城学区中心',cohort:'2026届'});
-  rows.push({id:'F2025006',name:'赵丽',phone:'139****4444',stuClass:'25考研数学一班',subjects:'数学、英语、政治',status:'审核通过',reviewer:'财务管理员',reviewTime:'2025-02-21 09:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
-  rows.push({id:'F2025007',name:'孙伟',phone:'139****5555',stuClass:'25考研英语一班',subjects:'英语、政治',status:'审核通过',reviewer:'财务管理员',reviewTime:'2025-02-23 11:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'F2025001',name:'张三',phone:'138****1234',stuClass:'25考研数学一班',subjects:'数一、英一',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'F2025002',name:'李四',phone:'138****5678',stuClass:'25考研英语一班',subjects:'英二',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'F2025003',name:'王小明',phone:'139****1111',stuClass:'25考研数学二班',subjects:'数二',status:'审核中',reviewer:'',reviewTime:'',reason:'',district:'朝阳学区中心',cohort:'2025届'});
+  rows.push({id:'F2025004',name:'陈红',phone:'139****2222',stuClass:'25考研政治一班',subjects:'英一',status:'审核驳回',reviewer:'财务管理员',reviewTime:'2025-02-22 10:30',reason:'缴费凭证金额与实际应缴金额不符，请重新上传缴费凭证',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'F2025005',name:'刘刚',phone:'139****3333',stuClass:'26考研英语预备班',subjects:'英二',status:'审核驳回',reviewer:'财务管理员',reviewTime:'2025-02-24 14:00',reason:'银行转账截图不清晰，无法核对付款账户信息',district:'西城学区中心',cohort:'2026届'});
+  rows.push({id:'F2025006',name:'赵丽',phone:'139****4444',stuClass:'25考研数学一班',subjects:'数三、英一',status:'审核通过',reviewer:'财务管理员',reviewTime:'2025-02-21 09:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
+  rows.push({id:'F2025007',name:'孙伟',phone:'139****5555',stuClass:'25考研英语一班',subjects:'英一',status:'审核通过',reviewer:'财务管理员',reviewTime:'2025-02-23 11:00',reason:'',district:'海淀学区中心',cohort:'2025届'});
   return rows;
 }
 
@@ -3426,40 +3440,40 @@ switchBalanceTab('income', document.querySelector('#tab-balance .balance-tab[dat
 // ==================== 学员信息 ====================
 var studentInfoData = [
   { id:'2025001', name:'张三', phone:'138****8001', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:true,
-    subjects:'数学、英语', levels:'数：80→120  英：70→85', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+    subjects:'数一、英一', levels:'数一：80→120  英一：70→85', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数一', engCur:'70-79', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
     gender:'男', email:'zhangsan@example.com', idCard:'110101199001011234', uni:'北京大学', major:'计算机科学', targetUni:'北京大学', targetMajor:'软件工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
   { id:'2025002', name:'李四', phone:'138****8002', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
-    subjects:'数学、英语', levels:'数：65→110  英：60→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+    subjects:'数二、英二', levels:'数二：65→110  英二：60→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数二', engCur:'60-69', engTarget:'80-89', engBaoming:'英二', hasMath:true, hasEnglish:true,
     gender:'男', email:'lisi@example.com', idCard:'220101199102025678', uni:'清华大学', major:'电子信息', targetUni:'清华大学', targetMajor:'计算机科学', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
   { id:'2025003', name:'王五', phone:'139****9003', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:false,
-    subjects:'数学、英语', levels:'数：90→130  英：75→90', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+    subjects:'数三、英一', levels:'数三：90→130  英一：75→90', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数三', engCur:'70-79', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
     gender:'男', email:'wangwu@example.com', idCard:'330101199303037890', uni:'浙江大学', major:'数学', targetUni:'复旦大学', targetMajor:'应用数学', targetTier:'211', category:'2026 - 理学[07]-各学科专业' },
   { id:'2025004', name:'赵六', phone:'137****7004', district:'海淀学区', stuClass:'25考研英语一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
-    subjects:'英语', levels:'数：55→90  英：50→70', mathCur:'<60', mathTarget:'80-99', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
+    subjects:'英二', levels:'英二：50→70', mathCur:'<60', mathTarget:'80-99', mathBaoming:'数一', engCur:'50-59', engTarget:'70-79', engBaoming:'英二', hasMath:false, hasEnglish:true,
     gender:'女', email:'zhaoliu@example.com', idCard:'410101199404044321', uni:'武汉大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 历史学[06]-各学科专业' },
   { id:'2025005', name:'孙七', phone:'136****6005', district:'西城学区', stuClass:'25考研政治一班', regDate:'2025-02-15', endDate:'2025-12-31', status:'已结课', acctEnabled:false,
-    subjects:'数学、英语', levels:'数：70→105  英：65→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+    subjects:'数一、英一', levels:'数一：70→105  英一：65→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数一', engCur:'60-69', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
     gender:'未知', email:'sunqi@example.com', idCard:'510101199505055678', uni:'中山大学', major:'政治学', targetUni:'未确定', targetMajor:'未确定', targetTier:'未确定', category:'' },
   { id:'2025006', name:'周八', phone:'135****5006', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:true,
-    subjects:'数学、英语', levels:'数：45→85  英：40→65', mathCur:'<60', mathTarget:'80-99', engCur:'<50', engTarget:'60-69', hasMath:true, hasEnglish:true,
+    subjects:'数二、英一', levels:'数二：45→85  英一：40→65', mathCur:'<60', mathTarget:'80-99', mathBaoming:'数二', engCur:'<50', engTarget:'60-69', engBaoming:'英一', hasMath:true, hasEnglish:true,
     gender:'男', email:'zhouba@example.com', idCard:'320101199606067890', uni:'南京大学', major:'物理', targetUni:'南京大学', targetMajor:'理论物理', targetTier:'本校', category:'2026 - 理学[07]-各学科专业' },
   { id:'2025007', name:'吴九', phone:'158****9007', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-20', endDate:'2027-07-20', status:'审核中', acctEnabled:false,
-    subjects:'英语', levels:'英：55→75', mathCur:'', mathTarget:'', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
+    subjects:'英一', levels:'英一：55→75', mathCur:'', mathTarget:'', mathBaoming:'数一', engCur:'50-59', engTarget:'70-79', engBaoming:'英一', hasMath:false, hasEnglish:true,
     gender:'女', email:'wujiu@example.com', idCard:'350101199707078901', uni:'厦门大学', major:'日语', targetUni:'北京外国语大学', targetMajor:'英语笔译', targetTier:'211', category:'2026 - 文学[05]-各学科专业',
     jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-21 09:30:00' },
     caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
   { id:'2025008', name:'郑十', phone:'159****9008', district:'朝阳学区', stuClass:'2026届考研数学二班', regDate:'2026-07-22', endDate:'2027-07-22', status:'审核中', acctEnabled:false,
-    subjects:'数学、英语', levels:'数：95→135  英：80→90', mathCur:'80-99', mathTarget:'120-139', engCur:'80-89', engTarget:'90+', hasMath:true, hasEnglish:true,
+    subjects:'数一、英二', levels:'数一：95→135  英二：80→90', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数一', engCur:'80-89', engTarget:'90+', engBaoming:'英二', hasMath:true, hasEnglish:true,
     gender:'男', email:'zhengshi@example.com', idCard:'440101199808080123', uni:'华南理工大学', major:'土木工程', targetUni:'同济大学', targetMajor:'结构工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业',
     jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
     caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
   { id:'2025009', name:'陈一', phone:'177****9009', district:'丰台学区', stuClass:'2026届考研政治二班', regDate:'2026-07-18', endDate:'2027-07-18', status:'审核驳回', acctEnabled:false,
-    subjects:'数学、英语', levels:'数：70→110  英：60→75', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'70-79', hasMath:true, hasEnglish:true,
+    subjects:'数三、英一', levels:'数三：70→110  英一：60→75', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数三', engCur:'60-69', engTarget:'70-79', engBaoming:'英一', hasMath:true, hasEnglish:true,
     gender:'女', email:'chenyi@example.com', idCard:'610101199909090456', uni:'西安交通大学', major:'经济学', targetUni:'中国人民大学', targetMajor:'金融学', targetTier:'985', category:'2026 - 经济学[02]-各学科专业',
     jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-19 10:00:00' },
     caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-20 14:30:00' } },
   { id:'2025010', name:'林二', phone:'188****9010', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-25', endDate:'2027-07-25', status:'审核中', acctEnabled:false,
-    subjects:'英语', levels:'英：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', hasMath:false, hasEnglish:true,
+    subjects:'英一', levels:'英一：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', mathBaoming:'数一', engBaoming:'英一', hasMath:false, hasEnglish:true,
     gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
     jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
     caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
@@ -3473,15 +3487,15 @@ var studentInfoPageSize = 5;
 // Mock adjust registration records
 var adjustRegRecords = {
   '2025001': [
-    { id:'AR001', jieshu:'2026届', stuClass:'25考研数学一班', subjects:'数学、英语', hasMath:true, hasEnglish:true, regDate:'2025-09-01', endDate:'2026-12-31', remark:'', price:188, priceDiff:0, time:'2026-07-15 10:30:22', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-15 14:20:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-16 09:15:00' }, rejectReason:'' },
-    { id:'AR002', jieshu:'2027届', stuClass:'2027届考研数学一班', subjects:'数学', hasMath:true, hasEnglish:false, regDate:'2026-09-01', endDate:'2027-12-31', remark:'学员申请转为纯数学方向', price:100, priceDiff:0, time:'2026-07-28 08:45:10', jiaowuReview:{ status:'审核中', reviewer:'', time:'' }, caiwuReview:{ status:'审核中', reviewer:'', time:'' }, rejectReason:'' }
+    { id:'AR001', jieshu:'2026届', stuClass:'25考研数学一班', subjects:'数一、英一', hasMath:true, hasEnglish:true, mathBaoming:'数一', engBaoming:'英一', regDate:'2025-09-01', endDate:'2026-12-31', remark:'', price:188, priceDiff:0, time:'2026-07-15 10:30:22', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-15 14:20:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-16 09:15:00' }, rejectReason:'' },
+    { id:'AR002', jieshu:'2027届', stuClass:'2027届考研数学一班', subjects:'数一', hasMath:true, hasEnglish:false, mathBaoming:'数一', engBaoming:'英一', regDate:'2026-09-01', endDate:'2027-12-31', remark:'学员申请转为纯数学方向', price:100, priceDiff:0, time:'2026-07-28 08:45:10', jiaowuReview:{ status:'审核中', reviewer:'', time:'' }, caiwuReview:{ status:'审核中', reviewer:'', time:'' }, rejectReason:'' }
   ],
   '2025002': [
-    { id:'AR003', jieshu:'2026届', stuClass:'2026届考研英语一班', subjects:'英语', hasMath:false, hasEnglish:true, regDate:'2025-09-01', endDate:'2026-12-31', remark:'只报英语单科', price:100, priceDiff:0, time:'2026-06-20 16:12:05', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-06-21 10:00:00' }, caiwuReview:{ status:'通过', reviewer:'张会计', time:'2026-06-21 15:30:00' }, rejectReason:'' },
-    { id:'AR004', jieshu:'2027届', stuClass:'2027届考研英语二班', subjects:'数学、英语', hasMath:true, hasEnglish:true, regDate:'2026-09-01', endDate:'2027-12-31', remark:'增加数学科目', price:188, priceDiff:88, time:'2026-07-25 11:20:33', jiaowuReview:{ status:'审核驳回', reviewer:'李主任', time:'2026-07-26 09:30:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 14:00:00' }, rejectReason:'该班级数学科目名额已满，暂无法转入' }
+    { id:'AR003', jieshu:'2026届', stuClass:'2026届考研英语一班', subjects:'英二', hasMath:false, hasEnglish:true, mathBaoming:'数二', engBaoming:'英二', regDate:'2025-09-01', endDate:'2026-12-31', remark:'只报英语单科', price:100, priceDiff:0, time:'2026-06-20 16:12:05', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-06-21 10:00:00' }, caiwuReview:{ status:'通过', reviewer:'张会计', time:'2026-06-21 15:30:00' }, rejectReason:'' },
+    { id:'AR004', jieshu:'2027届', stuClass:'2027届考研英语二班', subjects:'数二、英二', hasMath:true, hasEnglish:true, mathBaoming:'数二', engBaoming:'英二', regDate:'2026-09-01', endDate:'2027-12-31', remark:'增加数学科目', price:188, priceDiff:88, time:'2026-07-25 11:20:33', jiaowuReview:{ status:'审核驳回', reviewer:'李主任', time:'2026-07-26 09:30:00' }, caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 14:00:00' }, rejectReason:'该班级数学科目名额已满，暂无法转入' }
   ],
   '2025006': [
-    { id:'AR005', jieshu:'2028届', stuClass:'2028届考研数学二班', subjects:'数学', hasMath:true, hasEnglish:false, regDate:'2027-09-01', endDate:'2028-12-31', remark:'申请调整到下一届', price:100, priceDiff:0, time:'2026-07-30 09:05:42', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-30 10:30:00' }, caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-30 11:15:00' }, rejectReason:'差价未补缴，请先完成支付后再重新提交' }
+    { id:'AR005', jieshu:'2028届', stuClass:'2028届考研数学二班', subjects:'数二', hasMath:true, hasEnglish:false, mathBaoming:'数二', engBaoming:'英一', regDate:'2027-09-01', endDate:'2028-12-31', remark:'申请调整到下一届', price:100, priceDiff:0, time:'2026-07-30 09:05:42', jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-30 10:30:00' }, caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-30 11:15:00' }, rejectReason:'差价未补缴，请先完成支付后再重新提交' }
   ]
 };
 
@@ -3512,16 +3526,10 @@ function getJieShuFromClass(stuClass){
 function buildSubjectHtml(s){
   var html='';
   if(s.hasMath){
-    html += '<span class="subject-line"><span class="layer-tag layer-math">数学</span>';
-    var subs=s.subjects.match(/数学-([^、]+)/);
-    if(subs){
-      var parts=subs[1].split('-');
-      parts.forEach(function(p){ html+='<span class="level-tag level-math-sub">'+p+'</span>'; });
-    }
-    html += '</span>';
+    html += '<span class="subject-line"><span class="level-tag level-math-sub">'+(s.mathBaoming||'数一')+'</span></span>';
   }
   if(s.hasEnglish){
-    html += '<span class="subject-line"><span class="layer-tag layer-english">英语</span></span>';
+    html += '<span class="subject-line"><span class="level-tag level-math-sub">'+(s.engBaoming||'英一')+'</span></span>';
   }
   return html || '-';
 }
@@ -3765,8 +3773,10 @@ function openStudentEdit(id){
   document.getElementById('editStuTargetMajor').value = s.targetMajor || '';
   document.getElementById('editStuTargetTier').value = s.targetTier || '';
   document.getElementById('editStuCategory').value = s.category || '';
+  document.getElementById('editStuMathBaoming').value = s.mathBaoming || '数一';
   document.getElementById('editStuMathCur').value = s.mathCur || '';
   document.getElementById('editStuMathTarget').value = s.mathTarget || '';
+  document.getElementById('editStuEngBaoming').value = s.engBaoming || '英一';
   document.getElementById('editStuEngCur').value = s.engCur || '';
   document.getElementById('editStuEngTarget').value = s.engTarget || '';
   var mathSec = document.getElementById('editMathScoreSection');
@@ -3791,13 +3801,20 @@ function submitStudentEdit(){
   s.targetMajor = document.getElementById('editStuTargetMajor').value;
   s.targetTier = document.getElementById('editStuTargetTier').value;
   s.category = document.getElementById('editStuCategory').value;
+  s.mathBaoming = document.getElementById('editStuMathBaoming').value;
   s.mathCur = document.getElementById('editStuMathCur').value;
   s.mathTarget = document.getElementById('editStuMathTarget').value;
+  s.engBaoming = document.getElementById('editStuEngBaoming').value;
   s.engCur = document.getElementById('editStuEngCur').value;
   s.engTarget = document.getElementById('editStuEngTarget').value;
+  // Rebuild subjects & levels
+  var subjectsParts=[];
+  if(s.hasMath){ subjectsParts.push(s.mathBaoming); }
+  if(s.hasEnglish){ subjectsParts.push(s.engBaoming); }
+  s.subjects = subjectsParts.join('、');
   var levelsParts=[];
-  if(s.hasMath){ levelsParts.push('数：'+(s.mathCur||'—')+'→'+(s.mathTarget||'—')); }
-  if(s.hasEnglish){ levelsParts.push('英：'+(s.engCur||'—')+'→'+(s.engTarget||'—')); }
+  if(s.hasMath){ levelsParts.push(s.mathBaoming+'：'+(s.mathCur||'—')+'→'+(s.mathTarget||'—')); }
+  if(s.hasEnglish){ levelsParts.push(s.engBaoming+'：'+(s.engCur||'—')+'→'+(s.engTarget||'—')); }
   s.levels = levelsParts.join('  ');
   closeModal('studentEditModal');
   showToast('学员信息更新成功');

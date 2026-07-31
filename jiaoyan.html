@@ -170,6 +170,12 @@ tr:hover td{background:#fafbfc}
 .form-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
 .form-check input[type=radio],.form-check input[type=checkbox]{margin-top:3px}
 
+.baoming-check-grid{display:flex;flex-wrap:wrap;gap:8px 16px}
+.baoming-check-grid label{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text);cursor:pointer;padding:5px 12px;border:1px solid var(--border);border-radius:6px;transition:all .15s;user-select:none}
+.baoming-check-grid label:hover{border-color:var(--primary);background:rgba(79,70,229,.03)}
+.baoming-check-grid input[type="checkbox"]{accent-color:var(--primary);width:15px;height:15px;cursor:pointer}
+.baoming-check-grid label.checked{border-color:var(--primary);background:rgba(79,70,229,.06);color:var(--primary);font-weight:500}
+
 /* ---- MODAL ---- */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
@@ -2794,6 +2800,13 @@ tr:hover td{background:#fafbfc}
           <option value="">不设置</option><option value="high">高频</option><option value="mid">中频</option><option value="low">低频</option>
         </select>
       </div>
+      <div class="form-group" id="baomingSubjectsGroup" style="display:none">
+        <label class="form-label">报名科目</label>
+        <div class="baoming-check-grid" id="baomingCheckGrid">
+          <!-- JS动态填充 -->
+        </div>
+        <span class="form-help">勾选该知识点关联的报名科目，最少选择一项</span>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('addNodeModal')">取消</button>
@@ -3778,15 +3791,67 @@ function onNodeTypeChange(){
   if(type==='course'){
     $('parentNodeGroup').style.display='none';
     addNodeParentId=null;
+    $('baomingSubjectsGroup').style.display='none';
   }else{
     $('parentNodeGroup').style.display='';
     populateParentNodeOptions(type);
+    if(type==='knowledge'){
+      $('baomingSubjectsGroup').style.display='';
+      populateBaomingCheckboxes(null);
+    }else{
+      $('baomingSubjectsGroup').style.display='none';
+    }
   }
 }
 
 function onParentNodeSelectChange(){
   const sel=$('parentNodeSelect');
   addNodeParentId=sel.value?Number(sel.value):null;
+}
+
+function populateBaomingCheckboxes(selectedList){
+  const grid=$('baomingCheckGrid');
+  // Determine subject from treeFilter: math -> 数一数二数三, english -> 英一英二
+  var items;
+  if(treeFilter==='math'){
+    items=[{label:'数一',code:'MATH-1'},{label:'数二',code:'MATH-2'},{label:'数三',code:'MATH-3'}];
+  }else{
+    items=[{label:'英一',code:'ENG-1'},{label:'英二',code:'ENG-2'}];
+  }
+  // Default all checked if no selection specified (null = new add mode)
+  var isAllDefault = (selectedList===null);
+  var html='';
+  items.forEach(function(it){
+    var checked = isAllDefault || (selectedList&&selectedList.indexOf(it.code)>=0);
+    var labelClass = checked?'checked':'';
+    html += '<label class="'+labelClass+'" onclick="toggleBaomingCheck(this)">';
+    html += '<input type="checkbox" value="'+it.code+'"'+(checked?' checked':'')+' onchange="syncBaomingLabel(this)">';
+    html += it.label;
+    html += '</label>';
+  });
+  grid.innerHTML=html;
+}
+
+function toggleBaomingCheck(label){
+  var cb = label.querySelector('input[type=checkbox]');
+  cb.checked = !cb.checked;
+  syncBaomingLabel(cb);
+}
+
+function syncBaomingLabel(cb){
+  var label = cb.parentElement;
+  if(cb.checked){
+    label.classList.add('checked');
+  }else{
+    label.classList.remove('checked');
+  }
+}
+
+function getBaomingCheckedSubjects(){
+  var checks = document.querySelectorAll('#baomingCheckGrid input[type=checkbox]:checked');
+  var result = [];
+  checks.forEach(function(cb){result.push(cb.value);});
+  return result;
 }
 
 function getStageNode(){
@@ -3834,6 +3899,7 @@ function showAddCourseModal(){
   $('nodeName').value='';
   $('nodeFreq').value='';
   $('freqGroup').style.display='none';
+  $('baomingSubjectsGroup').style.display='none';
   $('parentNodeGroup').style.display='none';
   addNodeParentId=null;
   $('addNodeTitle').textContent='新增节点';
@@ -3849,6 +3915,7 @@ function showAddRootNode(){
   $('nodeType').disabled=false;
   $('nodeName').value='';
   $('nodeFreq').value='';
+  $('baomingSubjectsGroup').style.display='none';
   $('addNodeTitle').textContent='新增节点（'+treeSubCategory+' / '+treeStage+'）';
   addNodeParentId=null;
   onNodeTypeChange();
@@ -3870,6 +3937,12 @@ function showAddChildModal(parentId){
   $('nodeFreq').value='';
   $('addNodeTitle').textContent='在"'+parentNode.name+'"下新增节点';
   $('freqGroup').style.display=childType==='knowledge'?'':'none';
+  if(childType==='knowledge'){
+    $('baomingSubjectsGroup').style.display='';
+    populateBaomingCheckboxes(null);
+  }else{
+    $('baomingSubjectsGroup').style.display='none';
+  }
   $('parentNodeGroup').style.display='none';
   openModal('addNodeModal');
 }
@@ -3890,6 +3963,12 @@ function editNode(id){
   $('nodeName').value=node.name;
   $('nodeFreq').value=node.frequency||'';
   $('freqGroup').style.display=node.type==='knowledge'?'':'none';
+  if(node.type==='knowledge'){
+    $('baomingSubjectsGroup').style.display='';
+    populateBaomingCheckboxes(node.baomingSubjects||[]);
+  }else{
+    $('baomingSubjectsGroup').style.display='none';
+  }
   $('addNodeTitle').textContent='编辑节点 - '+typeNames[node.type];
   openModal('addNodeModal');
 }
@@ -3930,7 +4009,10 @@ function saveNode(){
   if(editNodeId){
     const node=findNode(treeData,editNodeId);
     if(node){node.name=name;
-      if(node.type==='knowledge'){const f=$('nodeFreq').value;node.frequency=f||undefined}
+      if(node.type==='knowledge'){
+        const f=$('nodeFreq').value;node.frequency=f||undefined;
+        node.baomingSubjects=getBaomingCheckedSubjects();
+      }
     }
     closeModal('addNodeModal');
     editNodeId=null;
@@ -3941,7 +4023,10 @@ function saveNode(){
   // Add mode
   const type=$('nodeType').value;
   const node={id:++_nextId,name:name,type:type,children:[]};
-  if(type==='knowledge'){const f=$('nodeFreq').value;if(f)node.frequency=f}
+  if(type==='knowledge'){
+    const f=$('nodeFreq').value;if(f)node.frequency=f;
+    node.baomingSubjects=getBaomingCheckedSubjects();
+  }
   // Determine parent
   let parent;
   if(type==='course'){

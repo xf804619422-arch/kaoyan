@@ -2115,6 +2115,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <div class="form-section-title">科目信息</div>
         <div style="margin-bottom:12px" id="editMathScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--primary)">数学</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="editStuMathBaoming">
+                <option value="数一">数一</option><option value="数二">数二</option><option value="数三">数三</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="editStuMathCur"><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
@@ -2125,6 +2132,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </div>
         <div id="editEngScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--warning)">英语</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="editStuEngBaoming">
+                <option value="英一">英一</option><option value="英二">英二</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="editStuEngCur"><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
@@ -2169,9 +2183,19 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           <div class="form-group"><label>到期时间</label><div class="value" id="adjRegEndDateDisplay" style="padding:8px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:var(--radius);font-size:14px">-</div></div>
         </div>
         <div class="form-group"><label>报名科目 <span class="required">*</span></label>
-          <div style="display:flex;gap:16px;padding-top:6px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegMath" onchange="window._adjCalcPrice()"> 数学</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegEnglish" onchange="window._adjCalcPrice()"> 英语</label>
+          <div style="display:flex;flex-wrap:wrap;gap:20px;padding-top:6px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegMath" onchange="window._adjCalcPrice()"> 数学</label>
+              <select class="form-control" style="width:auto;display:inline-block;appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px;font-size:12px" id="adjRegMathBaoming" onchange="window._adjCalcPrice()">
+                <option value="数一">数一</option><option value="数二">数二</option><option value="数三">数三</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="adjRegEnglish" onchange="window._adjCalcPrice()"> 英语</label>
+              <select class="form-control" style="width:auto;display:inline-block;appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px;font-size:12px" id="adjRegEngBaoming" onchange="window._adjCalcPrice()">
+                <option value="英一">英一</option><option value="英二">英二</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="form-group"><label>备注</label><textarea class="form-control" id="adjRegRemark" rows="2" placeholder="请输入调整备注（选填）" style="resize:vertical"></textarea></div>
@@ -2284,6 +2308,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <div class="form-section-title">科目信息</div>
         <div style="margin-bottom:12px" id="createMathScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--primary)">数学</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="createStuMathBaoming">
+                <option value="数一">数一</option><option value="数二">数二</option><option value="数三">数三</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="createStuMathCur"><option value="">请选择</option><option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option></select>
@@ -2294,6 +2325,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </div>
         <div id="createEngScoreSection" class="score-disabled">
           <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--warning)">英语</h4>
+          <div class="form-grid" style="margin-bottom:8px">
+            <div class="form-group"><label>报名科目</label>
+              <select class="form-control" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px" id="createStuEngBaoming">
+                <option value="英一">英一</option><option value="英二">英二</option>
+              </select>
+            </div>
+          </div>
           <div class="level-select-group">
             <span style="font-size:13px;color:var(--text-secondary);min-width:60px">当前分数</span>
             <select id="createStuEngCur"><option value="">请选择</option><option>&lt;50</option><option>50-59</option><option>60-69</option><option>70-79</option><option>80-89</option><option>90+</option></select>
@@ -2550,41 +2588,41 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // ==================== Mock Data - 学员数据 ====================
   var studentData = [
     { id:'2025001', name:'张三', phone:'138****8001', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:true,
-      subjects:'数学、英语', levels:'数：80→120  英：70→85', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数一、英一', levels:'数一：80→120  英一：70→85', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数一', engCur:'70-79', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
       gender:'男', email:'zhangsan@example.com', idCard:'110101199001011234', uni:'北京大学', major:'计算机科学', targetUni:'北京大学', targetMajor:'软件工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
     { id:'2025002', name:'李四', phone:'138****8002', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
-      subjects:'数学、英语', levels:'数：65→110  英：60→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数二、英二', levels:'数二：65→110  英二：60→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数二', engCur:'60-69', engTarget:'80-89', engBaoming:'英二', hasMath:true, hasEnglish:true,
       gender:'男', email:'lisi@example.com', idCard:'220101199102025678', uni:'清华大学', major:'电子信息', targetUni:'清华大学', targetMajor:'计算机科学', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' },
     { id:'2025003', name:'王五', phone:'139****9003', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:false,
-      subjects:'数学、英语', levels:'数：90→130  英：75→90', mathCur:'80-99', mathTarget:'120-139', engCur:'70-79', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数三、英一', levels:'数三：90→130  英一：75→90', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数三', engCur:'70-79', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
       gender:'男', email:'wangwu@example.com', idCard:'330101199303037890', uni:'浙江大学', major:'数学', targetUni:'复旦大学', targetMajor:'应用数学', targetTier:'211', category:'2026 - 理学[07]-各学科专业' },
     { id:'2025004', name:'赵六', phone:'137****7004', district:'海淀学区', stuClass:'25考研英语一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:false,
-      subjects:'英语', levels:'数：55→90  英：50→70', mathCur:'<60', mathTarget:'80-99', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
+      subjects:'英二', levels:'英二：50→70', mathCur:'<60', mathTarget:'80-99', mathBaoming:'数一', engCur:'50-59', engTarget:'70-79', engBaoming:'英二', hasMath:false, hasEnglish:true,
       gender:'女', email:'zhaoliu@example.com', idCard:'410101199404044321', uni:'武汉大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 历史学[06]-各学科专业' },
     { id:'2025005', name:'孙七', phone:'136****6005', district:'西城学区', stuClass:'25考研政治一班', regDate:'2025-02-15', endDate:'2025-12-31', status:'已结课', acctEnabled:false,
-      subjects:'数学、英语', levels:'数：70→105  英：65→80', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'80-89', hasMath:true, hasEnglish:true,
+      subjects:'数一、英一', levels:'数一：70→105  英一：65→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数一', engCur:'60-69', engTarget:'80-89', engBaoming:'英一', hasMath:true, hasEnglish:true,
       gender:'未知', email:'sunqi@example.com', idCard:'510101199505055678', uni:'中山大学', major:'政治学', targetUni:'未确定', targetMajor:'未确定', targetTier:'未确定', category:'' },
     { id:'2025006', name:'周八', phone:'135****5006', district:'朝阳学区', stuClass:'25考研数学二班', regDate:'2025-04-15', endDate:'2026-06-30', status:'在读', acctEnabled:true,
-      subjects:'数学、英语', levels:'数：45→85  英：40→65', mathCur:'<60', mathTarget:'80-99', engCur:'<50', engTarget:'60-69', hasMath:true, hasEnglish:true,
+      subjects:'数二、英一', levels:'数二：45→85  英一：40→65', mathCur:'<60', mathTarget:'80-99', mathBaoming:'数二', engCur:'<50', engTarget:'60-69', engBaoming:'英一', hasMath:true, hasEnglish:true,
       gender:'男', email:'zhouba@example.com', idCard:'320101199606067890', uni:'南京大学', major:'物理', targetUni:'南京大学', targetMajor:'理论物理', targetTier:'本校', category:'2026 - 理学[07]-各学科专业' },
     // ---- 审核中 / 审核驳回 演示数据 ----
     { id:'2025007', name:'吴九', phone:'158****9007', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-20', endDate:'2027-07-20', status:'审核中', acctEnabled:false,
-      subjects:'英语', levels:'英：55→75', mathCur:'', mathTarget:'', engCur:'50-59', engTarget:'70-79', hasMath:false, hasEnglish:true,
+      subjects:'英一', levels:'英一：55→75', mathCur:'', mathTarget:'', mathBaoming:'数一', engCur:'50-59', engTarget:'70-79', engBaoming:'英一', hasMath:false, hasEnglish:true,
       gender:'女', email:'wujiu@example.com', idCard:'350101199707078901', uni:'厦门大学', major:'日语', targetUni:'北京外国语大学', targetMajor:'英语笔译', targetTier:'211', category:'2026 - 文学[05]-各学科专业',
       jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-21 09:30:00' },
       caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
     { id:'2025008', name:'郑十', phone:'159****9008', district:'朝阳学区', stuClass:'2026届考研数学二班', regDate:'2026-07-22', endDate:'2027-07-22', status:'审核中', acctEnabled:false,
-      subjects:'数学、英语', levels:'数：95→135  英：80→90', mathCur:'80-99', mathTarget:'120-139', engCur:'80-89', engTarget:'90+', hasMath:true, hasEnglish:true,
+      subjects:'数一、英二', levels:'数一：95→135  英二：80→90', mathCur:'80-99', mathTarget:'120-139', mathBaoming:'数一', engCur:'80-89', engTarget:'90+', engBaoming:'英二', hasMath:true, hasEnglish:true,
       gender:'男', email:'zhengshi@example.com', idCard:'440101199808080123', uni:'华南理工大学', major:'土木工程', targetUni:'同济大学', targetMajor:'结构工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业',
       jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
       caiwuReview:{ status:'审核中', reviewer:'', time:'' } },
     { id:'2025009', name:'陈一', phone:'177****9009', district:'丰台学区', stuClass:'2026届考研政治二班', regDate:'2026-07-18', endDate:'2027-07-18', status:'审核驳回', acctEnabled:false,
-      subjects:'数学、英语', levels:'数：70→110  英：60→75', mathCur:'60-79', mathTarget:'100-119', engCur:'60-69', engTarget:'70-79', hasMath:true, hasEnglish:true,
+      subjects:'数三、英一', levels:'数三：70→110  英一：60→75', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数三', engCur:'60-69', engTarget:'70-79', engBaoming:'英一', hasMath:true, hasEnglish:true,
       gender:'女', email:'chenyi@example.com', idCard:'610101199909090456', uni:'西安交通大学', major:'经济学', targetUni:'中国人民大学', targetMajor:'金融学', targetTier:'985', category:'2026 - 经济学[02]-各学科专业',
       jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-19 10:00:00' },
       caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-20 14:30:00' } },
     { id:'2025010', name:'林二', phone:'188****9010', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-25', endDate:'2027-07-25', status:'审核中', acctEnabled:false,
-      subjects:'英语', levels:'英：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', hasMath:false, hasEnglish:true,
+      subjects:'英一', levels:'英一：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', mathBaoming:'数一', engBaoming:'英一', hasMath:false, hasEnglish:true,
       gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
       jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
       caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
@@ -3063,16 +3101,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   function buildSubjectHtml(s){
     var html='';
     if(s.hasMath){
-      html += '<span class="subject-line"><span class="layer-tag layer-math">数学</span>';
-      var subs=s.subjects.match(/数学-([^、]+)/);
-      if(subs){
-        var parts=subs[1].split('-');
-        parts.forEach(function(p){ html+='<span class="level-tag level-math-sub">'+p+'</span>'; });
-      }
-      html += '</span>';
+      html += '<span class="subject-line"><span class="level-tag level-math-sub">'+(s.mathBaoming||'数一')+'</span></span>';
     }
     if(s.hasEnglish){
-      html += '<span class="subject-line"><span class="layer-tag layer-english">英语</span></span>';
+      html += '<span class="subject-line"><span class="level-tag level-math-sub">'+(s.engBaoming||'英一')+'</span></span>';
     }
     return html || '-';
   }
@@ -3430,6 +3462,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     // Populate subjects
     document.getElementById('adjRegMath').checked = s.hasMath;
     document.getElementById('adjRegEnglish').checked = s.hasEnglish;
+    document.getElementById('adjRegMathBaoming').value = s.mathBaoming || '数一';
+    document.getElementById('adjRegEngBaoming').value = s.engBaoming || '英一';
     document.getElementById('adjRegRemark').value = '';
 
     // Record original subjects
@@ -3469,6 +3503,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     document.getElementById('adjRegClass').disabled = !fieldsEditable;
     document.getElementById('adjRegMath').disabled = !fieldsEditable;
     document.getElementById('adjRegEnglish').disabled = !fieldsEditable;
+    document.getElementById('adjRegMathBaoming').disabled = !fieldsEditable;
+    document.getElementById('adjRegEngBaoming').disabled = !fieldsEditable;
     document.getElementById('adjRegRemark').disabled = !fieldsEditable;
 
     document.getElementById('adjustRegModal').classList.add('show');
@@ -3517,6 +3553,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var jieshu = document.getElementById('adjRegJieshu').value;
     var hasMath = document.getElementById('adjRegMath').checked;
     var hasEnglish = document.getElementById('adjRegEnglish').checked;
+    var mathBaoming = document.getElementById('adjRegMathBaoming').value;
+    var engBaoming = document.getElementById('adjRegEngBaoming').value;
     var remark = document.getElementById('adjRegRemark').value.trim();
     var regDate = document.getElementById('adjRegDateDisplay').textContent;
     var endDate = document.getElementById('adjRegEndDateDisplay').textContent;
@@ -3536,9 +3574,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var diff = newPriceVal - oldPrice;
 
     var subjectsLabel = '';
-    if(hasMath && !hasEnglish) subjectsLabel = '数学';
-    else if(!hasMath && hasEnglish) subjectsLabel = '英语';
-    else if(hasMath && hasEnglish) subjectsLabel = '数学、英语';
+    if(hasMath && !hasEnglish) subjectsLabel = mathBaoming;
+    else if(!hasMath && hasEnglish) subjectsLabel = engBaoming;
+    else if(hasMath && hasEnglish) subjectsLabel = mathBaoming+'、'+engBaoming;
 
     // Create adjust record
     var record = {
@@ -3548,6 +3586,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       subjects: subjectsLabel,
       hasMath: hasMath,
       hasEnglish: hasEnglish,
+      mathBaoming: mathBaoming,
+      engBaoming: engBaoming,
       regDate: regDate,
       endDate: endDate,
       remark: remark,
@@ -4300,8 +4340,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     document.getElementById('editStuTargetTier').value = s.targetTier || '';
     document.getElementById('editStuCategory').value = s.category || '';
     // Editable fields - 科目信息
+    document.getElementById('editStuMathBaoming').value = s.mathBaoming || '数一';
     document.getElementById('editStuMathCur').value = s.mathCur || '';
     document.getElementById('editStuMathTarget').value = s.mathTarget || '';
+    document.getElementById('editStuEngBaoming').value = s.engBaoming || '英一';
     document.getElementById('editStuEngCur').value = s.engCur || '';
     document.getElementById('editStuEngTarget').value = s.engTarget || '';
     // Enable score sections
@@ -4338,14 +4380,20 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     s.targetTier = document.getElementById('editStuTargetTier').value;
     s.category = document.getElementById('editStuCategory').value;
     // Update 科目信息
+    s.mathBaoming = document.getElementById('editStuMathBaoming').value;
     s.mathCur = document.getElementById('editStuMathCur').value;
     s.mathTarget = document.getElementById('editStuMathTarget').value;
+    s.engBaoming = document.getElementById('editStuEngBaoming').value;
     s.engCur = document.getElementById('editStuEngCur').value;
     s.engTarget = document.getElementById('editStuEngTarget').value;
-    // Rebuild levels string
+    // Rebuild subjects & levels string
+    var subjectsParts=[];
+    if(s.hasMath){ subjectsParts.push(s.mathBaoming); }
+    if(s.hasEnglish){ subjectsParts.push(s.engBaoming); }
+    s.subjects = subjectsParts.join('、');
     var levelsParts=[];
-    if(s.hasMath){ levelsParts.push('数：'+(s.mathCur||'—')+'→'+(s.mathTarget||'—')); }
-    if(s.hasEnglish){ levelsParts.push('英：'+(s.engCur||'—')+'→'+(s.engTarget||'—')); }
+    if(s.hasMath){ levelsParts.push(s.mathBaoming+'：'+(s.mathCur||'—')+'→'+(s.mathTarget||'—')); }
+    if(s.hasEnglish){ levelsParts.push(s.engBaoming+'：'+(s.engCur||'—')+'→'+(s.engTarget||'—')); }
     s.levels = levelsParts.join('  ');
     closeModal('studentEditModal');
     showToast('学员信息更新成功');
@@ -4384,6 +4432,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     document.getElementById('createStuMathTarget').value = '';
     document.getElementById('createStuEngCur').value = '';
     document.getElementById('createStuEngTarget').value = '';
+    document.getElementById('createStuMathBaoming').value = '数一';
+    document.getElementById('createStuEngBaoming').value = '英一';
     document.getElementById('createStuRemark').value = '';
     clearCreateStuImage();
     document.getElementById('createMathScoreSection').classList.add('score-disabled');
@@ -4411,9 +4461,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(!hasMath && !hasEnglish){ showToast('请至少选择一项报名科目'); return; }
 
     var newId = '2025' + ('00'+(studentData.length+7));
+    var mathBaoming = document.getElementById('createStuMathBaoming').value;
+    var engBaoming = document.getElementById('createStuEngBaoming').value;
     var subjects = '', levelsParts=[];
-    if(hasMath){ subjects += '数学'; levelsParts.push('数：'+(document.getElementById('createStuMathCur').value||'—')+'→'+(document.getElementById('createStuMathTarget').value||'—')); }
-    if(hasEnglish){ if(subjects) subjects += '、'; subjects += '英语'; levelsParts.push('英：'+(document.getElementById('createStuEngCur').value||'—')+'→'+(document.getElementById('createStuEngTarget').value||'—')); }
+    if(hasMath){ subjects += mathBaoming; levelsParts.push(mathBaoming+'：'+(document.getElementById('createStuMathCur').value||'—')+'→'+(document.getElementById('createStuMathTarget').value||'—')); }
+    if(hasEnglish){ if(subjects) subjects += '、'; subjects += engBaoming; levelsParts.push(engBaoming+'：'+(document.getElementById('createStuEngCur').value||'—')+'→'+(document.getElementById('createStuEngTarget').value||'—')); }
 
     studentData.push({
       id:newId, name:name, phone:phone, district:district, jieshu:jieshu, stuClass:stuClass,
@@ -4421,8 +4473,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       subjects:subjects, levels:levelsParts.join('  '),
       mathCur:document.getElementById('createStuMathCur').value,
       mathTarget:document.getElementById('createStuMathTarget').value,
+      mathBaoming:mathBaoming,
       engCur:document.getElementById('createStuEngCur').value,
       engTarget:document.getElementById('createStuEngTarget').value,
+      engBaoming:engBaoming,
       hasMath:hasMath, hasEnglish:hasEnglish,
       gender:document.getElementById('createStuGender').value,
       email:document.getElementById('createStuEmail').value,
