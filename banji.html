@@ -43,7 +43,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
 /* Nav Group Body (Collapsible) */
 .nav-group-body{overflow:hidden;max-height:0;transition:max-height .3s ease}
-.nav-group-body.open{max-height:400px}
+.nav-group-body.open{max-height:600px}
 
 /* Sub Nav Item */
 .nav-sub-item{display:flex;align-items:center;gap:10px;padding:8px 20px 8px 50px;color:#64748b;font-size:13px;cursor:pointer;transition:all var(--transition);text-decoration:none;user-select:none}
@@ -95,6 +95,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .filter-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
 .filter-tab .count{margin-left:4px;opacity:.7;font-size:12px}
 
+/* ========== Filter Panel (unified) ========== */
+.filter-panel{background:#f8fafd;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
+.filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.filter-field{display:flex;align-items:center;gap:8px}
+.filter-label{font-size:13px;color:var(--text-secondary);white-space:nowrap;font-weight:500}
+.filter-date{width:135px;padding:6px 8px;font-size:13px}
+.filter-sep{color:var(--text-muted);font-size:13px}
+.filter-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+@media (max-width:900px){.filter-actions{margin-left:0}}
+@media (max-width:600px){.filter-row{flex-direction:column;align-items:stretch}.filter-date{flex:1;width:auto}}
+
 /* ========== Class Card Grid ========== */
 .class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .class-card{background:var(--card-bg);border-radius:10px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);transition:all var(--transition);display:flex;flex-direction:column;gap:16px}
@@ -135,6 +146,69 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .content::-webkit-scrollbar{width:6px}
 .content::-webkit-scrollbar-track{background:transparent}
 .content::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ========== Auto-Course (自动推课) Layout ========== */
+.act-layout{display:flex;gap:20px;flex:1;min-height:0}
+.act-left{width:340px;min-width:340px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;overflow:hidden}
+.act-right{flex:1;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* Left Panel - Header */
+.act-left-hd{padding:16px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.act-left-hd .act-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px}
+
+/* Left Panel - Filter Row */
+.act-lf-row{display:flex;gap:8px;margin-bottom:6px}
+.act-lf-row select,.act-lf-row input{flex:1;padding:6px 10px;font-size:12px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text);min-width:0}
+.act-lf-row select:focus,.act-lf-row input:focus{border-color:var(--primary);outline:none}
+
+/* Left Panel - Paper List */
+.act-paper-list{flex:1;overflow-y:auto;padding:4px 0}
+.act-paper-item{padding:10px 18px;cursor:pointer;transition:background var(--transition);border-left:3px solid transparent;display:flex;flex-direction:column;gap:3px}
+.act-paper-item:hover{background:#f8fafc}
+.act-paper-item.selected{background:var(--primary-light);border-left-color:var(--primary)}
+.act-paper-item .act-paper-name{font-size:13px;font-weight:500;color:var(--text)}
+.act-paper-item.selected .act-paper-name{color:var(--primary)}
+.act-paper-item .act-paper-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--text-muted)}
+.act-paper-item .act-paper-meta .act-tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:500}
+.act-tag.shuxue{background:#eff6ff;color:#2563eb}
+.act-tag.yingyu{background:#fef3c7;color:#b45309}
+.act-tag.lc{background:#f0fdf4;color:#15803d}
+.act-tag.zy{background:#fdf2f8;color:#be185d}
+.act-paper-empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px}
+
+/* Right Panel - Header */
+.act-right-hd{padding:14px 18px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.act-right-hd .act-rh-left{display:flex;align-items:center;gap:10px}
+.act-right-hd .act-rh-right{display:flex;align-items:center;gap:10px}
+.act-right-hd select,.act-right-hd input[type="text"]{padding:6px 10px;font-size:12px;border:1px solid var(--border);border-radius:6px;color:var(--text);min-width:0}
+.act-right-hd input[type="date"]{padding:6px 10px;font-size:12px;border:1px solid var(--border);border-radius:6px;color:var(--text);width:135px}
+.act-right-hd select:focus,.act-right-hd input:focus{border-color:var(--primary);outline:none}
+
+/* Right Panel - Table Area */
+.act-table-wrap{flex:1;overflow:auto;min-height:0}
+.act-table-wrap .data-table{margin-bottom:0}
+.act-table-wrap .data-table thead{position:sticky;top:0;z-index:1}
+.act-table-wrap .data-table tbody td{vertical-align:middle}
+.act-table-wrap .data-table .col-check{width:44px;text-align:center}
+.act-table-wrap .data-table .col-name{min-width:80px}
+.act-table-wrap .data-table .col-class{min-width:120px}
+.act-table-wrap .data-table .col-course{min-width:140px}
+.act-table-wrap .data-table .col-duration{width:80px;text-align:center}
+.act-table-wrap .data-table .col-wrong{width:70px;text-align:center}
+.act-table-wrap .data-table .col-distribute{width:100px}
+.act-table-wrap .data-table .col-time{min-width:130px}
+.act-table-wrap .data-table .col-reason{min-width:160px}
+
+/* Right Panel - Reason Tags */
+.act-reason-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500;white-space:nowrap}
+.act-reason-tag.repeat{background:#fee2e2;color:#dc2626}
+.act-reason-tag.freq{background:#fef3c7;color:#b45309}
+
+/* Responsive */
+@media (max-width:1000px){
+  .act-layout{flex-direction:column}
+  .act-left{width:100%;min-width:100%;max-height:300px}
+}
 
 /* ========== Student Table Styles ========== */
 .data-table{width:100%}
@@ -187,7 +261,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .filter-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
 .filter-row:last-child{margin-bottom:0}
 .filter-date{display:flex;align-items:center;gap:6px}
-.filter-date input[type="date"]{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;width:130px}
+.filter-date input[type="date"]{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;width:118px}
 .filter-date input[type="date"]:focus{border-color:var(--primary)}
 .filter-date span{font-size:12px;color:var(--text-muted)}
 .filter-label{font-size:12px;color:var(--text-secondary);white-space:nowrap}
@@ -830,6 +904,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
 /* --- 练测明细 Filter Area --- */
 .lcmx-filter-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.lcmx-filter-row .filter-date{width:auto;flex-shrink:0}
 .lcmx-filter-row .filter-select select{min-width:160px}
 .lcmx-filter-row .search-input{flex:1;min-width:200px;max-width:260px}
 
@@ -1221,7 +1296,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
 /* --- Format Layout --- */
 .cd-fmt-layout{display:flex;gap:20px;height:calc(100vh - var(--topbar-h) - 48px);overflow:hidden}
-.cd-fmt-left{width:280px;min-width:280px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.cd-fmt-left{width:240px;min-width:240px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .cd-fmt-right{flex:1;background:#e8e5df;border-radius:10px;border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative}
 
 /* --- Format Left Panel --- */
@@ -1273,11 +1348,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 @keyframes cdFmtPulse{0%,100%{opacity:1}50%{opacity:.4}}
 .cd-fmt-preview-header .cd-fmt-page-count{font-size:12px;color:var(--text-muted)}
 
-.cd-fmt-preview-body{flex:1;overflow-y:auto;padding:32px 28px;display:flex;flex-direction:column;align-items:center;gap:24px;background:linear-gradient(135deg,#e8e5df 0%,#e0dcd5 50%,#e8e5df 100%)}
+.cd-fmt-preview-body{flex:1;overflow-y:auto;padding:16px 6px;display:flex;flex-direction:column;align-items:center;gap:20px;background:linear-gradient(135deg,#e8e5df 0%,#e0dcd5 50%,#e8e5df 100%)}
 .cd-fmt-preview-body::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle,#c4bfb3 .5px,transparent .5px);background-size:16px 16px;opacity:.3;pointer-events:none;z-index:0}
 
 /* --- Preview Paper Sheet --- */
-.cd-fmt-page{width:210mm;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1),0 8px 32px rgba(0,0,0,.06);padding:25mm 20mm 20mm;position:relative;z-index:1;transition:all var(--transition)}
+.cd-fmt-page{width:100%;max-width:300mm;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1),0 8px 32px rgba(0,0,0,.06);padding:20mm 18mm 18mm;position:relative;z-index:1;transition:all var(--transition)}
 @media (max-width:1200px){.cd-fmt-page{width:100%;padding:20px;transform:none!important}}
 
 /* --- Cover Page --- */
@@ -1297,6 +1372,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .cd-fmt-q-stem .q-num{color:var(--text-muted);margin-right:4px}
 .cd-fmt-q-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .cd-fmt-q-tags span{padding:1px 8px;border-radius:3px;font-size:10px;color:var(--text-secondary);background:#f1f5f9;border:1px solid var(--border)}
+.cd-fmt-q-type-tag{padding:2px 10px;border-radius:3px;font-size:11px;font-weight:600;color:var(--primary);background:var(--primary-light);display:inline-block}
 .cd-fmt-q-answer-area{min-height:48px;border-bottom:1px dashed #e2e8f0;margin-bottom:12px;display:flex;align-items:flex-end;padding-bottom:4px}
 .cd-fmt-q-answer-area span{font-size:10px;color:#cbd5e1}
 .cd-fmt-q-answer{font-size:12px;color:#16a34a;background:#f0fdf4;padding:8px 12px;border-radius:4px;margin-top:6px;line-height:1.6;border-left:3px solid #16a34a}
@@ -1315,8 +1391,42 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .cd-fmt-page-footer .footer-qr-meta{font-size:10px;color:var(--text-muted);text-align:right}
 
 /* --- Notebook Mode (错题本) --- */
-.cd-fmt-mode-notebook .cd-fmt-q-block{background:#fafbfc;border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:16px}
+.cd-fmt-mode-notebook .cd-fmt-q-block{background:#fafbfc;border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:16px;display:flex;gap:18px}
 .cd-fmt-mode-notebook .cd-fmt-divider{display:none}
+
+/* Notebook sidebar module */
+.cd-fmt-nb-sidebar{width:210px;min-width:210px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:14px;font-size:11px;color:var(--text-secondary);flex-shrink:0}
+.cd-fmt-nb-sidebar .nb-section{margin-bottom:14px}
+.cd-fmt-nb-sidebar .nb-section:last-child{margin-bottom:0}
+.cd-fmt-nb-sidebar .nb-section-title{font-weight:700;font-size:11px;color:var(--text);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.cd-fmt-nb-sidebar .nb-time{font-size:11px;color:var(--text-secondary);margin-bottom:4px}
+.cd-fmt-nb-sidebar .nb-time strong{color:var(--text);font-weight:600}
+
+/* Review Status Table */
+.cd-fmt-nb-table{width:100%;border-collapse:collapse;font-size:10px;text-align:center}
+.cd-fmt-nb-table th,.cd-fmt-nb-table td{padding:3px 4px;border:1px solid #e2e8f0}
+.cd-fmt-nb-table th{background:#f8fafc;font-weight:600;color:var(--text);font-size:10px}
+.cd-fmt-nb-table td:first-child{text-align:left;padding-left:6px;font-size:10px}
+.cd-fmt-nb-table .nb-chk{color:#cbd5e1;font-size:13px;line-height:1}
+
+/* Knowledge Points & Error Reasons checkboxes */
+.cd-fmt-nb-cb-list{display:flex;flex-direction:column;gap:3px}
+.cd-fmt-nb-cb{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text);cursor:default}
+.cd-fmt-nb-cb .cb-box{width:14px;height:14px;border:1.5px solid #cbd5e1;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;background:#fff}
+.cd-fmt-nb-cb.checked .cb-box{background:var(--primary);border-color:var(--primary);color:#fff}
+
+.cd-fmt-nb-cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px}
+
+/* Main content area in notebook mode */
+.cd-fmt-nb-main{flex:1;min-width:0}
+
+/* Avoid-repeat section */
+.cd-fmt-nb-avoid{margin-top:12px;padding:12px 14px;background:#fff;border:1px dashed #cbd5e1;border-radius:6px;min-height:80px}
+.cd-fmt-nb-avoid .nb-avoid-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px}
+
+/* Error reason underline（其他原因） */
+.cd-fmt-nb-underline{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text);margin-top:4px;grid-column:1/-1}
+.cd-fmt-nb-underline .ul-line{flex:1;border-bottom:1.5px solid #cbd5e1;min-width:40px}
 
 /* --- Exam Mode (试卷) --- */
 .cd-fmt-mode-exam .cd-fmt-page{font-family:serif}
@@ -1729,9 +1839,67 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   .cj-filter-select{min-width:auto}
   .cj-search-box{min-width:auto}
   .cj-modal{width:95vw;max-height:90vh}
-}
+  }
 
-/* ========== Floating 需求说明 Button ========== */
+  /* ========== 成绩统计 ========== */
+  .cjtj-filter-panel{background:var(--card-bg);border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow);padding:16px 20px;display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+  .cjtj-filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .cjtj-filter-panel .search-input{position:relative;min-width:180px;max-width:240px}
+  .cjtj-filter-panel .search-input input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text);outline:none;transition:border-color var(--transition)}
+  .cjtj-filter-panel .search-input input:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
+  .cjtj-filter-panel .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--text-muted);pointer-events:none}
+
+  /* Table */
+  .cjtj-table-wrap{background:var(--card-bg);border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden}
+  .cjtj-table thead{background:#f8fafc}
+  .cjtj-table thead th{font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:none;letter-spacing:.3px;white-space:nowrap;padding:10px 12px}
+  .cjtj-table tbody td{font-size:13px;padding:10px 12px;vertical-align:middle}
+  .cjtj-table tbody tr{transition:background var(--transition)}
+  .cjtj-table tbody tr:hover{background:#f8fafc}
+  .cjtj-sub-th{font-size:11px!important;font-weight:500!important;color:var(--text-muted)!important;background:#fafbfc!important;padding:6px 10px!important}
+
+  /* Student name */
+  .cjtj-stu-name{font-weight:500;color:var(--text)}
+
+  /* Paper name */
+  .cjtj-paper-name{font-size:13px;color:var(--text);font-weight:500}
+
+  /* Subject tag */
+  .cjtj-subject-tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600}
+  .cjtj-math{background:#eff6ff;color:#2563eb}
+  .cjtj-eng{background:#fef3c7;color:#92400e}
+
+  /* Line values */
+  .cjtj-line-val{font-weight:600;color:var(--text-secondary)}
+
+  /* Pass/Fail badges */
+  .cjtj-pass-badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;margin-left:4px}
+  .cjtj-passed{background:#f0fdf4;color:#15803d}
+  .cjtj-failed{background:#fef2f2;color:#dc2626}
+
+  /* Sub scores cell */
+  .cjtj-sub-scores-cell{display:flex;flex-wrap:wrap;gap:4px;max-width:260px;min-width:180px}
+  .cjtj-sub-score{display:inline-block;padding:2px 6px;background:#f1f5f9;border-radius:3px;font-size:11px;color:var(--text-secondary);font-family:"SF Mono","Consolas","Monaco",monospace;white-space:nowrap}
+
+  /* Total score */
+  .cjtj-total{font-size:15px;font-weight:700;color:var(--text)}
+
+  /* Rank */
+  .cjtj-rank{font-weight:600;color:var(--text)}
+
+  /* Below line indicators */
+  .cjtj-below-target .cjtj-total{color:var(--warning)}
+  .cjtj-below-national .cjtj-total{color:var(--danger)}
+
+  /* Responsive */
+  @media (max-width:768px){
+    .cjtj-filter-row{flex-direction:column;align-items:stretch}
+    .cjtj-filter-panel .search-input{max-width:none;min-width:auto}
+    .cjtj-sub-scores-cell{max-width:none}
+    .cjtj-table-wrap{overflow-x:auto}
+  }
+
+  /* ========== Floating 需求说明 Button ========== */
 .req-floating-btn{
   display:none;
   position:fixed;
@@ -1835,6 +2003,44 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   padding:14px 24px;
   border-top:1px solid var(--border);
 }
+
+/* ========== 课表统计 ========== */
+.kt-filter-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;padding:16px 20px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px}
+.kt-filter-bar select,.kt-filter-bar input[type="date"]{padding:7px 12px;font-size:13px;border:1px solid var(--border);border-radius:6px;color:var(--text);background:#fff;min-width:140px}
+.kt-filter-bar select:focus,.kt-filter-bar input[type="date"]:focus{border-color:var(--primary);outline:none}
+.kt-filter-bar .kt-filter-label{font-size:13px;color:var(--text-secondary);font-weight:500;white-space:nowrap}
+.kt-filter-bar .kt-filter-sep{color:var(--text-muted);font-size:18px}
+.kt-filter-bar .kt-clear-btn{padding:7px 16px;font-size:13px;color:var(--text-secondary);background:var(--bg);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all var(--transition)}
+.kt-filter-bar .kt-clear-btn:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.kt-filter-bar .kt-count{font-size:12px;color:var(--text-muted);margin-left:auto}
+
+.kt-table-wrap{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.kt-table-wrap .data-table{margin-bottom:0}
+.kt-table-wrap .data-table thead th{font-size:12px;padding:12px 14px;text-align:center;white-space:nowrap}
+.kt-table-wrap .data-table thead th.kt-th-left{text-align:left}
+.kt-table-wrap .data-table tbody td{padding:12px 14px;vertical-align:middle;text-align:center;border-bottom:1px solid #f1f5f9}
+.kt-table-wrap .data-table tbody td.kt-td-left{text-align:left}
+.kt-table-wrap .data-table tbody td.kt-td-date{color:var(--text);font-weight:500;background:#fafbfc}
+.kt-table-wrap .data-table tbody td.kt-td-class{color:var(--text);font-weight:500;background:#fafbfc}
+.kt-table-wrap .data-table tbody td.kt-td-subject{font-weight:500;color:var(--primary)}
+.kt-table-wrap .data-table .col-date{width:120px}
+.kt-table-wrap .data-table .col-class{width:140px;max-width:140px;overflow:hidden;text-overflow:ellipsis}
+.kt-table-wrap .data-table .col-subject{width:80px}
+.kt-table-wrap .data-table .col-item{width:100px}
+.kt-table-wrap .data-table .col-stat{width:130px}
+
+/* Color-coded completion badges inside table */
+.kt-stat-cell{display:flex;flex-direction:column;align-items:center;gap:2px}
+.kt-frac{font-size:13px;font-weight:600;color:var(--text)}
+.kt-pct{font-size:11px;font-weight:500}
+.kt-pct.high{color:var(--success)}
+.kt-pct.mid{color:var(--warning)}
+.kt-pct.low{color:var(--danger)}
+
+.kt-empty-state{text-align:center;padding:80px 24px;color:var(--text-muted)}
+.kt-empty-state .ph-icon{font-size:56px;margin-bottom:16px;opacity:.3}
+.kt-empty-state h3{font-size:16px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
+.kt-empty-state p{font-size:13px}
 </style>
 </head>
 <body>
@@ -1883,11 +2089,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <a class="nav-sub-item" data-page="fenfa-rizhi" href="javascript:void(0)">
           <span class="sub-dot"></span>分发日志
         </a>
-        <a class="nav-sub-item" data-page="kebiao-rili" href="javascript:void(0)">
-          <span class="sub-dot"></span>课表日历
-        </a>
         <a class="nav-sub-item" data-page="qingkong-kebiao" href="javascript:void(0)">
           <span class="sub-dot"></span>清空课表
+        </a>
+        <a class="nav-sub-item" data-page="kebiao-fuzhi" href="javascript:void(0)">
+          <span class="sub-dot"></span>课表复制
+        </a>
+        <a class="nav-sub-item" data-page="zidong-tuike" href="javascript:void(0)">
+          <span class="sub-dot"></span>自动推课
+        </a>
+        <a class="nav-sub-item" data-page="kebiao-tongji" href="javascript:void(0)">
+          <span class="sub-dot"></span>课表统计
         </a>
       </div>
 
@@ -1948,6 +2160,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="chengji-dengji" href="javascript:void(0)">
           <span class="sub-dot"></span>成绩登记
+        </a>
+        <a class="nav-sub-item" data-page="chengji-tongji" href="javascript:void(0)">
+          <span class="sub-dot"></span>成绩统计
         </a>
       </div>
 
@@ -2389,18 +2604,21 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <label for="reminderContent">提醒内容<span class="required">*</span></label>
         <textarea class="form-control" id="reminderContent" rows="4" placeholder="请输入提醒内容" style="resize:vertical"></textarea>
       </div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="reminderSubject">学科<span class="required">*</span></label>
-          <select class="form-control" id="reminderSubject" onchange="window._onReminderSubjectChange()" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px">
-            <option value="">请选择学科</option>
-            <option value="数学">数学</option>
-            <option value="英语">英语</option>
-          </select>
+      <div class="form-group">
+        <label>学科<span class="required">*</span></label>
+        <div class="subject-checkbox-group" style="display:flex;gap:24px;padding:8px 0">
+          <label class="checkbox-label" style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400">
+            <input type="checkbox" id="reminderSubjMath" value="数学" onchange="window._onReminderSubjectCheckbox()" style="width:16px;height:16px;cursor:pointer"> 数学
+          </label>
+          <label class="checkbox-label" style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:400">
+            <input type="checkbox" id="reminderSubjEnglish" value="英语" onchange="window._onReminderSubjectCheckbox()" style="width:16px;height:16px;cursor:pointer"> 英语
+          </label>
         </div>
-        <div class="form-group" id="reminderSubSubjectGroup">
-          <label for="reminderSubSubject">子科目</label>
-          <select class="form-control" id="reminderSubSubject" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px">
+      </div>
+      <div id="reminderSubSubjectGroups" style="display:none">
+        <div class="form-group" id="reminderMathSubGroup" style="display:none">
+          <label for="reminderMathSubSubject">数学子科目</label>
+          <select class="form-control" id="reminderMathSubSubject" style="appearance:auto;-webkit-appearance:auto;background-image:none;padding-right:12px">
             <option value="">请选择子科目</option>
             <option value="高数">高数</option>
             <option value="线代">线代</option>
@@ -2585,6 +2803,29 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     { name: '2025届考研英语一班', district: '朝阳学区', studentCount: 45, startDate: '2025-03-01', endDate: '2026-03-01', status: 'ended' }
   ];
 
+  // ==================== Mock Data - 课表统计数据 ====================
+  var kebiaoTongjiData = [
+    { date: '2026-08-03', className: '2026届考研英语一班', subject: '英语', lianCe: { done: 8, total: 10 }, zuoye: { done: 6, total: 8 }, wendang: { done: 3, total: 5 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-03', className: '2026届考研英语一班', subject: '数学', lianCe: { done: 5, total: 8 }, zuoye: { done: 4, total: 6 }, wendang: { done: 2, total: 4 }, tixing: { done: 1, total: 2 } },
+    { date: '2026-08-03', className: '2026届考研英语二班', subject: '英语', lianCe: { done: 7, total: 10 }, zuoye: { done: 5, total: 8 }, wendang: { done: 4, total: 5 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-03', className: '2026届考研英语二班', subject: '数学', lianCe: { done: 6, total: 8 }, zuoye: { done: 5, total: 6 }, wendang: { done: 3, total: 4 }, tixing: { done: 1, total: 2 } },
+    { date: '2026-08-04', className: '2026届考研英语一班', subject: '英语', lianCe: { done: 9, total: 10 }, zuoye: { done: 7, total: 8 }, wendang: { done: 4, total: 5 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-04', className: '2026届考研政治二班', subject: '政治', lianCe: { done: 4, total: 6 }, zuoye: { done: 3, total: 5 }, wendang: { done: 2, total: 3 }, tixing: { done: 1, total: 1 } },
+    { date: '2026-08-04', className: '2026届考研政治二班', subject: '英语', lianCe: { done: 6, total: 8 }, zuoye: { done: 5, total: 7 }, wendang: { done: 3, total: 4 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-05', className: '2026届考研英语一班', subject: '英语', lianCe: { done: 10, total: 10 }, zuoye: { done: 8, total: 8 }, wendang: { done: 5, total: 5 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-05', className: '2026届考研数学一班', subject: '数学', lianCe: { done: 8, total: 10 }, zuoye: { done: 6, total: 8 }, wendang: { done: 4, total: 5 }, tixing: { done: 2, total: 2 } },
+    { date: '2026-08-05', className: '2026届考研数学一班', subject: '英语', lianCe: { done: 7, total: 9 }, zuoye: { done: 5, total: 7 }, wendang: { done: 3, total: 4 }, tixing: { done: 1, total: 2 } },
+    { date: '2026-08-06', className: '2026届考研英语一班', subject: '英语', lianCe: { done: 3, total: 6 }, zuoye: { done: 2, total: 5 }, wendang: { done: 1, total: 3 }, tixing: { done: 0, total: 1 } },
+    { date: '2026-08-06', className: '2026届考研英语二班', subject: '英语', lianCe: { done: 5, total: 8 }, zuoye: { done: 4, total: 6 }, wendang: { done: 2, total: 4 }, tixing: { done: 1, total: 2 } },
+    { date: '2026-08-06', className: '2026届考研英语二班', subject: '数学', lianCe: { done: 4, total: 7 }, zuoye: { done: 3, total: 5 }, wendang: { done: 2, total: 3 }, tixing: { done: 1, total: 1 } },
+    { date: '2026-08-06', className: '2026届考研政治二班', subject: '政治', lianCe: { done: 5, total: 5 }, zuoye: { done: 4, total: 4 }, wendang: { done: 3, total: 3 }, tixing: { done: 1, total: 1 } }
+  ];
+
+  // 课表统计 - 筛选状态
+  var ktSubjectFilter = '';
+  var ktClassFilter = '';
+  var ktDateFilter = '';
+
   // ==================== Mock Data - 学员数据 ====================
   var studentData = [
     { id:'2025001', name:'张三', phone:'138****8001', district:'海淀学区', stuClass:'25考研数学一班', regDate:'2025-03-01', endDate:'2026-12-31', status:'在读', acctEnabled:true,
@@ -2627,6 +2868,47 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
       caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
   ];
+
+  // ==================== Mock Data - 自动推课试卷数据 ====================
+  var actPaperData = [
+    { id:'P001', name:'函数的极限与连续性测试卷', subject:'数学', type:'练测', questionCount:25, videoDuration:'45分钟' },
+    { id:'P002', name:'导数与微分专题练习', subject:'数学', type:'作业', questionCount:20, videoDuration:'35分钟' },
+    { id:'P003', name:'不定积分计算训练', subject:'数学', type:'练测', questionCount:30, videoDuration:'50分钟' },
+    { id:'P004', name:'定积分应用综合测试', subject:'数学', type:'练测', questionCount:28, videoDuration:'48分钟' },
+    { id:'P005', name:'多元函数微分学作业', subject:'数学', type:'作业', questionCount:18, videoDuration:'30分钟' },
+    { id:'P006', name:'英语阅读理解专项训练', subject:'英语', type:'练测', questionCount:20, videoDuration:'40分钟' },
+    { id:'P007', name:'英语完形填空模拟卷', subject:'英语', type:'练测', questionCount:25, videoDuration:'42分钟' },
+    { id:'P008', name:'英语长难句翻译作业', subject:'英语', type:'作业', questionCount:15, videoDuration:'28分钟' },
+    { id:'P009', name:'英语写作模板练习', subject:'英语', type:'作业', questionCount:12, videoDuration:'25分钟' },
+    { id:'P010', name:'高等数学综合模拟卷A', subject:'数学', type:'练测', questionCount:35, videoDuration:'60分钟' },
+    { id:'P011', name:'线性代数矩阵专题', subject:'数学', type:'作业', questionCount:16, videoDuration:'32分钟' },
+    { id:'P012', name:'英语词汇与语法综合', subject:'英语', type:'作业', questionCount:22, videoDuration:'38分钟' }
+  ];
+
+  // ==================== Mock Data - 自动推课推荐数据 ====================
+  var actRecommendData = [
+    { id:'R001', studentName:'张三', className:'2026届考研数学一班', course:'函数的极限与连续性', videoDuration:'45分钟', questionCount:25, wrongCount:8, testTime:'2026-08-04 14:30:20', distributeDate:'2026-08-05', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R002', studentName:'李四', className:'2026届考研数学一班', course:'不定积分计算训练', videoDuration:'50分钟', questionCount:30, wrongCount:12, testTime:'2026-08-04 10:15:35', distributeDate:'2026-08-05', reason:'freq', reasonText:'高频知识点错误' },
+    { id:'R003', studentName:'王五', className:'2026届考研数学二班', course:'导数与微分专题', videoDuration:'35分钟', questionCount:20, wrongCount:6, testTime:'2026-08-03 16:45:10', distributeDate:'2026-08-04', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R004', studentName:'赵六', className:'2026届考研英语一班', course:'英语阅读理解专项', videoDuration:'40分钟', questionCount:20, wrongCount:9, testTime:'2026-08-04 09:20:50', distributeDate:'2026-08-05', reason:'freq', reasonText:'高频知识点错误' },
+    { id:'R005', studentName:'孙七', className:'2026届考研数学二班', course:'定积分应用综合', videoDuration:'48分钟', questionCount:28, wrongCount:10, testTime:'2026-08-03 11:30:15', distributeDate:'2026-08-04', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R006', studentName:'周八', className:'2026届考研英语二班', course:'英语完形填空模拟', videoDuration:'42分钟', questionCount:25, wrongCount:7, testTime:'2026-08-04 08:55:40', distributeDate:'2026-08-05', reason:'freq', reasonText:'高频知识点错误' },
+    { id:'R007', studentName:'吴九', className:'2026届考研英语一班', course:'英语写作模板练习', videoDuration:'25分钟', questionCount:12, wrongCount:5, testTime:'2026-08-02 14:10:25', distributeDate:'2026-08-03', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R008', studentName:'郑十', className:'2026届考研数学一班', course:'高等数学综合模拟', videoDuration:'60分钟', questionCount:35, wrongCount:14, testTime:'2026-08-04 15:30:00', distributeDate:'2026-08-05', reason:'freq', reasonText:'高频知识点错误' },
+    { id:'R009', studentName:'陈一', className:'2026届考研英语二班', course:'英语长难句翻译', videoDuration:'28分钟', questionCount:15, wrongCount:4, testTime:'2026-08-03 13:45:30', distributeDate:'2026-08-04', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R010', studentName:'林二', className:'2026届考研数学一班', course:'线性代数矩阵专题', videoDuration:'32分钟', questionCount:16, wrongCount:7, testTime:'2026-08-02 10:00:20', distributeDate:'2026-08-03', reason:'freq', reasonText:'高频知识点错误' },
+    { id:'R011', studentName:'黄三', className:'2026届考研数学二班', course:'多元函数微分学', videoDuration:'30分钟', questionCount:18, wrongCount:9, testTime:'2026-08-01 16:20:45', distributeDate:'2026-08-02', reason:'repeat', reasonText:'知识点多次错误' },
+    { id:'R012', studentName:'刘四', className:'2026届考研英语一班', course:'英语词汇与语法综合', videoDuration:'38分钟', questionCount:22, wrongCount:11, testTime:'2026-08-04 11:25:15', distributeDate:'2026-08-05', reason:'freq', reasonText:'高频知识点错误' }
+  ];
+
+  // 自动推课筛选状态
+  var actSubjectFilter = '';
+  var actTypeFilter = '';
+  var actPaperSearch = '';
+  var actSelectedPaperId = null;
+  var actClassFilter = '';
+  var actStudentSearch = '';
+  var actScheduleDate = '';
 
   // ==================== Mock Data - 词汇评估数据 ====================
   var cihuiPingguData = [
@@ -2748,15 +3030,52 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   var cjCategoryFilter = '';
   var cjNameKeyword = '';
 
+  // ==================== Mock Data - 成绩统计 ====================
+  var chengjiTongjiData = [
+    // 25考研数学一班 - 数学科目
+    { id:'CJ001', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研数学一模拟卷一', subject:'数学', targetLine:120, nationalLine:105, subScores:[8,7,6,9,8,5,7,6,8,9], totalScore:73, classRank:3, campusRank:5, allCampusRank:12 },
+    { id:'CJ002', studentId:'2025002', studentName:'李四', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研数学一模拟卷一', subject:'数学', targetLine:120, nationalLine:105, subScores:[9,8,7,8,9,6,8,7,9,10], totalScore:81, classRank:1, campusRank:2, allCampusRank:5 },
+    { id:'CJ003', studentId:'2025003', studentName:'王五', district:'朝阳学区', className:'25考研数学二班', paperName:'2026届考研数学一模拟卷一', subject:'数学', targetLine:120, nationalLine:105, subScores:[6,5,7,6,5,4,6,5,7,6], totalScore:57, classRank:2, campusRank:8, allCampusRank:22 },
+    { id:'CJ004', studentId:'2025006', studentName:'周八', district:'朝阳学区', className:'25考研数学二班', paperName:'2026届考研数学一模拟卷一', subject:'数学', targetLine:120, nationalLine:105, subScores:[7,8,5,6,7,5,8,7,8,9], totalScore:70, classRank:1, campusRank:6, allCampusRank:15 },
+    { id:'CJ005', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'高数第三章课后练习', subject:'数学', targetLine:130, nationalLine:110, subScores:[9,10,8,9,10,7,9,8,10,9], totalScore:89, classRank:2, campusRank:3, allCampusRank:8 },
+    { id:'CJ006', studentId:'2025003', studentName:'王五', district:'朝阳学区', className:'25考研数学二班', paperName:'高数第三章课后练习', subject:'数学', targetLine:130, nationalLine:110, subScores:[5,6,4,5,6,4,5,5,6,5], totalScore:51, classRank:2, campusRank:9, allCampusRank:25 },
+    // 英语科目
+    { id:'CJ007', studentId:'2025004', studentName:'赵六', district:'海淀学区', className:'25考研英语一班', paperName:'2026届考研英语一模试卷', subject:'英语', targetLine:80, nationalLine:65, subScores:[7,8,6,7,9,5,8,7,6,9,8,7,6,8,7], totalScore:108, classRank:1, campusRank:1, allCampusRank:3 },
+    { id:'CJ008', studentId:'2025002', studentName:'李四', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研英语一模试卷', subject:'英语', targetLine:80, nationalLine:65, subScores:[6,7,5,6,8,4,7,6,5,8,7,5,6,7,6], totalScore:93, classRank:1, campusRank:4, allCampusRank:10 },
+    { id:'CJ009', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研英语一模试卷', subject:'英语', targetLine:80, nationalLine:65, subScores:[5,6,4,5,7,4,6,5,4,7,6,4,5,5,5], totalScore:78, classRank:2, campusRank:6, allCampusRank:18 },
+    { id:'CJ010', studentId:'2025003', studentName:'王五', district:'朝阳学区', className:'25考研数学二班', paperName:'2026届考研英语一模试卷', subject:'英语', targetLine:80, nationalLine:65, subScores:[4,5,3,4,6,3,5,4,3,6,5,3,4,4,4], totalScore:63, classRank:1, campusRank:7, allCampusRank:20 },
+    // 更多数学试卷
+    { id:'CJ011', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研数学一模拟卷二', subject:'数学', targetLine:125, nationalLine:108, subScores:[9,8,7,9,8,6,8,7,9,8,7,8,9,7,8], totalScore:118, classRank:1, campusRank:1, allCampusRank:2 },
+    { id:'CJ012', studentId:'2025002', studentName:'李四', district:'海淀学区', className:'25考研数学一班', paperName:'2026届考研数学一模拟卷二', subject:'数学', targetLine:125, nationalLine:108, subScores:[8,7,6,8,9,5,7,8,8,7,6,7,8,6,7], totalScore:107, classRank:2, campusRank:4, allCampusRank:9 },
+    { id:'CJ013', studentId:'2025006', studentName:'周八', district:'朝阳学区', className:'25考研数学二班', paperName:'2026届考研数学一模拟卷二', subject:'数学', targetLine:125, nationalLine:108, subScores:[5,6,4,5,7,4,6,5,6,5,4,5,6,4,5], totalScore:77, classRank:1, campusRank:7, allCampusRank:19 },
+    // 英语作业
+    { id:'CJ014', studentId:'2025004', studentName:'赵六', district:'海淀学区', className:'25考研英语一班', paperName:'英语阅读理解专项作业（第3周）', subject:'英语', targetLine:85, nationalLine:70, subScores:[8,9,7,8,9,6,8,7,8,9], totalScore:79, classRank:1, campusRank:2, allCampusRank:4 },
+    { id:'CJ015', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'英语阅读理解专项作业（第3周）', subject:'英语', targetLine:85, nationalLine:70, subScores:[6,7,5,7,8,5,7,6,7,8], totalScore:66, classRank:1, campusRank:5, allCampusRank:13 },
+    { id:'CJ016', studentId:'2025003', studentName:'王五', district:'朝阳学区', className:'25考研数学二班', paperName:'英语阅读理解专项作业（第3周）', subject:'英语', targetLine:85, nationalLine:70, subScores:[5,6,4,5,6,4,6,5,5,6], totalScore:52, classRank:1, campusRank:8, allCampusRank:23 },
+    // 更多数学 - 线代作业
+    { id:'CJ017', studentId:'2025002', studentName:'李四', district:'海淀学区', className:'25考研数学一班', paperName:'线代矩阵运算作业', subject:'数学', targetLine:100, nationalLine:85, subScores:[10,9,8,10,9,7,9,10,8,9,10,9], totalScore:108, classRank:1, campusRank:2, allCampusRank:6 },
+    { id:'CJ018', studentId:'2025001', studentName:'张三', district:'海淀学区', className:'25考研数学一班', paperName:'线代矩阵运算作业', subject:'数学', targetLine:100, nationalLine:85, subScores:[9,8,7,9,8,6,8,9,7,8,9,8], totalScore:96, classRank:2, campusRank:4, allCampusRank:11 },
+    { id:'CJ019', studentId:'2025006', studentName:'周八', district:'朝阳学区', className:'25考研数学二班', paperName:'线代矩阵运算作业', subject:'数学', targetLine:100, nationalLine:85, subScores:[6,5,7,6,7,4,6,7,5,6,7,5], totalScore:71, classRank:1, campusRank:7, allCampusRank:17 },
+    { id:'CJ020', studentId:'2025005', studentName:'孙七', district:'西城学区', className:'25考研政治一班', paperName:'2027届考研政治模拟卷一', subject:'英语', targetLine:75, nationalLine:60, subScores:[6,7,5,6,7,4,6,5,6,7,5,6,7,5,6], totalScore:88, classRank:1, campusRank:3, allCampusRank:7 }
+  ];
+
+  // 成绩统计筛选状态
+  var cjtjDistrictFilter = '';
+  var cjtjClassFilter = '';
+  var cjtjKeyword = '';
+  var cjtjSubjectFilter = '';
+  var cjtjTypeFilter = '';
+  var cjtjPaperSearch = '';
+
   // ==================== Mock Data - 提醒数据 ====================
   var reminderData = [
-    { id: '1', title: '高数第三章复习提醒',   content: '请同学们完成高数第三章课后习题1-10，重点复习极限运算与连续性证明题。', subject: '数学', subSubject: '高数', createdAt: '2026-07-20 14:30' },
-    { id: '2', title: '英语阅读理解专项',     content: '本周重点完成考研英语阅读理解Part A，每天精读一篇并整理生词本。', subject: '英语', subSubject: '',     createdAt: '2026-07-19 09:15' },
-    { id: '3', title: '线代矩阵运算练习',     content: '完成线性代数第四章矩阵运算习题，重点掌握矩阵的秩与逆矩阵求解方法。', subject: '数学', subSubject: '线代', createdAt: '2026-07-18 16:00' },
-    { id: '4', title: '英语长难句分析',       content: '每天分析5个考研英语长难句，标注从句结构和翻译技巧。', subject: '英语', subSubject: '',     createdAt: '2026-07-17 11:20' },
-    { id: '5', title: '概统概率分布专题',     content: '复习概率统计第二章：离散型与连续型随机变量分布，完成配套练习题。', subject: '数学', subSubject: '概统', createdAt: '2026-07-16 08:45' },
-    { id: '6', title: '高数定积分应用',       content: '定积分求面积、体积与弧长专题练习，结合考研真题进行训练。', subject: '数学', subSubject: '高数', createdAt: '2026-07-15 15:00' },
-    { id: '7', title: '英语翻译技巧总结',     content: '整理翻译常见句型与技巧，完成2010-2020年翻译真题逐句练习。', subject: '英语', subSubject: '',     createdAt: '2026-07-14 10:30' }
+    { id: '1', title: '高数第三章复习提醒',   content: '请同学们完成高数第三章课后习题1-10，重点复习极限运算与连续性证明题。', subjects: ['数学'], subSubjects: { '数学': '高数' }, createdAt: '2026-07-20 14:30' },
+    { id: '2', title: '英语阅读理解专项',     content: '本周重点完成考研英语阅读理解Part A，每天精读一篇并整理生词本。', subjects: ['英语'], subSubjects: {},     createdAt: '2026-07-19 09:15' },
+    { id: '3', title: '线代矩阵运算练习',     content: '完成线性代数第四章矩阵运算习题，重点掌握矩阵的秩与逆矩阵求解方法。', subjects: ['数学'], subSubjects: { '数学': '线代' }, createdAt: '2026-07-18 16:00' },
+    { id: '4', title: '英语长难句分析',       content: '每天分析5个考研英语长难句，标注从句结构和翻译技巧。', subjects: ['英语'], subSubjects: {},     createdAt: '2026-07-17 11:20' },
+    { id: '5', title: '概统概率分布专题',     content: '复习概率统计第二章：离散型与连续型随机变量分布，完成配套练习题。', subjects: ['数学'], subSubjects: { '数学': '概统' }, createdAt: '2026-07-16 08:45' },
+    { id: '6', title: '高数定积分应用',       content: '定积分求面积、体积与弧长专题练习，结合考研真题进行训练。', subjects: ['数学'], subSubjects: { '数学': '高数' }, createdAt: '2026-07-15 15:00' },
+    { id: '7', title: '英语翻译技巧总结',     content: '整理翻译常见句型与技巧，完成2010-2020年翻译真题逐句练习。', subjects: ['英语'], subSubjects: {},     createdAt: '2026-07-14 10:30' }
   ];
   var editingReminderId = null;
 
@@ -2774,6 +3093,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     { id:'10',content:'加入作业：定积分应用专题训练',         keBiaoDate:'2026-11-07', students:'张三, 周八',           distributeTime:'2026-07-18 09:00:10', status:'normal' }
   ];
   var fenfaLogStatusFilter = 'all';
+  var fenfaLogStudentSearch = '';
+  var fenfaLogKebiaoDateFrom = '';
+  var fenfaLogKebiaoDateTo = '';
+  var fenfaLogDistributeDateFrom = '';
+  var fenfaLogDistributeDateTo = '';
   var revokingLogId = null;
 
   var currentPage = 'banji-guanli';
@@ -2805,9 +3129,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'xueyuan-xinxi':    { title: '学员信息', group: '服务管理' },
     'tixing-guanli':    { title: '提醒管理', group: '课表管理' },
     'renwu-fenfa':      { title: '任务分发', group: '课表管理' },
-    'kebiao-rili':      { title: '课表日历', group: '课表管理' },
     'fenfa-rizhi':      { title: '分发日志', group: '课表管理' },
     'qingkong-kebiao':  { title: '清空课表', group: '课表管理' },
+    'kebiao-fuzhi':     { title: '课表复制', group: '课表管理' },
+    'zidong-tuike':     { title: '自动推课', group: '课表管理' },
+    'kebiao-tongji':    { title: '课表统计', group: '课表管理' },
     'gonggong-lianCe':  { title: '公共练测', group: '公共资料' },
     'gonggong-zuoye':   { title: '公共作业', group: '公共资料' },
     'gonggong-wendang': { title: '公共文档', group: '公共资料' },
@@ -2822,6 +3148,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'danci-beisong':    { title: '单词背诵', group: '学情管理' },
     'danci-xiaoce':     { title: '单词小测', group: '学情管理' },
     'chengji-dengji':   { title: '成绩登记', group: '学情管理' },
+    'chengji-tongji':   { title: '成绩统计', group: '学情管理' },
     'cuoti-tongji':     { title: '错题统计', group: '错题管理' },
     'cuoti-dayin':      { title: '错题打印', group: '错题管理' },
     'cuoti-piliang-dayin': { title: '批量打印', group: '错题管理' },
@@ -2953,9 +3280,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'xueyuan-xinxi') renderStudentInfoPage();
     else if(pageKey === 'tixing-guanli') renderReminderPage();
     else if(pageKey === 'renwu-fenfa') renderTaskDispatchPage();
-    else if(pageKey === 'kebiao-rili') renderKebiaoRiliPage();
     else if(pageKey === 'fenfa-rizhi') renderFenfaRizhiPage();
+    else if(pageKey === 'kebiao-rili') renderKebiaoRiliPage();
     else if(pageKey === 'qingkong-kebiao') renderQingkongKebiaoPage();
+    else if(pageKey === 'kebiao-fuzhi') renderKebiaoFuzhiPage();
+    else if(pageKey === 'zidong-tuike') renderZidongTuikePage();
+    else if(pageKey === 'kebiao-tongji') renderKebiaoTongjiPage();
     else if(pageKey === 'gonggong-lianCe') renderLianCePage();
     else if(pageKey === 'gonggong-zuoye') renderZuoYePage();
     else if(pageKey === 'gonggong-wendang') renderWenDangPage();
@@ -2970,6 +3300,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'danci-beisong') renderDanciBeisongPage();
     else if(pageKey === 'danci-xiaoce') renderDanciXiaocePage();
     else if(pageKey === 'chengji-dengji') renderChengjiDengjiPage();
+    else if(pageKey === 'chengji-tongji') renderChengjiTongjiPage();
     else if(pageKey === 'cuoti-tongji') renderCuotiTongjiPage();
     else if(pageKey === 'cuoti-dayin') renderCuotiDayinPage();
     else if(pageKey === 'cuoti-piliang-dayin') renderCuotiPiliangDayinPage();
@@ -3256,6 +3587,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<option>&lt;60</option><option>60-79</option><option>80-99</option><option>100-119</option><option>120-139</option><option>140+</option>';
     html += '</select></div>';
     html += '<button class="btn btn-outline btn-xs" onclick="window._resetStudentInfoFilter()">重置</button>';
+    html += '<button class="btn btn-primary btn-xs" style="margin-left:8px" onclick="window._exportStudentInfo()">&#x1F4E5; 导出</button>';
     html += '</div>';
 
     // Tabs
@@ -3353,6 +3685,53 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._goStudentInfoPage = function(p){
     studentInfoPage = p;
     renderStudentInfoPage();
+  };
+
+  // --- 导出学员信息 ---
+  window._exportStudentInfo = function(){
+    // Replicate filter logic from renderStudentInfoPage
+    var result = studentData.slice();
+    if(currentStudentInfoFilter && currentStudentInfoFilter!=='all'){
+      result = result.filter(function(s){ return s.status===currentStudentInfoFilter; });
+    }
+    var classFilter = document.getElementById('stuInfoClassFilter') ? document.getElementById('stuInfoClassFilter').value : '';
+    if(classFilter){ result = result.filter(function(s){ return s.stuClass===classFilter; }); }
+    var jieshuFilter = document.getElementById('stuInfoJieshuFilter') ? document.getElementById('stuInfoJieshuFilter').value : '';
+    if(jieshuFilter){
+      result = result.filter(function(s){ return getStudentJieshu(s) === jieshuFilter; });
+    }
+    var levelFilter = document.getElementById('stuInfoLevelFilter') ? document.getElementById('stuInfoLevelFilter').value : '';
+    if(levelFilter){
+      result = result.filter(function(s){ return s.mathCur===levelFilter || s.engCur===levelFilter; });
+    }
+    var keyword = document.getElementById('stuInfoKeyword') ? document.getElementById('stuInfoKeyword').value.toLowerCase() : '';
+    if(keyword){
+      result = result.filter(function(s){
+        return s.id.toLowerCase().indexOf(keyword)>-1 || s.name.toLowerCase().indexOf(keyword)>-1 || s.phone.toLowerCase().indexOf(keyword)>-1;
+      });
+    }
+
+    if(result.length === 0){ showToast('无数据可导出'); return; }
+
+    var csvContent = '\uFEFF学号,姓名,手机号,所属班级,报名科目,层级,报名时间,到期时间,状态,账号状态\n';
+    result.forEach(function(s){
+      var subjects = s.subjects ? s.subjects.join('/') : '';
+      var levels = [];
+      if(s.mathCur) levels.push('数学:'+s.mathCur);
+      if(s.engCur) levels.push('英语:'+s.engCur);
+      csvContent += s.id + ',"' + s.name + '","' + s.phone + '","' + s.stuClass + '","' + subjects + '","' + levels.join(';') + '","' + s.regDate + '","' + s.endDate + '","' + s.status + '","' + (s.acctEnabled?'已启用':'已停用') + '"\n';
+    });
+
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=UTF-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '学员信息_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('导出成功，共 '+result.length+' 条记录');
   };
 
   // ==================== Student Info Actions ====================
@@ -5373,14 +5752,24 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   function renderReminderPage(){
     var keyword = reminderSearchKeyword ? reminderSearchKeyword.toLowerCase() : '';
     var filtered = reminderData.filter(function(r){
-      if(reminderSubjectFilter !== 'all' && r.subject !== reminderSubjectFilter) return false;
+      if(reminderSubjectFilter !== 'all'){
+        var subjects = r.subjects || (r.subject ? [r.subject] : []);
+        if(subjects.indexOf(reminderSubjectFilter)===-1) return false;
+      }
       if(!keyword) return true;
-      return r.title.toLowerCase().indexOf(keyword)>-1 || r.content.toLowerCase().indexOf(keyword)>-1 || r.subject.indexOf(keyword)>-1 || (r.subSubject||'').indexOf(keyword)>-1;
+      var subjects = r.subjects || (r.subject ? [r.subject] : []);
+      return r.title.toLowerCase().indexOf(keyword)>-1 || r.content.toLowerCase().indexOf(keyword)>-1 || subjects.some(function(s){ return s.indexOf(keyword)>-1; }) || JSON.stringify(r.subSubjects||{}).toLowerCase().indexOf(keyword)>-1;
     });
 
     // Filter bar with tabs + button on left
-    var mathCount = reminderData.filter(function(r){ return r.subject==='数学'; }).length;
-    var engCount  = reminderData.filter(function(r){ return r.subject==='英语'; }).length;
+    var mathCount = reminderData.filter(function(r){
+      var subjects = r.subjects || (r.subject ? [r.subject] : []);
+      return subjects.indexOf('数学')>-1;
+    }).length;
+    var engCount = reminderData.filter(function(r){
+      var subjects = r.subjects || (r.subject ? [r.subject] : []);
+      return subjects.indexOf('英语')>-1;
+    }).length;
     var allCount  = reminderData.length;
 
     var html = '';
@@ -5408,12 +5797,35 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       html += '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:24px">暂无提醒数据</td></tr>';
     } else {
       filtered.forEach(function(r){
-        var subjectTagCls = r.subject==='数学' ? 'layer-math' : 'layer-english';
+        var subjects = r.subjects || (r.subject ? [r.subject] : []);
+        var subSubjects = r.subSubjects || {};
+
+        // Build subject tags
+        var subjectTagsHtml = subjects.map(function(s){
+          var cls = s==='数学' ? 'layer-math' : 'layer-english';
+          return '<span class="layer-tag '+cls+'">'+s+'</span>';
+        }).join('');
+
+        // Build sub-subject tags
+        var subTagsHtml = '';
+        var subEntries = [];
+        subjects.forEach(function(s){
+          if(subSubjects[s]) subEntries.push({ subject: s, sub: subSubjects[s] });
+        });
+        if(subEntries.length===0){
+          subTagsHtml = '<span style="color:var(--text-muted);font-size:12px">—</span>';
+        } else {
+          subTagsHtml = subEntries.map(function(e){
+            var cls = e.subject==='数学' ? 'level-math-sub' : 'level-eng-sub';
+            return '<span class="level-tag '+cls+'">'+e.sub+'</span>';
+          }).join('');
+        }
+
         html += '<tr>' +
           '<td style="font-weight:500">'+r.title+'</td>' +
           '<td><div class="reminder-content" title="'+r.content.replace(/"/g,'&quot;')+'">'+r.content+'</div></td>' +
-          '<td><span class="layer-tag '+subjectTagCls+'">'+r.subject+'</span></td>' +
-          '<td>'+(r.subSubject ? '<span class="level-tag '+(r.subject==='数学'?'level-math-sub':'level-eng-sub')+'">'+r.subSubject+'</span>' : '<span style="color:var(--text-muted);font-size:12px">—</span>')+'</td>' +
+          '<td>'+subjectTagsHtml+'</td>' +
+          '<td>'+subTagsHtml+'</td>' +
           '<td style="color:var(--text-secondary)">'+r.createdAt+'</td>' +
           '<td><button class="btn btn-ghost btn-xs" onclick="window._openReminderModal(\''+r.id+'\')">编辑</button><button class="btn btn-ghost btn-xs btn-danger" onclick="window._deleteReminderPrompt(\''+r.id+'\')">删除</button></td>' +
         '</tr>';
@@ -5436,17 +5848,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     renderReminderPage();
   };
 
-  window._onReminderSubjectChange = function(){
-    var subject = document.getElementById('reminderSubject').value;
-    var subGroup = document.getElementById('reminderSubSubjectGroup');
-    var subSelect = document.getElementById('reminderSubSubject');
-    if(subject==='英语'){
-      subGroup.style.opacity = '.4';
-      subGroup.style.pointerEvents = 'none';
-      subSelect.value = '';
+  window._onReminderSubjectCheckbox = function(){
+    var mathChecked = document.getElementById('reminderSubjMath').checked;
+    var groups = document.getElementById('reminderSubSubjectGroups');
+    var mathGroup = document.getElementById('reminderMathSubGroup');
+    if(mathChecked){
+      groups.style.display = 'block';
+      mathGroup.style.display = 'block';
     } else {
-      subGroup.style.opacity = '1';
-      subGroup.style.pointerEvents = 'auto';
+      groups.style.display = 'none';
+      mathGroup.style.display = 'none';
+      document.getElementById('reminderMathSubSubject').value = '';
     }
   };
 
@@ -5454,11 +5866,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     editingReminderId = id || null;
     document.getElementById('reminderTitle').value = '';
     document.getElementById('reminderContent').value = '';
-    document.getElementById('reminderSubject').value = '';
-    document.getElementById('reminderSubSubject').value = '';
-    var subGroup = document.getElementById('reminderSubSubjectGroup');
-    subGroup.style.opacity = '1';
-    subGroup.style.pointerEvents = 'auto';
+    document.getElementById('reminderSubjMath').checked = false;
+    document.getElementById('reminderSubjEnglish').checked = false;
+    document.getElementById('reminderMathSubSubject').value = '';
+    document.getElementById('reminderSubSubjectGroups').style.display = 'none';
+    document.getElementById('reminderMathSubGroup').style.display = 'none';
 
     if(id){
       document.getElementById('reminderModalTitle').textContent = '编辑提醒';
@@ -5466,13 +5878,16 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       if(r){
         document.getElementById('reminderTitle').value = r.title;
         document.getElementById('reminderContent').value = r.content;
-        document.getElementById('reminderSubject').value = r.subject;
-        if(r.subject==='英语'){
-          subGroup.style.opacity = '.4';
-          subGroup.style.pointerEvents = 'none';
-        } else {
-          document.getElementById('reminderSubSubject').value = r.subSubject||'';
+        var subjects = r.subjects || (r.subject ? [r.subject] : []);
+        var subSubjects = r.subSubjects || {};
+        if(subjects.indexOf('数学')>-1){
+          document.getElementById('reminderSubjMath').checked = true;
+          document.getElementById('reminderMathSubSubject').value = subSubjects['数学']||'';
         }
+        if(subjects.indexOf('英语')>-1){
+          document.getElementById('reminderSubjEnglish').checked = true;
+        }
+        window._onReminderSubjectCheckbox();
       }
     } else {
       document.getElementById('reminderModalTitle').textContent = '新建提醒';
@@ -5483,20 +5898,31 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._submitReminder = function(){
     var title = document.getElementById('reminderTitle').value.trim();
     var content = document.getElementById('reminderContent').value.trim();
-    var subject = document.getElementById('reminderSubject').value;
-    var subSubject = document.getElementById('reminderSubSubject').value;
+    var mathChecked = document.getElementById('reminderSubjMath').checked;
+    var engChecked = document.getElementById('reminderSubjEnglish').checked;
 
     if(!title){ showToast('请输入提醒标题'); return; }
     if(!content){ showToast('请输入提醒内容'); return; }
-    if(!subject){ showToast('请选择学科'); return; }
+    if(!mathChecked && !engChecked){ showToast('请选择学科'); return; }
+
+    var subjects = [];
+    var subSubjects = {};
+    if(mathChecked){
+      subjects.push('数学');
+      var mathSub = document.getElementById('reminderMathSubSubject').value;
+      if(mathSub) subSubjects['数学'] = mathSub;
+    }
+    if(engChecked){
+      subjects.push('英语');
+    }
 
     if(editingReminderId){
       var r = reminderData.filter(function(x){ return x.id===editingReminderId; })[0];
       if(r){
         r.title = title;
         r.content = content;
-        r.subject = subject;
-        r.subSubject = subject==='英语' ? '' : subSubject;
+        r.subjects = subjects;
+        r.subSubjects = subSubjects;
       }
       showToast('提醒更新成功');
     } else {
@@ -5507,8 +5933,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         id: newId,
         title: title,
         content: content,
-        subject: subject,
-        subSubject: subject==='英语' ? '' : subSubject,
+        subjects: subjects,
+        subSubjects: subSubjects,
         createdAt: createdAt
       });
       showToast('提醒创建成功');
@@ -6902,21 +7328,68 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   // ==================== 分发日志 ====================
   function renderFenfaRizhiPage(){
-    var filtered = fenfaLogStatusFilter === 'all'
-      ? fenfaLogData
-      : fenfaLogData.filter(function(log){ return log.status === fenfaLogStatusFilter; });
+    // Build filter
+    var filtered = fenfaLogData.filter(function(log){
+      // Status filter
+      if(fenfaLogStatusFilter !== 'all' && log.status !== fenfaLogStatusFilter) return false;
+      // Student search
+      if(fenfaLogStudentSearch){
+        var kw = fenfaLogStudentSearch.toLowerCase();
+        if(log.students.toLowerCase().indexOf(kw) === -1) return false;
+      }
+      // 课表日期 range
+      if(fenfaLogKebiaoDateFrom && log.keBiaoDate < fenfaLogKebiaoDateFrom) return false;
+      if(fenfaLogKebiaoDateTo && log.keBiaoDate > fenfaLogKebiaoDateTo) return false;
+      // 分发时间 range
+      if(fenfaLogDistributeDateFrom && log.distributeTime < fenfaLogDistributeDateFrom) return false;
+      if(fenfaLogDistributeDateTo && log.distributeTime > fenfaLogDistributeDateTo) return false;
+      return true;
+    });
 
     var normalCount = fenfaLogData.filter(function(l){ return l.status === 'normal'; }).length;
     var abnormalCount = fenfaLogData.filter(function(l){ return l.status === 'abnormal'; }).length;
 
     var html = '<div class="page-header" style="margin-bottom:2px"><h2 style="font-size:18px">分发日志</h2></div>';
 
-    // Filter bar
+    // ===== Unified filter panel =====
     html += '<div class="card"><div class="card-body">';
-    html += '<div class="filter-bar" style="margin-bottom:16px">';
-    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='all'?' active':'')+'" onclick="window._setFenfaLogFilter(\'all\')">全部<span class="count">'+fenfaLogData.length+'</span></button>';
-    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='normal'?' active':'')+'" onclick="window._setFenfaLogFilter(\'normal\')">正常<span class="count">'+normalCount+'</span></button>';
-    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='abnormal'?' active':'')+'" onclick="window._setFenfaLogFilter(\'abnormal\')">异常<span class="count">'+abnormalCount+'</span></button>';
+    html += '<div class="filter-panel">';
+
+    // Row 1: Student search
+    html += '<div class="filter-row">';
+    html +=   '<div class="filter-field">';
+    html +=     '<label class="filter-label">学员</label>';
+    html +=     '<div class="search-input" style="flex:1;min-width:180px"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名..." id="fenfaLogStudentInput" value="'+(fenfaLogStudentSearch||'')+'"></div>';
+    html +=   '</div>';
+    html += '</div>';
+
+    // Row 2: Date range filters + action buttons
+    html += '<div class="filter-row">';
+    html +=   '<div class="filter-field">';
+    html +=     '<label class="filter-label">课表日期</label>';
+    html +=     '<input type="date" class="form-control filter-date" id="fenfaLogKebiaoFrom" value="'+(fenfaLogKebiaoDateFrom||'')+'">';
+    html +=     '<span class="filter-sep">—</span>';
+    html +=     '<input type="date" class="form-control filter-date" id="fenfaLogKebiaoTo" value="'+(fenfaLogKebiaoDateTo||'')+'">';
+    html +=   '</div>';
+    html +=   '<div class="filter-field">';
+    html +=     '<label class="filter-label">分发时间</label>';
+    html +=     '<input type="date" class="form-control filter-date" id="fenfaLogDistFrom" value="'+(fenfaLogDistributeDateFrom||'')+'">';
+    html +=     '<span class="filter-sep">—</span>';
+    html +=     '<input type="date" class="form-control filter-date" id="fenfaLogDistTo" value="'+(fenfaLogDistributeDateTo||'')+'">';
+    html +=   '</div>';
+    html +=   '<div class="filter-actions">';
+    html +=     '<button class="btn btn-primary btn-sm" onclick="window._doFenfaLogQuery()">查询</button>';
+    html +=     '<button class="btn btn-outline btn-sm" onclick="window._resetFenfaLogFilter()">重置</button>';
+    html +=   '</div>';
+    html += '</div>';
+
+    html += '</div>';
+
+    // Status filter tabs (below filter panel)
+    html += '<div class="filter-bar" style="margin-top:12px">';
+    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='all'?' active':'')+'" onclick="window._setFenfaLogFilterTab(\'all\')">全部<span class="count">'+fenfaLogData.length+'</span></button>';
+    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='normal'?' active':'')+'" onclick="window._setFenfaLogFilterTab(\'normal\')">正常<span class="count">'+normalCount+'</span></button>';
+    html +=   '<button class="filter-tab'+(fenfaLogStatusFilter==='abnormal'?' active':'')+'" onclick="window._setFenfaLogFilterTab(\'abnormal\')">异常<span class="count">'+abnormalCount+'</span></button>';
     html += '</div>';
 
     // Table
@@ -6947,8 +7420,29 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     contentArea.innerHTML = html;
   }
 
-  window._setFenfaLogFilter = function(filter){
+  window._setFenfaLogFilterTab = function(filter){
     fenfaLogStatusFilter = filter;
+    renderFenfaRizhiPage();
+  };
+
+  window._doFenfaLogQuery = function(){
+    // Collect all filter values from DOM
+    var studentEl = document.getElementById('fenfaLogStudentInput');
+    fenfaLogStudentSearch = studentEl ? studentEl.value : '';
+    fenfaLogKebiaoDateFrom = document.getElementById('fenfaLogKebiaoFrom').value;
+    fenfaLogKebiaoDateTo = document.getElementById('fenfaLogKebiaoTo').value;
+    fenfaLogDistributeDateFrom = document.getElementById('fenfaLogDistFrom').value;
+    fenfaLogDistributeDateTo = document.getElementById('fenfaLogDistTo').value;
+    renderFenfaRizhiPage();
+  };
+
+  window._resetFenfaLogFilter = function(){
+    fenfaLogStatusFilter = 'all';
+    fenfaLogStudentSearch = '';
+    fenfaLogKebiaoDateFrom = '';
+    fenfaLogKebiaoDateTo = '';
+    fenfaLogDistributeDateFrom = '';
+    fenfaLogDistributeDateTo = '';
     renderFenfaRizhiPage();
   };
 
@@ -6968,6 +7462,186 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     showToast('撤销成功，已删除相关排课数据');
     revokingLogId = null;
     renderFenfaRizhiPage();
+  };
+
+  // ==================== 课表复制 ====================
+  var kebiaoFuzhiSourceId = null;
+  var kebiaoFuzhiTargetIds = [];
+
+  function renderKebiaoFuzhiPage(){
+    var sourceStudent = null;
+    var targetStudents = [];
+
+    var html = '<div class="page-header"><h2 style="font-size:18px">课表复制</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+
+    // Source student
+    html += '<div class="form-group">';
+    html +=   '<label>被复制学员<span class="required">*</span></label>';
+    html +=   '<div class="autocomplete" id="kefuSourceAc">';
+    if(kebiaoFuzhiSourceId){
+      sourceStudent = studentData.filter(function(s){ return s.id===kebiaoFuzhiSourceId; })[0];
+    }
+    html +=     '<input class="autocomplete-input" id="kefuSourceInput" placeholder="搜索并选择学员..." autocomplete="off" value="'+(sourceStudent ? sourceStudent.name+' — '+sourceStudent.stuClass : '')+'">';
+    html +=     '<span class="autocomplete-arrow">&#9660;</span>';
+    html +=     '<div class="autocomplete-dropdown"></div>';
+    html +=   '</div>';
+    html += '</div>';
+
+    // Target students
+    html += '<div class="form-group">';
+    html +=   '<label>被写入学员<span class="required">*</span>（支持多选）</label>';
+    html +=   '<div class="autocomplete" id="kefuTargetAc">';
+    html +=     '<input class="autocomplete-input" id="kefuTargetInput" placeholder="搜索并选择学员（可多选）..." autocomplete="off">';
+    html +=     '<span class="autocomplete-arrow">&#9660;</span>';
+    html +=     '<div class="autocomplete-dropdown"></div>';
+    html +=   '</div>';
+    html +=   '<div id="kefuTargetTags" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">';
+    if(kebiaoFuzhiTargetIds.length > 0){
+      targetStudents = studentData.filter(function(s){ return kebiaoFuzhiTargetIds.indexOf(s.id)>-1; });
+      targetStudents.forEach(function(s){
+        html += '<span class="tag-chip" style="display:inline-flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);padding:3px 8px;border-radius:12px;font-size:12px">'+s.name+' <span style="cursor:pointer;font-weight:700" onclick="window._kefuRemoveTarget(\''+s.id+'\')">&times;</span></span>';
+      });
+    }
+    html +=   '</div>';
+    html += '</div>';
+
+    // Date range
+    html += '<div style="display:flex;flex-wrap:wrap;gap:24px">';
+    html +=   '<div class="form-group">';
+    html +=     '<label for="kefuDateFrom">复制课表开始日期<span class="required">*</span></label>';
+    html +=     '<input type="date" class="form-control" id="kefuDateFrom" style="width:180px">';
+    html +=   '</div>';
+    html +=   '<div class="form-group">';
+    html +=     '<label for="kefuDateTo">复制课表结束日期<span class="required">*</span></label>';
+    html +=     '<input type="date" class="form-control" id="kefuDateTo" style="width:180px">';
+    html +=   '</div>';
+    html += '</div>';
+
+    // Submit
+    html += '<div style="margin-top:20px">';
+    html +=   '<button class="btn btn-primary" onclick="window._kefuSubmit()">提交复制</button>';
+    html += '</div>';
+
+    html += '</div></div>';
+    contentArea.innerHTML = html;
+
+    // Initialize source autocomplete
+    _initKefuSourceAutocomplete();
+    // Initialize target autocomplete
+    _initKefuTargetAutocomplete();
+  }
+
+  // Source autocomplete (single select)
+  function _initKefuSourceAutocomplete(){
+    var container = document.getElementById('kefuSourceAc');
+    var input = document.getElementById('kefuSourceInput');
+    var dropdown = container.querySelector('.autocomplete-dropdown');
+
+    input.addEventListener('input', function(){
+      var kw = input.value.toLowerCase();
+      dropdown.innerHTML = '';
+      if(!kw){ container.classList.remove('open'); return; }
+      var matches = studentData.filter(function(s){ return s.name.toLowerCase().indexOf(kw)>-1 || s.stuClass.toLowerCase().indexOf(kw)>-1 || s.id.indexOf(kw)>-1; });
+      if(matches.length===0){
+        dropdown.innerHTML = '<div class="autocomplete-empty">无匹配学员</div>';
+      } else {
+        matches.forEach(function(s){
+          var item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          item.textContent = s.name + ' — ' + s.stuClass + ' (' + s.id + ')';
+          item.addEventListener('mousedown', function(e){ e.preventDefault(); });
+          item.addEventListener('click', function(){
+            kebiaoFuzhiSourceId = s.id;
+            input.value = s.name + ' — ' + s.stuClass;
+            container.classList.remove('open');
+            renderKebiaoFuzhiPage();
+          });
+          dropdown.appendChild(item);
+        });
+      }
+      container.classList.add('open');
+    });
+
+    input.addEventListener('focus', function(){
+      if(dropdown.children.length>0) container.classList.add('open');
+    });
+
+    document.addEventListener('click', function(e){
+      if(!container.contains(e.target)) container.classList.remove('open');
+    });
+  }
+
+  // Target autocomplete (multi select)
+  function _initKefuTargetAutocomplete(){
+    var container = document.getElementById('kefuTargetAc');
+    var input = document.getElementById('kefuTargetInput');
+    var dropdown = container.querySelector('.autocomplete-dropdown');
+
+    input.addEventListener('input', function(){
+      var kw = input.value.toLowerCase();
+      dropdown.innerHTML = '';
+      if(!kw){ container.classList.remove('open'); return; }
+      var matches = studentData.filter(function(s){
+        if(kebiaoFuzhiTargetIds.indexOf(s.id)>-1) return false;
+        return s.name.toLowerCase().indexOf(kw)>-1 || s.stuClass.toLowerCase().indexOf(kw)>-1 || s.id.indexOf(kw)>-1;
+      });
+      if(matches.length===0){
+        dropdown.innerHTML = '<div class="autocomplete-empty">无匹配学员</div>';
+      } else {
+        matches.forEach(function(s){
+          var item = document.createElement('div');
+          item.className = 'autocomplete-item';
+          item.textContent = s.name + ' — ' + s.stuClass + ' (' + s.id + ')';
+          item.addEventListener('mousedown', function(e){ e.preventDefault(); });
+          item.addEventListener('click', function(){
+            if(kebiaoFuzhiTargetIds.indexOf(s.id)===-1){
+              kebiaoFuzhiTargetIds.push(s.id);
+            }
+            input.value = '';
+            container.classList.remove('open');
+            dropdown.innerHTML = '';
+            renderKebiaoFuzhiPage();
+          });
+          dropdown.appendChild(item);
+        });
+      }
+      container.classList.add('open');
+    });
+
+    input.addEventListener('focus', function(){
+      input.value = '';
+      dropdown.innerHTML = '';
+      container.classList.remove('open');
+    });
+
+    document.addEventListener('click', function(e){
+      if(!container.contains(e.target)) container.classList.remove('open');
+    });
+  }
+
+  window._kefuRemoveTarget = function(id){
+    kebiaoFuzhiTargetIds = kebiaoFuzhiTargetIds.filter(function(x){ return x!==id; });
+    renderKebiaoFuzhiPage();
+  };
+
+  window._kefuSubmit = function(){
+    if(!kebiaoFuzhiSourceId){ showToast('请选择被复制学员'); return; }
+    if(kebiaoFuzhiTargetIds.length===0){ showToast('请选择被写入学员'); return; }
+    var dateFrom = document.getElementById('kefuDateFrom').value;
+    var dateTo = document.getElementById('kefuDateTo').value;
+    if(!dateFrom){ showToast('请选择复制开始日期'); return; }
+    if(!dateTo){ showToast('请选择复制结束日期'); return; }
+    if(dateTo < dateFrom){ showToast('结束日期不能早于开始日期'); return; }
+
+    var sourceS = studentData.filter(function(s){ return s.id===kebiaoFuzhiSourceId; })[0];
+    var targetNames = studentData.filter(function(s){ return kebiaoFuzhiTargetIds.indexOf(s.id)>-1; }).map(function(s){ return s.name; }).join('、');
+    showToast('已将「'+sourceS.name+'」的课表（'+dateFrom+' 至 '+dateTo+'）成功复制给：'+targetNames);
+
+    // Reset
+    kebiaoFuzhiSourceId = null;
+    kebiaoFuzhiTargetIds = [];
+    renderKebiaoFuzhiPage();
   };
 
   // ==================== 清空课表 ====================
@@ -9032,7 +9706,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<div class="lcmx-filter-row">';
     html += '<div class="filter-date"><span class="filter-label">提交日期</span><input type="date" id="lcMingxiSubmitStart" value="'+lcMingxiSubmitStart+'" onchange="window._lcMingxiDoFilter()"><span>至</span><input type="date" id="lcMingxiSubmitEnd" value="'+lcMingxiSubmitEnd+'" onchange="window._lcMingxiDoFilter()"></div>';
     html += '<div class="filter-date"><span class="filter-label">课表日期</span><input type="date" id="lcMingxiKeBiaoStart" value="'+lcMingxiKeBiaoStart+'" onchange="window._lcMingxiDoFilter()"><span>至</span><input type="date" id="lcMingxiKeBiaoEnd" value="'+lcMingxiKeBiaoEnd+'" onchange="window._lcMingxiDoFilter()"></div>';
-    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._lcMingxiResetFilter()">重置</button></div>';
+    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._lcMingxiResetFilter()">重置</button><button class="btn btn-outline btn-xs" style="margin-left:8px" onclick="window._lianCeMingxiExport()">&#x1F4E5; 导出</button></div>';
     html += '</div>';
 
     // Table
@@ -9125,6 +9799,44 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     lcMingxiKeBiaoStart = '';
     lcMingxiKeBiaoEnd = '';
     renderLianCeMingxiPage();
+  };
+
+  // --- 导出练测明细 ---
+  window._lianCeMingxiExport = function(){
+    var paperKw = lcMingxiPaperSearch ? lcMingxiPaperSearch.toLowerCase() : '';
+    var studentKw = lcMingxiStudentSearch ? lcMingxiStudentSearch.toLowerCase() : '';
+
+    var filtered = lianCeMingxiData.filter(function(r){
+      if(lcMingxiClassFilter !== 'all' && r.className !== lcMingxiClassFilter) return false;
+      if(lcMingxiSubjectFilter !== 'all' && r.subject !== lcMingxiSubjectFilter) return false;
+      if(paperKw && r.paperName.toLowerCase().indexOf(paperKw)===-1) return false;
+      if(studentKw && r.studentName.toLowerCase().indexOf(studentKw)===-1) return false;
+      if(lcMingxiSubmitStart && r.submitTime < lcMingxiSubmitStart) return false;
+      if(lcMingxiSubmitEnd   && r.submitTime > lcMingxiSubmitEnd + ' 23:59:59') return false;
+      if(lcMingxiKeBiaoStart && r.keBiaoDate < lcMingxiKeBiaoStart) return false;
+      if(lcMingxiKeBiaoEnd   && r.keBiaoDate > lcMingxiKeBiaoEnd) return false;
+      return true;
+    });
+
+    if(filtered.length === 0){ showToast('无数据可导出'); return; }
+
+    var csvContent = '\uFEFF练测试卷名称,学科,练测分类,学员姓名,班级,课表日期,提交状态,提交时间,自主批改-总题数,自主批改-已答,自主批改-错题\n';
+    filtered.forEach(function(r){
+      var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
+      var submitTimeText = r.submitTime || '';
+      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
+    });
+
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=UTF-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '练测明细_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('导出成功，共 '+filtered.length+' 条记录');
   };
 
   // --- Open Question Detail Modal ---
@@ -9323,7 +10035,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<div class="lcmx-filter-row">';
     html += '<div class="filter-date"><span class="filter-label">提交日期</span><input type="date" id="zyMingxiSubmitStart" value="'+zyMingxiSubmitStart+'" onchange="window._zyMingxiDoFilter()"><span>至</span><input type="date" id="zyMingxiSubmitEnd" value="'+zyMingxiSubmitEnd+'" onchange="window._zyMingxiDoFilter()"></div>';
     html += '<div class="filter-date"><span class="filter-label">课表日期</span><input type="date" id="zyMingxiKeBiaoStart" value="'+zyMingxiKeBiaoStart+'" onchange="window._zyMingxiDoFilter()"><span>至</span><input type="date" id="zyMingxiKeBiaoEnd" value="'+zyMingxiKeBiaoEnd+'" onchange="window._zyMingxiDoFilter()"></div>';
-    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._zyMingxiResetFilter()">重置</button></div>';
+    html += '<div class="filter-actions"><button class="btn btn-primary btn-xs" onclick="window._zyMingxiResetFilter()">重置</button><button class="btn btn-outline btn-xs" style="margin-left:8px" onclick="window._zuoYeMingxiExport()">&#x1F4E5; 导出</button></div>';
     html += '</div>';
 
     // Table
@@ -9395,6 +10107,44 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     zyMingxiKeBiaoStart = '';
     zyMingxiKeBiaoEnd = '';
     renderZuoYeMingxiPage();
+  };
+
+  // --- 导出作业明细 ---
+  window._zuoYeMingxiExport = function(){
+    var paperKw = zyMingxiPaperSearch ? zyMingxiPaperSearch.toLowerCase() : '';
+    var studentKw = zyMingxiStudentSearch ? zyMingxiStudentSearch.toLowerCase() : '';
+
+    var filtered = zuoYeMingxiData.filter(function(r){
+      if(zyMingxiClassFilter !== 'all' && r.className !== zyMingxiClassFilter) return false;
+      if(zyMingxiSubjectFilter !== 'all' && r.subject !== zyMingxiSubjectFilter) return false;
+      if(paperKw && r.paperName.toLowerCase().indexOf(paperKw)===-1) return false;
+      if(studentKw && r.studentName.toLowerCase().indexOf(studentKw)===-1) return false;
+      if(zyMingxiSubmitStart && r.submitTime < zyMingxiSubmitStart) return false;
+      if(zyMingxiSubmitEnd   && r.submitTime > zyMingxiSubmitEnd + ' 23:59:59') return false;
+      if(zyMingxiKeBiaoStart && r.keBiaoDate < zyMingxiKeBiaoStart) return false;
+      if(zyMingxiKeBiaoEnd   && r.keBiaoDate > zyMingxiKeBiaoEnd) return false;
+      return true;
+    });
+
+    if(filtered.length === 0){ showToast('无数据可导出'); return; }
+
+    var csvContent = '\uFEFF作业名称,学科,作业分类,学员姓名,班级,课表日期,提交状态,提交时间,自主批改-总题数,自主批改-已答,自主批改-错题\n';
+    filtered.forEach(function(r){
+      var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
+      var submitTimeText = r.submitTime || '';
+      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
+    });
+
+    var blob = new Blob([csvContent], { type: 'text/csv;charset=UTF-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '作业明细_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('导出成功，共 '+filtered.length+' 条记录');
   };
 
   // --- Open 作业 Question Detail Modal ---
@@ -10743,6 +11493,35 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     return '<svg xmlns="http://www.w3.org/2000/svg" width="'+s+'" height="'+s+'" viewBox="0 0 '+s+' '+s+'"><rect width="'+s+'" height="'+s+'" fill="#fff"/>'+rects+'</svg>';
   }
 
+  // === 错题本辅助：丰富题目数据（知识点评测、错误原因映射等）===
+  function enrichQuestionForNotebook(q){
+    var kpMap = {
+      '导数的应用': ['导数的应用', '函数极值与最值', '单调性判断'],
+      '定积分与不定积分': ['定积分与不定积分', '分部积分法', '牛顿-莱布尼茨公式'],
+      '虚拟语气': ['虚拟语气', '宾语从句', '被动语态'],
+      '强调句型': ['强调句型', '定语从句', '状语从句'],
+      '矩阵与行列式': ['矩阵与行列式', '行列式性质', '逆矩阵'],
+      '主谓一致': ['主谓一致', '数量表达', '现在完成时'],
+      '正态分布': ['正态分布', '标准化变换', '概率计算'],
+      '极限与连续': ['极限与连续', '泰勒公式', '等价无穷小'],
+      '倒装句': ['倒装句', '部分倒装', '状语从句'],
+      '向量空间与线性方程组': ['向量空间与线性方程组', '线性相关性', '行列式'],
+      '阅读理解-词义推断': ['阅读理解-词义推断', '词汇记忆', '上下文推断'],
+      '介词短语/独立主格': ['介词短语/独立主格', '让步状语', '介词用法']
+    };
+    var errMap = {
+      '概念混淆': '概念模糊',
+      '计算错误': '运算错误',
+      '知识盲区': '概念模糊',
+      '审题不清': '审题错误',
+      '粗心大意': '其他原因'
+    };
+    return {
+      knowledgePoints: kpMap[q.knowledgePoint] || [q.knowledgePoint],
+      errorReasonChecked: errMap[q.errorReason] || q.errorReason
+    };
+  }
+
   // === 预览渲染 ===
   function renderCdFormatPreview(questions){
     var modeClass = cdFormatState.layoutMode==='exam' ? 'cd-fmt-mode-exam' : 'cd-fmt-mode-notebook';
@@ -10786,14 +11565,58 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<div class="cd-fmt-page-meta">学员：'+cdSelectedStudent.studentName+' | 班级：'+cdSelectedStudent.className+' | 共 '+questions.length+' 题</div>';
     html += '</div>';
 
+    var isNotebook = cdFormatState.layoutMode === 'notebook';
+    var allErrorReasons = ['概念模糊', '逻辑推理', '运算错误', '审题错误', '综合运用'];
+
     questions.forEach(function(q, idx){
+      var enriched = enrichQuestionForNotebook(q);
       html += '<div class="cd-fmt-q-block">';
+
+      // Notebook sidebar module
+      if(isNotebook){
+        html += '<div class="cd-fmt-nb-sidebar">';
+        // 错题时间
+        html += '<div class="nb-section">';
+        html += '<div class="nb-section-title">错题信息</div>';
+        html += '<div class="nb-time">错题时间<br><strong>'+q.submitTime+'</strong></div>';
+        html += '</div>';
+        // 复习情况
+        html += '<div class="nb-section">';
+        html += '<div class="nb-section-title">复习情况</div>';
+        html += '<table class="cd-fmt-nb-table"><thead><tr><th></th><th>第一次</th><th>第二次</th><th>第三次</th></tr></thead><tbody>';
+        ['未掌握','掌握','熟练'].forEach(function(level){
+          html += '<tr><td>'+level+'</td>';
+          for(var r=0; r<3; r++){ html += '<td class="nb-chk">&#x2610;</td>'; }
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        // 错误知识点（全部未勾选）
+        html += '<div class="nb-section">';
+        html += '<div class="nb-section-title">错误知识点</div>';
+        html += '<div class="cd-fmt-nb-cb-list">';
+        enriched.knowledgePoints.forEach(function(kp){
+          html += '<div class="cd-fmt-nb-cb"><span class="cb-box"></span>'+kp+'</div>';
+        });
+        html += '</div></div>';
+        // 错误原因（前5项复选框，其他原因换行+下划线）
+        html += '<div class="nb-section">';
+        html += '<div class="nb-section-title">错误原因</div>';
+        html += '<div class="cd-fmt-nb-cb-grid">';
+        allErrorReasons.forEach(function(reason){
+          html += '<div class="cd-fmt-nb-cb"><span class="cb-box"></span>'+reason+'</div>';
+        });
+        html += '</div>';
+        html += '<div class="cd-fmt-nb-underline"><span>其他原因</span><span class="ul-line"></span></div>';
+        html += '</div>';
+        html += '</div>'; // end sidebar
+      }
+
+      // Main content wrapper (notebook mode uses flex)
+      html += (isNotebook ? '<div class="cd-fmt-nb-main">' : '');
       html += '<div class="cd-fmt-q-stem"><span class="q-num">'+(idx+1)+'.</span>'+q.content+'</div>';
-      html += '<div class="cd-fmt-q-tags">';
-      html += '<span>'+q.knowledgePoint+'</span>';
-      html += '<span>'+q.errorReason+'</span>';
-      html += '<span>'+q.subject+'</span>';
-      html += '</div>';
+      // 题目类型
+      var qTypeLabels = ['基础题', '巩固题', '进阶题目'];
+      html += '<div class="cd-fmt-q-tags"><span class="cd-fmt-q-type-tag">'+qTypeLabels[idx % 3]+'</span></div>';
 
       // Answer area
       if(cdFormatState.answerArea){
@@ -10806,12 +11629,21 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         html += '<div class="cd-fmt-q-analysis"><div class="ans-label">解析</div>'+q.analysis+'</div>';
       }
 
+      // Avoid-repeat section (错题本模式)
+      if(isNotebook){
+        html += '<div class="cd-fmt-nb-avoid">';
+        html += '<div class="nb-avoid-title">如何避免再犯类似错误</div>';
+        html += '</div>';
+      }
+
+      html += (isNotebook ? '</div>' : ''); // end main
+
       // Divider between questions
       if(idx < questions.length - 1){
         html += '<div class="cd-fmt-divider">&#x2022;</div>';
       }
 
-      html += '</div>';
+      html += '</div>'; // end q-block
     });
 
     // Answer & analysis at end
@@ -10868,7 +11700,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     printHtml += '.page-header h1{font-size:22px;font-weight:700;letter-spacing:3px}';
     printHtml += '.page-header .meta{font-size:12px;color:#64748b;margin-top:4px}';
     printHtml += '.q-block{margin-bottom:24px;page-break-inside:avoid}';
-    printHtml += (isNotebook ? '.q-block{background:#fafbfc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px}' : '');
+    printHtml += (isNotebook ? '.q-block{background:#fafbfc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 16px;display:flex;gap:16px}' : '');
     printHtml += '.q-stem{font-size:15px;font-weight:600;line-height:1.7;margin-bottom:4px}';
     printHtml += '.q-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}';
     printHtml += '.q-tags span{font-size:11px;color:#64748b;background:#f1f5f9;padding:2px 8px;border-radius:3px}';
@@ -10878,6 +11710,28 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     printHtml += '.q-analysis{font-size:13px;color:#2563eb;background:#eff6ff;padding:10px 14px;border-radius:6px;margin-top:6px;line-height:1.7;border-left:3px solid #2563eb}';
     printHtml += '.q-analysis .ans-label{font-weight:600;font-size:11px;margin-bottom:2px}';
     printHtml += '.q-divider{border:none;border-top:1px dashed #e2e8f0;margin:20px 0}';
+    printHtml += (isNotebook ? '.q-main{flex:1;min-width:0}' : '');
+    printHtml += (isNotebook ? '.nb-sidebar{width:180px;min-width:180px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-size:10px;color:#475569;flex-shrink:0}' : '');
+    printHtml += (isNotebook ? '.nb-sidebar .nb-sec{margin-bottom:12px}' : '');
+    printHtml += (isNotebook ? '.nb-sidebar .nb-sec:last-child{margin-bottom:0}' : '');
+    printHtml += (isNotebook ? '.nb-sidebar .nb-sec-title{font-weight:700;font-size:10px;color:#1e293b;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #e2e8f0}' : '');
+    printHtml += (isNotebook ? '.nb-time{font-size:10px;color:#64748b;margin-bottom:2px}' : '');
+    printHtml += (isNotebook ? '.nb-time strong{color:#1e293b}' : '');
+    printHtml += (isNotebook ? '.nb-table{width:100%;border-collapse:collapse;font-size:9px;text-align:center}' : '');
+    printHtml += (isNotebook ? '.nb-table th,.nb-table td{padding:2px 3px;border:1px solid #e2e8f0}' : '');
+    printHtml += (isNotebook ? '.nb-table th{background:#f8fafc;font-weight:600;color:#1e293b}' : '');
+    printHtml += (isNotebook ? '.nb-table td:first-child{text-align:left;padding-left:4px}' : '');
+    printHtml += (isNotebook ? '.nb-chk{color:#cbd5e1;font-size:12px}' : '');
+    printHtml += (isNotebook ? '.nb-cb{display:flex;align-items:center;gap:4px;font-size:10px;color:#1e293b;margin-bottom:2px}' : '');
+    printHtml += (isNotebook ? '.nb-cb .cb-bx{width:12px;height:12px;border:1.5px solid #94a3b8;border-radius:2px;flex-shrink:0;text-align:center;font-size:8px;line-height:12px}' : '');
+    printHtml += (isNotebook ? '.nb-cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}' : '');
+    printHtml += (isNotebook ? '.nb-avoid{margin-top:12px;padding:10px 12px;border:1px dashed #cbd5e1;border-radius:4px}' : '');
+    printHtml += (isNotebook ? '.nb-avoid .nb-avoid-title{font-size:12px;font-weight:600;color:#1e293b;margin-bottom:8px}' : '');
+    printHtml += (isNotebook ? '.nb-avoid-line{height:1px;background:#e2e8f0;margin-bottom:6px}' : '');
+    printHtml += (isNotebook ? '.nb-avoid-hint{font-size:9px;color:#94a3b8}' : '');
+    printHtml += (isNotebook ? '.nb-underline{display:flex;align-items:center;gap:6px;font-size:10px;color:#1e293b;margin-top:3px}' : '');
+    printHtml += (isNotebook ? '.nb-ul-line{flex:1;border-bottom:1.5px solid #94a3b8;min-width:30px}' : '');
+    printHtml += '.q-type-tag{padding:1px 8px;border-radius:3px;font-size:10px;font-weight:600;color:#2563eb;background:#eff6ff;display:inline-block}';
     printHtml += '.answer-section{margin-top:28px;padding-top:20px;border-top:2px solid #1e293b}';
     printHtml += '.answer-section h2{font-size:18px;font-weight:700;letter-spacing:2px;margin-bottom:16px}';
     printHtml += '.page-footer{margin-top:28px;padding-top:14px;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#94a3b8}';
@@ -10909,14 +11763,46 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     printHtml += '<div class="meta">学员：'+cdSelectedStudent.studentName+' | 班级：'+cdSelectedStudent.className+' | 共 '+questions.length+' 题 | '+printTime+'</div>';
     printHtml += '</div>';
 
+    var allReasons = ['概念模糊', '逻辑推理', '运算错误', '审题错误', '综合运用'];
+
     questions.forEach(function(q, idx){
+      var enriched = enrichQuestionForNotebook(q);
       printHtml += '<div class="q-block">';
+
+      // Notebook sidebar (print)
+      if(isNotebook){
+        printHtml += '<div class="nb-sidebar">';
+        printHtml += '<div class="nb-sec"><div class="nb-sec-title">错题信息</div>';
+        printHtml += '<div class="nb-time">错题时间<br><strong>'+q.submitTime+'</strong></div></div>';
+        printHtml += '<div class="nb-sec"><div class="nb-sec-title">复习情况</div>';
+        printHtml += '<table class="nb-table"><thead><tr><th></th><th>第一次</th><th>第二次</th><th>第三次</th></tr></thead><tbody>';
+        ['未掌握','掌握','熟练'].forEach(function(level){
+          printHtml += '<tr><td>'+level+'</td>';
+          for(var r=0; r<3; r++){ printHtml += '<td class="nb-chk">&#x2610;</td>'; }
+          printHtml += '</tr>';
+        });
+        printHtml += '</tbody></table></div>';
+        printHtml += '<div class="nb-sec"><div class="nb-sec-title">错误知识点</div>';
+        enriched.knowledgePoints.forEach(function(kp){
+          printHtml += '<div class="nb-cb"><span class="cb-bx"></span>'+kp+'</div>';
+        });
+        printHtml += '</div>';
+        printHtml += '<div class="nb-sec"><div class="nb-sec-title">错误原因</div>';
+        printHtml += '<div class="nb-cb-grid">';
+        allReasons.forEach(function(reason){
+          printHtml += '<div class="nb-cb"><span class="cb-bx"></span>'+reason+'</div>';
+        });
+        printHtml += '</div>';
+        printHtml += '<div class="nb-underline"><span>其他原因</span><span class="nb-ul-line"></span></div>';
+        printHtml += '</div>';
+        printHtml += '</div>';
+      }
+
+      // Main content
+      printHtml += (isNotebook ? '<div class="q-main">' : '');
       printHtml += '<div class="q-stem">'+(idx+1)+'. '+q.content+'</div>';
-      printHtml += '<div class="q-tags">';
-      printHtml += '<span>'+q.knowledgePoint+'</span>';
-      printHtml += '<span>'+q.errorReason+'</span>';
-      printHtml += '<span>'+q.subject+'</span>';
-      printHtml += '</div>';
+      var qTypeLabels = ['基础题', '巩固题', '进阶题目'];
+      printHtml += '<div class="q-tags"><span class="q-type-tag">'+qTypeLabels[idx % 3]+'</span></div>';
 
       if(showAnswerArea){
         printHtml += '<div class="q-answer-area"></div>';
@@ -10926,6 +11812,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         printHtml += '<div class="q-answer"><div class="ans-label">答案</div>'+q.answer+'</div>';
         printHtml += '<div class="q-analysis"><div class="ans-label">解析</div>'+q.analysis+'</div>';
       }
+
+      // Avoid-repeat section (print)
+      if(isNotebook){
+        printHtml += '<div class="nb-avoid">';
+        printHtml += '<div class="nb-avoid-title">如何避免再犯类似错误</div>';
+        printHtml += '</div>';
+      }
+
+      printHtml += (isNotebook ? '</div>' : ''); // end q-main
 
       if(idx < questions.length - 1){
         printHtml += '<hr class="q-divider">';
@@ -12065,6 +12960,621 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._cjCloseExportModal = function(){
     var ov = document.getElementById('cjExportOverlay');
     if(ov) ov.remove();
+  };
+
+  // ==================== 成绩统计 ====================
+  function renderChengjiTongjiPage(){
+    // Collect unique values for filters
+    var districts = [];
+    var classNames = [];
+    var paperNames = [];
+    chengjiTongjiData.forEach(function(r){
+      if(districts.indexOf(r.district) === -1) districts.push(r.district);
+      if(classNames.indexOf(r.className) === -1) classNames.push(r.className);
+      if(paperNames.indexOf(r.paperName) === -1) paperNames.push(r.paperName);
+    });
+
+    // Apply filters
+    var filtered = chengjiTongjiData.filter(function(r){
+      if(cjtjDistrictFilter && r.district !== cjtjDistrictFilter) return false;
+      if(cjtjClassFilter && r.className !== cjtjClassFilter) return false;
+      if(cjtjSubjectFilter && r.subject !== cjtjSubjectFilter) return false;
+      if(cjtjKeyword){
+        var kw = cjtjKeyword.toLowerCase();
+        if(r.studentId.toLowerCase().indexOf(kw) === -1 && r.studentName.toLowerCase().indexOf(kw) === -1) return false;
+      }
+      if(cjtjPaperSearch){
+        var pk = cjtjPaperSearch.toLowerCase();
+        if(r.paperName.toLowerCase().indexOf(pk) === -1) return false;
+      }
+      if(cjtjTypeFilter === 'target-pass' && r.totalScore < r.targetLine) return false;
+      if(cjtjTypeFilter === 'target-fail' && r.totalScore >= r.targetLine) return false;
+      if(cjtjTypeFilter === 'national-pass' && r.totalScore < r.nationalLine) return false;
+      if(cjtjTypeFilter === 'national-fail' && r.totalScore >= r.nationalLine) return false;
+      return true;
+    });
+
+    var html = '';
+
+    // Filter panel
+    html += '<div class="cjtj-filter-panel">';
+    html += '<div class="cjtj-filter-row">';
+    // 学区筛选
+    html += '<div class="filter-select"><select id="cjtjDistrictFilter" onchange="window._cjtjFilterChange()"><option value="">全校区</option>';
+    districts.forEach(function(d){
+      html += '<option value="'+d+'"'+(cjtjDistrictFilter===d?' selected':'')+'>'+d+'</option>';
+    });
+    html += '</select></div>';
+    // 班级筛选
+    html += '<div class="filter-select"><select id="cjtjClassFilter" onchange="window._cjtjFilterChange()"><option value="">全部班级</option>';
+    classNames.forEach(function(c){
+      html += '<option value="'+c+'"'+(cjtjClassFilter===c?' selected':'')+'>'+c+'</option>';
+    });
+    html += '</select></div>';
+    // 学号/姓名搜索
+    html += '<div class="search-input"><input type="text" id="cjtjKeyword" placeholder="学号/姓名搜索..." value="'+cjtjKeyword+'" oninput="window._cjtjFilterChange()"><span class="search-icon">&#x1F50D;</span></div>';
+    // 科目筛选
+    html += '<div class="filter-select"><select id="cjtjSubjectFilter" onchange="window._cjtjFilterChange()"><option value="">全部科目</option>';
+    html += '<option value="数学"'+(cjtjSubjectFilter==='数学'?' selected':'')+'>数学</option>';
+    html += '<option value="英语"'+(cjtjSubjectFilter==='英语'?' selected':'')+'>英语</option>';
+    html += '</select></div>';
+    // 类型筛选
+    html += '<div class="filter-select"><select id="cjtjTypeFilter" onchange="window._cjtjFilterChange()"><option value="">全部类型</option>';
+    html += '<option value="target-pass"'+(cjtjTypeFilter==='target-pass'?' selected':'')+'>目标线已过</option>';
+    html += '<option value="target-fail"'+(cjtjTypeFilter==='target-fail'?' selected':'')+'>目标线未过</option>';
+    html += '<option value="national-pass"'+(cjtjTypeFilter==='national-pass'?' selected':'')+'>国家线已过</option>';
+    html += '<option value="national-fail"'+(cjtjTypeFilter==='national-fail'?' selected':'')+'>国家线未过</option>';
+    html += '</select></div>';
+    // 试卷名称搜索
+    html += '<div class="search-input"><input type="text" id="cjtjPaperSearch" placeholder="试卷名称搜索..." value="'+cjtjPaperSearch+'" oninput="window._cjtjFilterChange()"><span class="search-icon">&#x1F4C4;</span></div>';
+    html += '</div>';
+    // Buttons row
+    html += '<div class="cjtj-filter-row">';
+    html += '<button class="btn btn-primary" onclick="window._cjtjQuery()">&#x1F50D; 查询</button>';
+    html += '<button class="btn btn-outline" onclick="window._cjtjReset()">&#x21BA; 重置</button>';
+    html += '<button class="btn btn-outline" onclick="window._cjtjExport()">&#x1F4E5; 导出</button>';
+    html += '</div>';
+    html += '</div>';
+
+    // Table
+    if(filtered.length === 0){
+      html += '<div class="empty-state"><div class="empty-icon">&#x1F4CA;</div><p>暂无匹配的成绩数据</p></div>';
+    } else {
+      html += '<div class="cjtj-table-wrap"><table class="data-table cjtj-table"><thead><tr>';
+      html += '<th rowspan="2" style="vertical-align:middle">学号</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">姓名</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">学区</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">班级</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">试卷名称</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">科目</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">目标线</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">国家线</th>';
+      html += '<th class="text-center">小题分</th>';
+      html += '<th rowspan="2" style="vertical-align:middle">总分</th>';
+      html += '<th colspan="3" class="text-center" style="border-bottom:1px solid var(--border)">排名</th>';
+      html += '</tr><tr>';
+      html += '<th class="text-center cjtj-sub-th">班级</th>';
+      html += '<th class="text-center cjtj-sub-th">本校区</th>';
+      html += '<th class="text-center cjtj-sub-th">全校区</th>';
+      html += '</tr></thead><tbody>';
+
+      filtered.forEach(function(r){
+        // Build sub scores display
+        var subHtml = r.subScores.map(function(s, i){
+          return '<span class="cjtj-sub-score">'+s+'</span>';
+        }).join('');
+
+        // Determine if below lines
+        var targetCls = r.totalScore < r.targetLine ? ' cjtj-below-target' : '';
+        var nationalCls = r.totalScore < r.nationalLine ? ' cjtj-below-national' : '';
+
+        html += '<tr>';
+        html += '<td>'+r.studentId+'</td>';
+        html += '<td><span class="cjtj-stu-name">'+r.studentName+'</span></td>';
+        html += '<td>'+r.district+'</td>';
+        html += '<td>'+r.className+'</td>';
+        html += '<td><span class="cjtj-paper-name">'+r.paperName+'</span></td>';
+        html += '<td><span class="cjtj-subject-tag '+(r.subject==='数学'?'cjtj-math':'cjtj-eng')+'">'+r.subject+'</span></td>';
+        // Determine pass/fail status
+        var targetPassed = r.totalScore >= r.targetLine;
+        var nationalPassed = r.totalScore >= r.nationalLine;
+        html += '<td class="text-center cjtj-line-val">'+r.targetLine+' <span class="cjtj-pass-badge '+(targetPassed?'cjtj-passed':'cjtj-failed')+'">'+(targetPassed?'已过':'未过')+'</span></td>';
+        html += '<td class="text-center cjtj-line-val">'+r.nationalLine+' <span class="cjtj-pass-badge '+(nationalPassed?'cjtj-passed':'cjtj-failed')+'">'+(nationalPassed?'已过':'未过')+'</span></td>';
+        html += '<td class="cjtj-sub-scores-cell">'+subHtml+'</td>';
+        html += '<td class="text-center cjtj-total">'+r.totalScore+'</td>';
+        html += '<td class="text-center cjtj-rank">'+r.classRank+'</td>';
+        html += '<td class="text-center cjtj-rank">'+r.campusRank+'</td>';
+        html += '<td class="text-center cjtj-rank">'+r.allCampusRank+'</td>';
+        html += '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+    }
+
+    contentArea.innerHTML = html;
+  }
+
+  // --- Filter Handlers ---
+  window._cjtjFilterChange = function(){
+    var distSel = document.getElementById('cjtjDistrictFilter');
+    var classSel = document.getElementById('cjtjClassFilter');
+    var kwInput = document.getElementById('cjtjKeyword');
+    var subjSel = document.getElementById('cjtjSubjectFilter');
+    var typeSel = document.getElementById('cjtjTypeFilter');
+    var paperInp = document.getElementById('cjtjPaperSearch');
+    cjtjDistrictFilter = distSel ? distSel.value : '';
+    cjtjClassFilter = classSel ? classSel.value : '';
+    cjtjKeyword = kwInput ? kwInput.value : '';
+    cjtjSubjectFilter = subjSel ? subjSel.value : '';
+    cjtjTypeFilter = typeSel ? typeSel.value : '';
+    cjtjPaperSearch = paperInp ? paperInp.value : '';
+    renderChengjiTongjiPage();
+  };
+
+  window._cjtjQuery = function(){
+    window._cjtjFilterChange();
+  };
+
+  window._cjtjReset = function(){
+    cjtjDistrictFilter = '';
+    cjtjClassFilter = '';
+    cjtjKeyword = '';
+    cjtjSubjectFilter = '';
+    cjtjTypeFilter = '';
+    cjtjPaperSearch = '';
+    renderChengjiTongjiPage();
+  };
+
+  window._cjtjExport = function(){
+    // Collect filtered data
+    var districts = [];
+    var classNames = [];
+    chengjiTongjiData.forEach(function(r){
+      if(districts.indexOf(r.district) === -1) districts.push(r.district);
+      if(classNames.indexOf(r.className) === -1) classNames.push(r.className);
+    });
+    var filtered = chengjiTongjiData.filter(function(r){
+      if(cjtjDistrictFilter && r.district !== cjtjDistrictFilter) return false;
+      if(cjtjClassFilter && r.className !== cjtjClassFilter) return false;
+      if(cjtjSubjectFilter && r.subject !== cjtjSubjectFilter) return false;
+      if(cjtjKeyword){
+        var kw = cjtjKeyword.toLowerCase();
+        if(r.studentId.toLowerCase().indexOf(kw) === -1 && r.studentName.toLowerCase().indexOf(kw) === -1) return false;
+      }
+      if(cjtjPaperSearch){
+        var pk = cjtjPaperSearch.toLowerCase();
+        if(r.paperName.toLowerCase().indexOf(pk) === -1) return false;
+      }
+      if(cjtjTypeFilter === 'target-pass' && r.totalScore < r.targetLine) return false;
+      if(cjtjTypeFilter === 'target-fail' && r.totalScore >= r.targetLine) return false;
+      if(cjtjTypeFilter === 'national-pass' && r.totalScore < r.nationalLine) return false;
+      if(cjtjTypeFilter === 'national-fail' && r.totalScore >= r.nationalLine) return false;
+      return true;
+    });
+
+    if(filtered.length === 0){ showToast('没有可导出的数据'); return; }
+
+    var csvContent = '\uFEFF学号,姓名,学区,班级,试卷名称,科目,目标线,国家线,小题分,总分,班级排名,本校区排名,全校区排名\n';
+    filtered.forEach(function(r){
+      var subScoresStr = r.subScores.map(function(s,i){ return (i+1)+':'+s; }).join(';');
+      csvContent += r.studentId+','+r.studentName+','+r.district+','+r.className+',"'+r.paperName+'",'+r.subject+','+r.targetLine+','+r.nationalLine+',"'+subScoresStr+'",'+r.totalScore+','+r.classRank+','+r.campusRank+','+r.allCampusRank+'\n';
+    });
+
+    var blob = new Blob([csvContent], {type:'text/csv;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '成绩统计导出_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('导出成功，共 '+filtered.length+' 条记录');
+  };
+
+  // ==================== 自动推课 ====================
+  function renderZidongTuikePage(){
+    // Filter papers
+    var papers = actPaperData.slice();
+    if(actSubjectFilter) papers = papers.filter(function(p){ return p.subject === actSubjectFilter; });
+    if(actTypeFilter) papers = papers.filter(function(p){ return p.type === actTypeFilter; });
+    if(actPaperSearch){
+      var kw = actPaperSearch.toLowerCase();
+      papers = papers.filter(function(p){ return p.name.toLowerCase().indexOf(kw) !== -1; });
+    }
+
+    // Build unique classes from recommendation data
+    var classes = [];
+    actRecommendData.forEach(function(r){ if(classes.indexOf(r.className)===-1) classes.push(r.className); });
+    classes.sort();
+
+    // Filter recommendations
+    var recs = actRecommendData.slice();
+    if(actClassFilter) recs = recs.filter(function(r){ return r.className === actClassFilter; });
+    if(actStudentSearch){
+      var kw2 = actStudentSearch.toLowerCase();
+      recs = recs.filter(function(r){ return r.studentName.toLowerCase().indexOf(kw2) !== -1; });
+    }
+
+    var selectedCount = 0;
+    recs.forEach(function(r){ if(actCheckedIds[r.id]) selectedCount++; });
+
+    var html = '<div class="page-header"><h2>自动推课</h2></div>';
+    html += '<div class="act-layout">';
+
+    // ====== LEFT PANEL: 试卷列表 ======
+    html += '<div class="act-left">';
+    html +=   '<div class="act-left-hd">';
+    html +=     '<div class="act-title">选择试卷</div>';
+    html +=     '<div class="act-lf-row">';
+    html +=       '<select id="actSubjectFilter" onchange="window._actFilterChange()">';
+    html +=         '<option value="">全部科目</option>';
+    html +=         '<option value="数学"'+(actSubjectFilter==='数学'?' selected':'')+'>数学</option>';
+    html +=         '<option value="英语"'+(actSubjectFilter==='英语'?' selected':'')+'>英语</option>';
+    html +=       '</select>';
+    html +=       '<select id="actTypeFilter" onchange="window._actFilterChange()">';
+    html +=         '<option value="">全部类型</option>';
+    html +=         '<option value="练测"'+(actTypeFilter==='练测'?' selected':'')+'>练测</option>';
+    html +=         '<option value="作业"'+(actTypeFilter==='作业'?' selected':'')+'>作业</option>';
+    html +=       '</select>';
+    html +=     '</div>';
+    html +=     '<input type="text" placeholder="搜索试卷名称..." value="'+actPaperSearch.replace(/"/g,'&quot;')+'" oninput="window._actPaperSearchInput(this.value)" style="width:100%;padding:6px 10px;font-size:12px;border:1px solid var(--border);border-radius:6px;color:var(--text);box-sizing:border-box">';
+    html +=   '</div>';
+    html +=   '<div class="act-paper-list">';
+    if(papers.length === 0){
+      html += '<div class="act-paper-empty">暂无匹配试卷</div>';
+    } else {
+      papers.forEach(function(p){
+        html += '<div class="act-paper-item'+(actSelectedPaperId===p.id?' selected':'')+'" data-paper-id="'+p.id+'" onclick="window._actSelectPaper(\''+p.id+'\')">';
+        html +=   '<div class="act-paper-name">'+p.name+'</div>';
+        html +=   '<div class="act-paper-meta"><span>'+p.questionCount+'题</span><span>'+p.videoDuration+'</span></div>';
+        html += '</div>';
+      });
+    }
+    html +=   '</div>';
+    html += '</div>';
+
+    // ====== RIGHT PANEL: 推荐学员列表 ======
+    html += '<div class="act-right">';
+    html +=   '<div class="act-right-hd">';
+    html +=     '<div class="act-rh-left">';
+    html +=       '<select id="actClassFilter" onchange="window._actRecFilterChange()">';
+    html +=         '<option value="">全部班级</option>';
+    classes.forEach(function(c){
+      html +=       '<option value="'+c+'"'+(actClassFilter===c?' selected':'')+'>'+c+'</option>';
+    });
+    html +=       '</select>';
+    html +=       '<input type="text" id="actStudentSearch" placeholder="搜索学员姓名..." value="'+actStudentSearch.replace(/"/g,'&quot;')+'" oninput="window._actRecFilterChange()">';
+    html +=     '</div>';
+    html +=     '<div class="act-rh-right">';
+    html +=       '<input type="date" id="actScheduleDate" value="'+actScheduleDate+'" onchange="window._actDateChange()">';
+    var btnDisabled = selectedCount === 0 ? ' disabled style="opacity:0.5;cursor:not-allowed"' : '';
+    html +=       '<button class="btn btn-primary" id="actAddBtn"'+btnDisabled+' onclick="window._actAddToSchedule()">添加至课表</button>';
+    html +=     '</div>';
+    html +=   '</div>';
+    html +=   '<div class="act-table-wrap">';
+    html +=     '<table class="data-table"><thead><tr>';
+    html +=       '<th class="col-check"><input type="checkbox" id="actCheckAll" onchange="window._actToggleAll(this)"'+(recs.length===0?' disabled':'')+'></th>';
+    html +=       '<th class="col-name">学员姓名</th>';
+    html +=       '<th class="col-class">班级</th>';
+    html +=       '<th class="col-course">推荐课程</th>';
+    html +=       '<th class="col-duration">视频时长</th>';
+    html +=       '<th class="col-wrong">错题数</th>';
+    html +=       '<th class="col-distribute">发放日期</th>';
+    html +=       '<th class="col-time">做题时间</th>';
+    html +=       '<th class="col-reason">推荐原因</th>';
+    html +=     '</tr></thead><tbody>';
+
+    if(recs.length === 0){
+      html += '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">&#x1F4ED;</div><p>暂无匹配的推荐学员</p></div></td></tr>';
+    } else {
+      recs.forEach(function(r){
+        var checked = actCheckedIds[r.id] ? ' checked' : '';
+        var reasonCls = r.reason === 'repeat' ? ' repeat' : ' freq';
+        html += '<tr>';
+        html +=   '<td class="col-check"><input type="checkbox" data-rec-id="'+r.id+'"'+checked+' onchange="window._actCheckChange()"></td>';
+        html +=   '<td class="col-name" style="font-weight:500">'+r.studentName+'</td>';
+        html +=   '<td class="col-class">'+r.className+'</td>';
+        html +=   '<td class="col-course">'+r.course+'</td>';
+        html +=   '<td class="col-duration">'+r.videoDuration+'</td>';
+        html +=   '<td class="col-wrong" style="color:var(--danger);font-weight:600">'+r.wrongCount+'</td>';
+        html +=   '<td class="col-distribute" style="font-size:12px;color:var(--text-secondary)">'+r.distributeDate+'</td>';
+        html +=   '<td class="col-time" style="font-size:12px;color:var(--text-secondary)">'+r.testTime+'</td>';
+        html +=   '<td class="col-reason"><span class="act-reason-tag'+reasonCls+'">'+r.reasonText+'</span></td>';
+        html += '</tr>';
+      });
+    }
+    html +=     '</tbody></table>';
+    html +=   '</div>';
+    html += '</div>';
+
+    html += '</div>';
+
+    // 需求说明浮动按钮
+    html += '<button class="req-floating-btn visible" id="reqFloatingBtn3" title="需求说明">说明</button>';
+    html += '<div class="req-popup-overlay" id="reqPopupOverlay3">';
+    html += '<div class="req-popup">';
+    html += '<div class="req-popup-header"><h3><span class="req-popup-icon">&#x1F4CB;</span>需求说明 — 自动推课</h3><button class="req-popup-close" id="reqPopupClose3">&times;</button></div>';
+    html += '<div class="req-popup-body" id="reqPopupBody3">';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">页面功能</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">通过发放练测/试卷的错题情况，自动生成知识点课程推荐数据；</p></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">左侧列表</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">展示老师所有发放过的试卷列表；</p></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">右侧列表</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">根据选中试卷的提交情况自动推荐知识点课程列表；</p></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">推荐逻辑</span>';
+    html += '<ol style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)">';
+    html += '<li>该试卷中同一个知识点错误2次及以上，生成该知识点的推荐数据，推荐原因为【知识点多次错误】；</li>';
+    html += '<li>该试卷中错误的知识点是高频标签的知识点（不限错误次数），生成该知识点的推荐数据，推荐原因为【高频知识点错误】；</li>';
+    html += '</ol></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">交互说明</span>';
+    html += '<ol style="margin:4px 0 0 16px;padding:0;color:var(--text-secondary)">';
+    html += '<li>选中数据可以将课程发放到设定日期的学生课表中；</li>';
+    html += '<li>已发放的数据从列表移除；</li>';
+    html += '</ol></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">示例</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">例如8月4号给学生A发了一个练测试卷，学员做完了生成了3条推荐课程；8月5号又给A发了同一套试卷，学员做完了又会生成新的推荐课程；</p></div>';
+    html += '</div>';
+    html += '<div class="req-popup-footer"><button class="btn btn-outline" id="reqPopupCloseBtn3">关闭</button></div>';
+    html += '</div></div>';
+
+    contentArea.innerHTML = html;
+    _bindReqButtonEvents('reqFloatingBtn3', 'reqPopupOverlay3', 'reqPopupClose3', 'reqPopupCloseBtn3');
+  }
+
+  // ==================== 自动推课 - 交互函数 ====================
+  // Track checked recommendation IDs per render cycle
+  var actCheckedIds = {};
+
+  window._actSelectPaper = function(paperId){
+    actSelectedPaperId = paperId;
+    renderZidongTuikePage();
+  };
+
+  window._actFilterChange = function(){
+    var subSel = document.getElementById('actSubjectFilter');
+    var typeSel = document.getElementById('actTypeFilter');
+    actSubjectFilter = subSel ? subSel.value : '';
+    actTypeFilter = typeSel ? typeSel.value : '';
+    renderZidongTuikePage();
+  };
+
+  window._actPaperSearchInput = function(val){
+    actPaperSearch = val;
+    renderZidongTuikePage();
+  };
+
+  window._actRecFilterChange = function(){
+    var classSel = document.getElementById('actClassFilter');
+    var searchInput = document.getElementById('actStudentSearch');
+    actClassFilter = classSel ? classSel.value : '';
+    actStudentSearch = searchInput ? searchInput.value : '';
+    renderZidongTuikePage();
+  };
+
+  window._actDateChange = function(){
+    var dateInput = document.getElementById('actScheduleDate');
+    actScheduleDate = dateInput ? dateInput.value : '';
+  };
+
+  window._actCheckChange = function(){
+    // Collect checked state from DOM
+    var checkboxes = document.querySelectorAll('#mainContent input[type="checkbox"][data-rec-id]');
+    checkboxes.forEach(function(cb){
+      if(cb.checked){
+        actCheckedIds[cb.dataset.recId] = true;
+      } else {
+        delete actCheckedIds[cb.dataset.recId];
+      }
+    });
+    // Update check-all state
+    var allCb = document.getElementById('actCheckAll');
+    if(allCb){
+      var totalCbs = document.querySelectorAll('#mainContent input[type="checkbox"][data-rec-id]');
+      var checkedCbs = document.querySelectorAll('#mainContent input[type="checkbox"][data-rec-id]:checked');
+      allCb.checked = checkedCbs.length > 0 && checkedCbs.length === totalCbs.length;
+      allCb.indeterminate = checkedCbs.length > 0 && checkedCbs.length < totalCbs.length;
+    }
+    // Update button state
+    var btn = document.getElementById('actAddBtn');
+    if(btn){
+      var count = Object.keys(actCheckedIds).length;
+      if(count === 0){
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.style.cursor = 'not-allowed';
+      } else {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+      }
+    }
+  };
+
+  window._actToggleAll = function(cb){
+    var checkboxes = document.querySelectorAll('#mainContent input[type="checkbox"][data-rec-id]');
+    checkboxes.forEach(function(c){
+      c.checked = cb.checked;
+      if(cb.checked){
+        actCheckedIds[c.dataset.recId] = true;
+      } else {
+        delete actCheckedIds[c.dataset.recId];
+      }
+    });
+    window._actCheckChange();
+  };
+
+  window._actAddToSchedule = function(){
+    var checkedIds = Object.keys(actCheckedIds);
+    if(checkedIds.length === 0){ showToast('请先勾选学员'); return; }
+    if(!actScheduleDate){
+      showToast('请先选择课表日期');
+      return;
+    }
+    var names = [];
+    actRecommendData.forEach(function(r){
+      if(actCheckedIds[r.id]) names.push(r.studentName);
+    });
+    var nameStr = names.length > 3 ? names.slice(0,3).join('、') + ' 等共 ' + names.length + ' 人' : names.join('、');
+    showToast('已将 ' + nameStr + ' 的推荐课程添加至 ' + actScheduleDate + ' 课表');
+    // Clear selection after adding
+    actCheckedIds = {};
+    renderZidongTuikePage();
+  };
+
+  // ==================== 课表统计 ====================
+  function renderKebiaoTongjiPage(){
+    // --- Helper: compute overall stats for a row ---
+    function totalStats(row){
+      var d = row.lianCe.done + row.zuoye.done + row.wendang.done + row.tixing.done;
+      var t = row.lianCe.total + row.zuoye.total + row.wendang.total + row.tixing.total;
+      return { done: d, total: t, pct: t > 0 ? Math.round(d / t * 100) : 0 };
+    }
+
+    // --- Helper: get pct class ---
+    function pctClass(pct){
+      if(pct >= 80) return 'high';
+      if(pct >= 50) return 'mid';
+      return 'low';
+    }
+
+    // --- Helper: render item cell ---
+    function itemCell(item){
+      var pct = item.total > 0 ? Math.round(item.done / item.total * 100) : 0;
+      var cls = pctClass(pct);
+      return '<div class="kt-stat-cell"><span class="kt-frac">'+item.done+'/'+item.total+'</span><span class="kt-pct '+cls+'">'+pct+'%</span></div>';
+    }
+
+    // --- Helper: render stat cell ---
+    function statCell(stats){
+      var cls = pctClass(stats.pct);
+      return '<div class="kt-stat-cell"><span class="kt-frac">'+stats.done+'/'+stats.total+'</span><span class="kt-pct '+cls+'">'+stats.pct+'%</span></div>';
+    }
+
+    // --- Build filter options from data ---
+    var subjects = []; var classes = [];
+    kebiaoTongjiData.forEach(function(r){
+      if(subjects.indexOf(r.subject)===-1) subjects.push(r.subject);
+      if(classes.indexOf(r.className)===-1) classes.push(r.className);
+    });
+    subjects.sort(); classes.sort();
+
+    // --- Filter data ---
+    var filtered = kebiaoTongjiData.slice();
+    if(ktSubjectFilter) filtered = filtered.filter(function(r){ return r.subject === ktSubjectFilter; });
+    if(ktClassFilter)   filtered = filtered.filter(function(r){ return r.className === ktClassFilter; });
+    if(ktDateFilter)    filtered = filtered.filter(function(r){ return r.date === ktDateFilter; });
+
+    // --- Group by date, then class ---
+    var dateGroups = [];
+    var seenDates = {};
+    filtered.forEach(function(r){
+      if(!seenDates[r.date]){
+        seenDates[r.date] = { date: r.date, classes: {}, classList: [] };
+        dateGroups.push(seenDates[r.date]);
+      }
+      var dg = seenDates[r.date];
+      if(!dg.classes[r.className]){
+        dg.classes[r.className] = [];
+        dg.classList.push(r.className);
+      }
+      dg.classes[r.className].push(r);
+    });
+
+    // --- Build HTML ---
+    var html = '';
+
+    // Filter bar
+    html += '<div class="kt-filter-bar">';
+    html += '<span class="kt-filter-label">学科：</span>';
+    html += '<select id="ktSubjectFilter" onchange="window._ktFilterChange()">';
+    html += '<option value="">全部学科</option>';
+    subjects.forEach(function(s){
+      html += '<option value="'+s+'"'+(ktSubjectFilter===s?' selected':'')+'>'+s+'</option>';
+    });
+    html += '</select>';
+    html += '<span class="kt-filter-label">班级：</span>';
+    html += '<select id="ktClassFilter" onchange="window._ktFilterChange()">';
+    html += '<option value="">全部班级</option>';
+    classes.forEach(function(c){
+      html += '<option value="'+c+'"'+(ktClassFilter===c?' selected':'')+'>'+c+'</option>';
+    });
+    html += '</select>';
+    html += '<span class="kt-filter-label">课表日期：</span>';
+    html += '<input type="date" id="ktDateFilter" value="'+ktDateFilter+'" onchange="window._ktFilterChange()">';
+    html += '<button class="kt-clear-btn" onclick="window._ktClearFilters()">清除筛选</button>';
+    html += '<span class="kt-count">共 '+filtered.length+' 条记录</span>';
+    html += '</div>';
+
+    // Table
+    if(filtered.length === 0){
+      html += '<div class="kt-empty-state"><div class="ph-icon">&#x1F4CA;</div><h3>暂无匹配的课表统计数据</h3><p>请调整筛选条件后重试</p></div>';
+    } else {
+      html += '<div class="kt-table-wrap"><table class="data-table"><thead><tr>';
+      html += '<th class="col-date kt-th-left">日期</th>';
+      html += '<th class="col-class kt-th-left">班级</th>';
+      html += '<th class="col-subject">学科</th>';
+      html += '<th class="col-item">练测</th>';
+      html += '<th class="col-item">作业</th>';
+      html += '<th class="col-item">文档</th>';
+      html += '<th class="col-item">提醒</th>';
+      html += '<th class="col-stat">统计</th>';
+      html += '</tr></thead><tbody>';
+
+      dateGroups.forEach(function(dg, di){
+        var dateRowSpan = 0;
+        dg.classList.forEach(function(cn){ dateRowSpan += dg.classes[cn].length; });
+
+        var isFirstDateRow = true;
+        dg.classList.forEach(function(cn){
+          var rows = dg.classes[cn];
+          var classRowSpan = rows.length;
+          var isFirstClassRow = true;
+
+          rows.forEach(function(r){
+            html += '<tr>';
+            // Date cell - merge
+            if(isFirstDateRow){
+              html += '<td class="kt-td-date kt-td-left" rowspan="'+dateRowSpan+'">'+r.date+'</td>';
+              isFirstDateRow = false;
+            }
+            // Class cell - merge
+            if(isFirstClassRow){
+              html += '<td class="kt-td-class kt-td-left" rowspan="'+classRowSpan+'">'+r.className+'</td>';
+              isFirstClassRow = false;
+            }
+            // Subject
+            html += '<td class="kt-td-subject">'+r.subject+'</td>';
+            // Items
+            html += '<td>'+itemCell(r.lianCe)+'</td>';
+            html += '<td>'+itemCell(r.zuoye)+'</td>';
+            html += '<td>'+itemCell(r.wendang)+'</td>';
+            html += '<td>'+itemCell(r.tixing)+'</td>';
+            // Stats
+            html += '<td>'+statCell(totalStats(r))+'</td>';
+            html += '</tr>';
+          });
+        });
+      });
+
+      html += '</tbody></table></div>';
+    }
+
+    contentArea.innerHTML = html;
+  }
+
+  // --- 课表统计 global handlers ---
+  window._ktFilterChange = function(){
+    var subSel = document.getElementById('ktSubjectFilter');
+    var clsSel = document.getElementById('ktClassFilter');
+    var dateInp = document.getElementById('ktDateFilter');
+    ktSubjectFilter = subSel ? subSel.value : '';
+    ktClassFilter   = clsSel ? clsSel.value : '';
+    ktDateFilter    = dateInp ? dateInp.value : '';
+    renderKebiaoTongjiPage();
+  };
+
+  window._ktClearFilters = function(){
+    ktSubjectFilter = '';
+    ktClassFilter = '';
+    ktDateFilter = '';
+    renderKebiaoTongjiPage();
   };
 
   // ==================== Init Page ====================

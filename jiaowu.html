@@ -1013,7 +1013,7 @@ table{border-collapse:collapse;width:100%}
           <!-- 扣除记录表格 -->
           <div style="overflow-x:auto;display:none" id="expenseTableWrap">
             <table class="data-table">
-              <thead><tr><th>类型</th><th>数额</th><th>时间</th><th>所属学区</th></tr></thead>
+              <thead><tr><th>类型</th><th>学号</th><th>数额</th><th>时间</th><th>所属学区</th></tr></thead>
               <tbody id="expenseTbody"></tbody>
             </table>
           </div>
@@ -3377,20 +3377,22 @@ function getBalanceData(){
   ];
   // 扣除记录
   var expenseRecords = [
-    {type:'系统扣除',amount:1200,date:'2025-03-16',district:'海淀学区中心'},
-    {type:'学员录入',amount:800,date:'2025-03-19',district:'朝阳学区中心'},
-    {type:'系统扣除',amount:2000,date:'2025-03-22',district:'海淀学区中心'},
-    {type:'学员录入',amount:500,date:'2025-04-03',district:'西城学区中心'},
-    {type:'系统扣除',amount:1500,date:'2025-04-08',district:'海淀学区中心'},
-    {type:'系统扣除',amount:900,date:'2025-04-15',district:'昌平学区中心'},
-    {type:'学员录入',amount:1100,date:'2025-05-10',district:'朝阳学区中心'},
-    {type:'系统扣除',amount:600,date:'2025-05-18',district:'丰台学区中心'},
-    {type:'系统扣除',amount:1800,date:'2025-06-03',district:'海淀学区中心'},
-    {type:'学员录入',amount:750,date:'2025-06-12',district:'西城学区中心'},
-    {type:'系统扣除',amount:1300,date:'2025-06-22',district:'海淀学区中心'},
-    {type:'学员录入',amount:950,date:'2025-07-08',district:'朝阳学区中心'},
-    {type:'系统扣除',amount:2200,date:'2025-07-18',district:'海淀学区中心'},
-    {type:'学员录入',amount:400,date:'2025-07-25',district:'昌平学区中心'},
+    {type:'系统扣除',amount:1200,date:'2025-03-16',district:'海淀学区中心',studentId:''},
+    {type:'学员录入',amount:800,date:'2025-03-19',district:'朝阳学区中心',studentId:'2025001'},
+    {type:'系统扣除',amount:2000,date:'2025-03-22',district:'海淀学区中心',studentId:''},
+    {type:'学员录入',amount:500,date:'2025-04-03',district:'西城学区中心',studentId:'2025003'},
+    {type:'系统扣除',amount:1500,date:'2025-04-08',district:'海淀学区中心',studentId:''},
+    {type:'系统扣除',amount:900,date:'2025-04-15',district:'昌平学区中心',studentId:''},
+    {type:'学员录入',amount:1100,date:'2025-05-10',district:'朝阳学区中心',studentId:'2025006'},
+    {type:'系统扣除',amount:600,date:'2025-05-18',district:'丰台学区中心',studentId:''},
+    {type:'系统扣除',amount:1800,date:'2025-06-03',district:'海淀学区中心',studentId:''},
+    {type:'学员录入',amount:750,date:'2025-06-12',district:'西城学区中心',studentId:'2025004'},
+    {type:'系统扣除',amount:1300,date:'2025-06-22',district:'海淀学区中心',studentId:''},
+    {type:'学员录入',amount:950,date:'2025-07-08',district:'朝阳学区中心',studentId:'2025006'},
+    {type:'系统扣除',amount:2200,date:'2025-07-18',district:'海淀学区中心',studentId:''},
+    {type:'学员录入',amount:400,date:'2025-07-25',district:'昌平学区中心',studentId:'2025007'},
+    {type:'报名变更',amount:300,date:'2025-08-01',district:'海淀学区中心',studentId:'2025002'},
+    {type:'报名变更',amount:450,date:'2025-08-03',district:'朝阳学区中心',studentId:'2025008'},
   ];
   return { income:incomeRecords, expense:expenseRecords };
 }
@@ -3427,7 +3429,7 @@ function switchBalanceTab(tab, btn){
   document.getElementById('expenseTableWrap').style.display = tab==='expense' ? '' : 'none';
   // 更新类型筛选选项
   var typeSelect = document.getElementById('balTypeFilter');
-  var types = tab==='income' ? ['系统充值','余额退回'] : ['系统扣除','学员录入'];
+  var types = tab==='income' ? ['系统充值','余额退回'] : ['系统扣除','学员录入','报名变更'];
   typeSelect.innerHTML = '<option value="">全部类型</option>';
   types.forEach(function(t){
     typeSelect.innerHTML += '<option>'+t+'</option>';
@@ -3471,11 +3473,12 @@ function renderBalanceTable(){
   var expenseTbody = document.getElementById('expenseTbody');
   expenseTbody.innerHTML = '';
   if(expenseList.length===0){
-    expenseTbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px">暂无扣除记录</td></tr>';
+    expenseTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px">暂无扣除记录</td></tr>';
   } else {
     expenseList.forEach(function(r){
       expenseTbody.innerHTML += '<tr>'+
         '<td>'+r.type+'</td>'+
+        '<td>'+(r.type==='系统扣除'?'':(r.studentId||''))+'</td>'+
         '<td><span class="amount-out">'+formatAmount(r.amount)+'</span></td>'+
         '<td>'+r.date+'</td>'+
         '<td>'+r.district+'</td>'+
@@ -3499,13 +3502,13 @@ function doBalanceQuery(){
 function exportBalance(){
   var data = getFilteredBalanceData();
   var rows = [];
-  rows.push(['类型','数额','时间','所属学区','记录类别']);
+  rows.push(['类型','数额','时间','所属学区','学号','记录类别']);
 
   data.income.forEach(function(r){
-    rows.push([r.type, formatAmount(r.amount), r.date, r.district, '增加']);
+    rows.push([r.type, formatAmount(r.amount), r.date, r.district, '', '增加']);
   });
   data.expense.forEach(function(r){
-    rows.push([r.type, formatAmount(r.amount), r.date, r.district, '扣除']);
+    rows.push([r.type, formatAmount(r.amount), r.date, r.district, r.studentId||'', '扣除']);
   });
 
   var csvContent = '\uFEFF';
@@ -4181,19 +4184,20 @@ var xcwXuequData = [
   {name:'朝阳学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#ea580c"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">朝</text></svg>'),pricing:{math:6200,english:5500,bundle:10500},balance:50000,balanceRecords:[
     {id:'rec_demo_1',direction:'add',amount:30000,operator:'超级管理员',time:'2025-03-15 14:30:00',remark:'初始充值',deductType:undefined,imageName:'凭证1.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:30000},
     {id:'rec_demo_2',direction:'add',amount:20000,operator:'超级管理员',time:'2025-06-20 10:15:00',remark:'季度运营资金',deductType:undefined,imageName:'凭证2.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:30000,balanceAfter:50000},
-    {id:'rec_demo_3',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-07-01 09:00:00',remark:'',deductType:'系统扣除',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:35000},
+    {id:'rec_demo_3',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-07-01 09:00:00',remark:'',deductType:'系统扣除',studentId:'',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:35000},
     {id:'rec_demo_4',direction:'add',amount:30000,operator:'超级管理员',time:'2025-07-15 16:45:00',remark:'补充充值',deductType:undefined,imageName:'凭证3.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:35000,balanceAfter:65000},
-    {id:'rec_demo_5',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-08-10 11:20:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:65000,balanceAfter:50000}
+    {id:'rec_demo_5',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-08-10 11:20:00',remark:'',deductType:'学员录入',studentId:'2025001',imageName:undefined,imageDataUrl:undefined,balanceBefore:65000,balanceAfter:50000},
+    {id:'rec_demo_6',direction:'deduct',amount:800,operator:'系统自动',time:'2025-08-20 09:30:00',remark:'',deductType:'报名变更',studentId:'2025002',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:49200}
   ],address:'北京市朝阳区建国路88号',phone:'010-62880002',status:'enabled',createdAt:'2025-02-20'},
   {name:'西城学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#7c3aed"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">西</text></svg>'),pricing:{math:5500,english:4800,bundle:9200},balance:30000,balanceRecords:[
     {id:'rec_demo_xc1',direction:'add',amount:50000,operator:'超级管理员',time:'2025-04-10 13:00:00',remark:'初始充值',deductType:undefined,imageName:'凭证4.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:50000},
-    {id:'rec_demo_xc2',direction:'deduct',amount:12000,operator:'系统自动',time:'2025-06-15 08:30:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:38000},
-    {id:'rec_demo_xc3',direction:'deduct',amount:8000,operator:'超级管理员',time:'2025-08-25 15:10:00',remark:'退还总部运营费',deductType:'系统扣除',imageName:'凭证5.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:38000,balanceAfter:30000}
+    {id:'rec_demo_xc2',direction:'deduct',amount:12000,operator:'系统自动',time:'2025-06-15 08:30:00',remark:'',deductType:'学员录入',studentId:'2025003',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:38000},
+    {id:'rec_demo_xc3',direction:'deduct',amount:8000,operator:'超级管理员',time:'2025-08-25 15:10:00',remark:'退还总部运营费',deductType:'系统扣除',studentId:'',imageName:'凭证5.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:38000,balanceAfter:30000}
   ],address:'北京市西城区金融街15号',phone:'010-62880003',status:'disabled',createdAt:'2025-03-10'},
   {name:'昌平学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#0891b2"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">昌</text></svg>'),pricing:{math:4800,english:4200,bundle:8000},balance:8000,balanceRecords:[
     {id:'rec_demo_cp1',direction:'add',amount:20000,operator:'超级管理员',time:'2025-06-01 09:30:00',remark:'开业启动资金',deductType:undefined,imageName:'凭证6.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:20000},
-    {id:'rec_demo_cp2',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-07-20 14:00:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:20000,balanceAfter:14000},
-    {id:'rec_demo_cp3',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-08-18 10:45:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:14000,balanceAfter:8000}
+    {id:'rec_demo_cp2',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-07-20 14:00:00',remark:'',deductType:'学员录入',studentId:'2025006',imageName:undefined,imageDataUrl:undefined,balanceBefore:20000,balanceAfter:14000},
+    {id:'rec_demo_cp3',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-08-18 10:45:00',remark:'',deductType:'学员录入',studentId:'2025008',imageName:undefined,imageDataUrl:undefined,balanceBefore:14000,balanceAfter:8000}
   ],address:'北京市昌平区府学路26号',phone:'010-62880005',status:'enabled',createdAt:'2025-05-18'}
 ];
 var xcwLogoFile = null;
@@ -4455,7 +4459,7 @@ function xcwRenderRecordTab(){
   if(xcwRecordTab==='add'){
     html += '<th>增加类型</th><th>数额</th><th>操作人</th><th>操作时间</th><th>图片凭证</th><th>备注</th>';
   }else{
-    html += '<th>扣除类型</th><th>数额</th><th>操作时间</th>';
+    html += '<th>扣除类型</th><th>学号</th><th>数额</th><th>操作时间</th>';
   }
   html += '</tr></thead><tbody>';
   records.forEach(function(r){
@@ -4470,6 +4474,7 @@ function xcwRenderRecordTab(){
     }else{
       var deductLabel = r.deductType||'系统扣除';
       html += '<td><span class="xc-record-tag-deduct">'+deductLabel+'</span></td>';
+      html += '<td>'+(r.deductType&&r.deductType!=='系统扣除'?(r.studentId||''):'')+'</td>';
       html += '<td style="font-weight:600;color:#dc2626">-¥'+r.amount.toLocaleString()+'</td>';
       html += '<td style="color:var(--text-muted);font-size:12px">'+r.time+'</td>';
     }

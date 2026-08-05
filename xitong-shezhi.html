@@ -709,6 +709,12 @@
           </select>
         </div>
       </div>
+      <div class="form-row" id="dictNationalLineRow" style="display:none">
+        <div class="form-group">
+          <label>国家线 <span style="color:#ef4444">*</span></label>
+          <input type="number" id="dictModalNationalLine" placeholder="请输入国家线分数" min="0" step="1">
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeDictModal()">取消</button>
@@ -1110,20 +1116,20 @@ var dictData = {
     {code:'NORMAL2',name:'二本',sort:5,status:'enabled'}
   ],
   '报考门类': [
-    {code:'PHILOSOPHY',name:'哲学',sort:1,status:'enabled'},
-    {code:'ECONOMICS',name:'经济学',sort:2,status:'enabled'},
-    {code:'LAW',name:'法学',sort:3,status:'enabled'},
-    {code:'EDUCATION',name:'教育学',sort:4,status:'enabled'},
-    {code:'LITERATURE',name:'文学',sort:5,status:'enabled'},
-    {code:'HISTORY',name:'历史学',sort:6,status:'enabled'},
-    {code:'SCIENCE',name:'理学',sort:7,status:'enabled'},
-    {code:'ENGINEERING',name:'工学',sort:8,status:'enabled'},
-    {code:'AGRICULTURE',name:'农学',sort:9,status:'disabled'},
-    {code:'MEDICINE',name:'医学',sort:10,status:'enabled'},
-    {code:'MILITARY',name:'军事学',sort:11,status:'disabled'},
-    {code:'MANAGEMENT',name:'管理学',sort:12,status:'enabled'},
-    {code:'ART',name:'艺术学',sort:13,status:'enabled'},
-    {code:'CROSS',name:'交叉学科',sort:14,status:'enabled'}
+    {code:'PHILOSOPHY',name:'哲学',sort:1,status:'enabled',nationalLine:299},
+    {code:'ECONOMICS',name:'经济学',sort:2,status:'enabled',nationalLine:338},
+    {code:'LAW',name:'法学',sort:3,status:'enabled',nationalLine:321},
+    {code:'EDUCATION',name:'教育学',sort:4,status:'enabled',nationalLine:331},
+    {code:'LITERATURE',name:'文学',sort:5,status:'enabled',nationalLine:355},
+    {code:'HISTORY',name:'历史学',sort:6,status:'enabled',nationalLine:324},
+    {code:'SCIENCE',name:'理学',sort:7,status:'enabled',nationalLine:279},
+    {code:'ENGINEERING',name:'工学',sort:8,status:'enabled',nationalLine:269},
+    {code:'AGRICULTURE',name:'农学',sort:9,status:'disabled',nationalLine:245},
+    {code:'MEDICINE',name:'医学',sort:10,status:'enabled',nationalLine:296},
+    {code:'MILITARY',name:'军事学',sort:11,status:'disabled',nationalLine:260},
+    {code:'MANAGEMENT',name:'管理学',sort:12,status:'enabled',nationalLine:340},
+    {code:'ART',name:'艺术学',sort:13,status:'enabled',nationalLine:346},
+    {code:'CROSS',name:'交叉学科',sort:14,status:'enabled',nationalLine:269}
   ],
   '分数层级': [
     {code:'LOW',name:'低分段',sort:1,status:'enabled'},
@@ -1236,13 +1242,15 @@ function renderDictTable(cat){
     area.innerHTML = '<div class="dict-empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span style="margin-top:8px">暂无枚举项数据</span></div>';
     return;
   }
-  var html = '<table class="dict-table"><thead><tr><th>枚举值</th><th>显示名称</th><th>排序号</th><th>状态</th><th style="width:120px">操作</th></tr></thead><tbody>';
+  var isBaokao = cat==='报考门类';
+  var html = '<table class="dict-table"><thead><tr><th>枚举值</th><th>显示名称</th>'+(isBaokao?'<th>国家线</th>':'')+'<th>排序号</th><th>状态</th><th style="width:120px">操作</th></tr></thead><tbody>';
   items.forEach(function(item,i){
     var statusClass = item.status==='enabled'?'enabled':'disabled';
     var statusText = item.status==='enabled'?'启用':'停用';
     html += '<tr>';
     html += '<td style="font-family:monospace;color:#475569;font-weight:500">'+item.code+'</td>';
     html += '<td>'+item.name+'</td>';
+    if(isBaokao){ html += '<td style="color:#475569;font-weight:500">'+(item.nationalLine||'-')+'</td>'; }
     html += '<td style="color:#94a3b8">'+item.sort+'</td>';
     html += '<td><span class="status-tag '+statusClass+'">'+statusText+'</span></td>';
     html += '<td>';
@@ -1260,6 +1268,14 @@ function renderDictTable(cat){
 function openDictModal(cat,editIndex){
   if(!currentDictCategory){showToast('请先选择字典类别');return;}
   document.getElementById('dictModalEditIndex').value = (editIndex!==undefined)?editIndex:-1;
+  // Show/hide 国家线 field
+  var nlRow = document.getElementById('dictNationalLineRow');
+  var nlInput = document.getElementById('dictModalNationalLine');
+  if(currentDictCategory==='报考门类'){
+    nlRow.style.display = '';
+  }else{
+    nlRow.style.display = 'none';
+  }
   if(editIndex!==undefined&&editIndex>=0){
     document.getElementById('dictModalTitle').textContent = '编辑枚举项';
     var item = dictData[currentDictCategory][editIndex];
@@ -1267,12 +1283,14 @@ function openDictModal(cat,editIndex){
     document.getElementById('dictModalName').value = item.name;
     document.getElementById('dictModalSort').value = item.sort;
     document.getElementById('dictModalStatus').value = item.status;
+    nlInput.value = item.nationalLine || '';
   }else{
     document.getElementById('dictModalTitle').textContent = '新增枚举项';
     document.getElementById('dictModalCode').value = '';
     document.getElementById('dictModalName').value = '';
     document.getElementById('dictModalSort').value = (dictData[currentDictCategory]||[]).length + 1;
     document.getElementById('dictModalStatus').value = 'enabled';
+    nlInput.value = '';
   }
   document.getElementById('dictModalOverlay').classList.add('show');
 }
@@ -1290,22 +1308,25 @@ function saveDictItem(){
   var sort = parseInt(document.getElementById('dictModalSort').value)||1;
   var status = document.getElementById('dictModalStatus').value;
   var editIndex = parseInt(document.getElementById('dictModalEditIndex').value);
+  var nationalLine = parseInt(document.getElementById('dictModalNationalLine').value)||0;
 
   if(!code){showToast('请输入枚举值');return;}
   if(!name){showToast('请输入显示名称');return;}
+  if(currentDictCategory==='报考门类' && !nationalLine){showToast('请输入国家线');return;}
+
+  var newItem = {code:code,name:name,sort:sort,status:status};
+  if(currentDictCategory==='报考门类'){ newItem.nationalLine = nationalLine; }
 
   if(editIndex>=0){
-    dictData[currentDictCategory][editIndex] = {code:code,name:name,sort:sort,status:status};
+    dictData[currentDictCategory][editIndex] = newItem;
     showToast('枚举项已更新');
   }else{
-    // 检查重复
     var exists = dictData[currentDictCategory].some(function(item){return item.code===code;});
     if(exists){showToast('枚举值已存在');return;}
-    dictData[currentDictCategory].push({code:code,name:name,sort:sort,status:status});
+    dictData[currentDictCategory].push(newItem);
     showToast('枚举项已新增');
   }
   closeDictModal();
-  // 刷新
   selectDictCategory(currentDictCategory);
 }
 function toggleDictItem(cat,index){
