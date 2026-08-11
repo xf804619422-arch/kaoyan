@@ -274,12 +274,6 @@
   .switch-toggle input:checked+.slider::before{transform:translateX(16px)}
   .switch-toggle.disabled{opacity:.45;pointer-events:none}
 
-  /* ---- 学区类型/余额标签 ---- */
-  .type-tag{display:inline-block;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:500}
-  .type-tag.hq{background:#eff6ff;color:#2563eb}
-  .type-tag.franchise{background:#fff7ed;color:#c2410c}
-  .balance-num{font-weight:600;color:#1e293b}
-  .balance-num.zero{color:#94a3b8}
 
   /* ---- 余额记录弹窗 ---- */
   .record-modal .modal{width:720px}
@@ -461,7 +455,7 @@
               <table class="data-table" id="xuequTable">
                 <thead>
                   <tr>
-                    <th>学区名称</th><th>类型</th><th>余额</th><th>地址</th><th>联系方式</th><th>状态</th><th>创建时间</th><th class="col-actions-wide">操作</th>
+                    <th>学区名称</th><th>地址</th><th>联系方式</th><th>状态</th><th>创建时间</th><th class="col-actions-wide">操作</th>
                   </tr>
                 </thead>
                 <tbody id="xuequTableBody"></tbody>
@@ -587,6 +581,11 @@
             <div class="toolbar">
               <div class="toolbar-left">
                 <input type="text" class="search-input" placeholder="搜索账号/姓名..." id="accountSearch" oninput="renderAccountTable()">
+                <select class="search-input" id="accountTypeFilter" onchange="renderAccountTable()" style="width:130px">
+                  <option value="">全部类型</option>
+                  <option value="总部">总部</option>
+                  <option value="学区">学区</option>
+                </select>
                 <select class="search-input" id="accountDistrictFilter" onchange="renderAccountTable()" style="width:160px">
                   <option value="">全部学区</option>
                 </select>
@@ -599,7 +598,7 @@
               <table class="data-table" id="accountTable">
                 <thead>
                   <tr>
-                    <th>账号</th><th>姓名</th><th>所属角色</th><th>所属学区</th><th>学区数据权限</th><th>状态</th><th>创建时间</th><th class="col-actions">操作</th>
+                    <th>账号</th><th>姓名</th><th>所属角色</th><th>账号类型</th><th>所属学区</th><th>学区数据权限</th><th>状态</th><th>创建时间</th><th class="col-actions">操作</th>
                   </tr>
                 </thead>
                 <tbody id="accountTableBody"></tbody>
@@ -757,22 +756,39 @@
       </div>
       <div class="form-row">
         <div class="form-group">
+          <label>账号类型 <span style="color:#ef4444">*</span></label>
+          <select id="accountModalType" onchange="onAccountTypeChange()">
+            <option value="">请选择账号类型</option>
+            <option value="总部">总部</option>
+            <option value="学区">学区</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>所属角色 <span style="color:#ef4444">*</span></label>
           <select id="accountModalRole">
             <option value="">请选择角色</option>
           </select>
         </div>
+      </div>
+      <div class="form-row" id="accountDistrictRow" style="display:none">
         <div class="form-group">
           <label>所属学区 <span style="color:#ef4444">*</span></label>
-          <select id="accountModalDistrict" onchange="onAccountDistrictChange()">
+          <select id="accountModalDistrict">
             <option value="">请选择学区</option>
           </select>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group">
           <label>状态</label>
           <select id="accountModalStatus">
+            <option value="enabled">启用</option>
+            <option value="disabled">停用</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row" id="accountStatusRow">
+        <div class="form-group">
+          <label>状态</label>
+          <select id="accountModalStatus2">
             <option value="enabled">启用</option>
             <option value="disabled">停用</option>
           </select>
@@ -785,7 +801,7 @@
             <button onclick="accountToggleAllDistricts()">全选 / 取消全选</button>
           </div>
           <div class="district-list" id="accountDistrictList"></div>
-          <div class="modal-hint">所属学区为总部学区时，可设置多选学区数据权限</div>
+          <div class="modal-hint">账号类型为总部时，可设置多选学区数据权限</div>
         </div>
       </div>
     </div>
@@ -852,18 +868,9 @@
             <input type="file" id="xuequLogoInput" accept="image/*" style="display:none" onchange="handleXuequLogoUpload(this)">
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>类型 <span style="color:#ef4444">*</span></label>
-            <select id="xuequModalType" onchange="togglePricingSection()">
-              <option value="总部">总部</option>
-              <option value="加盟">加盟</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>地址</label>
-            <input type="text" id="xuequModalAddress" placeholder="请输入地址">
-          </div>
+        <div class="form-group">
+          <label>地址</label>
+          <input type="text" id="xuequModalAddress" placeholder="请输入地址">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -878,7 +885,7 @@
       </div>
 
       <!-- 收费方式 -->
-      <div class="modal-section" id="xuequPricingSection" style="display:none">
+      <div class="modal-section" id="xuequPricingSection">
         <div class="modal-section-title">收费方式</div>
         <table class="pricing-table">
           <thead>
@@ -1067,7 +1074,28 @@ var dictData = {
     {code:'CONSOLIDATE',name:'巩固题',sort:2,status:'enabled'},
     {code:'ADVANCED',name:'进阶题',sort:3,status:'enabled'}
   ],
-  '错误原因': [
+  '数学错误原因': [
+    {code:'KNOWLEDGE',name:'知识点不熟',sort:1,status:'enabled'},
+    {code:'CARELESS',name:'粗心大意',sort:2,status:'enabled'},
+    {code:'MISUNDERSTAND',name:'理解偏差',sort:3,status:'enabled'},
+    {code:'TIME',name:'时间不足',sort:4,status:'enabled'},
+    {code:'CALC',name:'计算错误',sort:5,status:'enabled'}
+  ],
+  '英语错误原因': [
+    {code:'KNOWLEDGE',name:'知识点不熟',sort:1,status:'enabled'},
+    {code:'CARELESS',name:'粗心大意',sort:2,status:'enabled'},
+    {code:'MISUNDERSTAND',name:'理解偏差',sort:3,status:'enabled'},
+    {code:'TIME',name:'时间不足',sort:4,status:'enabled'},
+    {code:'CALC',name:'计算错误',sort:5,status:'enabled'}
+  ],
+  '语文错误原因': [
+    {code:'KNOWLEDGE',name:'知识点不熟',sort:1,status:'enabled'},
+    {code:'CARELESS',name:'粗心大意',sort:2,status:'enabled'},
+    {code:'MISUNDERSTAND',name:'理解偏差',sort:3,status:'enabled'},
+    {code:'TIME',name:'时间不足',sort:4,status:'enabled'},
+    {code:'CALC',name:'计算错误',sort:5,status:'enabled'}
+  ],
+  '政治错误原因': [
     {code:'KNOWLEDGE',name:'知识点不熟',sort:1,status:'enabled'},
     {code:'CARELESS',name:'粗心大意',sort:2,status:'enabled'},
     {code:'MISUNDERSTAND',name:'理解偏差',sort:3,status:'enabled'},
@@ -1672,25 +1700,11 @@ document.getElementById('jieshuModalOverlay').addEventListener('click',function(
 
 // ==================== 学区管理 ====================
 var xuequData = [
-  {name:'海淀学区中心',type:'总部',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#2563eb"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">海</text></svg>'),pricing:null,balance:0,balanceRecords:[],address:'北京市海淀区中关村大街1号',phone:'010-62880001',status:'enabled',createdAt:'2025-01-15'},
-  {name:'朝阳学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#ea580c"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">朝</text></svg>'),pricing:{math:6200,english:5500,bundle:10500},balance:50000,balanceRecords:[
-    {id:'rec_demo_1',direction:'add',amount:30000,operator:'超级管理员',time:'2025-03-15 14:30:00',remark:'初始充值',deductType:undefined,imageName:'凭证1.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:30000},
-    {id:'rec_demo_2',direction:'add',amount:20000,operator:'超级管理员',time:'2025-06-20 10:15:00',remark:'季度运营资金',deductType:undefined,imageName:'凭证2.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:30000,balanceAfter:50000},
-    {id:'rec_demo_3',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-07-01 09:00:00',remark:'',deductType:'系统扣除',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:35000},
-    {id:'rec_demo_4',direction:'add',amount:30000,operator:'超级管理员',time:'2025-07-15 16:45:00',remark:'补充充值',deductType:undefined,imageName:'凭证3.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:35000,balanceAfter:65000},
-    {id:'rec_demo_5',direction:'deduct',amount:15000,operator:'系统自动',time:'2025-08-10 11:20:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:65000,balanceAfter:50000}
-  ],address:'北京市朝阳区建国路88号',phone:'010-62880002',status:'enabled',createdAt:'2025-02-20'},
-  {name:'西城学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#7c3aed"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">西</text></svg>'),pricing:{math:5500,english:4800,bundle:9200},balance:30000,balanceRecords:[
-    {id:'rec_demo_xc1',direction:'add',amount:50000,operator:'超级管理员',time:'2025-04-10 13:00:00',remark:'初始充值',deductType:undefined,imageName:'凭证4.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:50000},
-    {id:'rec_demo_xc2',direction:'deduct',amount:12000,operator:'系统自动',time:'2025-06-15 08:30:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:50000,balanceAfter:38000},
-    {id:'rec_demo_xc3',direction:'deduct',amount:8000,operator:'超级管理员',time:'2025-08-25 15:10:00',remark:'退还总部运营费',deductType:'系统扣除',imageName:'凭证5.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:38000,balanceAfter:30000}
-  ],address:'北京市西城区金融街15号',phone:'010-62880003',status:'disabled',createdAt:'2025-03-10'},
-  {name:'丰台学区中心',type:'总部',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#059669"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">丰</text></svg>'),pricing:null,balance:0,balanceRecords:[],address:'北京市丰台区丰管路50号',phone:'010-62880004',status:'enabled',createdAt:'2025-04-05'},
-  {name:'昌平学区中心',type:'加盟',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#0891b2"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">昌</text></svg>'),pricing:{math:4800,english:4200,bundle:8000},balance:8000,balanceRecords:[
-    {id:'rec_demo_cp1',direction:'add',amount:20000,operator:'超级管理员',time:'2025-06-01 09:30:00',remark:'开业启动资金',deductType:undefined,imageName:'凭证6.png',imageDataUrl:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 100 60"><rect fill="#f1f5f9" width="100" height="60"/><text x="50" y="35" text-anchor="middle" fill="#94a3b8" font-size="10">凭证图片</text></svg>'),balanceBefore:0,balanceAfter:20000},
-    {id:'rec_demo_cp2',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-07-20 14:00:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:20000,balanceAfter:14000},
-    {id:'rec_demo_cp3',direction:'deduct',amount:6000,operator:'系统自动',time:'2025-08-18 10:45:00',remark:'',deductType:'学员录入',imageName:undefined,imageDataUrl:undefined,balanceBefore:14000,balanceAfter:8000}
-  ],address:'北京市昌平区府学路26号',phone:'010-62880005',status:'enabled',createdAt:'2025-05-18'}
+  {name:'海淀学区中心',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#2563eb"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">海</text></svg>'),pricing:{math:5800,english:5200,bundle:9800},address:'北京市海淀区中关村大街1号',phone:'010-62880001',status:'enabled',createdAt:'2025-01-15'},
+  {name:'朝阳学区中心',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#ea580c"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">朝</text></svg>'),pricing:{math:6200,english:5500,bundle:10500},address:'北京市朝阳区建国路88号',phone:'010-62880002',status:'enabled',createdAt:'2025-02-20'},
+  {name:'西城学区中心',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#7c3aed"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">西</text></svg>'),pricing:{math:5500,english:4800,bundle:9200},address:'北京市西城区金融街15号',phone:'010-62880003',status:'disabled',createdAt:'2025-03-10'},
+  {name:'丰台学区中心',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#059669"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">丰</text></svg>'),pricing:{math:5000,english:4500,bundle:8500},address:'北京市丰台区丰管路50号',phone:'010-62880004',status:'enabled',createdAt:'2025-04-05'},
+  {name:'昌平学区中心',logo:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56"><rect width="56" height="56" rx="12" fill="#0891b2"/><text x="28" y="37" text-anchor="middle" fill="#fff" font-size="26" font-weight="bold" font-family="sans-serif">昌</text></svg>'),pricing:{math:4800,english:4200,bundle:8000},address:'北京市昌平区府学路26号',phone:'010-62880005',status:'enabled',createdAt:'2025-05-18'}
 ];
 
 function initXuequTable(){
@@ -1706,7 +1720,7 @@ function renderXuequTable(){
   var tbody = document.getElementById('xuequTableBody');
   document.getElementById('xuequCount').textContent = xuequData.length;
   if(filtered.length===0){
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#94a3b8">暂无匹配的学区数据</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#94a3b8">暂无匹配的学区数据</td></tr>';
     return;
   }
   var html = '';
@@ -1715,14 +1729,8 @@ function renderXuequTable(){
     var statusChecked = x.status==='enabled'?'checked':'';
     var statusText = x.status==='enabled'?'启用':'停用';
     var statusClass = x.status==='enabled'?'tag-status enabled':'tag-status disabled';
-    var isFranchise = x.type==='加盟';
-    var typeTagClass = isFranchise?'type-tag franchise':'type-tag hq';
-    var balanceDisplay = isFranchise?('¥'+x.balance.toLocaleString()):'—';
-    var balanceClass = isFranchise&&x.balance===0?'balance-num zero':'balance-num';
     html += '<tr>';
     html += '<td><span class="table-name-cell">'+(x.logo?'<img class="table-logo" src="'+x.logo+'" alt="">':'')+'<span style="font-weight:600">'+x.name+'</span></span></td>';
-    html += '<td><span class="'+typeTagClass+'">'+x.type+'</span></td>';
-    html += '<td><span class="'+balanceClass+'">'+balanceDisplay+'</span></td>';
     html += '<td style="color:#475569">'+x.address+'</td>';
     html += '<td class="text-mono">'+x.phone+'</td>';
     html += '<td><span class="'+statusClass+'">'+statusText+'</span><label class="switch-toggle" style="margin-left:6px;vertical-align:middle" title="切换状态"><input type="checkbox" '+statusChecked+' onchange="toggleXuequStatus('+origIdx+',this)"><span class="slider"></span></label></td>';
@@ -1741,7 +1749,6 @@ function openXuequModal(editIndex){
     document.getElementById('xuequModalTitle').textContent = '编辑学区';
     var x = xuequData[editIndex];
     document.getElementById('xuequModalName').value = x.name;
-    document.getElementById('xuequModalType').value = x.type||'总部';
     document.getElementById('xuequModalAddress').value = x.address;
     document.getElementById('xuequModalPhone').value = x.phone;
     document.getElementById('xuequModalSort').value = editIndex+1;
@@ -1754,7 +1761,6 @@ function openXuequModal(editIndex){
   }else{
     document.getElementById('xuequModalTitle').textContent = '新增学区';
     document.getElementById('xuequModalName').value = '';
-    document.getElementById('xuequModalType').value = '总部';
     document.getElementById('xuequModalAddress').value = '';
     document.getElementById('xuequModalPhone').value = '';
     document.getElementById('xuequModalSort').value = xuequData.length+1;
@@ -1762,7 +1768,6 @@ function openXuequModal(editIndex){
     document.getElementById('pricing_english').value = '0';
     document.getElementById('pricing_bundle').value = '0';
   }
-  togglePricingSection();
   document.getElementById('xuequModalOverlay').classList.add('show');
 }
 function editXuequ(index){
@@ -1771,13 +1776,8 @@ function editXuequ(index){
 function closeXuequModal(){
   document.getElementById('xuequModalOverlay').classList.remove('show');
 }
-function togglePricingSection(){
-  var isFranchise = document.getElementById('xuequModalType').value==='加盟';
-  document.getElementById('xuequPricingSection').style.display = isFranchise?'block':'none';
-}
 function saveXuequ(){
   var name = document.getElementById('xuequModalName').value.trim();
-  var type = document.getElementById('xuequModalType').value;
   var address = document.getElementById('xuequModalAddress').value.trim();
   var phone = document.getElementById('xuequModalPhone').value.trim();
   var sort = parseInt(document.getElementById('xuequModalSort').value)||1;
@@ -1791,36 +1791,24 @@ function saveXuequ(){
   }else if(editIndex>=0){
     logoUrl = xuequData[editIndex].logo||'';
   }
-  // 处理定价（仅加盟）
-  var pricing = null;
-  if(type==='加盟'){
-    pricing = {
-      math: parseFloat(document.getElementById('pricing_math').value)||0,
-      english: parseFloat(document.getElementById('pricing_english').value)||0,
-      bundle: parseFloat(document.getElementById('pricing_bundle').value)||0
-    };
-  }
+  // 定价
+  var pricing = {
+    math: parseFloat(document.getElementById('pricing_math').value)||0,
+    english: parseFloat(document.getElementById('pricing_english').value)||0,
+    bundle: parseFloat(document.getElementById('pricing_bundle').value)||0
+  };
   if(editIndex>=0){
-    var oldType = xuequData[editIndex].type;
     xuequData[editIndex].name = name;
-    xuequData[editIndex].type = type;
     xuequData[editIndex].logo = logoUrl;
     xuequData[editIndex].pricing = pricing;
     xuequData[editIndex].address = address;
     xuequData[editIndex].phone = phone;
-    // 从总部改为加盟时初始化余额
-    if(oldType!=='加盟' && type==='加盟'){
-      xuequData[editIndex].balance = 0;
-      xuequData[editIndex].balanceRecords = [];
-    }
     showToast('学区已更新');
   }else{
     var exists = xuequData.some(function(x){return x.name===name;});
     if(exists){showToast('学区名称已存在');return;}
     xuequData.push({
-      name:name, type:type, logo:logoUrl, pricing:pricing,
-      balance:type==='加盟'?0:0,
-      balanceRecords:[],
+      name:name, logo:logoUrl, pricing:pricing,
       address:address, phone:phone,
       status:'enabled',
       createdAt:new Date().toISOString().slice(0,10)
@@ -2014,10 +2002,10 @@ function showImagePreview(dataUrl){
 
 // ==================== 账号管理 ====================
 var accountData = [
-  {username:'admin',realname:'超级管理员',role:'超级管理员',district:'海淀学区中心',districtPerms:['海淀学区中心','朝阳学区中心','丰台学区中心','昌平学区中心'],status:'enabled',createdAt:'2026-01-01 10:00:00'},
-  {username:'zhangming',realname:'张明',role:'教务管理员',district:'朝阳学区中心',districtPerms:[],status:'enabled',createdAt:'2026-03-15 14:30:00'},
-  {username:'wangfang',realname:'王芳',role:'教研员',district:'海淀学区中心',districtPerms:['海淀学区中心','丰台学区中心'],status:'enabled',createdAt:'2026-04-20 09:15:00'},
-  {username:'liyang',realname:'刘洋',role:'教研员',district:'丰台学区中心',districtPerms:[],status:'disabled',createdAt:'2026-06-01 16:45:00'}
+  {username:'admin',realname:'超级管理员',role:'超级管理员',accountType:'总部',district:'',districtPerms:['海淀学区中心','朝阳学区中心','丰台学区中心','昌平学区中心'],status:'enabled',createdAt:'2026-01-01 10:00:00'},
+  {username:'zhangming',realname:'张明',role:'教务管理员',accountType:'学区',district:'朝阳学区中心',districtPerms:[],status:'enabled',createdAt:'2026-03-15 14:30:00'},
+  {username:'wangfang',realname:'王芳',role:'教研员',accountType:'总部',district:'',districtPerms:['海淀学区中心','丰台学区中心'],status:'enabled',createdAt:'2026-04-20 09:15:00'},
+  {username:'liyang',realname:'刘洋',role:'教研员',accountType:'学区',district:'丰台学区中心',districtPerms:[],status:'disabled',createdAt:'2026-06-01 16:45:00'}
 ];
 
 // ==================== 角色管理 ====================
@@ -2184,15 +2172,17 @@ function getAccountCountByRole(roleName){
 function renderAccountTable(){
   var kw = (document.getElementById('accountSearch').value||'').trim().toLowerCase();
   var districtFilter = document.getElementById('accountDistrictFilter').value;
+  var typeFilter = document.getElementById('accountTypeFilter').value;
   var filtered = accountData.filter(function(a){
     if(kw && !a.username.toLowerCase().includes(kw) && !a.realname.toLowerCase().includes(kw) && !a.role.toLowerCase().includes(kw)) return false;
+    if(typeFilter && a.accountType !== typeFilter) return false;
     if(districtFilter && a.district !== districtFilter) return false;
     return true;
   });
   var tbody = document.getElementById('accountTableBody');
   document.getElementById('accountCount').textContent = accountData.length;
   if(filtered.length===0){
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:#94a3b8">暂无匹配的账号数据</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#94a3b8">暂无匹配的账号数据</td></tr>';
     return;
   }
   var html = '';
@@ -2201,12 +2191,16 @@ function renderAccountTable(){
     var roleClass = acc.role==='超级管理员'?'tag-role super':'tag-role';
     var statusClass = acc.status==='enabled'?'tag-status enabled':'tag-status disabled';
     var statusText = acc.status==='enabled'?'启用':'停用';
-    var districtPermsText = (acc.districtPerms&&acc.districtPerms.length>0)?acc.districtPerms.join('、'):'—';
+    var isHQ = acc.accountType==='总部';
+    var districtDisplay = isHQ?'—':(acc.district||'—');
+    var districtPermsText = isHQ&&acc.districtPerms&&acc.districtPerms.length>0?acc.districtPerms.join('、'):'—';
+    var typeTagClass = isHQ?'type-tag hq':'type-tag franchise';
     html += '<tr>';
     html += '<td class="text-mono"><b>'+acc.username+'</b></td>';
     html += '<td>'+acc.realname+'</td>';
     html += '<td><span class="'+roleClass+'">'+acc.role+'</span></td>';
-    html += '<td>'+acc.district+'</td>';
+    html += '<td><span class="'+typeTagClass+'">'+acc.accountType+'</span></td>';
+    html += '<td>'+districtDisplay+'</td>';
     html += '<td style="color:#475569;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+districtPermsText+'">'+districtPermsText+'</td>';
     html += '<td><span class="'+statusClass+'">'+statusText+'</span></td>';
     html += '<td style="color:#94a3b8;font-size:12px">'+acc.createdAt+'</td>';
@@ -2285,19 +2279,24 @@ function accountToggleAllDistricts(){
   checks.forEach(function(cb){cb.checked = !allChecked;});
 }
 
-function onAccountDistrictChange(){
-  var districtName = document.getElementById('accountModalDistrict').value;
-  var isHQ = false;
-  if(districtName){
-    var found = xuequData.find(function(x){return x.name===districtName;});
-    if(found && found.type==='总部') isHQ = true;
-  }
-  var section = document.getElementById('accountDistrictPermSection');
-  if(isHQ){
-    section.classList.add('show');
+function onAccountTypeChange(){
+  var accountType = document.getElementById('accountModalType').value;
+  var districtRow = document.getElementById('accountDistrictRow');
+  var statusRow = document.getElementById('accountStatusRow');
+  var permSection = document.getElementById('accountDistrictPermSection');
+  if(accountType==='总部'){
+    districtRow.style.display = 'none';
+    statusRow.style.display = 'flex';
+    permSection.classList.add('show');
     renderAccountDistrictPermList([]);
+  }else if(accountType==='学区'){
+    districtRow.style.display = 'flex';
+    statusRow.style.display = 'none';
+    permSection.classList.remove('show');
   }else{
-    section.classList.remove('show');
+    districtRow.style.display = 'none';
+    statusRow.style.display = 'none';
+    permSection.classList.remove('show');
   }
 }
 
@@ -2317,21 +2316,29 @@ function openAccountModal(editIndex){
     document.getElementById('accountModalUsername').value = acc.username;
     document.getElementById('accountModalUsername').disabled = true;
     document.getElementById('accountModalRealname').value = acc.realname;
+    document.getElementById('accountModalType').value = acc.accountType||'';
     document.getElementById('accountModalRole').value = acc.role;
-    document.getElementById('accountModalDistrict').value = acc.district||'';
-    document.getElementById('accountModalStatus').value = acc.status;
+    // 同步两个状态框
+    var statusVal = acc.status;
+    document.getElementById('accountModalStatus').value = statusVal;
+    document.getElementById('accountModalStatus2').value = statusVal;
     document.getElementById('accountModalPwdRow').style.display = 'none';
-    // 处理学区权限
-    var districtName = acc.district||'';
-    var isHQ = false;
-    if(districtName){
-      var found = xuequData.find(function(x){return x.name===districtName;});
-      if(found && found.type==='总部') isHQ = true;
-    }
-    if(isHQ){
+    // 根据账号类型显示对应区域
+    if(acc.accountType==='总部'){
+      document.getElementById('accountModalDistrict').value = '';
+      document.getElementById('accountDistrictRow').style.display = 'none';
+      document.getElementById('accountStatusRow').style.display = 'flex';
       document.getElementById('accountDistrictPermSection').classList.add('show');
       renderAccountDistrictPermList(acc.districtPerms||[]);
+    }else if(acc.accountType==='学区'){
+      document.getElementById('accountModalDistrict').value = acc.district||'';
+      document.getElementById('accountDistrictRow').style.display = 'flex';
+      document.getElementById('accountStatusRow').style.display = 'none';
+      document.getElementById('accountDistrictPermSection').classList.remove('show');
     }else{
+      document.getElementById('accountModalDistrict').value = '';
+      document.getElementById('accountDistrictRow').style.display = 'none';
+      document.getElementById('accountStatusRow').style.display = 'none';
       document.getElementById('accountDistrictPermSection').classList.remove('show');
     }
   }else{
@@ -2341,10 +2348,14 @@ function openAccountModal(editIndex){
     document.getElementById('accountModalRealname').value = '';
     document.getElementById('accountModalPassword').value = '';
     document.getElementById('accountModalPassword2').value = '';
+    document.getElementById('accountModalType').value = '';
     document.getElementById('accountModalRole').value = '';
     document.getElementById('accountModalDistrict').value = '';
     document.getElementById('accountModalStatus').value = 'enabled';
+    document.getElementById('accountModalStatus2').value = 'enabled';
     document.getElementById('accountModalPwdRow').style.display = 'flex';
+    document.getElementById('accountDistrictRow').style.display = 'none';
+    document.getElementById('accountStatusRow').style.display = 'none';
     document.getElementById('accountDistrictPermSection').classList.remove('show');
   }
   document.getElementById('accountModalOverlay').classList.add('show');
@@ -2360,27 +2371,33 @@ function saveAccount(){
   var realname = document.getElementById('accountModalRealname').value.trim();
   var password = document.getElementById('accountModalPassword').value;
   var password2 = document.getElementById('accountModalPassword2').value;
+  var accountType = document.getElementById('accountModalType').value;
   var role = document.getElementById('accountModalRole').value;
-  var district = document.getElementById('accountModalDistrict').value;
-  var status = document.getElementById('accountModalStatus').value;
   var editIndex = parseInt(document.getElementById('accountModalEditIndex').value);
 
   if(!username){showToast('请输入账号');return;}
   if(!realname){showToast('请输入姓名');return;}
+  if(!accountType){showToast('请选择账号类型');return;}
   if(!role){showToast('请选择所属角色');return;}
-  if(!district){showToast('请选择所属学区');return;}
 
-  // 收集学区数据权限
-  var districtPerms = [];
-  var permSection = document.getElementById('accountDistrictPermSection');
-  if(permSection.classList.contains('show')){
+  // 根据账号类型收集状态和数据
+  var district, districtPerms, status;
+  if(accountType==='总部'){
+    status = document.getElementById('accountModalStatus2').value;
+    district = '';
+    districtPerms = [];
     var checks = document.querySelectorAll('.account-district-check:checked');
     checks.forEach(function(cb){districtPerms.push(cb.value);});
+  }else{
+    status = document.getElementById('accountModalStatus').value;
+    district = document.getElementById('accountModalDistrict').value;
+    districtPerms = [];
+    if(!district){showToast('请选择所属学区');return;}
   }
 
   if(editIndex>=0){
-    // 编辑
     accountData[editIndex].realname = realname;
+    accountData[editIndex].accountType = accountType;
     accountData[editIndex].role = role;
     accountData[editIndex].district = district;
     accountData[editIndex].districtPerms = districtPerms;
@@ -2389,12 +2406,12 @@ function saveAccount(){
   }else{
     if(!password){showToast('请输入密码');return;}
     if(password!==password2){showToast('两次密码不一致');return;}
-    // 查重
     var exists = accountData.some(function(a){return a.username===username;});
     if(exists){showToast('账号已存在');return;}
     accountData.push({
       username:username,
       realname:realname,
+      accountType:accountType,
       role:role,
       district:district,
       districtPerms:districtPerms,
@@ -2405,7 +2422,7 @@ function saveAccount(){
   }
   closeAccountModal();
   renderAccountTable();
-  renderRoleTable(); // 刷新角色表中的关联账号数
+  renderRoleTable();
 }
 
 function deleteAccount(index){

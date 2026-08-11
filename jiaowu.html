@@ -1041,7 +1041,7 @@ table{border-collapse:collapse;width:100%}
             <table class="data-table" id="xcwTable" style="min-width:800px">
               <thead>
                 <tr>
-                  <th>学区名称</th><th>类型</th><th>余额</th><th>地址</th><th>联系方式</th><th>创建时间</th><th class="xc-col-actions-wide">操作</th>
+                  <th>学区名称</th><th>余额</th><th>地址</th><th>联系方式</th><th>创建时间</th><th class="xc-col-actions-wide">操作</th>
                 </tr>
               </thead>
               <tbody id="xcwTableBody"></tbody>
@@ -4216,28 +4216,23 @@ function xcwRenderTable(){
   if(countEl) countEl.textContent = xcwXuequData.length;
   if(!tbody) return;
   if(filtered.length===0){
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">暂无匹配的学区数据</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted)">暂无匹配的学区数据</td></tr>';
     return;
   }
   var html = '';
   filtered.forEach(function(x){
     var origIdx = xcwXuequData.indexOf(x);
-    var isFranchise = x.type==='加盟';
-    var typeTagClass = isFranchise?'xc-type-tag franchise':'xc-type-tag hq';
-    var balanceDisplay = isFranchise?('¥'+x.balance.toLocaleString()):'—';
-    var balanceClass = isFranchise&&x.balance===0?'xc-balance-num zero':'xc-balance-num';
+    var balanceDisplay = '¥'+x.balance.toLocaleString();
+    var balanceClass = x.balance===0?'xc-balance-num zero':'xc-balance-num';
     html += '<tr>';
     html += '<td><span class="xc-name-cell">'+(x.logo?'<img class="xc-table-logo" src="'+x.logo+'" alt="">':'')+'<span style="font-weight:600">'+x.name+'</span></span></td>';
-    html += '<td><span class="'+typeTagClass+'">'+x.type+'</span></td>';
     html += '<td><span class="'+balanceClass+'">'+balanceDisplay+'</span></td>';
     html += '<td style="color:var(--text-secondary)">'+(x.address||'')+'</td>';
     html += '<td class="xc-text-mono">'+(x.phone||'')+'</td>';
     html += '<td style="color:var(--text-muted);font-size:12px">'+x.createdAt+'</td>';
     html += '<td class="xc-col-actions-wide">';
-    if(isFranchise){
-      html += '<button class="btn btn-ghost btn-xs" onclick="xcwOpenBalanceModal('+origIdx+')">调整余额</button>';
-      html += '<button class="btn btn-ghost btn-xs" onclick="xcwOpenRecordModal('+origIdx+')">查看记录</button>';
-    }
+    html += '<button class="btn btn-ghost btn-xs" onclick="xcwOpenBalanceModal('+origIdx+')">调整余额</button>';
+    html += '<button class="btn btn-ghost btn-xs" onclick="xcwOpenRecordModal('+origIdx+')">查看记录</button>';
     html += '</td></tr>';
   });
   tbody.innerHTML = html;

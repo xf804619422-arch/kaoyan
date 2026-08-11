@@ -2903,7 +2903,6 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   // 自动推课筛选状态
   var actSubjectFilter = '';
-  var actTypeFilter = '';
   var actPaperSearch = '';
   var actSelectedPaperId = null;
   var actClassFilter = '';
@@ -13177,7 +13176,6 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     // Filter papers
     var papers = actPaperData.slice();
     if(actSubjectFilter) papers = papers.filter(function(p){ return p.subject === actSubjectFilter; });
-    if(actTypeFilter) papers = papers.filter(function(p){ return p.type === actTypeFilter; });
     if(actPaperSearch){
       var kw = actPaperSearch.toLowerCase();
       papers = papers.filter(function(p){ return p.name.toLowerCase().indexOf(kw) !== -1; });
@@ -13211,11 +13209,6 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html +=         '<option value="">全部科目</option>';
     html +=         '<option value="数学"'+(actSubjectFilter==='数学'?' selected':'')+'>数学</option>';
     html +=         '<option value="英语"'+(actSubjectFilter==='英语'?' selected':'')+'>英语</option>';
-    html +=       '</select>';
-    html +=       '<select id="actTypeFilter" onchange="window._actFilterChange()">';
-    html +=         '<option value="">全部类型</option>';
-    html +=         '<option value="练测"'+(actTypeFilter==='练测'?' selected':'')+'>练测</option>';
-    html +=         '<option value="作业"'+(actTypeFilter==='作业'?' selected':'')+'>作业</option>';
     html +=       '</select>';
     html +=     '</div>';
     html +=     '<input type="text" placeholder="搜索试卷名称..." value="'+actPaperSearch.replace(/"/g,'&quot;')+'" oninput="window._actPaperSearchInput(this.value)" style="width:100%;padding:6px 10px;font-size:12px;border:1px solid var(--border);border-radius:6px;color:var(--text);box-sizing:border-box">';
@@ -13296,7 +13289,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<div class="req-popup">';
     html += '<div class="req-popup-header"><h3><span class="req-popup-icon">&#x1F4CB;</span>需求说明 — 自动推课</h3><button class="req-popup-close" id="reqPopupClose3">&times;</button></div>';
     html += '<div class="req-popup-body" id="reqPopupBody3">';
-    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">页面功能</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">通过发放练测/试卷的错题情况，自动生成知识点课程推荐数据；</p></div>';
+    html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">页面功能</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">通过发放练测的错题情况，自动生成知识点课程推荐数据；</p></div>';
     html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">左侧列表</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">展示老师所有发放过的试卷列表；</p></div>';
     html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">右侧列表</span><p style="margin:4px 0 0 0;color:var(--text-secondary)">根据选中试卷的提交情况自动推荐知识点课程列表；</p></div>';
     html += '<div style="margin-bottom:16px"><span style="font-weight:600;color:var(--text);font-size:15px">推荐逻辑</span>';
@@ -13329,9 +13322,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   window._actFilterChange = function(){
     var subSel = document.getElementById('actSubjectFilter');
-    var typeSel = document.getElementById('actTypeFilter');
     actSubjectFilter = subSel ? subSel.value : '';
-    actTypeFilter = typeSel ? typeSel.value : '';
     renderZidongTuikePage();
   };
 
