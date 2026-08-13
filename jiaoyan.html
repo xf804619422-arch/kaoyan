@@ -238,6 +238,13 @@ tr:hover td{background:#fafbfc}
 .upload-zone-text{font-size:13px;color:var(--text-secondary)}
 .upload-zone-text strong{color:var(--primary)}
 
+/* ---- 批量导入步骤引导 ---- */
+.import-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;padding:16px;background:#f8fafc;border:1px solid var(--border);border-radius:8px}
+.import-step{display:flex;align-items:flex-start;gap:12px}
+.import-step .step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--primary);color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+.import-step .step-title{font-size:13px;font-weight:600;color:var(--text)}
+.import-step .step-desc{font-size:12px;color:var(--text-secondary);margin-top:2px}
+
 /* ---- SEARCH BAR ---- */
 .search-bar{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
 .search-input{width:260px;padding:8px 12px;font-size:13px;border:1px solid var(--border);border-radius:6px;outline:none;font-family:inherit}
@@ -697,6 +704,32 @@ tr:hover td{background:#fafbfc}
 .vocablib-edit-cat-dd .row:hover{background:#f0f4ff}
 .vocablib-edit-cat-dd .row.selected{background:#eef2ff;color:var(--primary);font-weight:500}
 
+/* 阅读文章题目卡片 */
+.yre-q-card{display:block;width:100%;border:1px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:box-shadow .2s,transform .15s;box-sizing:border-box}
+.yre-q-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.yre-q-card-header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:linear-gradient(135deg,#f8fafc,#f1f5f9);border-bottom:1px solid var(--border)}
+.yre-q-card-header-left{display:flex;align-items:center;gap:12px}
+.yre-q-card-num{font-size:14px;font-weight:700;color:var(--text)}
+.yre-q-card-type{font-size:11px;font-weight:600;color:#fff;padding:4px 14px;border-radius:12px;letter-spacing:.5px}
+.yre-q-card-type.choice{background:var(--primary)}
+.yre-q-card-type.fill{background:#8b5cf6}
+.yre-q-card-type.answer{background:#059669}
+.yre-q-card-score{font-size:12px;font-weight:600;color:var(--primary);background:#eff6ff;padding:4px 12px;border-radius:10px}
+.yre-q-card-del{font-size:11px;color:#ef4444;border:1px solid #fecaca;background:#fff;border-radius:6px;padding:5px 14px;cursor:pointer;transition:all .15s}
+.yre-q-card-del:hover{background:#fef2f2;border-color:#fca5a5}
+.yre-q-card-body{padding:18px 20px}
+.yre-q-card-field{margin-bottom:16px}
+.yre-q-card-label{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:6px}
+.yre-q-card-label .req{color:#ef4444}
+.yre-q-card .form-input{width:100%;padding:9px 14px;font-size:13px;border:1px solid var(--border);border-radius:8px;outline:none;font-family:inherit;box-sizing:border-box;transition:border-color .15s;background:#fafbfc}
+.yre-q-card .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1);background:#fff}
+.yre-q-card .form-textarea{width:100%;padding:9px 14px;font-size:13px;border:1px solid var(--border);border-radius:8px;outline:none;font-family:inherit;resize:vertical;box-sizing:border-box;transition:border-color .15s;line-height:1.7;background:#fafbfc}
+.yre-q-card .form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1);background:#fff}
+.yre-q-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.yre-q-option-row{display:flex;align-items:center;gap:8px}
+.yre-q-option-letter{font-size:13px;font-weight:700;color:var(--primary);min-width:24px}
+.yre-q-score-input{width:120px}
+
 /* 大纲分类树形筛选器 */
 .vocablib-filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .vocablib-filter-label{font-size:12px;color:var(--text-secondary);white-space:nowrap}
@@ -907,7 +940,21 @@ tr:hover td{background:#fafbfc}
       </div>
     </div>
     <div class="sidebar-divider"></div>
-    <!-- Group 5: 审核管理 -->
+    <!-- Group 5: 语文专属 -->
+    <div class="sidebar-group" id="sg-yuwen">
+      <div class="sidebar-group-header" onclick="toggleGroup('sg-yuwen')">
+        语文专属 <span class="arrow">&#9660;</span>
+      </div>
+      <div class="sidebar-group-items">
+        <div class="sidebar-item" data-view="cijuCatMgr" onclick="switchView('cijuCatMgr',this)">词句分类</div>
+        <div class="sidebar-item" data-view="cijuEntry" onclick="switchView('cijuEntry',this)">词句录入</div>
+        <div class="sidebar-item" data-view="cijuMgr" onclick="switchView('cijuMgr',this)">词句管理</div>
+        <div class="sidebar-item" data-view="yuwenReadEntry" onclick="switchView('yuwenReadEntry',this)">阅读文章录入</div>
+        <div class="sidebar-item" data-view="yuwenReadMgr" onclick="switchView('yuwenReadMgr',this)">阅读文章管理</div>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <!-- Group 6: 审核管理 -->
     <div class="sidebar-group" id="sg-audit">
       <div class="sidebar-group-header" onclick="toggleGroup('sg-audit')">
         审核管理 <span class="arrow">&#9660;</span>
@@ -920,6 +967,8 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="formulaAudit" onclick="switchView('formulaAudit',this)">数学公式审核 <span class="sidebar-badge" id="faBadge">4</span></div>
         <div class="sidebar-item" data-view="vocabAudit" onclick="switchView('vocabAudit',this)">大纲词汇审核 <span class="sidebar-badge" id="vabBadge">3</span></div>
         <div class="sidebar-item" data-view="readingAudit" onclick="switchView('readingAudit',this)">阅读文章审核 <span class="sidebar-badge" id="raBadge">3</span></div>
+        <div class="sidebar-item" data-view="cijuAudit" onclick="switchView('cijuAudit',this)">语文词句审核 <span class="sidebar-badge" id="cjaBadge">3</span></div>
+        <div class="sidebar-item" data-view="yuwenReadAudit" onclick="switchView('yuwenReadAudit',this)">语文阅读审核 <span class="sidebar-badge" id="yraBadge">3</span></div>
       </div>
     </div>
   </nav>
@@ -2263,9 +2312,12 @@ tr:hover td{background:#fafbfc}
 
     <!-- ========== VIEW: 词汇库管理 ========== -->
     <div class="view" id="view-vocabLib">
-      <div class="page-header">
-        <div class="page-title">词汇库管理</div>
-        <div class="page-subtitle">管理考研英语词汇库，支持词汇的录入、审核与发布流程</div>
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">词汇库管理</div>
+          <div class="page-subtitle">管理考研英语词汇库，支持词汇的录入、审核与发布流程</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openVocabImportModal()" style="flex-shrink:0">&#128229; 批量导入</button>
       </div>
       <div class="vocablib-filter-bar">
         <span class="vocablib-filter-label">大纲分类：</span>
@@ -2398,6 +2450,308 @@ tr:hover td{background:#fafbfc}
         <button class="btn btn-outline" onclick="clearReForm()" style="padding:8px 32px;font-size:14px">清空</button>
         <button class="btn btn-primary" onclick="saveReArticle()" style="padding:8px 32px;font-size:14px">保存文章</button>
       </div>
+    </div>
+
+    <!-- ========== VIEW: 词句分类 ========== -->
+    <div class="view" id="view-cijuCatMgr">
+      <div class="page-header">
+        <div class="page-title">词句分类</div>
+        <div class="page-subtitle">管理语文词句的一级分类，支持创建、编辑和删除</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm" onclick="addCijuCategory()">+ 新增分类</button>
+      </div>
+      <div class="table-wrap" id="cijuCatList"></div>
+    </div>
+
+    <!-- ========== VIEW: 词句录入 ========== -->
+    <div class="view" id="view-cijuEntry">
+      <div class="page-header">
+        <div class="page-title">词句录入</div>
+        <div class="page-subtitle">录入语文词句内容，选择分类并填写标题与正文</div>
+      </div>
+      <div class="ve-main">
+        <div class="ve-left">
+          <div class="form-group">
+            <label class="form-label"><span class="required">*</span> 词句分类</label>
+            <select class="form-select" id="ceCatSelect" onchange="updateCePreview()">
+              <option value="">请选择词句分类</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label"><span class="required">*</span> 标题</label>
+            <input class="form-input" id="ceTitle" placeholder="请输入词句标题" autocomplete="off" oninput="updateCePreview()">
+          </div>
+          <div class="ve-editor-wrap">
+            <div class="ve-editor-label"><span class="req">*</span> 内容</div>
+            <div class="ve-content-box">
+              <div class="ve-richtext-toolbar">
+                <button class="ve-rt-btn" onclick="execCeRichtext('bold')" title="加粗"><b>B</b></button>
+                <button class="ve-rt-btn" onclick="execCeRichtext('italic')" title="斜体"><i>I</i></button>
+                <button class="ve-rt-btn" onclick="execCeRichtext('underline')" title="下划线"><u>U</u></button>
+                <span class="ve-rt-sep"></span>
+                <button class="ve-rt-btn" onclick="execCeRichtext('insertUnorderedList')" title="无序列表">•≡</button>
+                <button class="ve-rt-btn" onclick="execCeRichtext('insertOrderedList')" title="有序列表">1.</button>
+              </div>
+              <div class="ve-richtext-body" id="ceContent" contenteditable="true" oninput="updateCePreview()">
+                <p>请输入词句内容...</p>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
+            <button class="btn btn-outline" onclick="clearCeForm()" style="padding:8px 32px;font-size:14px">清空</button>
+            <button class="btn btn-primary" onclick="saveCeWord()" style="padding:8px 32px;font-size:14px">保存词句</button>
+          </div>
+        </div>
+        <div class="ve-right">
+          <div class="ve-preview-panel">
+            <div class="ve-preview-header">📋 内容预览</div>
+            <div class="ve-preview-content" id="ceLivePreview">
+              <span style="color:#9ca3af">填写标题和内容后，此处将展示预览效果</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== VIEW: 词句管理 ========== -->
+    <div class="view" id="view-cijuMgr">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">词句管理</div>
+          <div class="page-subtitle">管理语文词句内容，支持审核与发布流程</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openCijuImportModal()" style="flex-shrink:0">&#128229; 批量导入</button>
+      </div>
+      <div class="vocablib-filter-bar">
+        <span class="vocablib-filter-label">分类：</span>
+        <select class="form-select" id="cmFilterCat" onchange="onCmFilterChange()" style="width:140px">
+          <option value="">全部</option>
+        </select>
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="cmFilterTitle" placeholder="搜索标题" oninput="onCmFilterChange()">
+        </span>
+        <span class="vocablib-filter-label" style="margin-left:8px">创建：</span>
+        <input class="form-input" type="date" id="cmFilterCreateFrom" onchange="onCmFilterChange()" style="width:130px">
+        <span style="font-size:12px;color:#9ca3af">至</span>
+        <input class="form-input" type="date" id="cmFilterCreateTo" onchange="onCmFilterChange()" style="width:130px">
+        <span class="vocablib-filter-label" style="margin-left:8px">审核：</span>
+        <input class="form-input" type="date" id="cmFilterAuditFrom" onchange="onCmFilterChange()" style="width:130px">
+        <span style="font-size:12px;color:#9ca3af">至</span>
+        <input class="form-input" type="date" id="cmFilterAuditTo" onchange="onCmFilterChange()" style="width:130px">
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="cmFilterCreator" placeholder="创建人" oninput="onCmFilterChange()">
+        </span>
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="cmFilterAuditor" placeholder="审核人" oninput="onCmFilterChange()">
+        </span>
+      </div>
+      <div class="vocablib-tabs" id="cmTabs">
+        <div class="vocablib-tab active" data-tab="published" onclick="switchCmTab('published')">已发布 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="reviewing" onclick="switchCmTab('reviewing')">审核中 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="rejected" onclick="switchCmTab('rejected')">审核驳回 <span class="count"></span></div>
+      </div>
+      <div class="vocablib-table-wrap" id="cmTableWrap"></div>
+    </div>
+
+    <!-- ========== VIEW: 阅读文章录入(语文) ========== -->
+    <div class="view" id="view-yuwenReadEntry">
+      <div class="page-header">
+        <div class="page-title">阅读文章录入</div>
+        <div class="page-subtitle">录入语文阅读文章，包含文章信息与关联题目</div>
+      </div>
+      <!-- 模块一：文章信息 -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header">📝 文章信息</div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 文章标题</label>
+          <input class="form-input" id="yreTitle" placeholder="请输入文章标题" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 文章内容</label>
+          <div class="ve-content-box" style="min-height:300px">
+            <div class="ve-richtext-toolbar">
+              <button class="ve-rt-btn" onclick="execYreRichtext('bold')" title="加粗"><b>B</b></button>
+              <button class="ve-rt-btn" onclick="execYreRichtext('italic')" title="斜体"><i>I</i></button>
+              <button class="ve-rt-btn" onclick="execYreRichtext('underline')" title="下划线"><u>U</u></button>
+              <span class="ve-rt-sep"></span>
+              <button class="ve-rt-btn" onclick="execYreRichtext('insertUnorderedList')" title="无序列表">•≡</button>
+              <button class="ve-rt-btn" onclick="execYreRichtext('insertOrderedList')" title="有序列表">1.</button>
+            </div>
+            <div class="ve-richtext-body" id="yreContent" contenteditable="true" style="min-height:200px">
+              <p>请输入文章内容...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 模块二：关联题目 -->
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span>📋 关联题目</span>
+            <span id="yreTotalScore" style="font-size:13px;color:var(--primary);font-weight:600;background:#eff6ff;padding:4px 12px;border-radius:12px">总分：0 分</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" onclick="addYreQuestion('choice')">+ 添加选择题</button>
+            <button class="btn btn-outline btn-sm" onclick="addYreQuestion('fill')">+ 添加填空题</button>
+            <button class="btn btn-outline btn-sm" onclick="addYreQuestion('answer')">+ 添加解答题</button>
+          </div>
+        </div>
+        <div id="yreQuestionList" style="min-height:100px;color:#9ca3af;padding:20px">
+          暂无关联题目，请点击上方按钮添加
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
+        <button class="btn btn-outline" onclick="clearYreForm()" style="padding:8px 32px;font-size:14px">清空</button>
+        <button class="btn btn-primary" onclick="saveYreArticle()" style="padding:8px 32px;font-size:14px">保存文章</button>
+      </div>
+    </div>
+
+    <!-- ========== VIEW: 阅读文章管理(语文) ========== -->
+    <div class="view" id="view-yuwenReadMgr">
+      <div class="page-header">
+        <div class="page-title">阅读文章管理</div>
+        <div class="page-subtitle">管理语文阅读文章，支持审核与发布流程</div>
+      </div>
+      <div class="vocablib-filter-bar">
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="yrmFilterTitle" placeholder="搜索标题" oninput="onYrmFilterChange()">
+        </span>
+        <span class="vocablib-filter-label" style="margin-left:8px">创建：</span>
+        <input class="form-input" type="date" id="yrmFilterCreateFrom" onchange="onYrmFilterChange()" style="width:130px">
+        <span style="font-size:12px;color:#9ca3af">至</span>
+        <input class="form-input" type="date" id="yrmFilterCreateTo" onchange="onYrmFilterChange()" style="width:130px">
+        <span class="vocablib-filter-label" style="margin-left:8px">审核：</span>
+        <input class="form-input" type="date" id="yrmFilterAuditFrom" onchange="onYrmFilterChange()" style="width:130px">
+        <span style="font-size:12px;color:#9ca3af">至</span>
+        <input class="form-input" type="date" id="yrmFilterAuditTo" onchange="onYrmFilterChange()" style="width:130px">
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="yrmFilterCreator" placeholder="创建人" oninput="onYrmFilterChange()">
+        </span>
+        <span class="vocablib-search">
+          <span class="icon">&#128269;</span>
+          <input id="yrmFilterAuditor" placeholder="审核人" oninput="onYrmFilterChange()">
+        </span>
+      </div>
+      <div class="vocablib-tabs" id="yrmTabs">
+        <div class="vocablib-tab active" data-tab="published" onclick="switchYrmTab('published')">已发布 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="reviewing" onclick="switchYrmTab('reviewing')">审核中 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="rejected" onclick="switchYrmTab('rejected')">审核驳回 <span class="count"></span></div>
+      </div>
+      <div class="vocablib-table-wrap" id="yrmTableWrap"></div>
+    </div>
+
+    <!-- ========== VIEW: 语文词句审核 ========== -->
+    <div class="view" id="view-cijuAudit">
+      <div class="page-header">
+        <div class="page-title">语文词句审核</div>
+        <div class="page-subtitle">审核教师录入的语文词句内容，确保释义准确、分类正确</div>
+      </div>
+      <div class="tabs" id="cjaTabs">
+        <div class="tab active" onclick="switchCJATab('reviewing',this)">待审核 (<span id="cjaPendingCount">3</span>)</div>
+        <div class="tab" onclick="switchCJATab('published',this)">审核通过</div>
+        <div class="tab" onclick="switchCJATab('rejected',this)">审核驳回</div>
+      </div>
+      <div class="audit-filter-bar">
+        <div class="audit-filter-row">
+          <div class="audit-filter-group">
+            <label>标题搜索</label>
+            <input class="search-input" id="cjaSearch" placeholder="输入标题关键词" oninput="renderCJATable()" style="width:200px">
+          </div>
+          <div class="audit-filter-group">
+            <label>分类</label>
+            <select class="form-select" id="cjaCatFilter" onchange="renderCJATable()" style="width:140px">
+              <option value="">全部</option>
+            </select>
+          </div>
+          <div class="audit-filter-group">
+            <label>创建时间</label>
+            <input class="form-input" type="date" id="cjaCreateFrom" onchange="renderCJATable()" style="width:130px">
+            <span style="margin:0 4px;color:var(--text-secondary)">至</span>
+            <input class="form-input" type="date" id="cjaCreateTo" onchange="renderCJATable()" style="width:130px">
+          </div>
+          <div class="audit-filter-group">
+            <label>审核时间</label>
+            <input class="form-input" type="date" id="cjaAuditFrom" onchange="renderCJATable()" style="width:130px">
+            <span style="margin:0 4px;color:var(--text-secondary)">至</span>
+            <input class="form-input" type="date" id="cjaAuditTo" onchange="renderCJATable()" style="width:130px">
+          </div>
+          <div class="audit-filter-group">
+            <label>创建人</label>
+            <input class="search-input" id="cjaCreator" placeholder="搜索创建人" oninput="renderCJATable()" style="width:120px">
+          </div>
+          <div class="audit-filter-group">
+            <label>审核人</label>
+            <input class="search-input" id="cjaAuditor" placeholder="搜索审核人" oninput="renderCJATable()" style="width:120px">
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="resetCJAFilters()" style="margin-left:auto">重置筛选</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>标题</th><th>分类</th><th>创建时间</th><th>创建人</th><th>状态</th><th>操作</th>
+          </tr></thead>
+          <tbody id="cjaTableBody"></tbody>
+        </table>
+      </div>
+      <div id="cjaEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
+    </div>
+
+    <!-- ========== VIEW: 语文阅读审核 ========== -->
+    <div class="view" id="view-yuwenReadAudit">
+      <div class="page-header">
+        <div class="page-title">语文阅读审核</div>
+        <div class="page-subtitle">审核教师录入的语文阅读文章，确保文章内容和题目质量</div>
+      </div>
+      <div class="tabs" id="yraTabs">
+        <div class="tab active" onclick="switchYRATab('reviewing',this)">待审核 (<span id="yraPendingCount">3</span>)</div>
+        <div class="tab" onclick="switchYRATab('published',this)">审核通过</div>
+        <div class="tab" onclick="switchYRATab('rejected',this)">审核驳回</div>
+      </div>
+      <div class="audit-filter-bar">
+        <div class="audit-filter-row">
+          <div class="audit-filter-group">
+            <label>文章标题</label>
+            <input class="search-input" id="yraSearch" placeholder="输入标题关键词" oninput="renderYRATable()" style="width:200px">
+          </div>
+          <div class="audit-filter-group">
+            <label>创建时间</label>
+            <input class="form-input" type="date" id="yraCreateFrom" onchange="renderYRATable()" style="width:130px">
+            <span style="margin:0 4px;color:var(--text-secondary)">至</span>
+            <input class="form-input" type="date" id="yraCreateTo" onchange="renderYRATable()" style="width:130px">
+          </div>
+          <div class="audit-filter-group">
+            <label>审核时间</label>
+            <input class="form-input" type="date" id="yraAuditFrom" onchange="renderYRATable()" style="width:130px">
+            <span style="margin:0 4px;color:var(--text-secondary)">至</span>
+            <input class="form-input" type="date" id="yraAuditTo" onchange="renderYRATable()" style="width:130px">
+          </div>
+          <div class="audit-filter-group">
+            <label>创建人</label>
+            <input class="search-input" id="yraCreator" placeholder="搜索创建人" oninput="renderYRATable()" style="width:120px">
+          </div>
+          <div class="audit-filter-group">
+            <label>审核人</label>
+            <input class="search-input" id="yraAuditor" placeholder="搜索审核人" oninput="renderYRATable()" style="width:120px">
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="resetYRAFilters()" style="margin-left:auto">重置筛选</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>文章标题</th><th>题目数</th><th>总分</th><th>创建时间</th><th>创建人</th><th>状态</th><th>操作</th>
+          </tr></thead>
+          <tbody id="yraTableBody"></tbody>
+        </table>
+      </div>
+      <div id="yraEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
     </div>
 
     <!-- ========== VIEW: 手动组卷 ========== -->
@@ -3675,7 +4029,14 @@ updateRABadge();
   if(viewName==='formulaAudit'){renderFATable();}
   if(viewName==='vocabAudit'){renderVABTable();}
   if(viewName==='readingAudit'){renderRATable();}
+  if(viewName==='cijuAudit'){initCijuAudit();}
+  if(viewName==='yuwenReadAudit'){initYuwenReadAudit();}
   if(viewName==='zujuan')initZujuan();
+  if(viewName==='cijuCatMgr')renderCijuCategoryMgr();
+  if(viewName==='cijuEntry')initCijuEntry();
+  if(viewName==='cijuMgr')initCijuMgr();
+  if(viewName==='yuwenReadEntry')initYuwenReadEntry();
+  if(viewName==='yuwenReadMgr')initYuwenReadMgr();
 }
 
 function toggleUserDropdown(){
@@ -7240,6 +7601,162 @@ function initVocabLib(){
   renderVocabLibTable();
 }
 
+// ==================== VOCAB BATCH IMPORT (词汇批量导入) ====================
+let _vocabImportRows=[];
+
+function openVocabImportModal(){
+  const html='<div class="vocablib-modal-overlay" onclick="closeVocabImportModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:600px">\
+      <div class="vocablib-modal-header"><h3>批量导入词汇</h3><button class="vocablib-modal-close-btn" onclick="closeVocabImportModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="import-steps">\
+          <div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载导入模板</div><div class="step-desc">模板包含「大纲分类、词汇、英式音标、美式音标、释义」五列</div></div></div>\
+          <div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">大纲分类需填写完整路径，如「核心词汇-高频词汇-动词」</div></div></div>\
+          <div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">支持 .xls / .csv 格式文件</div></div></div>\
+        </div>\
+        <button class="btn btn-outline btn-sm" onclick="downloadVocabImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>\
+        <div class="upload-zone" onclick="document.getElementById(\'vocabImportFileInput\').click()">\
+          <div class="upload-zone-icon">&#128196;</div>\
+          <div class="upload-zone-text">点击选择导入文件<br><strong>支持 .xls / .csv 格式</strong></div>\
+        </div>\
+        <input type="file" id="vocabImportFileInput" accept=".xls,.csv,.xlsx" style="display:none" onchange="handleVocabImportFile(this)">\
+        <div id="vocabImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeVocabImportModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="processVocabImport()">开始导入</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='vocabImportWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeVocabImportModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('vocabImportWrap');
+  if(wrap)wrap.remove();
+  _vocabImportRows=[];
+}
+
+function downloadVocabImportTemplate(){
+  const header=['大纲分类','词汇','英式音标','美式音标','释义'];
+  const sampleRows=[
+    ['核心词汇-高频词汇-动词','abandon','/əˈbændən/','/əˈbændən/','v. 放弃；抛弃'],
+    ['核心词汇-高频词汇-名词','abstract','/ˈæbstrækt/','/ˈæbstrækt/','adj. 抽象的；n. 摘要']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1">';
+  html+='<tr>';
+  header.forEach(function(h){html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});
+  html+='</tr>';
+  sampleRows.forEach(function(row){
+    html+='<tr>';
+    row.forEach(function(c){html+='<td style="padding:4px 8px">'+c+'</td>';});
+    html+='</tr>';
+  });
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='词汇批量导入模板.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast('模板已下载','success');
+}
+
+function handleVocabImportFile(input){
+  const f=input.files[0];
+  if(!f)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    _vocabImportRows=parseVocabImportText(e.target.result);
+    const info=$('vocabImportFileInfo');
+    if(info){info.style.display='block';info.textContent='已选择：'+f.name+'（解析到 '+_vocabImportRows.length+' 条数据）';}
+    else showToast('已解析 '+_vocabImportRows.length+' 条数据','success');
+  };
+  reader.readAsText(f,'UTF-8');
+}
+
+function parseVocabImportText(text){
+  const rows=[];
+  if(!text)return rows;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  text=text.trim();
+  if(!text)return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    const trs=doc.querySelectorAll('table tr');
+    trs.forEach(function(tr,ti){
+      if(ti===0)return;
+      const tds=tr.querySelectorAll('th,td');
+      const cells=[];
+      tds.forEach(function(td){cells.push(td.textContent.trim());});
+      if(cells.length>=5&&cells[0]&&cells[1]&&cells[4]){
+        rows.push({cat:cells[0],word:cells[1],phoneUK:cells[2],phoneUS:cells[3],def:cells[4]});
+      }
+    });
+  }else{
+    const lines=text.split(/\r?\n/);
+    lines.forEach(function(line,li){
+      if(li===0)return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=5&&cells[0]&&cells[1]&&cells[4]){
+        rows.push({cat:cells[0],word:cells[1],phoneUK:cells[2],phoneUS:cells[3],def:cells[4]});
+      }
+    });
+  }
+  return rows;
+}
+
+function findVocabCatIdByPath(pathStr){
+  const target=(pathStr||'').trim().replace(/\s*-\s*/g,'-');
+  if(!target)return null;
+  function walk(nodes,prefix){
+    for(let i=0;i<nodes.length;i++){
+      const n=nodes[i];
+      const cur=prefix?prefix+'-'+n.name:n.name;
+      if(n.children&&n.children.length){
+        const r=walk(n.children,cur);
+        if(r)return r;
+      }else{
+        if(cur===target)return n.id;
+      }
+    }
+    return null;
+  }
+  return walk(vocabCategoryData,'');
+}
+
+function processVocabImport(){
+  if(_vocabImportRows.length===0){showToast('请先选择要导入的文件','error');return;}
+  let added=0,skipped=0;
+  _vocabImportRows.forEach(function(row){
+    const catId=findVocabCatIdByPath(row.cat);
+    if(!catId){skipped++;return;}
+    vocabLibData.push({
+      id:++_vocabLibNextId,
+      word:row.word,
+      def:row.def,
+      phoneUK:row.phoneUK,
+      phoneUS:row.phoneUS,
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'当前用户',
+      auditTime:'',
+      auditor:'',
+      catId:catId
+    });
+    added++;
+  });
+  closeVocabImportModal();
+  if(added===0){showToast('导入失败：大纲分类不匹配或数据无效','error');return;}
+  vocabLibTab='reviewing';
+  document.querySelectorAll('#vocabLibTabs .vocablib-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab==='reviewing');});
+  renderVocabLibTable();
+  showToast('成功导入 '+added+' 个词汇'+(skipped>0?'，'+skipped+' 条因大纲分类不匹配跳过':''),'success');
+}
+
 // ==================== VOCAB ENTRY (词汇录入) ====================
 let veSelected={l1:null,l2:null,l3:null}; // {id,name}
 let veCatDropdownOpen=null; // 当前打开的下拉层级 'l1'|'l2'|'l3'|null
@@ -7723,6 +8240,1308 @@ function initReadMgr(){
   $('readFilterAuditor').value='';
   document.querySelectorAll('#readTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
   renderReadTable();
+}
+
+// ==================== CIJU CATEGORY MANAGER (词句分类) ====================
+let cijuCatData = [
+  {id:1,name:'成语'},{id:2,name:'古诗词'},{id:3,name:'名句'},{id:4,name:'文言文'}
+];
+let _cijuCatNextId=100;
+
+function renderCijuCategoryMgr(){
+  let h='';
+  cijuCatData.forEach((p,pi)=>{
+    h+='<div class="cat-mgr-parent">';
+    h+='<div class="cat-mgr-parent-header">';
+    h+='<div class="cat-mgr-parent-title" id="cijucat-display-'+p.id+'">';
+    h+='<span class="cat-mgr-parent-icon">'+(pi+1)+'</span>';
+    h+='<span>'+escHtml(p.name)+'</span>';
+    h+='</div>';
+    h+='<div class="cat-mgr-inline-edit" id="cijucat-edit-'+p.id+'" style="display:none">';
+    h+='<input id="cijucat-input-'+p.id+'" value="'+escAttr(p.name)+'">';
+    h+='<button class="btn btn-primary btn-sm" onclick="saveCijuCatEdit('+pi+','+p.id+')">保存</button>';
+    h+='<button class="btn btn-ghost btn-sm" onclick="renderCijuCategoryMgr()">取消</button>';
+    h+='</div>';
+    h+='<div class="cat-mgr-parent-actions">';
+    h+='<button class="btn btn-ghost btn-xs" onclick="editCijuCat('+p.id+')">编辑</button>';
+    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteCijuCat('+pi+')">删除</button>';
+    h+='</div>';
+    h+='</div>';
+    h+='</div>';
+  });
+  if(cijuCatData.length===0){
+    h='<div class="cat-mgr-empty">暂无分类，请点击上方按钮创建</div>';
+  }
+  $('cijuCatList').innerHTML=h;
+}
+
+function addCijuCategory(){
+  const name = prompt('请输入词句分类名称：');
+  if(!name||!name.trim()) return;
+  cijuCatData.push({id:++_cijuCatNextId,name:name.trim()});
+  renderCijuCategoryMgr();
+  updateCijuCatSelects();
+  showToast('分类已添加','success');
+}
+
+function editCijuCat(id){
+  const display = document.getElementById('cijucat-display-'+id);
+  const edit = document.getElementById('cijucat-edit-'+id);
+  if(display)display.style.display='none';
+  if(edit)edit.style.display='flex';
+  const inp = document.getElementById('cijucat-input-'+id);
+  if(inp){inp.focus();inp.select();}
+}
+
+function saveCijuCatEdit(pi,id){
+  const inp = document.getElementById('cijucat-input-'+id);
+  if(!inp||!inp.value.trim()){showToast('名称不能为空','error');return}
+  cijuCatData[pi].name = inp.value.trim();
+  renderCijuCategoryMgr();
+  updateCijuCatSelects();
+  showToast('名称已更新','success');
+}
+
+function deleteCijuCat(pi){
+  if(!confirm('确定删除分类「'+cijuCatData[pi].name+'」？')) return;
+  showToast('该分类下有词句内容，无法删除','error');
+}
+
+function updateCijuCatSelects(){
+  const ceSel=$('ceCatSelect'),cmSel=$('cmFilterCat');
+  if(ceSel){
+    let h='<option value="">请选择词句分类</option>';
+    cijuCatData.forEach(c=>h+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>');
+    ceSel.innerHTML=h;
+  }
+  if(cmSel){
+    let h='<option value="">全部</option>';
+    cijuCatData.forEach(c=>h+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>');
+    cmSel.innerHTML=h;
+  }
+}
+
+// ==================== CIJU ENTRY (词句录入) ====================
+function initCijuEntry(){
+  updateCijuCatSelects();
+  $('ceCatSelect').value='';
+  $('ceTitle').value='';
+  $('ceContent').innerHTML='<p>请输入词句内容...</p>';
+}
+
+function execCeRichtext(cmd){
+  document.execCommand(cmd,false,null);
+  $('ceContent').focus();
+}
+
+function clearCeForm(){
+  $('ceCatSelect').value='';
+  $('ceTitle').value='';
+  $('ceContent').innerHTML='<p>请输入词句内容...</p>';
+  updateCePreview();
+  showToast('表单已清空','success');
+}
+
+function updateCePreview(){
+  const catId=$('ceCatSelect').value;
+  const title=$('ceTitle').value.trim();
+  const content=$('ceContent').innerHTML;
+  const tmp=document.createElement('div');tmp.innerHTML=content;
+  const contentText=tmp.textContent.trim();
+  if(!title&&(!contentText||contentText==='请输入词句内容...')){
+    $('ceLivePreview').innerHTML='<span style="color:#9ca3af">填写标题和内容后，此处将展示预览效果</span>';
+    return;
+  }
+  let h='';
+  if(title) h+='<div class="ve-preview-word">'+escHtml(title)+'</div>';
+  if(catId){
+    const cat=cijuCatData.find(c=>c.id===parseInt(catId));
+    if(cat) h+='<span class="ve-preview-cat">'+escHtml(cat.name)+'</span>';
+  }
+  if(contentText&&contentText!=='请输入词句内容...'){
+    h+='<div class="ve-preview-def">'+content+'</div>';
+  }
+  $('ceLivePreview').innerHTML=h||'<span style="color:#9ca3af">填写标题和内容后，此处将展示预览效果</span>';
+}
+
+function saveCeWord(){
+  const catId=$('ceCatSelect').value;
+  const title=$('ceTitle').value.trim();
+  const content=$('ceContent').innerHTML;
+  if(!catId){showToast('请选择词句分类','error');return;}
+  if(!title){showToast('请输入标题','error');return;}
+  const tmpC=document.createElement('div');tmpC.innerHTML=content;
+  const contentText=tmpC.textContent.trim();
+  if(!contentText||contentText==='请输入词句内容...'){showToast('请输入词句内容','error');return;}
+  const cat=cijuCatData.find(c=>c.id===parseInt(catId));
+  cijuMgrData.push({id:++_cijuMgrNextId,title:title,content:content,catId:parseInt(catId),catName:cat?cat.name:'',status:'reviewing',createTime:new Date().toISOString().slice(0,10),creator:'张老师',auditTime:'',auditor:''});
+  showToast('词句已保存：'+title,'success');
+  clearCeForm();
+}
+
+// ==================== CIJU MANAGER (词句管理) ====================
+let cijuMgrData = [
+  {id:3001,title:'但愿人长久，千里共婵娟',content:'<p>《水调歌头·明月几时有》是宋代文学家苏轼的词作。此词是中秋望月怀人之作，表达了对胞弟苏辙的无限怀念。</p><p>词人运用形象描绘手法，勾勒出一种皓月当空、美人千里、孤高旷远的境界氛围，反衬自己遗世独立的意绪和往昔的神话传说融合一处，在月的阴晴圆缺当中，渗进浓厚的哲学意味，可以说是一首将自然和社会高度契合的感喟作品。</p>',catId:3,catName:'名句',status:'published',createTime:'2026-06-15',creator:'张老师',auditTime:'2026-06-17',auditor:'李主任'},
+  {id:3002,title:'学而时习之，不亦说乎',content:'<p>出自《论语·学而》，是孔子弟子及再传弟子记录孔子及其弟子言行而编成的语录文集。</p><p>这句话的意思是：学习知识以后，在一定的时候温习它，不也是很愉快的吗！强调了学习与复习的重要性。</p>',catId:4,catName:'文言文',status:'published',createTime:'2026-06-18',creator:'王教研',auditTime:'2026-06-20',auditor:'李主任'},
+  {id:3003,title:'床前明月光，疑是地上霜',content:'<p>《静夜思》是唐代诗人李白所作的五言古诗。此诗描写了秋日夜晚，诗人于屋内抬头望月的所感。</p><p>诗中运用比喻、衬托等手法，表达客居思乡之情，语言清新朴素而韵味含蓄无穷，历来广为传诵。</p>',catId:2,catName:'古诗词',status:'published',createTime:'2026-06-20',creator:'赵老师',auditTime:'2026-06-22',auditor:'李主任'},
+  {id:3004,title:'画龙点睛',content:'<p>原形容梁代画家张僧繇作画的神妙。后多比喻写文章或讲话时，在关键处用几句话点明实质，使内容更加生动有力。</p><p>出处：唐·张彦远《历代名画记·张僧繇》："金陵安乐寺四白龙不点眼睛，每云：\'点睛即飞去。\'人以为妄诞，固请点之。须臾，雷电破壁，两龙乘云腾去上天，二龙未点眼者见在。"</p>',catId:1,catName:'成语',status:'reviewing',createTime:'2026-07-10',creator:'张老师',auditTime:'',auditor:''},
+  {id:3005,title:'满江红·写怀',content:'<p>怒发冲冠，凭栏处、潇潇雨歇。抬望眼，仰天长啸，壮怀激烈。三十功名尘与土，八千里路云和月。莫等闲、白了少年头，空悲切。</p><p>靖康耻，犹未雪。臣子恨，何时灭。驾长车，踏破贺兰山缺。壮志饥餐胡虏肉，笑谈渴饮匈奴血。待从头、收拾旧山河，朝天阙。</p>',catId:2,catName:'古诗词',status:'reviewing',createTime:'2026-07-12',creator:'王教研',auditTime:'',auditor:''},
+  {id:3006,title:'守株待兔',content:'<p>比喻死守狭隘经验，不知变通，也比喻妄想不劳而获。出自《韩非子·五蠹》。</p><p>宋人有耕者。田中有株，兔走触株，折颈而死。因释其耒而守株，冀复得兔。兔不可复得，而身为宋国笑。</p>',catId:1,catName:'成语',status:'rejected',createTime:'2026-07-05',creator:'赵老师',auditTime:'2026-07-07',auditor:'李主任',rejectReason:'内容解释不够完整，建议补充成语的用法和近反义词'},
+];
+let cijuMgrTab='published';
+let _cijuMgrNextId=3007;
+let cmFilters={cat:'',title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+
+function initCijuMgr(){
+  cijuMgrTab='published';
+  cmFilters={cat:'',title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+  updateCijuCatSelects();
+  $('cmFilterCat').value='';
+  $('cmFilterTitle').value='';
+  $('cmFilterCreateFrom').value='';
+  $('cmFilterCreateTo').value='';
+  $('cmFilterAuditFrom').value='';
+  $('cmFilterAuditTo').value='';
+  $('cmFilterCreator').value='';
+  $('cmFilterAuditor').value='';
+  document.querySelectorAll('#cmTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
+  renderCijuMgrTable();
+}
+
+function switchCmTab(tab){
+  cijuMgrTab=tab;
+  document.querySelectorAll('#cmTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  renderCijuMgrTable();
+}
+
+function onCmFilterChange(){
+  cmFilters.cat=$('cmFilterCat').value;
+  cmFilters.title=$('cmFilterTitle').value.trim();
+  cmFilters.createFrom=$('cmFilterCreateFrom').value;
+  cmFilters.createTo=$('cmFilterCreateTo').value;
+  cmFilters.auditFrom=$('cmFilterAuditFrom').value;
+  cmFilters.auditTo=$('cmFilterAuditTo').value;
+  cmFilters.creator=$('cmFilterCreator').value.trim();
+  cmFilters.auditor=$('cmFilterAuditor').value.trim();
+  renderCijuMgrTable();
+}
+
+function renderCijuMgrTable(){
+  let filtered=cijuMgrData.filter(v=>v.status===cijuMgrTab);
+  if(cmFilters.cat) filtered=filtered.filter(v=>v.catId===parseInt(cmFilters.cat));
+  if(cmFilters.title){const kw=cmFilters.title.toLowerCase();filtered=filtered.filter(v=>v.title.toLowerCase().includes(kw));}
+  if(cmFilters.createFrom) filtered=filtered.filter(v=>v.createTime>=cmFilters.createFrom);
+  if(cmFilters.createTo) filtered=filtered.filter(v=>v.createTime<=cmFilters.createTo);
+  if(cmFilters.auditFrom) filtered=filtered.filter(v=>v.auditTime>=cmFilters.auditFrom);
+  if(cmFilters.auditTo) filtered=filtered.filter(v=>v.auditTime<=cmFilters.auditTo);
+  if(cmFilters.creator){const kw=cmFilters.creator.toLowerCase();filtered=filtered.filter(v=>v.creator.toLowerCase().includes(kw));}
+  if(cmFilters.auditor){const kw=cmFilters.auditor.toLowerCase();filtered=filtered.filter(v=>v.auditor&&v.auditor.toLowerCase().includes(kw));}
+  const published=cijuMgrData.filter(v=>v.status==='published').length;
+  const reviewing=cijuMgrData.filter(v=>v.status==='reviewing').length;
+  const rejected=cijuMgrData.filter(v=>v.status==='rejected').length;
+  document.querySelectorAll('#cmTabs .vocablib-tab').forEach(t=>{
+    const c=t.querySelector('.count');
+    if(!c)return;
+    if(t.dataset.tab==='published')c.textContent=published;
+    if(t.dataset.tab==='reviewing')c.textContent=reviewing;
+    if(t.dataset.tab==='rejected')c.textContent=rejected;
+  });
+  if(filtered.length===0){
+    $('cmTableWrap').innerHTML='<div class="vocab-empty">暂无数据</div>';
+    return;
+  }
+  const showRejectCol=cijuMgrTab==='rejected';
+  let h='<table class="vocablib-table"><thead><tr><th>ID</th><th>标题</th><th>词句分类</th><th>状态</th>'+(showRejectCol?'<th>驳回原因</th>':'')+'<th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  filtered.forEach(v=>{
+    h+='<tr>';
+    h+='<td>'+v.id+'</td>';
+    h+='<td><span class="vocablib-word">'+escHtml(v.title)+'</span></td>';
+    h+='<td>'+escHtml(v.catName)+'</td>';
+    h+='<td><span class="vocablib-status '+v.status+'">'+({published:'已发布',reviewing:'审核中',rejected:'已驳回'}[v.status])+'</span></td>';
+    if(showRejectCol) h+='<td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#991b1b" title="'+escAttr(v.rejectReason||'')+'">'+escHtml(v.rejectReason||'-')+'</td>';
+    h+='<td>'+v.createTime+'</td>';
+    h+='<td>'+escHtml(v.creator)+'</td>';
+    h+='<td>'+(v.auditTime||'-')+'</td>';
+    h+='<td>'+(v.auditor||'-')+'</td>';
+    h+='<td><span class="vocab-actions">';
+    h+='<button class="btn btn-ghost btn-xs" onclick="showCijuDetail('+v.id+')">详情</button>';
+    h+='<button class="btn btn-ghost btn-xs" onclick="editCijuItem('+v.id+')">编辑</button>';
+    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteCijuItem('+v.id+')">删除</button>';
+    h+='</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  $('cmTableWrap').innerHTML=h;
+}
+
+function showCijuDetail(id){
+  const v=cijuMgrData.find(r=>r.id===id);
+  if(!v)return;
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'已驳回'};
+  const html='<div class="vocablib-modal-overlay" onclick="closeCijuDetailModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()">\
+      <div class="vocablib-modal-header"><h3>词句详情 #'+v.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCijuDetailModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="vocablib-modal-card"><div class="card-title">基本信息</div>\
+          <div class="info-grid">\
+            <div class="info-item"><span class="info-lbl">标题</span><span class="info-val">'+escHtml(v.title)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">词句分类</span><span class="info-val">'+escHtml(v.catName)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+v.status+'">'+statusMap[v.status]+'</span></span></div>\
+            <div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(v.creator)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+v.createTime+'</span></div>\
+            <div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(v.auditor||'-')+'</span></div>\
+            <div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(v.auditTime||'-')+'</span></div>\
+          </div>\
+        </div>\
+        '+(v.status==='rejected'?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(v.rejectReason||'未填写')+'</div></div>':'')+'\
+        <div class="vocablib-modal-card"><div class="card-title">词句内容</div><div class="card-body">'+v.content+'</div></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCijuDetailModal();editCijuItem('+v.id+')">编辑</button>\
+        <button class="btn btn-primary btn-sm" onclick="closeCijuDetailModal()">关闭</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cijuDetailWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCijuDetailModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cijuDetailWrap');
+  if(wrap)wrap.remove();
+}
+
+function editCijuItem(id){
+  closeCijuDetailModal();
+  const v=cijuMgrData.find(r=>r.id===id);
+  if(!v)return;
+  let catOpts='';
+  cijuCatData.forEach(c=>catOpts+='<option value="'+c.id+'"'+(c.id===v.catId?' selected':'')+'>'+escHtml(c.name)+'</option>');
+  const html='<div class="vocablib-modal-overlay" onclick="closeCijuEditModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:700px">\
+      <div class="vocablib-modal-header"><h3>编辑词句 #'+v.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCijuEditModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 词句分类</label>\
+          <select class="form-select" id="ceEditCat">'+catOpts+'</select>\
+        </div>\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 标题</label>\
+          <input class="vocablib-edit-input" id="ceEditTitle" value="'+escAttr(v.title)+'" placeholder="请输入词句标题">\
+        </div>\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 内容</label>\
+          <div class="ve-content-box" style="min-height:200px">\
+            <div class="ve-richtext-toolbar">\
+              <button class="ve-rt-btn" onclick="execCeEditRichtext(\'bold\')" title="加粗"><b>B</b></button>\
+              <button class="ve-rt-btn" onclick="execCeEditRichtext(\'italic\')" title="斜体"><i>I</i></button>\
+              <button class="ve-rt-btn" onclick="execCeEditRichtext(\'underline\')" title="下划线"><u>U</u></button>\
+              <span class="ve-rt-sep"></span>\
+              <button class="ve-rt-btn" onclick="execCeEditRichtext(\'insertUnorderedList\')" title="无序列表">•≡</button>\
+              <button class="ve-rt-btn" onclick="execCeEditRichtext(\'insertOrderedList\')" title="有序列表">1.</button>\
+            </div>\
+            <div class="ve-richtext-body" id="ceEditContent" contenteditable="true">'+v.content+'</div>\
+          </div>\
+        </div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCijuEditModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="saveCijuEdit('+v.id+')">保存修改</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cijuEditWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCijuEditModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cijuEditWrap');
+  if(wrap)wrap.remove();
+}
+
+function execCeEditRichtext(cmd){
+  document.execCommand(cmd,false,null);
+  document.getElementById('ceEditContent').focus();
+}
+
+function saveCijuEdit(id){
+  const v=cijuMgrData.find(r=>r.id===id);
+  if(!v)return;
+  const catId=document.getElementById('ceEditCat').value;
+  const title=document.getElementById('ceEditTitle').value.trim();
+  const content=document.getElementById('ceEditContent').innerHTML;
+  if(!catId){showToast('请选择词句分类','error');return;}
+  if(!title){showToast('请输入标题','error');return;}
+  const tmpC=document.createElement('div');tmpC.innerHTML=content;
+  if(!tmpC.textContent.trim()){showToast('请输入内容','error');return;}
+  const cat=cijuCatData.find(c=>c.id===parseInt(catId));
+  v.catId=parseInt(catId);
+  v.catName=cat?cat.name:'';
+  v.title=title;
+  v.content=content;
+  closeCijuEditModal();
+  renderCijuMgrTable();
+  showToast('词句已更新','success');
+}
+
+function deleteCijuItem(id){
+  const v=cijuMgrData.find(r=>r.id===id);
+  if(!v)return;
+  if(!confirm('确定删除词句「'+v.title+'」？')) return;
+  cijuMgrData=cijuMgrData.filter(r=>r.id!==id);
+  renderCijuMgrTable();
+  showToast('已删除','success');
+}
+
+// ==================== CIJU BATCH IMPORT (词句批量导入) ====================
+let _cijuImportRows=[];
+
+function openCijuImportModal(){
+  const html='<div class="vocablib-modal-overlay" onclick="closeCijuImportModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:600px">\
+      <div class="vocablib-modal-header"><h3>批量导入词句</h3><button class="vocablib-modal-close-btn" onclick="closeCijuImportModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="import-steps">\
+          <div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载导入模板</div><div class="step-desc">模板包含「词句分类、标题、内容」三列</div></div></div>\
+          <div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">词句分类需与系统已有分类名称一致</div></div></div>\
+          <div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">支持 .xls / .csv 格式文件</div></div></div>\
+        </div>\
+        <button class="btn btn-outline btn-sm" onclick="downloadCijuImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>\
+        <div class="upload-zone" onclick="document.getElementById(\'cijuImportFileInput\').click()">\
+          <div class="upload-zone-icon">&#128196;</div>\
+          <div class="upload-zone-text">点击选择导入文件<br><strong>支持 .xls / .csv 格式</strong></div>\
+        </div>\
+        <input type="file" id="cijuImportFileInput" accept=".xls,.csv,.xlsx" style="display:none" onchange="handleCijuImportFile(this)">\
+        <div id="cijuImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCijuImportModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="processCijuImport()">开始导入</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cijuImportWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCijuImportModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cijuImportWrap');
+  if(wrap)wrap.remove();
+  _cijuImportRows=[];
+}
+
+function downloadCijuImportTemplate(){
+  const header=['词句分类','标题','内容'];
+  const sampleRows=[
+    ['古诗词','静夜思','床前明月光，疑是地上霜。举头望明月，低头思故乡。'],
+    ['成语','画龙点睛','比喻写文章或讲话时，在关键处用几句话点明实质，使内容更加生动有力。']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1">';
+  html+='<tr>';
+  header.forEach(function(h){html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});
+  html+='</tr>';
+  sampleRows.forEach(function(row){
+    html+='<tr>';
+    row.forEach(function(c){html+='<td style="padding:4px 8px">'+c+'</td>';});
+    html+='</tr>';
+  });
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='词句批量导入模板.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast('模板已下载','success');
+}
+
+function handleCijuImportFile(input){
+  const f=input.files[0];
+  if(!f)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const text=e.target.result;
+    _cijuImportRows=parseCijuImportText(text);
+    const info=$('cijuImportFileInfo');
+    if(info){info.style.display='block';info.textContent='已选择：'+f.name+'（解析到 '+_cijuImportRows.length+' 条数据）';}
+    else showToast('已解析 '+_cijuImportRows.length+' 条数据','success');
+  };
+  reader.readAsText(f,'UTF-8');
+}
+
+function parseCijuImportText(text){
+  const rows=[];
+  if(!text)return rows;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  text=text.trim();
+  if(!text)return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    const trs=doc.querySelectorAll('table tr');
+    trs.forEach(function(tr,ti){
+      if(ti===0)return;
+      const tds=tr.querySelectorAll('th,td');
+      const cells=[];
+      tds.forEach(function(td){cells.push(td.textContent.trim());});
+      if(cells.length>=3&&cells[0]&&cells[1]&&cells[2]){
+        rows.push({cat:cells[0],title:cells[1],content:cells[2]});
+      }
+    });
+  }else{
+    const lines=text.split(/\r?\n/);
+    lines.forEach(function(line,li){
+      if(li===0)return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=3&&cells[0]&&cells[1]&&cells[2]){
+        rows.push({cat:cells[0],title:cells[1],content:cells[2]});
+      }
+    });
+  }
+  return rows;
+}
+
+function parseCsvLine(line){
+  const cells=[];
+  let cur='';
+  let inQuotes=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(inQuotes){
+      if(c==='"'){
+        if(line[i+1]==='"'){cur+='"';i++;}
+        else inQuotes=false;
+      }else cur+=c;
+    }else{
+      if(c==='"')inQuotes=true;
+      else if(c===','){cells.push(cur);cur='';}
+      else cur+=c;
+    }
+  }
+  cells.push(cur);
+  return cells.map(function(s){return s.trim();});
+}
+
+function processCijuImport(){
+  if(_cijuImportRows.length===0){showToast('请先选择要导入的文件','error');return;}
+  let added=0,skipped=0;
+  _cijuImportRows.forEach(function(row){
+    const cat=cijuCatData.find(function(c){return c.name===row.cat;});
+    if(!cat){skipped++;return;}
+    cijuMgrData.push({
+      id:++_cijuMgrNextId,
+      title:row.title,
+      content:'<p>'+escHtml(row.content).replace(/\n/g,'</p><p>')+'</p>',
+      catId:cat.id,
+      catName:cat.name,
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'张老师',
+      auditTime:'',
+      auditor:''
+    });
+    added++;
+  });
+  closeCijuImportModal();
+  if(added===0){showToast('导入失败：词句分类不匹配或数据无效','error');return;}
+  cijuMgrTab='reviewing';
+  document.querySelectorAll('#cmTabs .vocablib-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab==='reviewing');});
+  renderCijuMgrTable();
+  showToast('成功导入 '+added+' 条词句'+(skipped>0?'，'+skipped+' 条因分类不匹配跳过':''),'success');
+}
+
+// ==================== YUWEN READING ENTRY (阅读文章录入-语文) ====================
+let yreQuestions = [];
+let _yreQid=1;
+
+function initYuwenReadEntry(){
+  $('yreTitle').value='';
+  $('yreContent').innerHTML='<p>请输入文章内容...</p>';
+  yreQuestions=[];
+  _yreQid=1;
+  renderYreQuestionList();
+}
+
+function execYreRichtext(cmd){
+  document.execCommand(cmd,false,null);
+  $('yreContent').focus();
+}
+
+function addYreQuestion(type){
+  const defaults={choice:{options:['','','',''],score:3},fill:{options:[],score:2},answer:{options:[],score:5}};
+  const q={id:_yreQid++,type:type,stem:'',options:defaults[type].options||[],correctAnswer:'',score:defaults[type].score};
+  yreQuestions.push(q);
+  renderYreQuestionList();
+}
+
+function removeYreQuestion(qid){
+  yreQuestions=yreQuestions.filter(q=>q.id!==qid);
+  renderYreQuestionList();
+}
+
+function updateYreTotalScore(){
+  const total=yreQuestions.reduce((s,q)=>s+(parseInt(q.score)||0),0);
+  const el=$('yreTotalScore');
+  if(el)el.textContent='总分：'+total+' 分';
+  const el2=$('yreEditTotalScore');
+  if(el2)el2.textContent='总分：'+total+' 分';
+}
+
+function renderYreQuestionList(){
+  updateYreTotalScore();
+  const container=$('yreQuestionList');
+  if(yreQuestions.length===0){
+    container.style.textAlign='center';
+    container.innerHTML='<div style="padding:20px;color:#9ca3af">暂无关联题目，请点击上方按钮添加</div>';
+    return;
+  }
+  container.style.textAlign='';
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let h='';
+  yreQuestions.forEach((q,qi)=>{
+    h+='<div class="yre-q-card" id="yre-q-'+q.id+'">';
+    h+='<div class="yre-q-card-header">';
+    h+='<div class="yre-q-card-header-left">';
+    h+='<span class="yre-q-card-num">题目 #'+(qi+1)+'</span>';
+    h+='<span class="yre-q-card-type '+q.type+'">'+typeLabel[q.type]+'</span>';
+    h+='<span class="yre-q-card-score">'+q.score+' 分</span>';
+    h+='</div>';
+    h+='<button class="yre-q-card-del" onclick="removeYreQuestion('+q.id+')">删除</button>';
+    h+='</div>';
+    h+='<div class="yre-q-card-body">';
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+    h+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updateYreQStem('+q.id+',this.value)" placeholder="请输入题目题干"></div>';
+    if(q.type==='choice'){
+      h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项</div>';
+      h+='<div class="yre-q-options-grid">';
+      ['A','B','C','D'].forEach((l,i)=>{
+        h+='<div class="yre-q-option-row">';
+        h+='<span class="yre-q-option-letter">'+l+'.</span>';
+        h+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updateYreQOption('+q.id+','+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+        h+='</div>';
+      });
+      h+='</div></div>';
+    }
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 分值</div>';
+    h+='<input class="form-input yre-q-score-input" type="number" value="'+q.score+'" onchange="updateYreQScore('+q.id+',this.value)" min="0" max="100"></div>';
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 答案与解析</div>';
+    h+='<textarea class="form-textarea" onchange="updateYreQAnswer('+q.id+',this.value)" placeholder="请输入正确答案及解析说明" style="min-height:70px">'+escHtml(q.correctAnswer)+'</textarea></div>';
+    h+='</div></div>';
+  });
+  container.innerHTML=h;
+}
+
+function updateYreQStem(qid,val){const q=yreQuestions.find(x=>x.id===qid);if(q)q.stem=val;}
+function updateYreQOption(qid,oi,val){const q=yreQuestions.find(x=>x.id===qid);if(q)q.options[oi]=val;}
+function updateYreQAnswer(qid,val){const q=yreQuestions.find(x=>x.id===qid);if(q)q.correctAnswer=val;}
+function updateYreQScore(qid,val){const q=yreQuestions.find(x=>x.id===qid);if(q){q.score=parseInt(val)||0;updateYreTotalScore();const b1=document.querySelector('#yre-q-'+qid+' .yre-q-card-score');if(b1)b1.textContent=q.score+' 分';const b2=document.querySelector('#yre-edit-q-'+qid+' .yre-q-card-score');if(b2)b2.textContent=q.score+' 分';}}
+
+function clearYreForm(){
+  $('yreTitle').value='';
+  $('yreContent').innerHTML='<p>请输入文章内容...</p>';
+  yreQuestions=[];
+  _yreQid=1;
+  renderYreQuestionList();
+  showToast('表单已清空','success');
+}
+
+function saveYreArticle(){
+  const title=$('yreTitle').value.trim();
+  const content=$('yreContent').innerHTML;
+  if(!title){showToast('请输入文章标题','error');return;}
+  const tmpC=document.createElement('div');tmpC.innerHTML=content;
+  if(!tmpC.textContent.trim()||tmpC.textContent.trim()==='请输入文章内容...'){showToast('请输入文章内容','error');return;}
+  for(let i=0;i<yreQuestions.length;i++){
+    const q=yreQuestions[i];
+    if(!q.stem.trim()){showToast('题目 #'+(i+1)+' 题干不能为空','error');return;}
+    if(q.type==='choice'&&q.options.some(o=>!o.trim())){showToast('题目 #'+(i+1)+' 选项不能为空','error');return;}
+    if(!q.correctAnswer.trim()){showToast('题目 #'+(i+1)+' 答案与解析不能为空','error');return;}
+    if(!q.score||q.score<=0){showToast('题目 #'+(i+1)+' 分值必须大于0','error');return;}
+  }
+  yuwenReadData.push({
+    id:++_yrmNextId,
+    title:title,
+    content:content,
+    questions:JSON.parse(JSON.stringify(yreQuestions)),
+    status:'reviewing',
+    createTime:new Date().toISOString().slice(0,10),
+    creator:'张老师',
+    auditTime:'',
+    auditor:''
+  });
+  showToast('文章已保存：'+title+'（含'+yreQuestions.length+'道题目）','success');
+  clearYreForm();
+}
+
+// ==================== YUWEN READING MANAGER (阅读文章管理-语文) ====================
+let yuwenReadData = [
+  {id:4001,title:'荷塘月色（节选）',content:'<p>曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。</p><p>层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。</p>',questions:[{id:1,type:'choice',stem:'作者描写荷叶时使用的修辞手法是什么？',options:['拟人','比喻','夸张','排比'],correctAnswer:'正确答案：B（比喻）。作者将荷叶比作"亭亭的舞女的裙"，运用了比喻的修辞手法，生动形象地写出了荷叶高挑、优美、舒展的姿态。',score:4},{id:2,type:'answer',stem:'请分析"袅娜"一词的表达效果。',correctAnswer:'"袅娜"形容女子体态轻盈柔美。文中用"袅娜"来描写荷花，运用了拟人的修辞手法，赋予荷花以女性柔美的气质，生动地写出了荷花开放时柔美、轻盈、优雅的姿态，表达了作者对荷花的喜爱之情。',score:6}],status:'published',createTime:'2026-06-10',creator:'张老师',auditTime:'2026-06-12',auditor:'李主任'},
+  {id:4002,title:'岳阳楼记',content:'<p>庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上，属予作文以记之。</p><p>予观夫巴陵胜状，在洞庭一湖。衔远山，吞长江，浩浩汤汤，横无际涯，朝晖夕阴，气象万千，此则岳阳楼之大观也，前人之述备矣。</p>',questions:[{id:1,type:'choice',stem:'"政通人和，百废具兴"中的"具"是什么意思？',options:['工具','通"俱"，全、都','具有','具体'],correctAnswer:'正确答案：B。"具"通"俱"，全都的意思。"百废具兴"意为各种荒废的事业都兴办起来了，表现了滕子京治理巴陵的政绩。',score:3},{id:2,type:'fill',stem:'"衔远山，吞长江"中的"衔"和"吞"运用了____的修辞手法。',correctAnswer:'拟人。"衔"意为含着，"吞"意为吞下，这两个动词将洞庭湖人格化，生动地写出了洞庭湖与远山、长江的关系——含着远山、吞吐长江，气势磅礴。',score:3}],status:'published',createTime:'2026-06-12',creator:'王教研',auditTime:'2026-06-14',auditor:'李主任'},
+  {id:4003,title:'祝福（节选）',content:'<p>旧历的年底毕竟最像年底，村镇上不必说，就在天空中也显出将到新年的气象来。灰白色的沉重的晚云中间时时发出闪光，接着一声钝响，是送灶的爆竹；近处燃放的可就更强烈了，震耳的大音还没有息，空气里已经散满了幽微的火药香。</p>',questions:[{id:1,type:'choice',stem:'这段文字营造了怎样的氛围？',options:['欢快热烈','阴冷沉重','宁静祥和','悲伤凄凉'],correctAnswer:'正确答案：B（阴冷沉重）。"灰白色"、"沉重"、"钝响"等词语渲染出压抑、沉闷的氛围，与过年本应有的喜庆形成对比，暗示了祥林嫂的悲剧命运。',score:4},{id:2,type:'answer',stem:'分析文中"灰白色"、"沉重"等词语的作用。',correctAnswer:'这些词语从视觉（灰白色）、感觉（沉重）等角度，渲染了一种压抑、沉闷的气氛。年关将至，本应喜庆，作者却以灰暗沉重的笔调开篇，与过年应有的喜庆形成鲜明对比，为祥林嫂的悲剧命运埋下了伏笔，体现了鲁迅"将人生有价值的东西毁灭给人看"的悲剧意识。',score:6}],status:'reviewing',createTime:'2026-07-08',creator:'赵老师',auditTime:'',auditor:''},
+  {id:4004,title:'故都的秋',content:'<p>秋天，无论在什么地方的秋天，总是好的；可是啊，北国的秋，却特别地来得清，来得静，来得悲凉。我的不远千里，要从杭州赶上青岛，更要从青岛赶上北平来的理由，也不过想饱尝一尝这"秋"，这故都的秋味。</p>',questions:[{id:1,type:'choice',stem:'作者说北国的秋"来得清，来得静，来得悲凉"，使用了什么修辞？',options:['比喻','拟人','排比','反复'],correctAnswer:'正确答案：C（排比）。"来得清，来得静，来得悲凉"三个分句结构相同、意义相关、语气一致，构成了排比句式，增强了语言的气势和节奏感，突出表现了故都之秋的独特韵味。',score:3},{id:2,type:'answer',stem:'结合全文，分析作者为什么"不远千里"要从杭州赶到北平来？',correctAnswer:'作者不远千里从杭州赶到北平，是为了饱尝故都的秋味。在作者笔下，南国的秋"色彩不浓，回味不永"，而北国的秋则"清、静、悲凉"，色彩浓烈、回味隽永。这体现了作者对故都北京深切的眷恋之情，以及对那种独特审美趣味的追求。',score:7}],status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:''},
+  {id:4005,title:'赤壁赋',content:'<p>壬戌之秋，七月既望，苏子与客泛舟游于赤壁之下。清风徐来，水波不兴。举酒属客，诵明月之诗，歌窈窕之章。</p><p>少焉，月出于东山之上，徘徊于斗牛之间。白露横江，水光接天。纵一苇之所如，凌万顷之茫然。</p>',questions:[{id:1,type:'answer',stem:'翻译"纵一苇之所如，凌万顷之茫然"。',correctAnswer:'任凭小船在茫茫无际的江面上飘荡，越过那浩瀚无边的江面。"一苇"比喻小船，语出《诗经》；"万顷"形容江面广阔；"茫然"形容江水浩渺无边。这两句写出了作者泛舟江上、超然物外的自由心境。',score:5},{id:2,type:'choice',stem:'"月出于东山之上，徘徊于斗牛之间"中"徘徊"一词的作用是什么？',options:['形容月亮移动缓慢','表现作者流连忘返','运用拟人手法赋予月亮情感','暗示时间已晚'],correctAnswer:'正确答案：C。"徘徊"一词运用了拟人修辞，将月亮人格化，仿佛月亮也有了情感，不愿离去，在斗宿和牛宿之间来回移动。这个词生动地写出了月光的柔和、月亮的徐徐升起，营造出宁静悠远的意境。',score:5}],status:'rejected',createTime:'2026-07-03',creator:'王教研',auditTime:'2026-07-05',auditor:'李主任',rejectReason:'题目数量偏少，建议增加2-3道选择题以增强对重点词句的考查'},
+];
+let yrmTab='published';
+let _yrmNextId=4006;
+let yrmFilters={title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+
+function initYuwenReadMgr(){
+  yrmTab='published';
+  yrmFilters={title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+  $('yrmFilterTitle').value='';
+  $('yrmFilterCreateFrom').value='';
+  $('yrmFilterCreateTo').value='';
+  $('yrmFilterAuditFrom').value='';
+  $('yrmFilterAuditTo').value='';
+  $('yrmFilterCreator').value='';
+  $('yrmFilterAuditor').value='';
+  document.querySelectorAll('#yrmTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
+  renderYrmTable();
+}
+
+function switchYrmTab(tab){
+  yrmTab=tab;
+  document.querySelectorAll('#yrmTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  renderYrmTable();
+}
+
+function onYrmFilterChange(){
+  yrmFilters.title=$('yrmFilterTitle').value.trim();
+  yrmFilters.createFrom=$('yrmFilterCreateFrom').value;
+  yrmFilters.createTo=$('yrmFilterCreateTo').value;
+  yrmFilters.auditFrom=$('yrmFilterAuditFrom').value;
+  yrmFilters.auditTo=$('yrmFilterAuditTo').value;
+  yrmFilters.creator=$('yrmFilterCreator').value.trim();
+  yrmFilters.auditor=$('yrmFilterAuditor').value.trim();
+  renderYrmTable();
+}
+
+function renderYrmTable(){
+  let filtered=yuwenReadData.filter(a=>a.status===yrmTab);
+  if(yrmFilters.title){const kw=yrmFilters.title.toLowerCase();filtered=filtered.filter(a=>a.title.toLowerCase().includes(kw));}
+  if(yrmFilters.createFrom) filtered=filtered.filter(a=>a.createTime>=yrmFilters.createFrom);
+  if(yrmFilters.createTo) filtered=filtered.filter(a=>a.createTime<=yrmFilters.createTo);
+  if(yrmFilters.auditFrom) filtered=filtered.filter(a=>a.auditTime>=yrmFilters.auditFrom);
+  if(yrmFilters.auditTo) filtered=filtered.filter(a=>a.auditTime<=yrmFilters.auditTo);
+  if(yrmFilters.creator){const kw=yrmFilters.creator.toLowerCase();filtered=filtered.filter(a=>a.creator.toLowerCase().includes(kw));}
+  if(yrmFilters.auditor){const kw=yrmFilters.auditor.toLowerCase();filtered=filtered.filter(a=>a.auditor&&a.auditor.toLowerCase().includes(kw));}
+  const published=yuwenReadData.filter(a=>a.status==='published').length;
+  const reviewing=yuwenReadData.filter(a=>a.status==='reviewing').length;
+  const rejected=yuwenReadData.filter(a=>a.status==='rejected').length;
+  document.querySelectorAll('#yrmTabs .vocablib-tab').forEach(t=>{
+    const c=t.querySelector('.count');
+    if(!c)return;
+    if(t.dataset.tab==='published')c.textContent=published;
+    if(t.dataset.tab==='reviewing')c.textContent=reviewing;
+    if(t.dataset.tab==='rejected')c.textContent=rejected;
+  });
+  if(filtered.length===0){
+    $('yrmTableWrap').innerHTML='<div class="vocab-empty">暂无数据</div>';
+    return;
+  }
+  const showRejectCol=yrmTab==='rejected';
+  let h='<table class="vocablib-table"><thead><tr><th>ID</th><th>标题</th><th>题目数</th><th>状态</th>'+(showRejectCol?'<th>驳回原因</th>':'')+'<th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  filtered.forEach(a=>{
+    h+='<tr>';
+    h+='<td>'+a.id+'</td>';
+    h+='<td><span class="vocablib-word">'+escHtml(a.title)+'</span></td>';
+    h+='<td>'+(a.questions?a.questions.length:0)+'</td>';
+    h+='<td><span class="vocablib-status '+a.status+'">'+({published:'已发布',reviewing:'审核中',rejected:'已驳回'}[a.status])+'</span></td>';
+    if(showRejectCol) h+='<td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#991b1b" title="'+escAttr(a.rejectReason||'')+'">'+escHtml(a.rejectReason||'-')+'</td>';
+    h+='<td>'+a.createTime+'</td>';
+    h+='<td>'+escHtml(a.creator)+'</td>';
+    h+='<td>'+(a.auditTime||'-')+'</td>';
+    h+='<td>'+(a.auditor||'-')+'</td>';
+    h+='<td><span class="vocab-actions">';
+    h+='<button class="btn btn-ghost btn-xs" onclick="showYuwenReadDetail('+a.id+')">详情</button>';
+    h+='<button class="btn btn-ghost btn-xs" onclick="editYuwenReadArticle('+a.id+')">编辑</button>';
+    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteYuwenReadArticle('+a.id+')">删除</button>';
+    h+='</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  $('yrmTableWrap').innerHTML=h;
+}
+
+function showYuwenReadDetail(id){
+  const a=yuwenReadData.find(r=>r.id===id);
+  if(!a)return;
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'已驳回'};
+  const typeMap={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let totalScore=0;
+  let qhtml='';
+  if(a.questions&&a.questions.length>0){
+    a.questions.forEach((q,qi)=>{
+      totalScore+=(q.score||0);
+      qhtml+='<div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;background:#fafbfc">';
+      qhtml+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">';
+      qhtml+='<span style="font-size:13px;font-weight:700">题目 #'+(qi+1)+'</span>';
+      qhtml+='<span style="font-size:11px;font-weight:500;color:#fff;background:var(--primary);padding:2px 8px;border-radius:8px">'+(typeMap[q.type]||q.type)+'</span>';
+      qhtml+='<span style="font-size:11px;color:var(--primary);background:#eff6ff;padding:2px 8px;border-radius:8px;font-weight:600">'+(q.score||0)+'分</span>';
+      qhtml+='</div>';
+      qhtml+='<div style="font-size:13px;margin-bottom:4px"><b>题干：</b>'+escHtml(q.stem)+'</div>';
+      if(q.type==='choice'){
+        const labels=['A','B','C','D'];
+        q.options.forEach((o,i)=>qhtml+='<div style="font-size:13px;margin-left:16px">'+labels[i]+'. '+escHtml(o)+'</div>');
+      }
+      qhtml+='<div style="font-size:13px;margin-top:6px;padding:8px;background:#f0fdf4;border-radius:6px;border:1px solid #bbf7d0"><b>答案与解析：</b>'+escHtml(q.correctAnswer||'-')+'</div>';
+      qhtml+='</div>';
+    });
+  } else {
+    qhtml='<div style="color:#9ca3af;font-size:13px">无关联题目</div>';
+  }
+  const html='<div class="vocablib-modal-overlay read-modal-wide" onclick="closeYuwenReadDetailModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()">\
+      <div class="vocablib-modal-header"><h3>文章详情 #'+a.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeYuwenReadDetailModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="vocablib-modal-card"><div class="card-title">基本信息</div>\
+          <div class="info-grid">\
+            <div class="info-item"><span class="info-lbl">文章标题</span><span class="info-val">'+escHtml(a.title)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+a.status+'">'+statusMap[a.status]+'</span></span></div>\
+            <div class="info-item"><span class="info-lbl">题目数</span><span class="info-val">'+(a.questions?a.questions.length:0)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">总分</span><span class="info-val">'+totalScore+'分</span></div>\
+            <div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(a.creator)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+a.createTime+'</span></div>\
+            <div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(a.auditor||'-')+'</span></div>\
+            <div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(a.auditTime||'-')+'</span></div>\
+          </div>\
+        </div>\
+        '+(a.status==='rejected'?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(a.rejectReason||'未填写')+'</div></div>':'')+'\
+        <div class="vocablib-modal-card"><div class="card-title">文章内容</div><div class="card-body">'+a.content+'</div></div>\
+        <div class="vocablib-modal-card"><div class="card-title">关联题目</div><div class="card-body">'+qhtml+'</div></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeYuwenReadDetailModal();editYuwenReadArticle('+a.id+')">编辑</button>\
+        <button class="btn btn-primary btn-sm" onclick="closeYuwenReadDetailModal()">关闭</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='yuwenReadDetailWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeYuwenReadDetailModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('yuwenReadDetailWrap');
+  if(wrap)wrap.remove();
+}
+
+function editYuwenReadArticle(id){
+  closeYuwenReadDetailModal();
+  closeYuwenReadEditModal();
+  const a=yuwenReadData.find(r=>r.id===id);
+  if(!a)return;
+  yreQuestions=a.questions?JSON.parse(JSON.stringify(a.questions)):[];
+  _yreQid=yreQuestions.length>0?Math.max(...yreQuestions.map(q=>q.id))+1:1;
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let totalScore=yreQuestions.reduce((s,q)=>s+(q.score||0),0);
+  let qhtml='';
+  if(yreQuestions.length===0){
+    qhtml='<div style="padding:20px;color:#9ca3af;text-align:center">暂无关联题目，请点击上方按钮添加</div>';
+  } else {
+    yreQuestions.forEach((q,qi)=>{
+      qhtml+='<div class="yre-q-card" id="yre-edit-q-'+q.id+'">';
+      qhtml+='<div class="yre-q-card-header">';
+      qhtml+='<div class="yre-q-card-header-left">';
+      qhtml+='<span class="yre-q-card-num">题目 #'+(qi+1)+'</span>';
+      qhtml+='<span class="yre-q-card-type '+q.type+'">'+typeLabel[q.type]+'</span>';
+      qhtml+='<span class="yre-q-card-score">'+q.score+' 分</span>';
+      qhtml+='</div>';
+      qhtml+='<button class="yre-q-card-del" onclick="removeYreQuestionEdit('+q.id+')">删除</button>';
+      qhtml+='</div>';
+      qhtml+='<div class="yre-q-card-body">';
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+      qhtml+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updateYreQStem('+q.id+',this.value)" placeholder="请输入题目题干"></div>';
+      if(q.type==='choice'){
+        qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项</div>';
+        qhtml+='<div class="yre-q-options-grid">';
+        ['A','B','C','D'].forEach((l,i)=>{
+          qhtml+='<div class="yre-q-option-row">';
+          qhtml+='<span class="yre-q-option-letter">'+l+'.</span>';
+          qhtml+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updateYreQOption('+q.id+','+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+          qhtml+='</div>';
+        });
+        qhtml+='</div></div>';
+      }
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 分值</div>';
+      qhtml+='<input class="form-input yre-q-score-input" type="number" value="'+q.score+'" onchange="updateYreQScore('+q.id+',this.value)" min="0" max="100"></div>';
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 答案与解析</div>';
+      qhtml+='<textarea class="form-textarea" onchange="updateYreQAnswer('+q.id+',this.value)" placeholder="请输入正确答案及解析说明" style="min-height:70px">'+escHtml(q.correctAnswer)+'</textarea></div>';
+      qhtml+='</div></div>';
+    });
+  }
+  const html='<div class="vocablib-modal-overlay read-modal-wide" onclick="closeYuwenReadEditModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:1100px;max-height:90vh;overflow-y:auto">\
+      <div class="vocablib-modal-header"><h3>编辑文章 #'+a.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeYuwenReadEditModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 文章标题</label>\
+          <input class="vocablib-edit-input" id="yreEditTitle" value="'+escAttr(a.title)+'" placeholder="请输入文章标题">\
+        </div>\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 文章内容</label>\
+          <div class="ve-content-box" style="min-height:200px">\
+            <div class="ve-richtext-toolbar">\
+              <button class="ve-rt-btn" onclick="execYreEditRichtext(\'bold\')" title="加粗"><b>B</b></button>\
+              <button class="ve-rt-btn" onclick="execYreEditRichtext(\'italic\')" title="斜体"><i>I</i></button>\
+              <button class="ve-rt-btn" onclick="execYreEditRichtext(\'underline\')" title="下划线"><u>U</u></button>\
+              <span class="ve-rt-sep"></span>\
+              <button class="ve-rt-btn" onclick="execYreEditRichtext(\'insertUnorderedList\')" title="无序列表">•≡</button>\
+              <button class="ve-rt-btn" onclick="execYreEditRichtext(\'insertOrderedList\')" title="有序列表">1.</button>\
+            </div>\
+            <div class="ve-richtext-body" id="yreEditContent" contenteditable="true" style="min-height:150px">'+a.content+'</div>\
+          </div>\
+        </div>\
+        <div class="vocablib-modal-card"><div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div style="display:flex;align-items:center;gap:12px"><span>关联题目</span><span id="yreEditTotalScore" style="font-size:13px;color:var(--primary);font-weight:600;background:#eff6ff;padding:4px 12px;border-radius:12px">总分：'+totalScore+' 分</span></div><div style="display:flex;gap:8px"><button class="btn btn-outline btn-sm" onclick="addYreQuestionEdit(\'choice\')">+ 选择题</button><button class="btn btn-outline btn-sm" onclick="addYreQuestionEdit(\'fill\')">+ 填空题</button><button class="btn btn-outline btn-sm" onclick="addYreQuestionEdit(\'answer\')">+ 解答题</button></div></div>\
+          <div id="yreEditQuestionList">'+qhtml+'</div>\
+        </div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeYuwenReadEditModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="saveYuwenReadEdit('+a.id+')">保存修改</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='yuwenReadEditWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeYuwenReadEditModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('yuwenReadEditWrap');
+  if(wrap)wrap.remove();
+}
+
+function execYreEditRichtext(cmd){
+  document.execCommand(cmd,false,null);
+  document.getElementById('yreEditContent').focus();
+}
+
+function addYreQuestionEdit(type){
+  const defaults={choice:{options:['','','',''],score:3},fill:{options:[],score:2},answer:{options:[],score:5}};
+  const q={id:_yreQid++,type:type,stem:'',options:defaults[type].options||[],correctAnswer:'',score:defaults[type].score};
+  yreQuestions.push(q);
+  refreshYreEditQuestionList();
+}
+
+function removeYreQuestionEdit(qid){
+  yreQuestions=yreQuestions.filter(q=>q.id!==qid);
+  refreshYreEditQuestionList();
+}
+
+function refreshYreEditQuestionList(){
+  const container=document.getElementById('yreEditQuestionList');
+  if(!container)return;
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let qhtml='';
+  if(yreQuestions.length===0){
+    container.style.textAlign='center';
+    qhtml='<div style="padding:20px;color:#9ca3af">暂无关联题目，请点击上方按钮添加</div>';
+  } else {
+    container.style.textAlign='';
+    yreQuestions.forEach((q,qi)=>{
+      qhtml+='<div class="yre-q-card" id="yre-edit-q-'+q.id+'">';
+      qhtml+='<div class="yre-q-card-header">';
+      qhtml+='<div class="yre-q-card-header-left">';
+      qhtml+='<span class="yre-q-card-num">题目 #'+(qi+1)+'</span>';
+      qhtml+='<span class="yre-q-card-type '+q.type+'">'+typeLabel[q.type]+'</span>';
+      qhtml+='<span class="yre-q-card-score">'+q.score+' 分</span>';
+      qhtml+='</div>';
+      qhtml+='<button class="yre-q-card-del" onclick="removeYreQuestionEdit('+q.id+')">删除</button>';
+      qhtml+='</div>';
+      qhtml+='<div class="yre-q-card-body">';
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+      qhtml+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updateYreQStem('+q.id+',this.value)" placeholder="请输入题目题干"></div>';
+      if(q.type==='choice'){
+        qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项</div>';
+        qhtml+='<div class="yre-q-options-grid">';
+        ['A','B','C','D'].forEach((l,i)=>{
+          qhtml+='<div class="yre-q-option-row">';
+          qhtml+='<span class="yre-q-option-letter">'+l+'.</span>';
+          qhtml+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updateYreQOption('+q.id+','+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+          qhtml+='</div>';
+        });
+        qhtml+='</div></div>';
+      }
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 分值</div>';
+      qhtml+='<input class="form-input yre-q-score-input" type="number" value="'+q.score+'" onchange="updateYreQScore('+q.id+',this.value)" min="0" max="100"></div>';
+      qhtml+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 答案与解析</div>';
+      qhtml+='<textarea class="form-textarea" onchange="updateYreQAnswer('+q.id+',this.value)" placeholder="请输入正确答案及解析说明" style="min-height:70px">'+escHtml(q.correctAnswer)+'</textarea></div>';
+      qhtml+='</div></div>';
+    });
+  }
+  container.innerHTML=qhtml;
+}
+
+function saveYuwenReadEdit(id){
+  const a=yuwenReadData.find(r=>r.id===id);
+  if(!a)return;
+  const title=document.getElementById('yreEditTitle').value.trim();
+  const content=document.getElementById('yreEditContent').innerHTML;
+  if(!title){showToast('请输入文章标题','error');return;}
+  const tmpC=document.createElement('div');tmpC.innerHTML=content;
+  if(!tmpC.textContent.trim()){showToast('请输入文章内容','error');return;}
+  for(let i=0;i<yreQuestions.length;i++){
+    const q=yreQuestions[i];
+    if(!q.stem.trim()){showToast('题目 #'+(i+1)+' 题干不能为空','error');return;}
+    if(q.type==='choice'&&q.options.some(o=>!o.trim())){showToast('题目 #'+(i+1)+' 选项不能为空','error');return;}
+    if(!q.correctAnswer.trim()){showToast('题目 #'+(i+1)+' 答案与解析不能为空','error');return;}
+    if(!q.score||q.score<=0){showToast('题目 #'+(i+1)+' 分值必须大于0','error');return;}
+  }
+  a.title=title;
+  a.content=content;
+  a.questions=JSON.parse(JSON.stringify(yreQuestions));
+  closeYuwenReadEditModal();
+  renderYrmTable();
+  showToast('文章已更新','success');
+}
+
+function deleteYuwenReadArticle(id){
+  const a=yuwenReadData.find(r=>r.id===id);
+  if(!a)return;
+  if(!confirm('确定删除文章「'+a.title+'」？')) return;
+  yuwenReadData=yuwenReadData.filter(r=>r.id!==id);
+  renderYrmTable();
+  showToast('已删除','success');
+}
+
+// ==================== CIJU AUDIT (语文词句审核) ====================
+let cjaTab='reviewing';
+let _currentCJAId=null;
+
+function initCijuAudit(){
+  cjaTab='reviewing';
+  $('cjaSearch').value='';
+  $('cjaCatFilter').value='';
+  $('cjaCreateFrom').value='';
+  $('cjaCreateTo').value='';
+  $('cjaAuditFrom').value='';
+  $('cjaAuditTo').value='';
+  $('cjaCreator').value='';
+  $('cjaAuditor').value='';
+  const sel=$('cjaCatFilter');
+  sel.innerHTML='<option value="">全部</option>';
+  cijuCatData.forEach(c=>{sel.innerHTML+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>';});
+  document.querySelectorAll('#cjaTabs .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderCJATable();
+}
+
+function switchCJATab(tab,el){
+  cjaTab=tab;
+  document.querySelectorAll('#cjaTabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderCJATable();
+}
+
+function getFilteredCJAData(){
+  let data=cijuMgrData.filter(d=>d.status===cjaTab);
+  const search=($('cjaSearch')||{}).value||'';
+  if(search){const kw=search.toLowerCase();data=data.filter(d=>d.title.toLowerCase().includes(kw));}
+  const cat=($('cjaCatFilter')||{}).value||'';
+  if(cat)data=data.filter(d=>d.catId===parseInt(cat));
+  const cf=($('cjaCreateFrom')||{}).value||'';
+  if(cf)data=data.filter(d=>d.createTime>=cf);
+  const ct=($('cjaCreateTo')||{}).value||'';
+  if(ct)data=data.filter(d=>d.createTime<=ct);
+  const af=($('cjaAuditFrom')||{}).value||'';
+  if(af)data=data.filter(d=>d.auditTime&&d.auditTime>=af);
+  const at=($('cjaAuditTo')||{}).value||'';
+  if(at)data=data.filter(d=>d.auditTime&&d.auditTime<=at);
+  const creator=($('cjaCreator')||{}).value||'';
+  if(creator){const kw=creator.toLowerCase();data=data.filter(d=>d.creator.toLowerCase().includes(kw));}
+  const auditor=($('cjaAuditor')||{}).value||'';
+  if(auditor){const kw=auditor.toLowerCase();data=data.filter(d=>d.auditor&&d.auditor.toLowerCase().includes(kw));}
+  return data;
+}
+
+function renderCJATable(){
+  const data=getFilteredCJAData();
+  const tbody=$('cjaTableBody');const empty=$('cjaEmpty');
+  if(!tbody)return;
+  if(data.length===0){tbody.innerHTML='';if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+  const statusMap={reviewing:'审核中',published:'已发布',rejected:'审核驳回'};
+  const badgeMap={reviewing:'badge-warning',published:'badge-success',rejected:'badge-danger'};
+  let h='';
+  data.forEach(d=>{
+    let opBtn='';
+    if(d.status==='reviewing')opBtn='<button class="btn btn-primary btn-xs" onclick="openCJADetailModal('+d.id+')">审核</button>';
+    else if(d.status==='rejected')opBtn='<button class="btn btn-outline btn-xs" onclick="openCJADetailModal('+d.id+')">查看</button>';
+    else opBtn='<button class="btn btn-ghost btn-xs" onclick="openCJADetailModal('+d.id+')">查看</button>';
+    h+='<tr><td><strong>'+escHtml(d.title)+'</strong></td><td>'+escHtml(d.catName||'')+'</td><td>'+escHtml(d.createTime)+'</td><td>'+escHtml(d.creator)+'</td><td><span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span></td><td>'+opBtn+'</td></tr>';
+  });
+  tbody.innerHTML=h;
+  updateCJABadge();
+}
+
+function updateCJABadge(){
+  const pendingCount=cijuMgrData.filter(d=>d.status==='reviewing').length;
+  const badge=$('cjaBadge');
+  if(badge){if(pendingCount>0){badge.textContent=pendingCount;badge.style.display='inline-block';}else{badge.style.display='none';}}
+  const tc=$('cjaPendingCount');if(tc)tc.textContent=pendingCount;
+}
+
+function resetCJAFilters(){
+  const ids=['cjaSearch','cjaCatFilter','cjaCreateFrom','cjaCreateTo','cjaAuditFrom','cjaAuditTo','cjaCreator','cjaAuditor'];
+  ids.forEach(id=>{const el=$(id);if(el)el.value='';});
+  renderCJATable();
+}
+
+function openCJADetailModal(id){
+  _currentCJAId=id;
+  const d=cijuMgrData.find(v=>v.id===id);
+  if(!d)return;
+  const statusMap={reviewing:'审核中',published:'已发布',rejected:'审核驳回'};
+  const badgeMap={reviewing:'badge-warning',published:'badge-success',rejected:'badge-danger'};
+  const statusBadge='<span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span>';
+  let html='<div class="vocablib-modal-overlay" onclick="closeCJADetailModal(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:750px;max-height:85vh;overflow-y:auto">'+
+    '<div class="vocablib-modal-header"><h3>词句详情 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCJADetailModal()">\u2715</button></div>'+
+    '<div class="video-detail-panel">'+
+    '<div class="video-detail-header"><span class="video-detail-title">'+escHtml(d.title)+'</span>'+statusBadge+'</div>'+
+    '<div class="vocablib-modal-card"><div class="card-title">基本信息</div>'+
+    '<div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">词句标题</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.title)+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">分类</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.catName||'')+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.creator)+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.createTime)+'</span></div>'+
+    (d.auditor?'<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.auditor)+'</span></div>':'')+
+    (d.auditTime?'<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.auditTime)+'</span></div>':'')+
+    '</div></div>'+
+    '<div class="vocablib-modal-card"><div class="card-title">词句内容</div><div class="card-body" style="font-size:14px;line-height:1.8;color:#374151">'+d.content+'</div></div>'+
+    (d.rejectReason?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(d.rejectReason||'未填写')+'</div></div>':'')+
+    (d.status==='reviewing'?'<p style="color:#92400e;font-size:13px;margin-top:12px">\u23f3 该词句正在待审核，请审核后决定通过或驳回。</p>':'')+
+    '</div>'+
+    '<div class="vocablib-modal-footer" id="cjaModalFooter">';
+  if(d.status==='reviewing'){
+    html+='<div id="cjaRejectPanel" style="display:none;width:100%;margin-bottom:12px">'+
+      '<div class="form-group"><label class="form-label"><span class="required">*</span> 驳回原因</label><textarea class="form-textarea" id="cjaRejectReason" placeholder="请填写驳回原因，以便录入人了解问题并进行修正" rows="3"></textarea></div></div>'+
+      '<button class="btn btn-ghost" onclick="closeCJADetailModal()">关闭</button>'+
+      '<button class="btn btn-danger" id="cjaRejectToggleBtn" onclick="cjaToggleReject()">驳回</button>'+
+      '<button class="btn btn-success" id="cjaApproveBtn" onclick="approveCJA('+d.id+')">审核通过</button>';
+  } else {
+    html+='<button class="btn btn-ghost" onclick="closeCJADetailModal()">关闭</button>';
+  }
+  html+='</div></div></div>';
+  const wrap=document.createElement('div');wrap.id='cjaDetailWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCJADetailModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cjaDetailWrap');if(wrap)wrap.remove();
+}
+
+function approveCJA(id){
+  const d=cijuMgrData.find(v=>v.id===id);
+  if(!d||d.status!=='reviewing')return;
+  d.status='published';d.auditor='审核员';d.auditTime=new Date().toISOString().slice(0,10);
+  d.rejectReason='';
+  closeCJADetailModal();renderCJATable();
+  showToast('词句「'+d.title+'」已审核通过','success');
+}
+
+function cjaToggleReject(){
+  const panel=$('cjaRejectPanel');
+  if(!panel)return;
+  if(panel.style.display==='none'||!panel.style.display){
+    panel.style.display='block';
+    const btns=document.querySelectorAll('#cjaModalFooter button');
+    if(btns.length>=3){btns[1].textContent='取消驳回';btns[1].classList.remove('btn-danger');btns[1].classList.add('btn-outline');}
+    if(btns.length>=2){btns[btns.length-1].textContent='确认驳回';btns[btns.length-1].classList.remove('btn-success');btns[btns.length-1].classList.add('btn-danger');btns[btns.length-1].setAttribute('onclick','confirmRejectCJA('+_currentCJAId+')');}
+    const ta=$('cjaRejectReason');if(ta)ta.focus();
+  } else {
+    panel.style.display='none';
+    $('cjaRejectReason').value='';
+    const btns=document.querySelectorAll('#cjaModalFooter button');
+    if(btns.length>=3){btns[1].textContent='驳回';btns[1].classList.remove('btn-outline');btns[1].classList.add('btn-danger');}
+    if(btns.length>=2){btns[btns.length-1].textContent='审核通过';btns[btns.length-1].classList.remove('btn-danger');btns[btns.length-1].classList.add('btn-success');btns[btns.length-1].setAttribute('onclick','approveCJA('+_currentCJAId+')');}
+  }
+}
+
+function confirmRejectCJA(id){
+  const reason=($('cjaRejectReason')||{}).value;
+  if(!reason||!reason.trim()){showToast('请填写驳回原因','error');return;}
+  const d=cijuMgrData.find(v=>v.id===id);
+  if(!d||d.status!=='reviewing')return;
+  d.status='rejected';d.auditor='审核员';d.auditTime=new Date().toISOString().slice(0,10);
+  d.rejectReason=reason.trim();
+  closeCJADetailModal();renderCJATable();
+  showToast('词句「'+d.title+'」已驳回','success');
+}
+
+// ==================== YUWEN READ AUDIT (语文阅读审核) ====================
+let yraTab='reviewing';
+let _currentYRAId=null;
+
+function initYuwenReadAudit(){
+  yraTab='reviewing';
+  $('yraSearch').value='';
+  $('yraCreateFrom').value='';
+  $('yraCreateTo').value='';
+  $('yraAuditFrom').value='';
+  $('yraAuditTo').value='';
+  $('yraCreator').value='';
+  $('yraAuditor').value='';
+  document.querySelectorAll('#yraTabs .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderYRATable();
+}
+
+function switchYRATab(tab,el){
+  yraTab=tab;
+  document.querySelectorAll('#yraTabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderYRATable();
+}
+
+function getFilteredYRAData(){
+  let data=yuwenReadData.filter(d=>d.status===yraTab);
+  const search=($('yraSearch')||{}).value||'';
+  if(search){const kw=search.toLowerCase();data=data.filter(d=>d.title.toLowerCase().includes(kw));}
+  const cf=($('yraCreateFrom')||{}).value||'';
+  if(cf)data=data.filter(d=>d.createTime>=cf);
+  const ct=($('yraCreateTo')||{}).value||'';
+  if(ct)data=data.filter(d=>d.createTime<=ct);
+  const af=($('yraAuditFrom')||{}).value||'';
+  if(af)data=data.filter(d=>d.auditTime&&d.auditTime>=af);
+  const at=($('yraAuditTo')||{}).value||'';
+  if(at)data=data.filter(d=>d.auditTime&&d.auditTime<=at);
+  const creator=($('yraCreator')||{}).value||'';
+  if(creator){const kw=creator.toLowerCase();data=data.filter(d=>d.creator.toLowerCase().includes(kw));}
+  const auditor=($('yraAuditor')||{}).value||'';
+  if(auditor){const kw=auditor.toLowerCase();data=data.filter(d=>d.auditor&&d.auditor.toLowerCase().includes(kw));}
+  return data;
+}
+
+function renderYRATable(){
+  const data=getFilteredYRAData();
+  const tbody=$('yraTableBody');const empty=$('yraEmpty');
+  if(!tbody)return;
+  if(data.length===0){tbody.innerHTML='';if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+  const statusMap={reviewing:'审核中',published:'已发布',rejected:'审核驳回'};
+  const badgeMap={reviewing:'badge-warning',published:'badge-success',rejected:'badge-danger'};
+  let h='';
+  data.forEach(d=>{
+    const qCount=d.questions?d.questions.length:0;
+    const totalScore=d.questions?d.questions.reduce((s,q)=>s+(q.score||0),0):0;
+    let opBtn='';
+    if(d.status==='reviewing')opBtn='<button class="btn btn-primary btn-xs" onclick="openYRADetailModal('+d.id+')">审核</button>';
+    else if(d.status==='rejected')opBtn='<button class="btn btn-outline btn-xs" onclick="openYRADetailModal('+d.id+')">查看</button>';
+    else opBtn='<button class="btn btn-ghost btn-xs" onclick="openYRADetailModal('+d.id+')">查看</button>';
+    h+='<tr><td><strong>'+escHtml(d.title)+'</strong></td><td>'+qCount+'</td><td>'+totalScore+'分</td><td>'+escHtml(d.createTime)+'</td><td>'+escHtml(d.creator)+'</td><td><span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span></td><td>'+opBtn+'</td></tr>';
+  });
+  tbody.innerHTML=h;
+  updateYRABadge();
+}
+
+function updateYRABadge(){
+  const pendingCount=yuwenReadData.filter(d=>d.status==='reviewing').length;
+  const badge=$('yraBadge');
+  if(badge){if(pendingCount>0){badge.textContent=pendingCount;badge.style.display='inline-block';}else{badge.style.display='none';}}
+  const tc=$('yraPendingCount');if(tc)tc.textContent=pendingCount;
+}
+
+function resetYRAFilters(){
+  const ids=['yraSearch','yraCreateFrom','yraCreateTo','yraAuditFrom','yraAuditTo','yraCreator','yraAuditor'];
+  ids.forEach(id=>{const el=$(id);if(el)el.value='';});
+  renderYRATable();
+}
+
+function openYRADetailModal(id){
+  _currentYRAId=id;
+  const d=yuwenReadData.find(v=>v.id===id);
+  if(!d)return;
+  const statusMap={reviewing:'审核中',published:'已发布',rejected:'审核驳回'};
+  const badgeMap={reviewing:'badge-warning',published:'badge-success',rejected:'badge-danger'};
+  const statusBadge='<span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span>';
+  const qCount=d.questions?d.questions.length:0;
+  const totalScore=d.questions?d.questions.reduce((s,q)=>s+(q.score||0),0):0;
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let qhtml='';
+  if(d.questions&&d.questions.length>0){
+    d.questions.forEach((q,qi)=>{
+      qhtml+='<div class="yre-q-card">'+
+        '<div class="yre-q-card-header"><div class="yre-q-card-header-left"><span class="yre-q-card-num">题目 #'+(qi+1)+'</span><span class="yre-q-card-type '+q.type+'">'+typeLabel[q.type]+'</span><span class="yre-q-card-score">'+q.score+' 分</span></div></div>'+
+        '<div class="yre-q-card-body"><div class="yre-q-card-field"><div class="yre-q-card-label">题干</div><div style="font-size:13px;line-height:1.8">'+escHtml(q.stem)+'</div></div>'+
+        (q.type==='choice'&&q.options?'<div class="yre-q-card-field"><div class="yre-q-card-label">选项</div><div class="yre-q-options-grid">'+['A','B','C','D'].map((l,i)=>'<div class="yre-q-option-row"><span class="yre-q-option-letter">'+l+'.</span><span style="font-size:13px">'+escHtml(q.options[i]||'')+'</span></div>').join('')+'</div></div>':'')+
+        '<div class="yre-q-card-field"><div class="yre-q-card-label">答案与解析</div><div style="font-size:13px;line-height:1.8;background:#f9fafb;padding:10px 14px;border-radius:6px">'+escHtml(q.correctAnswer||'')+'</div></div>'+
+        '</div></div>';
+    });
+  }
+  let html='<div class="vocablib-modal-overlay" onclick="closeYRADetailModal(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:1000px;max-height:85vh;overflow-y:auto">'+
+    '<div class="vocablib-modal-header"><h3>文章详情 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeYRADetailModal()">\u2715</button></div>'+
+    '<div class="video-detail-panel">'+
+    '<div class="video-detail-header"><span class="video-detail-title">'+escHtml(d.title)+'</span>'+statusBadge+'</div>'+
+    '<div class="vocablib-modal-card"><div class="card-title">基本信息</div>'+
+    '<div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">文章标题</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.title)+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">题目数</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+qCount+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">总分</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+totalScore+'分</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.creator)+'</span></div>'+
+    '<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.createTime)+'</span></div>'+
+    (d.auditor?'<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.auditor)+'</span></div>':'')+
+    (d.auditTime?'<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(d.auditTime)+'</span></div>':'')+
+    '</div></div>'+
+    '<div class="vocablib-modal-card"><div class="card-title">文章内容</div><div class="card-body" style="font-size:14px;line-height:1.8;color:#374151">'+d.content+'</div></div>'+
+    (qhtml?'<div class="vocablib-modal-card"><div class="card-title">关联题目（'+qCount+'道，共'+totalScore+'分）</div>'+qhtml+'</div>':'')+
+    (d.rejectReason?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(d.rejectReason||'未填写')+'</div></div>':'')+
+    (d.status==='reviewing'?'<p style="color:#92400e;font-size:13px;margin-top:12px">\u23f3 该文章正在待审核，请审核后决定通过或驳回。</p>':'')+
+    '</div>'+
+    '<div class="vocablib-modal-footer" id="yraModalFooter">';
+  if(d.status==='reviewing'){
+    html+='<div id="yraRejectPanel" style="display:none;width:100%;margin-bottom:12px">'+
+      '<div class="form-group"><label class="form-label"><span class="required">*</span> 驳回原因</label><textarea class="form-textarea" id="yraRejectReason" placeholder="请填写驳回原因，以便录入人了解问题并进行修正" rows="3"></textarea></div></div>'+
+      '<button class="btn btn-ghost" onclick="closeYRADetailModal()">关闭</button>'+
+      '<button class="btn btn-danger" id="yraRejectToggleBtn" onclick="yraToggleReject()">驳回</button>'+
+      '<button class="btn btn-success" id="yraApproveBtn" onclick="approveYRA('+d.id+')">审核通过</button>';
+  } else {
+    html+='<button class="btn btn-ghost" onclick="closeYRADetailModal()">关闭</button>';
+  }
+  html+='</div></div></div>';
+  const wrap=document.createElement('div');wrap.id='yraDetailWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeYRADetailModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('yraDetailWrap');if(wrap)wrap.remove();
+}
+
+function approveYRA(id){
+  const d=yuwenReadData.find(v=>v.id===id);
+  if(!d||d.status!=='reviewing')return;
+  d.status='published';d.auditor='审核员';d.auditTime=new Date().toISOString().slice(0,10);
+  d.rejectReason='';
+  closeYRADetailModal();renderYRATable();
+  showToast('文章「'+d.title+'」已审核通过','success');
+}
+
+function yraToggleReject(){
+  const panel=$('yraRejectPanel');
+  if(!panel)return;
+  if(panel.style.display==='none'||!panel.style.display){
+    panel.style.display='block';
+    const btns=document.querySelectorAll('#yraModalFooter button');
+    if(btns.length>=3){btns[1].textContent='取消驳回';btns[1].classList.remove('btn-danger');btns[1].classList.add('btn-outline');}
+    if(btns.length>=2){btns[btns.length-1].textContent='确认驳回';btns[btns.length-1].classList.remove('btn-success');btns[btns.length-1].classList.add('btn-danger');btns[btns.length-1].setAttribute('onclick','confirmRejectYRA('+_currentYRAId+')');}
+    const ta=$('yraRejectReason');if(ta)ta.focus();
+  } else {
+    panel.style.display='none';
+    $('yraRejectReason').value='';
+    const btns=document.querySelectorAll('#yraModalFooter button');
+    if(btns.length>=3){btns[1].textContent='驳回';btns[1].classList.remove('btn-outline');btns[1].classList.add('btn-danger');}
+    if(btns.length>=2){btns[btns.length-1].textContent='审核通过';btns[btns.length-1].classList.remove('btn-danger');btns[btns.length-1].classList.add('btn-success');btns[btns.length-1].setAttribute('onclick','approveYRA('+_currentYRAId+')');}
+  }
+}
+
+function confirmRejectYRA(id){
+  const reason=($('yraRejectReason')||{}).value;
+  if(!reason||!reason.trim()){showToast('请填写驳回原因','error');return;}
+  const d=yuwenReadData.find(v=>v.id===id);
+  if(!d||d.status!=='reviewing')return;
+  d.status='rejected';d.auditor='审核员';d.auditTime=new Date().toISOString().slice(0,10);
+  d.rejectReason=reason.trim();
+  closeYRADetailModal();renderYRATable();
+  showToast('文章「'+d.title+'」已驳回','success');
 }
 
 // ==================== HOMEWORK CATEGORY MANAGER ====================

@@ -134,6 +134,94 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .empty-state .empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
 .empty-state p{font-size:14px}
 
+/* ========== 语文阅读 ========== */
+.yy-filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:12px}
+.yy-filter-row .filter-select select{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text);min-width:140px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+.yy-filter-row .filter-select select:focus{border-color:var(--primary);outline:none}
+.yy-filter-row .search-input{position:relative;flex:1;min-width:180px;max-width:260px}
+.yy-filter-row .search-input input{width:100%;padding:8px 12px 8px 36px;border:1px solid var(--border);border-radius:var(--radius);transition:border var(--transition);font-size:13px}
+.yy-filter-row .search-input input:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.yy-filter-row .search-input .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px}
+.yy-filter-row .filter-date{display:flex;align-items:center;gap:6px}
+.yy-filter-row .filter-date input[type="date"]{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;width:130px}
+.yy-filter-row .filter-date input[type="date"]:focus{border-color:var(--primary)}
+.yy-filter-row .filter-date span{font-size:12px;color:var(--text-muted)}
+.yy-filter-row .filter-label{font-size:13px;color:var(--text-secondary);font-weight:500;white-space:nowrap}
+
+/* Article Detail Page */
+.yy-detail-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.yy-detail-header .back-btn{display:flex;align-items:center;gap:4px;padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text-secondary);font-size:13px;cursor:pointer;transition:all var(--transition)}
+.yy-detail-header .back-btn:hover{border-color:var(--primary);color:var(--primary)}
+.yy-detail-info{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:16px;padding:16px 20px;background:#f8fafc;border-radius:8px;border:1px solid var(--border)}
+.yy-detail-info .info-item{display:flex;flex-direction:column;gap:2px}
+.yy-detail-info .info-item .info-label{font-size:12px;color:var(--text-muted)}
+.yy-detail-info .info-item .info-value{font-size:14px;font-weight:600;color:var(--text)}
+.yy-detail-info .info-item .info-value.score-highlight{font-size:20px;color:var(--primary)}
+.yy-detail-info .info-item .info-value.score-highlight .slash{color:var(--text-muted);font-weight:400;font-size:16px}
+
+/* Question Card */
+.yy-question-list{display:flex;flex-direction:column;gap:16px}
+.yy-question-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.yy-question-card .qq-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#f8fafc;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background var(--transition)}
+.yy-question-card .qq-header:hover{background:#f1f5f9}
+.yy-question-card .qq-header .qq-title{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.yy-question-card .qq-header .qq-title .qq-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;flex-shrink:0}
+.yy-question-card .qq-header .qq-title .qq-text{font-size:14px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.yy-question-card .qq-header .qq-meta{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.yy-question-card .qq-header .qq-meta .qq-score{font-size:13px;color:var(--text-secondary)}
+.yy-question-card .qq-header .qq-meta .qq-score strong{color:var(--primary);font-size:15px}
+.yy-question-card .qq-header .qq-arrow{font-size:12px;color:var(--text-muted);transition:transform var(--transition)}
+.yy-question-card.open .qq-header .qq-arrow{transform:rotate(180deg)}
+.yy-question-card .qq-body{display:none;padding:18px}
+.yy-question-card.open .qq-body{display:block}
+.yy-question-card .qq-body .qq-options{margin-bottom:14px}
+.yy-question-card .qq-body .qq-option{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:6px;margin-bottom:6px;font-size:13px;background:#f8fafc;border:1px solid transparent;transition:all var(--transition)}
+.yy-question-card .qq-body .qq-option.is-correct{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
+.yy-question-card .qq-body .qq-option.is-wrong{background:#fef2f2;border-color:#fecaca;color:#dc2626}
+.yy-question-card .qq-body .qq-option.is-correct-answer{background:#f0fdf4;border-color:#bbf7d0}
+.yy-question-card .qq-body .qq-option .opt-letter{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--border);font-weight:600;font-size:12px;flex-shrink:0}
+.yy-question-card .qq-body .qq-option.is-correct .opt-letter{background:#bbf7d0;color:#15803d}
+.yy-question-card .qq-body .qq-option.is-wrong .opt-letter{background:#fecaca;color:#dc2626}
+.yy-question-card .qq-body .qq-option.is-correct-answer .opt-letter{background:#bbf7d0;color:#15803d}
+.yy-question-card .qq-body .qq-student-answer{margin-bottom:14px;padding:12px 16px;border-radius:6px;font-size:13px;background:#fffbeb;border:1px solid #fde68a}
+.yy-question-card .qq-body .qq-student-answer .sa-label{font-size:12px;color:#b45309;margin-bottom:4px}
+.yy-question-card .qq-body .qq-student-answer .sa-value{font-size:14px;font-weight:600;color:#92400e}
+.yy-question-card .qq-body .qq-analysis-wrap{margin-top:14px}
+.yy-question-card .qq-body .qq-analysis-toggle{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text-secondary);font-size:12px;cursor:pointer;transition:all var(--transition)}
+.yy-question-card .qq-body .qq-analysis-toggle:hover{border-color:var(--primary);color:var(--primary)}
+.yy-question-card .qq-body .qq-analysis-toggle .toggle-arrow{font-size:10px;transition:transform var(--transition)}
+.yy-question-card .qq-body .qq-analysis-toggle.open .toggle-arrow{transform:rotate(180deg)}
+.yy-question-card .qq-body .qq-analysis-content{display:none;margin-top:10px;padding:14px 18px;background:#f0f9ff;border-radius:6px;border:1px solid #bae6fd;font-size:13px;color:#0c4a6e;line-height:1.7}
+.yy-question-card .qq-body .qq-analysis-content.show{display:block}
+.yy-question-card .qq-body .qq-score-info{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 16px;background:#f8fafc;border-radius:6px}
+.yy-question-card .qq-body .qq-score-info .score-item{font-size:13px;color:var(--text-secondary)}
+.yy-question-card .qq-body .qq-score-info .score-item strong{font-size:15px}
+.yy-question-card .qq-body .qq-score-info .score-item.score-gain strong{color:var(--success)}
+.yy-question-card .qq-body .qq-score-info .score-item.score-total strong{color:var(--text)}
+
+/* Answer Status Badge */
+.answer-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.answer-status.correct{background:#f0fdf4;color:#15803d}
+.answer-status.half{background:#fffbeb;color:#b45309}
+.answer-status.wrong{background:#fef2f2;color:#dc2626}
+.answer-status.unanswered{background:#f1f5f9;color:#94a3b8}
+.answer-status .status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.answer-status.correct .status-dot{background:#16a34a}
+.answer-status.half .status-dot{background:#f59e0b}
+.answer-status.wrong .status-dot{background:#ef4444}
+.answer-status.unanswered .status-dot{background:#94a3b8}
+
+/* Question Type Tag */
+.qq-type-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;flex-shrink:0}
+.qq-type-tag.type-choice{background:#eff6ff;color:#2563eb}
+.qq-type-tag.type-fill{background:#f0fdf4;color:#16a34a}
+.qq-type-tag.type-essay{background:#fef3c7;color:#b45309}
+
+/* Error Reason */
+.qq-error-reason{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 16px;background:#fef2f2;border-radius:6px;border:1px solid #fecaca}
+.qq-error-reason .er-label{font-size:12px;color:#dc2626;font-weight:500;white-space:nowrap}
+.qq-error-reason .er-tag{display:inline-block;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:600;background:#fef2f2;color:#dc2626;border:1px solid #fca5a5}
+
 /* ========== Responsive ========== */
 @media (max-width:1200px){.class-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:900px){.stats-row{grid-template-columns:repeat(2,1fr)}.class-grid{grid-template-columns:1fr}}
@@ -1754,6 +1842,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 }
 
 /* ========== 成绩登记 Styles ========== */
+/* Subject tabs */
+.cj-subject-tabs{display:flex;gap:4px;padding:16px 20px 12px;border-bottom:1px solid var(--border)}
+.cj-subject-tab{padding:8px 22px;border-radius:20px;font-size:13px;font-weight:500;color:var(--text-secondary);background:var(--card-bg);border:1px solid var(--border);cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.cj-subject-tab:hover{color:var(--primary);border-color:var(--primary);background:var(--primary-light)}
+.cj-subject-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 2px 8px rgba(37,99,235,.25)}
+
 .cj-filter-bar{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow);flex-wrap:wrap}
 .cj-filter-select{padding:8px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--text);background:#fff;cursor:pointer;min-width:160px;outline:none;transition:border-color var(--transition)}
 .cj-filter-select:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.1)}
@@ -2155,6 +2249,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <a class="nav-sub-item" data-page="danci-beisong" href="javascript:void(0)">
           <span class="sub-dot"></span>单词背诵
         </a>
+        <a class="nav-sub-item" data-page="ciju-beisong" href="javascript:void(0)">
+          <span class="sub-dot"></span>词句背诵
+        </a>
         <a class="nav-sub-item" data-page="danci-xiaoce" href="javascript:void(0)">
           <span class="sub-dot"></span>单词小测
         </a>
@@ -2163,6 +2260,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="chengji-tongji" href="javascript:void(0)">
           <span class="sub-dot"></span>成绩统计
+        </a>
+        <a class="nav-sub-item" data-page="yuwen-yuedu" href="javascript:void(0)">
+          <span class="sub-dot"></span>语文阅读
         </a>
       </div>
 
@@ -2947,6 +3047,28 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   var danciBeisongSortDir = null; // null | 'asc' | 'desc'
   var danciBeisongSelected = {};  // { studentName: true } 选中状态
 
+  // ==================== Mock Data - 词句背诵数据 ====================
+  var cijuBeisongData = [
+    { studentName:'张三', className:'2026届考研英语一班', totalProgress:65, totalCount:3500, weekCount:180, todayCount:35, yesterdayCount:28, easyCount:1800, fuzzyCount:1200, normalCount:500, strangeCount:500 },
+    { studentName:'李四', className:'2026届考研英语一班', totalProgress:40, totalCount:3500, weekCount:85,  todayCount:18, yesterdayCount:12, easyCount:900,  fuzzyCount:1400, normalCount:1200, strangeCount:1200 },
+    { studentName:'王五', className:'2026届考研英语二班', totalProgress:80, totalCount:3500, weekCount:280, todayCount:48, yesterdayCount:42, easyCount:2400, fuzzyCount:700,  normalCount:400,  strangeCount:400 },
+    { studentName:'赵六', className:'2026届考研英语一班', totalProgress:22, totalCount:3500, weekCount:48,  todayCount:10, yesterdayCount:6,  easyCount:400,  fuzzyCount:600,  normalCount:2500, strangeCount:2500 },
+    { studentName:'孙七', className:'2026届考研政治二班', totalProgress:52, totalCount:3500, weekCount:130, todayCount:25, yesterdayCount:20, easyCount:1300, fuzzyCount:1000, normalCount:1200, strangeCount:1200 },
+    { studentName:'周八', className:'2026届考研英语二班', totalProgress:28, totalCount:3500, weekCount:60,  todayCount:12, yesterdayCount:8,  easyCount:600,  fuzzyCount:800,  normalCount:2100, strangeCount:2100 },
+    { studentName:'吴九', className:'2026届考研英语一班', totalProgress:70, totalCount:3500, weekCount:220, todayCount:42, yesterdayCount:38, easyCount:2000, fuzzyCount:900,  normalCount:600,  strangeCount:600 },
+    { studentName:'郑十', className:'2026届考研政治二班', totalProgress:45, totalCount:3500, weekCount:110, todayCount:22, yesterdayCount:16, easyCount:1100, fuzzyCount:1100, normalCount:1300, strangeCount:1300 },
+    { studentName:'陈一', className:'2026届考研英语二班', totalProgress:35, totalCount:3500, weekCount:75,  todayCount:15, yesterdayCount:10, easyCount:700,  fuzzyCount:800,  normalCount:2000, strangeCount:2000 },
+    { studentName:'林二', className:'2026届考研英语一班', totalProgress:88, totalCount:3500, weekCount:320, todayCount:58, yesterdayCount:52, easyCount:2700, fuzzyCount:450,  normalCount:350,  strangeCount:350 },
+    { studentName:'黄三', className:'2026届考研政治二班', totalProgress:33, totalCount:3500, weekCount:68,  todayCount:14, yesterdayCount:10, easyCount:650,  fuzzyCount:850,  normalCount:2000, strangeCount:2000 },
+    { studentName:'刘四', className:'2026届考研英语二班', totalProgress:25, totalCount:3500, weekCount:55,  todayCount:8,  yesterdayCount:5,  easyCount:450,  fuzzyCount:600,  normalCount:2450, strangeCount:2450 }
+  ];
+
+  // 词句背诵筛选状态
+  var cijuBeisongKeyword = '';
+  var cijuBeisongClassFilter = '';
+  var cijuBeisongSortDir = null;
+  var cijuBeisongSelected = {};
+
   // ==================== Mock Data - 单词小测数据 ====================
   var danciXiaoceData = [
     { id:'XC001', studentName:'张三', studentId:'2025001', dateRange:'2026-07-15 ~ 2026-07-25', order:'由远到近', quizCount:30, generateTime:'2026-07-25 09:15:22', totalWords:30, answeredCount:28, words:[
@@ -3010,21 +3132,24 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   // ==================== Mock Data - 成绩登记试卷数据 ====================
   var chengjiShijuanData = [
-    { id:'SJ001', name:'2026届考研英语一模试卷', questionCount:25, category:'练测', className:'2026届考研英语一班' },
-    { id:'SJ002', name:'2026届考研数学一模拟卷一', questionCount:30, category:'练测', className:'2026届考研数学一班' },
-    { id:'SJ003', name:'英语阅读理解专项作业（第3周）', questionCount:15, category:'作业', className:'2026届考研英语一班' },
-    { id:'SJ004', name:'高数第三章课后练习', questionCount:20, category:'作业', className:'2026届考研数学一班' },
-    { id:'SJ005', name:'2026届考研英语二模试卷', questionCount:25, category:'练测', className:'2026届考研英语二班' },
-    { id:'SJ006', name:'线代矩阵运算作业', questionCount:12, category:'作业', className:'2026届考研数学一班' },
-    { id:'SJ007', name:'2027届考研政治模拟卷一', questionCount:28, category:'练测', className:'2027届考研政治一班' },
-    { id:'SJ008', name:'英语长难句翻译作业（第5周）', questionCount:10, category:'作业', className:'2026届考研英语二班' },
-    { id:'SJ009', name:'2026届考研数学一模拟卷二', questionCount:30, category:'练测', className:'2026届考研数学一班' },
-    { id:'SJ010', name:'概统概率分布专题作业', questionCount:18, category:'作业', className:'2026届考研数学一班' },
-    { id:'SJ011', name:'2025届考研英语冲刺模考', questionCount:35, category:'练测', className:'2025届考研英语冲刺班' },
-    { id:'SJ012', name:'政治思修章节练习', questionCount:16, category:'作业', className:'2027届考研政治一班' }
+    { id:'SJ001', name:'2026届考研英语一模试卷', questionCount:25, category:'练测', subject:'英语', className:'2026届考研英语一班' },
+    { id:'SJ002', name:'2026届考研数学一模拟卷一', questionCount:30, category:'练测', subject:'数学', className:'2026届考研数学一班' },
+    { id:'SJ003', name:'英语阅读理解专项作业（第3周）', questionCount:15, category:'作业', subject:'英语', className:'2026届考研英语一班' },
+    { id:'SJ004', name:'高数第三章课后练习', questionCount:20, category:'作业', subject:'数学', className:'2026届考研数学一班' },
+    { id:'SJ005', name:'2026届考研英语二模试卷', questionCount:25, category:'练测', subject:'英语', className:'2026届考研英语二班' },
+    { id:'SJ006', name:'线代矩阵运算作业', questionCount:12, category:'作业', subject:'数学', className:'2026届考研数学一班' },
+    { id:'SJ007', name:'2027届考研政治模拟卷一', questionCount:28, category:'练测', subject:'政治', className:'2027届考研政治一班' },
+    { id:'SJ008', name:'英语长难句翻译作业（第5周）', questionCount:10, category:'作业', subject:'英语', className:'2026届考研英语二班' },
+    { id:'SJ009', name:'2026届考研数学一模拟卷二', questionCount:30, category:'练测', subject:'数学', className:'2026届考研数学一班' },
+    { id:'SJ010', name:'概统概率分布专题作业', questionCount:18, category:'作业', subject:'数学', className:'2026届考研数学一班' },
+    { id:'SJ011', name:'2025届考研英语冲刺模考', questionCount:35, category:'练测', subject:'英语', className:'2025届考研英语冲刺班' },
+    { id:'SJ012', name:'政治思修章节练习', questionCount:16, category:'作业', subject:'政治', className:'2027届考研政治一班' },
+    { id:'SJ013', name:'2026届考研语文一模试卷', questionCount:22, category:'练测', subject:'语文', className:'2026届考研语文一班' },
+    { id:'SJ014', name:'文言文阅读专项作业', questionCount:14, category:'作业', subject:'语文', className:'2026届考研语文一班' }
   ];
 
   // 成绩登记筛选状态
+  var cjSubjectFilter = '';
   var cjClassFilter = '';
   var cjCategoryFilter = '';
   var cjNameKeyword = '';
@@ -3145,9 +3270,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'kanke-mingxi':     { title: '看课明细', group: '学情管理' },
     'cihui-pinggu':     { title: '词汇评估', group: '学情管理' },
     'danci-beisong':    { title: '单词背诵', group: '学情管理' },
+    'ciju-beisong':     { title: '词句背诵', group: '学情管理' },
     'danci-xiaoce':     { title: '单词小测', group: '学情管理' },
     'chengji-dengji':   { title: '成绩登记', group: '学情管理' },
     'chengji-tongji':   { title: '成绩统计', group: '学情管理' },
+    'yuwen-yuedu':      { title: '语文阅读', group: '学情管理' },
     'cuoti-tongji':     { title: '错题统计', group: '错题管理' },
     'cuoti-dayin':      { title: '错题打印', group: '错题管理' },
     'cuoti-piliang-dayin': { title: '批量打印', group: '错题管理' },
@@ -3297,9 +3424,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'kanke-mingxi') renderKankeMingxiPage();
     else if(pageKey === 'cihui-pinggu') renderCihuiPingguPage();
     else if(pageKey === 'danci-beisong') renderDanciBeisongPage();
+    else if(pageKey === 'ciju-beisong') renderCijuBeisongPage();
     else if(pageKey === 'danci-xiaoce') renderDanciXiaocePage();
     else if(pageKey === 'chengji-dengji') renderChengjiDengjiPage();
     else if(pageKey === 'chengji-tongji') renderChengjiTongjiPage();
+    else if(pageKey === 'yuwen-yuedu') renderYuwenYueduPage();
     else if(pageKey === 'cuoti-tongji') renderCuotiTongjiPage();
     else if(pageKey === 'cuoti-dayin') renderCuotiDayinPage();
     else if(pageKey === 'cuoti-piliang-dayin') renderCuotiPiliangDayinPage();
@@ -5410,6 +5539,461 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var a = document.createElement('a');
     a.href = url;
     a.download = '单词背诵数据_'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('导出成功');
+  };
+
+  // ==================== 词句背诵 ====================
+  function getFilteredCijuBeisong(){
+    var keyword = cijuBeisongKeyword ? cijuBeisongKeyword.toLowerCase() : '';
+    var result = cijuBeisongData.filter(function(item){
+      if(cijuBeisongClassFilter && item.className !== cijuBeisongClassFilter) return false;
+      if(!keyword) return true;
+      return item.studentName.toLowerCase().indexOf(keyword)>-1;
+    });
+    if(cijuBeisongSortDir){
+      result.sort(function(a,b){
+        return cijuBeisongSortDir === 'asc' ? a.totalProgress - b.totalProgress : b.totalProgress - a.totalProgress;
+      });
+    }
+    return result;
+  }
+
+  function calcCijuScore(item){
+    var learned = item.easyCount + item.fuzzyCount + item.strangeCount;
+    var weightedSum = item.easyCount*3 + item.fuzzyCount*2 + item.strangeCount*1;
+    var totalWords = item.totalCount;
+    var countScore = totalWords > 0 ? (weightedSum / totalWords * 3).toFixed(2) : '-';
+    var qualityScore = learned > 0 ? (weightedSum / learned * 3).toFixed(2) : '-';
+    return { countScore: countScore, qualityScore: qualityScore };
+  }
+
+  function renderCijuBeisongPage(){
+    var filtered = getFilteredCijuBeisong();
+    var classes = [];
+    cijuBeisongData.forEach(function(item){ if(classes.indexOf(item.className)===-1) classes.push(item.className); });
+    classes.sort();
+    var allChecked = filtered.length > 0 && filtered.every(function(item){ return cijuBeisongSelected[item.studentName]; });
+    var selectedCount = Object.keys(cijuBeisongSelected).filter(function(k){ return cijuBeisongSelected[k]; }).length;
+
+    var html = '<div class="page-header"><h2>词句背诵</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+    html += '<div class="search-bar" style="margin-bottom:16px">';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名..." id="cijuBeisongKeyword" value="'+cijuBeisongKeyword.replace(/"/g,'&quot;')+'" oninput="window._cijuBeisongSearch()"></div>';
+    html += '<div class="filter-select"><select id="cijuBeisongClassFilter" onchange="window._cijuBeisongClassChange()"><option value="">全部班级</option>';
+    classes.forEach(function(c){
+      html += '<option value="'+c+'"'+ (cijuBeisongClassFilter===c?' selected':'') +'>'+c+'</option>';
+    });
+    html += '</select></div>';
+    html += '<button class="btn btn-outline" onclick="window._cijuBeisongReset()">重置</button>';
+    html += '<div style="flex:1"></div>';
+    html += '<button class="btn btn-outline" onclick="window._cijuBeisongExport()">导出</button>';
+    html += '</div>';
+
+    var sortArrow = '';
+    if(cijuBeisongSortDir === 'asc') sortArrow = ' &#x25B2;';
+    else if(cijuBeisongSortDir === 'desc') sortArrow = ' &#x25BC;';
+    else sortArrow = ' <span class="sort-arrow-inactive">&#x25B4;&#x25BE;</span>';
+
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead>';
+    html += '<tr>';
+    html += '<th rowspan="2" style="vertical-align:middle">学员姓名</th>';
+    html += '<th rowspan="2" style="vertical-align:middle">班级</th>';
+    html += '<th colspan="4" class="text-center">词句背诵进度</th>';
+    html += '<th colspan="5" class="text-center">词句背诵学情</th>';
+    html += '</tr>';
+    html += '<tr>';
+    html += '<th class="sortable-th" onclick="window._cijuBeisongToggleSort()">总进度'+sortArrow+'</th>';
+    html += '<th>本周</th><th>今日</th><th>昨日</th>';
+    html += '<th>简单</th><th>模糊</th><th>陌生</th>';
+    html += '<th class="score-th" title="数量评分 =（简单词数量×3分 + 模糊词数量×2分 + 陌生词数量×1分）÷ 总词句数 × 3分">数量评分 <span class="th-help">&#9432;</span></th>';
+    html += '<th class="score-th" title="质量评分 =（简单词数量×3分 + 模糊词数量×2分 + 陌生词数量×1分）÷ 已背词句数 × 3分">质量评分 <span class="th-help">&#9432;</span></th>';
+    html += '</tr>';
+    html += '</thead><tbody>';
+
+    if(filtered.length === 0){
+      html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的词句背诵数据</td></tr>';
+    } else {
+      filtered.forEach(function(item){
+        var progressPercent = Math.round(item.totalProgress);
+        var progressLabel = progressPercent + '%';
+        var scores = calcCijuScore(item);
+        html += '<tr>';
+        html += '<td><strong>'+item.studentName+'</strong></td>';
+        html += '<td>'+item.className+'</td>';
+        html += '<td><span style="font-weight:600;color:var(--primary)">'+item.totalCount.toLocaleString()+'</span> <span style="font-size:11px;color:var(--text-muted)">('+progressLabel+')</span></td>';
+        html += '<td>'+item.weekCount+'</td>';
+        html += '<td>'+item.todayCount+'</td>';
+        html += '<td>'+item.yesterdayCount+'</td>';
+        html += '<td><span class="danci-tag tag-easy">简单</span> '+item.easyCount+'</td>';
+        html += '<td><span class="danci-tag tag-fuzzy">模糊</span> '+item.fuzzyCount+'</td>';
+        html += '<td><span class="danci-tag tag-strange">陌生</span> '+item.strangeCount+'</td>';
+        html += '<td class="score-cell">'+scores.countScore+'</td>';
+        html += '<td class="score-cell">'+scores.qualityScore+'</td>';
+        html += '</tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+    html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    html += '</div></div>';
+    contentArea.innerHTML = html;
+  }
+
+  window._cijuBeisongSearch = function(){
+    cijuBeisongKeyword = document.getElementById('cijuBeisongKeyword').value;
+    renderCijuBeisongPage();
+  };
+  window._cijuBeisongClassChange = function(){
+    cijuBeisongClassFilter = document.getElementById('cijuBeisongClassFilter').value;
+    renderCijuBeisongPage();
+  };
+  window._cijuBeisongReset = function(){
+    cijuBeisongKeyword = '';
+    cijuBeisongClassFilter = '';
+    cijuBeisongSortDir = null;
+    cijuBeisongSelected = {};
+    renderCijuBeisongPage();
+  };
+  window._cijuBeisongToggleSort = function(){
+    if(cijuBeisongSortDir === null) cijuBeisongSortDir = 'asc';
+    else if(cijuBeisongSortDir === 'asc') cijuBeisongSortDir = 'desc';
+    else cijuBeisongSortDir = null;
+    renderCijuBeisongPage();
+  };
+
+  window._cijuBeisongToggleAll = function(checked){
+    var filtered = getFilteredCijuBeisong();
+    filtered.forEach(function(item){
+      if(checked) cijuBeisongSelected[item.studentName] = true;
+      else delete cijuBeisongSelected[item.studentName];
+    });
+    renderCijuBeisongPage();
+  };
+  window._cijuBeisongCheckOne = function(el){
+    var name = el.getAttribute('data-name');
+    if(el.checked) cijuBeisongSelected[name] = true;
+    else delete cijuBeisongSelected[name];
+    renderCijuBeisongPage();
+  };
+
+  window._cijuBeisongBatchPrint = function(){
+    var selectedNames = Object.keys(cijuBeisongSelected).filter(function(k){ return cijuBeisongSelected[k]; });
+    if(selectedNames.length === 0){ showToast('请先选择学员'); return; }
+    var firstItem = cijuBeisongData.find(function(d){ return d.studentName === selectedNames[0]; });
+    var className = firstItem ? firstItem.className : '';
+    openCijuQuizBatch(selectedNames, className);
+  };
+
+  window.openCijuQuiz = function(name,className){
+    var existing = document.getElementById('cijuQuizOverlay');
+    if(existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'cijuQuizOverlay';
+    overlay.className = 'modal-overlay show';
+    overlay.innerHTML = '<div class="modal" style="max-width:560px" onclick="event.stopPropagation()">' +
+      '<div class="modal-header"><h3>词句小测</h3><button class="modal-close" onclick="closeCijuQuiz()">&times;</button></div>' +
+      '<div class="modal-body">' +
+        '<div class="danci-quiz-student-info"><span class="danci-quiz-student-icon">&#x1F4DA;</span><div><strong>'+name+'</strong><span class="danci-quiz-class">'+className+'</span></div></div>' +
+        '<div class="form-section"><div class="form-section-title">抽查范围</div>' +
+          '<div class="form-grid" style="grid-template-columns:1fr 1fr">' +
+            '<div class="form-group"><label>开始日期</label><input type="date" id="dcQuizDateStart" class="form-control"></div>' +
+            '<div class="form-group"><label>结束日期</label><input type="date" id="dcQuizDateEnd" class="form-control"></div>' +
+          '</div>' +
+          '<div class="form-group" style="margin-top:10px"><label>抽查顺序</label>' +
+            '<div class="danci-order-group">' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="far-to-near" checked> 由远到近</label>' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="near-to-far"> 由近到远</label>' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="random"> 随机抽取</label>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="form-section"><div class="form-section-title">抽查数量</div>' +
+          '<div class="form-grid col3">' +
+            '<div class="form-group"><label>简单词</label><input type="number" id="dcQuizEasySingle" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+            '<div class="form-group"><label>模糊词</label><input type="number" id="dcQuizFuzzySingle" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+            '<div class="form-group"><label>陌生词</label><input type="number" id="dcQuizStrangeSingle" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">合计抽取：<strong id="dcQuizTotalSingle">30</strong> 个词句</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="modal-footer">' +
+        '<button class="btn btn-outline" onclick="closeCijuQuiz()">取消</button>' +
+        '<button class="btn btn-primary" onclick="submitCijuQuiz(\''+name.replace(/'/g,"\\'")+'\',\''+className.replace(/'/g,"\\'")+'\')">确定</button>' +
+      '</div>' +
+    '</div>';
+    document.body.appendChild(overlay);
+    var calcTotal = function(){
+      var e = parseInt(document.getElementById('dcQuizEasySingle').value) || 0;
+      var f = parseInt(document.getElementById('dcQuizFuzzySingle').value) || 0;
+      var s = parseInt(document.getElementById('dcQuizStrangeSingle').value) || 0;
+      document.getElementById('dcQuizTotalSingle').textContent = e + f + s;
+    };
+    overlay.querySelector('#dcQuizEasySingle').addEventListener('input', calcTotal);
+    overlay.querySelector('#dcQuizFuzzySingle').addEventListener('input', calcTotal);
+    overlay.querySelector('#dcQuizStrangeSingle').addEventListener('input', calcTotal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeCijuQuiz(); });
+  };
+
+  window.closeCijuQuiz = function(){
+    var overlay = document.getElementById('cijuQuizOverlay');
+    if(overlay) overlay.remove();
+  };
+
+  window.submitCijuQuiz = function(name,className){
+    var dateStart = document.getElementById('dcQuizDateStart').value;
+    var dateEnd = document.getElementById('dcQuizDateEnd').value;
+    var order = document.querySelector('input[name="dcQuizOrder"]:checked');
+    var orderVal = order ? order.value : 'far-to-near';
+    var orderLabel = orderVal === 'far-to-near' ? '由远到近' : (orderVal === 'near-to-far' ? '由近到远' : '随机抽取');
+    var easyCount = parseInt(document.getElementById('dcQuizEasySingle').value) || 0;
+    var fuzzyCount = parseInt(document.getElementById('dcQuizFuzzySingle').value) || 0;
+    var strangeCount = parseInt(document.getElementById('dcQuizStrangeSingle').value) || 0;
+    var totalCount = easyCount + fuzzyCount + strangeCount;
+    if(totalCount === 0){ showToast('请至少输入一种类型的抽查数量'); return; }
+    closeCijuQuiz();
+
+    var mockWords = [];
+    var easyWords = ['abandon','abstract','academy','accelerate','access','accommodate','accompany','accomplish','according','accumulate','accurate','achieve','acknowledge','acquire','adapt'];
+    var fuzzyWords = ['benevolent','bureaucracy','catastrophe','conscientious','deteriorate','elaborate','fluctuate','gratitude','hierarchy','illuminate','jeopardize','kaleidoscope','legitimate','magnificent','negotiate'];
+    var strangeWords = ['xenophobia','quintessence','reminiscent','surreptitious','unprecedented','vicarious','warranted','yesteryear','zealous','aberration','cacophony','dichotomy','ephemeral','facetious','grandiose'];
+    for(var i = 0; i < easyCount; i++) mockWords.push({ word: easyWords[i % easyWords.length]+ (i>=easyWords.length?' '+(Math.floor(i/easyWords.length)+2) :'') });
+    for(var i = 0; i < fuzzyCount; i++) mockWords.push({ word: fuzzyWords[i % fuzzyWords.length]+ (i>=fuzzyWords.length?' '+(Math.floor(i/fuzzyWords.length)+2) :'') });
+    for(var i = 0; i < strangeCount; i++) mockWords.push({ word: strangeWords[i % strangeWords.length]+ (i>=strangeWords.length?' '+(Math.floor(i/strangeWords.length)+2) :'') });
+    if(orderVal === 'near-to-far') mockWords.reverse();
+    else if(orderVal === 'random') mockWords.sort(function(){ return Math.random() - 0.5; });
+
+    var now = new Date();
+    var printTime = now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
+    var wordRows = '';
+    mockWords.forEach(function(w, idx){
+      wordRows += '<tr><td class="col-seq">'+(idx+1)+'</td><td class="word-cell">'+w.word+'</td><td class="col-self"></td></tr>';
+    });
+    var student = studentData.find(function(s){ return s.name === name; });
+    var sid = student ? student.id : name;
+    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>词句小测打印</title>';
+    printHtml += '<style>' +
+      'body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;margin:32px 40px;color:#1e293b;line-height:1.8;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+      '.print-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:2px dashed #e2e8f0}' +
+      '.print-header h1{font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:2px}' +
+      '.print-header .subtitle{font-size:13px;color:#64748b}' +
+      '.print-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0}' +
+      '.print-info-left{display:flex;flex-direction:column;gap:2px}' +
+      '.print-info-left .info-row{font-size:12px}' +
+      '.print-info-left .info-row span{display:inline-block;min-width:48px;color:#64748b}' +
+      '.print-info-left .info-row strong{color:#1e293b}' +
+      '.print-qr{display:flex;align-items:center;gap:10px}' +
+      '.print-qr-meta{font-size:10px;color:#64748b;text-align:right}' +
+      '.word-table{width:100%;border-collapse:collapse;margin-top:16px}' +
+      '.word-table thead th{background:#f1f5f9;padding:6px 10px;font-size:11px;font-weight:600;color:#64748b;text-align:left;border-bottom:2px solid #e2e8f0}' +
+      '.word-table td{padding:6px 10px;font-size:13px;border-bottom:1px solid #e2e8f0}' +
+      '.word-table .col-seq{width:40px;text-align:center;color:#94a3b8}' +
+      '.word-table .col-self{width:70px;text-align:center;font-size:11px;color:#94a3b8}' +
+      '.word-table .word-cell{font-weight:600;font-size:14px;font-variant:small-caps}' +
+      '.print-footer{text-align:center;font-size:11px;color:#94a3b8;margin-top:24px;padding-top:12px;border-top:1px solid #e2e8f0}' +
+      '@media print{body{margin:12px 16px}.print-info{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.word-table thead th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}' +
+      '</style></head><body>' +
+      '<div class="print-header"><h1>词句小测打印</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起') : '')+' | 共计 '+totalCount+' 词</div></div>' +
+      '<div class="print-info">' +
+        '<div class="print-info-left">' +
+          '<div class="info-row"><span>学员：</span><strong>'+name+'</strong></div>' +
+          '<div class="info-row"><span>学号：</span><strong>'+sid+'</strong></div>' +
+          '<div class="info-row"><span>班级：</span><strong>'+className+'</strong></div>' +
+          '<div class="info-row"><span>打印时间：</span><strong>'+printTime+'</strong></div>' +
+          '<div class="info-row" style="margin-top:4px"><span>简单词：</span><strong style="color:#16a34a">'+easyCount+'</strong> <span style="margin-left:12px">模糊词：</span><strong style="color:#f59e0b">'+fuzzyCount+'</strong> <span style="margin-left:12px">陌生词：</span><strong style="color:#ef4444">'+strangeCount+'</strong></div>' +
+        '</div>' +
+        '<div class="print-qr">'+qrPlaceholder()+'<div class="print-qr-meta">扫码验证<br>本次打印</div></div>' +
+      '</div>' +
+      '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>词句</th><th class="col-self">自评</th></tr></thead><tbody>' +
+      wordRows +
+      '</tbody></table>' +
+      '<div class="print-footer">本文件仅供学习使用 | 生成于 '+printTime+'</div>' +
+      '</body></html>';
+
+    var printWin = window.open('', '_blank', 'width=900,height=700');
+    printWin.document.write(printHtml);
+    printWin.document.close();
+    setTimeout(function(){ printWin.print(); }, 500);
+  };
+
+  window.openCijuQuizBatch = function(studentNames, className){
+    var existing = document.getElementById('cijuQuizOverlay');
+    if(existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'cijuQuizOverlay';
+    overlay.className = 'modal-overlay show';
+    overlay.innerHTML = '<div class="modal" style="max-width:560px" onclick="event.stopPropagation()">' +
+      '<div class="modal-header"><h3>词句小测（批量）</h3><button class="modal-close" onclick="closeCijuQuiz()">&times;</button></div>' +
+      '<div class="modal-body">' +
+        '<div class="danci-quiz-student-info"><span class="danci-quiz-student-icon">&#x1F4DA;</span><div><strong>已选 '+studentNames.length+' 名学员</strong><span class="danci-quiz-class">'+className+'</span></div></div>' +
+        '<div class="form-section"><div class="form-section-title">抽查范围</div>' +
+          '<div class="form-grid" style="grid-template-columns:1fr 1fr">' +
+            '<div class="form-group"><label>开始日期</label><input type="date" id="dcQuizDateStart" class="form-control"></div>' +
+            '<div class="form-group"><label>结束日期</label><input type="date" id="dcQuizDateEnd" class="form-control"></div>' +
+          '</div>' +
+          '<div class="form-group" style="margin-top:10px"><label>抽查顺序</label>' +
+            '<div class="danci-order-group">' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="far-to-near" checked> 由远到近</label>' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="near-to-far"> 由近到远</label>' +
+              '<label class="danci-order-option"><input type="radio" name="dcQuizOrder" value="random"> 随机抽取</label>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="form-section"><div class="form-section-title">抽查数量</div>' +
+          '<div class="form-grid col3">' +
+            '<div class="form-group"><label>简单词</label><input type="number" id="dcQuizEasy" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+            '<div class="form-group"><label>模糊词</label><input type="number" id="dcQuizFuzzy" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+            '<div class="form-group"><label>陌生词</label><input type="number" id="dcQuizStrange" class="form-control" min="0" value="10" placeholder="数量"></div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--text-muted);margin-top:4px">合计抽取：<strong id="dcQuizTotal">30</strong> 个词句/人</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="modal-footer">' +
+        '<button class="btn btn-outline" onclick="closeCijuQuiz()">取消</button>' +
+        '<button class="btn btn-primary" onclick="submitCijuQuizBatch(\''+studentNames.join(',').replace(/'/g,"\\'")+'\')">确定</button>' +
+      '</div>' +
+    '</div>';
+    document.body.appendChild(overlay);
+    var calcTotal = function(){
+      var e = parseInt(document.getElementById('dcQuizEasy').value) || 0;
+      var f = parseInt(document.getElementById('dcQuizFuzzy').value) || 0;
+      var s = parseInt(document.getElementById('dcQuizStrange').value) || 0;
+      document.getElementById('dcQuizTotal').textContent = e + f + s;
+    };
+    overlay.querySelector('#dcQuizEasy').addEventListener('input', calcTotal);
+    overlay.querySelector('#dcQuizFuzzy').addEventListener('input', calcTotal);
+    overlay.querySelector('#dcQuizStrange').addEventListener('input', calcTotal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeCijuQuiz(); });
+  };
+
+  window.submitCijuQuizBatch = function(namesStr){
+    var studentNames = namesStr.split(',');
+    var dateStart = document.getElementById('dcQuizDateStart').value;
+    var dateEnd = document.getElementById('dcQuizDateEnd').value;
+    var order = document.querySelector('input[name="dcQuizOrder"]:checked');
+    var orderVal = order ? order.value : 'far-to-near';
+    var orderLabel = orderVal === 'far-to-near' ? '由远到近' : (orderVal === 'near-to-far' ? '由近到远' : '随机抽取');
+    var easyCount = parseInt(document.getElementById('dcQuizEasy').value) || 0;
+    var fuzzyCount = parseInt(document.getElementById('dcQuizFuzzy').value) || 0;
+    var strangeCount = parseInt(document.getElementById('dcQuizStrange').value) || 0;
+    var totalCount = easyCount + fuzzyCount + strangeCount;
+    if(totalCount === 0){ showToast('请至少输入一种类型的抽查数量'); return; }
+    closeCijuQuiz();
+
+    var mockWords = [];
+    var easyWords = ['abandon','abstract','academy','accelerate','access','accommodate','accompany','accomplish','according','accumulate','accurate','achieve','acknowledge','acquire','adapt'];
+    var fuzzyWords = ['benevolent','bureaucracy','catastrophe','conscientious','deteriorate','elaborate','fluctuate','gratitude','hierarchy','illuminate','jeopardize','kaleidoscope','legitimate','magnificent','negotiate'];
+    var strangeWords = ['xenophobia','quintessence','reminiscent','surreptitious','unprecedented','vicarious','warranted','yesteryear','zealous','aberration','cacophony','dichotomy','ephemeral','facetious','grandiose'];
+    for(var i = 0; i < easyCount; i++) mockWords.push({ word: easyWords[i % easyWords.length]+ (i>=easyWords.length?' '+(Math.floor(i/easyWords.length)+2) :'') });
+    for(var i = 0; i < fuzzyCount; i++) mockWords.push({ word: fuzzyWords[i % fuzzyWords.length]+ (i>=fuzzyWords.length?' '+(Math.floor(i/fuzzyWords.length)+2) :'') });
+    for(var i = 0; i < strangeCount; i++) mockWords.push({ word: strangeWords[i % strangeWords.length]+ (i>=strangeWords.length?' '+(Math.floor(i/strangeWords.length)+2) :'') });
+    if(orderVal === 'near-to-far') mockWords.reverse();
+    else if(orderVal === 'random') mockWords.sort(function(){ return Math.random() - 0.5; });
+
+    var now = new Date();
+    var printTime = now.getFullYear()+'-'+(now.getMonth()+1).toString().padStart(2,'0')+'-'+now.getDate().toString().padStart(2,'0')+' '+now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+':'+now.getSeconds().toString().padStart(2,'0');
+    var wordRows = '';
+    mockWords.forEach(function(w, idx){
+      wordRows += '<tr><td class="col-seq">'+(idx+1)+'</td><td class="word-cell">'+w.word+'</td><td class="col-self"></td></tr>';
+    });
+
+    var studentsHtml = '';
+    studentNames.forEach(function(name){
+      var student = studentData.find(function(s){ return s.name === name; });
+      var sid = student ? student.id : name;
+      studentsHtml +=
+        '<div class="print-info">' +
+          '<div class="print-info-left">' +
+            '<div class="info-row"><span>学员：</span><strong>'+name+'</strong></div>' +
+            '<div class="info-row"><span>学号：</span><strong>'+sid+'</strong></div>' +
+            '<div class="info-row"><span>打印时间：</span><strong>'+printTime+'</strong></div>' +
+          '</div>' +
+          '<div class="print-qr">'+qrPlaceholder()+'<div class="print-qr-meta">扫码验证<br>本次打印</div></div>' +
+        '</div>' +
+        '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>词句</th><th class="col-self">自评</th></tr></thead><tbody>' +
+        wordRows +
+        '</tbody></table>' +
+        '<div class="page-break"></div>';
+    });
+
+    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>词句小测打印（批量）</title>';
+    printHtml += '<style>' +
+      'body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;margin:32px 40px;color:#1e293b;line-height:1.8;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
+      '.print-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:2px dashed #e2e8f0}' +
+      '.print-header h1{font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:2px}' +
+      '.print-header .subtitle{font-size:13px;color:#64748b}' +
+      '.print-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;page-break-inside:avoid}' +
+      '.print-info-left{display:flex;flex-direction:column;gap:2px}' +
+      '.print-info-left .info-row{font-size:12px}' +
+      '.print-info-left .info-row span{display:inline-block;min-width:48px;color:#64748b}' +
+      '.print-info-left .info-row strong{color:#1e293b}' +
+      '.print-qr{display:flex;align-items:center;gap:10px}' +
+      '.print-qr-meta{font-size:10px;color:#64748b;text-align:right}' +
+      '.print-summary{display:flex;gap:12px;margin-bottom:16px;page-break-inside:avoid}' +
+      '.print-summary-item{flex:1;text-align:center;padding:10px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0}' +
+      '.print-summary-item .num{font-size:20px;font-weight:700}' +
+      '.print-summary-item .lbl{font-size:11px;color:#64748b;margin-top:2px}' +
+      '.print-summary-item.easy .num{color:#16a34a}' +
+      '.print-summary-item.fuzzy .num{color:#f59e0b}' +
+      '.print-summary-item.strange .num{color:#ef4444}' +
+      '.word-table{width:100%;border-collapse:collapse;margin-bottom:12px;page-break-inside:avoid}' +
+      '.word-table thead th{background:#f1f5f9;padding:6px 10px;font-size:11px;font-weight:600;color:#64748b;text-align:left;border-bottom:2px solid #e2e8f0}' +
+      '.word-table td{padding:6px 10px;font-size:13px;border-bottom:1px solid #e2e8f0}' +
+      '.word-table .col-seq{width:40px;text-align:center;color:#94a3b8}' +
+      '.word-table .col-self{width:70px;text-align:center;font-size:11px;color:#94a3b8}' +
+      '.word-table .word-cell{font-weight:600;font-size:14px;font-variant:small-caps}' +
+      '.page-break{page-break-after:always;height:1px}' +
+      '.print-footer{text-align:center;font-size:11px;color:#94a3b8;padding-top:16px;border-top:1px solid #e2e8f0}' +
+      '@media print{body{margin:12px 16px}.print-info{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-summary-item{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.word-table thead th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page-break:last-child{page-break-after:avoid}}' +
+      '</style></head><body>' +
+      '<div class="print-header"><h1>词句小测打印（批量）</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起') : '')+' | 共 '+studentNames.length+' 人 | 每人 '+totalCount+' 词</div></div>' +
+      '<div class="print-summary">' +
+        '<div class="print-summary-item easy"><div class="num">'+easyCount+'</div><div class="lbl">简单词</div></div>' +
+        '<div class="print-summary-item fuzzy"><div class="num">'+fuzzyCount+'</div><div class="lbl">模糊词</div></div>' +
+        '<div class="print-summary-item strange"><div class="num">'+strangeCount+'</div><div class="lbl">陌生词</div></div>' +
+        '<div class="print-summary-item"><div class="num" style="color:var(--primary)">'+totalCount+'</div><div class="lbl">合计/人</div></div>' +
+      '</div>' +
+      studentsHtml +
+      '<div class="print-footer">本文件仅供学习使用 | 生成于 '+printTime+'</div>' +
+      '</body></html>';
+
+    var printWin = window.open('', '_blank', 'width=900,height=700');
+    printWin.document.write(printHtml);
+    printWin.document.close();
+    setTimeout(function(){ printWin.print(); }, 500);
+  };
+
+  window._cijuBeisongExport = function(){
+    var filtered = getFilteredCijuBeisong();
+    if(filtered.length === 0){ showToast('无数据可导出'); return; }
+    var BOM = '\uFEFF';
+    var headers = ['学员姓名','班级','总进度(数量)','总进度(%)','本周数量','今日数量','昨日数量','简单词数量','模糊词数量','陌生词数量','数量评分','质量评分'];
+    var csv = BOM + headers.join(',') + '\n';
+    filtered.forEach(function(item){
+      var scores = calcCijuScore(item);
+      var row = [
+        '"'+item.studentName+'"',
+        '"'+item.className+'"',
+        item.totalCount,
+        Math.round(item.totalProgress)+'%',
+        item.weekCount,
+        item.todayCount,
+        item.yesterdayCount,
+        item.easyCount,
+        item.fuzzyCount,
+        item.strangeCount,
+        scores.countScore,
+        scores.qualityScore
+      ];
+      csv += row.join(',') + '\n';
+    });
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '词句背诵数据_'+new Date().toISOString().slice(0,10)+'.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -12662,15 +13246,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   // ==================== 成绩登记 ====================
   function renderChengjiDengjiPage(){
-    // Collect unique class names from data
-    var classNames = [];
-    chengjiShijuanData.forEach(function(sj){
-      if(classNames.indexOf(sj.className) === -1) classNames.push(sj.className);
-    });
-
     // Filter data
     var filtered = chengjiShijuanData.filter(function(sj){
-      if(cjClassFilter && sj.className !== cjClassFilter) return false;
+      if(cjSubjectFilter && sj.subject !== cjSubjectFilter) return false;
       if(cjCategoryFilter && sj.category !== cjCategoryFilter) return false;
       if(cjNameKeyword){
         var kw = cjNameKeyword.toLowerCase();
@@ -12683,12 +13261,6 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     // Filter bar
     html += '<div class="cj-filter-bar">';
-    html += '<select class="cj-filter-select" id="cjClassFilter" onchange="window._cjClassFilterChange()">';
-    html += '<option value="">全部班级</option>';
-    classNames.forEach(function(cn){
-      html += '<option value="'+cn+'"'+(cjClassFilter===cn?' selected':'')+'>'+cn+'</option>';
-    });
-    html += '</select>';
     // Category filter
     html += '<select class="cj-filter-select" id="cjCategoryFilter" onchange="window._cjCategoryFilterChange()">';
     html += '<option value="">全部分类</option>';
@@ -12708,7 +13280,16 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(filtered.length === 0){
       html += '<div class="empty-state"><div class="empty-icon">&#x1F4ED;</div><p>暂无匹配的试卷数据</p></div>';
     } else {
-      html += '<div class="cj-table-wrap"><table class="data-table cj-table"><thead><tr>';
+      html += '<div class="cj-table-wrap">';
+      // Subject tabs inside table card, top-left
+      html += '<div class="cj-subject-tabs">';
+      var subjects = ['数学','英语','语文','政治'];
+      subjects.forEach(function(subj){
+        var isActive = cjSubjectFilter === subj;
+        html += '<button class="cj-subject-tab'+(isActive?' active':'')+'" onclick="window._cjSubjectChange(\''+subj+'\')">'+subj+'</button>';
+      });
+      html += '</div>';
+      html += '<table class="data-table cj-table"><thead><tr>';
       html += '<th>试卷名称</th>';
       html += '<th class="text-center">题目数量</th>';
       html += '<th class="text-center">分类</th>';
@@ -12735,16 +13316,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   }
 
   // --- Filter Handlers ---
-  window._cjClearClassFilter = function(){
-    cjClassFilter = '';
-    cjCategoryFilter = '';
-    cjNameKeyword = '';
-    renderChengjiDengjiPage();
-  };
-
-  window._cjClassFilterChange = function(){
-    var sel = document.getElementById('cjClassFilter');
-    cjClassFilter = sel ? sel.value : '';
+  window._cjSubjectChange = function(subj){
+    cjSubjectFilter = subj;
     renderChengjiDengjiPage();
   };
 
@@ -12761,7 +13334,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   };
 
   window._cjResetFilter = function(){
-    cjClassFilter = '';
+    cjSubjectFilter = '';
     cjCategoryFilter = '';
     cjNameKeyword = '';
     renderChengjiDengjiPage();
@@ -13568,7 +14141,319 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     renderKebiaoTongjiPage();
   };
 
-  // ==================== Init Page ====================
+  // ==================== 语文阅读 ====================
+  var yyClassFilter = '';
+  var yyStudentSearch = '';
+  var yySubmitStart = '';
+  var yySubmitEnd = '';
+
+  // 语文阅读模拟数据
+  var yuwenYueduData = [
+    {
+      id: 'yy001', studentNo: '20240001', studentName: '张三', className: '2024考研语文1班',
+      articleTitle: '《红楼梦》第三回选段阅读 — 林黛玉进贾府',
+      doneCount: 8, totalCount: 10, score: 78, totalScore: 100,
+      submitTime: '2026-06-15 14:30:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '下列选项中，哪一项最能概括林黛玉进贾府时的心情？', score: 10, studentScore: 10, status: 'correct', options: ['A. 欣喜若狂，期待新生活', 'B. 忐忑不安，步步留心', 'C. 平静如水，心如止水', 'D. 愤怒不已，心怀不满'], answer: 'B', studentAnswer: 'B', analysis: '林黛玉初进贾府时，"步步留心，时时在意，不肯轻易多说一句话，多行一步路"，表现出忐忑不安、处处小心的心情。' },
+        { qid: 'q2', type: 'choice', title: '贾宝玉初见林黛玉时说"这个妹妹我曾见过的"，这体现了什么？', score: 10, studentScore: 5, status: 'half', errorReason: '理解错误', options: ['A. 贾宝玉在说谎', 'B. 两人前世有缘（木石前盟）', 'C. 贾宝玉记错了人', 'D. 林黛玉长相普通'], answer: 'B', studentAnswer: 'B', analysis: '贾宝玉说"这个妹妹我曾见过的"暗示了两人前世的神瑛侍者与绛珠仙草的"木石前盟"，是《红楼梦》重要的伏笔。但回答不完整，未点出"木石前盟"的具体内涵。' },
+        { qid: 'q3', type: 'fill', title: '王熙凤的出场描写中，"未见其人，先闻其声"的上一句是"____"，这体现了她泼辣张扬的性格。', score: 10, studentScore: 0, status: 'wrong', errorReason: '粗心大意', answer: '丹唇未启笑先闻', studentAnswer: '笑语盈盈暗香去', analysis: '原文为"粉面含春威不露，丹唇未启笑先闻"，描写王熙凤外貌中隐含威势，笑声先于人至。' },
+        { qid: 'q4', type: 'choice', title: '贾母向黛玉介绍王熙凤时称她为"泼皮破落户儿"，这体现了什么？', score: 10, studentScore: 10, status: 'correct', options: ['A. 贾母不喜欢王熙凤', 'B. 贾母对王熙凤的戏谑昵称，体现宠爱', 'C. 王熙凤出身低微', 'D. 王熙凤性格软弱'], answer: 'B', studentAnswer: 'B', analysis: '贾母以"泼皮破落户儿"戏称王熙凤，是长辈对晚辈宠爱的表现，也侧面写出了王熙凤泼辣能干的特点。' },
+        { qid: 'q5', type: 'fill', title: '林黛玉在贾府第一顿饭时，观察到贾府饭后先用____漱口，再上吃的茶，与家中规矩不同，于是"一一改了过来"。', score: 10, studentScore: 10, status: 'correct', answer: '茶', studentAnswer: '茶', analysis: '黛玉细心观察贾府规矩，"一一改了过来"，体现了她心思细腻、善于察言观色的性格特点。' },
+        { qid: 'q6', type: 'essay', title: '请分析林黛玉进贾府这一回中，作者是如何通过环境描写和心理描写来塑造林黛玉人物形象的？', score: 20, studentScore: 15, answer: '通过贾府的宏伟建筑、富贵气象的细腻描写，反衬黛玉寄人篱下的处境；通过黛玉"步步留心，时时在意"的心理活动，展现其敏感多思、自尊心强的性格。', studentAnswer: '作者通过描写贾府的奢华环境和黛玉的小心谨慎，展现了黛玉的性格特点。', analysis: '要点：1.通过贾府"敕造宁国府"的门匾、轩昂壮丽的建筑等环境描写，营造富贵逼人的氛围，反衬黛玉寄人篱下的心理；2.通过黛玉初入贾府时处处观察、一一仿效的细节，展现其心思细腻；3.心理独白"步步留心，时时在意"直接点明其戒备心态。答案要点不全，缺少对环境描写的具体分析。' },
+        { qid: 'q7', type: 'choice', title: '下列对"木石前盟"理解正确的一项是？', score: 10, studentScore: 0, status: 'unanswered', options: ['A. 指贾宝玉和薛宝钗的前世姻缘', 'B. 指神瑛侍者以甘露浇灌绛珠仙草的往事', 'C. 指贾宝玉和林黛玉今生的约定', 'D. 指贾府和薛家的联姻'], answer: 'B', studentAnswer: '', analysis: '"木石前盟"指前世神瑛侍者（宝玉）以甘露浇灌绛珠仙草（黛玉），绛珠仙草为报恩而下凡还泪的前世因缘。' },
+        { qid: 'q8', type: 'fill', title: '黛玉进贾府后，贾母将她安置在____居住，与宝玉的住处相邻。', score: 10, studentScore: 10, status: 'correct', answer: '碧纱橱', studentAnswer: '碧纱橱', analysis: '贾母将黛玉安置在碧纱橱内，与宝玉的卧室相邻，体现了贾母对黛玉的怜爱，也为宝黛二人的情感发展埋下伏笔。' },
+        { qid: 'q9', type: 'essay', title: '结合全文，谈谈王熙凤"未见其人，先闻其声"的出场方式有何艺术效果？', score: 15, studentScore: 13, answer: '1.先声夺人，突出王熙凤在贾府的特殊地位；2.以笑声打破黛玉初到时的肃穆氛围，形成鲜明对比；3.侧面表现出王熙凤泼辣、张扬的性格；4.为后文"辣子"形象做铺垫。', studentAnswer: '先声夺人的写法突出了王熙凤的泼辣性格和在贾府的特殊地位，与其他人的肃穆形成对比。', analysis: '答案基本正确，但未提及"为后文做铺垫"这一艺术效果，分析稍显单薄。' },
+        { qid: 'q10', type: 'choice', title: '贾宝玉"摔玉"这一行为主要表现了什么？', score: 5, studentScore: 5, status: 'correct', options: ['A. 贾宝玉脾气暴躁', 'B. 贾宝玉对封建礼教的反叛和对黛玉的认同', 'C. 贾宝玉讨厌玉', 'D. 贾宝玉在撒娇'], answer: 'B', studentAnswer: 'B', analysis: '宝玉因黛玉没有玉而摔玉，体现了其叛逆性格和对黛玉的特殊情感，同时暗示了对"金玉良缘"的否定。' }
+      ]
+    },
+    {
+      id: 'yy002', studentNo: '20240005', studentName: '赵六', className: '2024考研语文1班',
+      articleTitle: '《红楼梦》第三回选段阅读 — 林黛玉进贾府',
+      doneCount: 6, totalCount: 10, score: 55, totalScore: 100,
+      submitTime: '2026-06-15 16:20:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '下列选项中，哪一项最能概括林黛玉进贾府时的心情？', score: 10, studentScore: 0, status: 'wrong', errorReason: '理解错误', options: ['A. 欣喜若狂，期待新生活', 'B. 忐忑不安，步步留心', 'C. 平静如水，心如止水', 'D. 愤怒不已，心怀不满'], answer: 'B', studentAnswer: 'A', analysis: '林黛玉初进贾府时，"步步留心，时时在意，不肯轻易多说一句话，多行一步路"，表现出忐忑不安、处处小心的心情。' },
+        { qid: 'q2', type: 'choice', title: '贾宝玉初见林黛玉时说"这个妹妹我曾见过的"，这体现了什么？', score: 10, studentScore: 10, status: 'correct', options: ['A. 贾宝玉在说谎', 'B. 两人前世有缘（木石前盟）', 'C. 贾宝玉记错了人', 'D. 林黛玉长相普通'], answer: 'B', studentAnswer: 'B', analysis: '贾宝玉说"这个妹妹我曾见过的"暗示了两人前世的神瑛侍者与绛珠仙草的"木石前盟"。' },
+        { qid: 'q3', type: 'fill', title: '王熙凤的出场描写中，"未见其人，先闻其声"的上一句是"____"，这体现了她泼辣张扬的性格。', score: 10, studentScore: 5, status: 'half', errorReason: '粗心大意', answer: '丹唇未启笑先闻', studentAnswer: '粉面含春威不露', analysis: '原文为"粉面含春威不露，丹唇未启笑先闻"，答出上句"粉面含春威不露"给一半分，需整体记忆。' },
+        { qid: 'q4', type: 'choice', title: '贾母向黛玉介绍王熙凤时称她为"泼皮破落户儿"，这体现了什么？', score: 10, studentScore: 10, status: 'correct', options: ['A. 贾母不喜欢王熙凤', 'B. 贾母对王熙凤的戏谑昵称，体现宠爱', 'C. 王熙凤出身低微', 'D. 王熙凤性格软弱'], answer: 'B', studentAnswer: 'B', analysis: '贾母以"泼皮破落户儿"戏称王熙凤，是长辈对晚辈宠爱的表现。' },
+        { qid: 'q5', type: 'fill', title: '林黛玉在贾府第一顿饭时，观察到贾府饭后先用____漱口，再上吃的茶，与家中规矩不同，于是"一一改了过来"。', score: 10, studentScore: 0, status: 'unanswered', answer: '茶', studentAnswer: '', analysis: '黛玉细心观察贾府规矩，"一一改了过来"，体现了她心思细腻、善于察言观色的性格特点。' },
+        { qid: 'q6', type: 'essay', title: '请分析林黛玉进贾府这一回中，作者是如何通过环境描写和心理描写来塑造林黛玉人物形象的？', score: 20, studentScore: 10, studentAnswer: '环境描写展现了贾府的富贵，心理描写展现了黛玉的紧张。', analysis: '要点：1.环境描写反衬黛玉寄人篱下；2.心理描写展现敏感多思。答案过于简略，缺少具体文本分析。' },
+        { qid: 'q7', type: 'choice', title: '下列对"木石前盟"理解正确的一项是？', score: 10, studentScore: 10, status: 'correct', options: ['A. 指贾宝玉和薛宝钗的前世姻缘', 'B. 指神瑛侍者以甘露浇灌绛珠仙草的往事', 'C. 指贾宝玉和林黛玉今生的约定', 'D. 指贾府和薛家的联姻'], answer: 'B', studentAnswer: 'B', analysis: '"木石前盟"指前世神瑛侍者（宝玉）以甘露浇灌绛珠仙草（黛玉）的前世因缘。' },
+        { qid: 'q8', type: 'fill', title: '黛玉进贾府后，贾母将她安置在____居住，与宝玉的住处相邻。', score: 10, studentScore: 0, status: 'wrong', errorReason: '审题错误', answer: '碧纱橱', studentAnswer: '潇湘馆', analysis: '黛玉初到贾府时被安置在碧纱橱内，后搬入潇湘馆。此处问的是初到时的安排。' },
+        { qid: 'q9', type: 'essay', title: '结合全文，谈谈王熙凤"未见其人，先闻其声"的出场方式有何艺术效果？', score: 15, studentScore: 10, studentAnswer: '表现了王熙凤性格泼辣的特点。', analysis: '答案过于简略，应至少分析三个层面的艺术效果：先声夺人、形成对比、为后文铺垫。' },
+        { qid: 'q10', type: 'choice', title: '贾宝玉"摔玉"这一行为主要表现了什么？', score: 5, studentScore: 0, status: 'unanswered', options: ['A. 贾宝玉脾气暴躁', 'B. 贾宝玉对封建礼教的反叛和对黛玉的认同', 'C. 贾宝玉讨厌玉', 'D. 贾宝玉在撒娇'], answer: 'B', studentAnswer: '', analysis: '宝玉因黛玉没有玉而摔玉，体现了叛逆性格和对黛玉的特殊情感。' }
+      ]
+    },
+    {
+      id: 'yy003', studentNo: '20240002', studentName: '李四', className: '2024考研语文2班',
+      articleTitle: '《论语》选读 — 学而篇',
+      doneCount: 5, totalCount: 5, score: 42, totalScore: 50,
+      submitTime: '2026-06-14 10:15:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"学而时习之，不亦说乎"中"说"的正确读音和含义是？', score: 10, studentScore: 10, status: 'correct', options: ['A. shuō，说话', 'B. yuè，通"悦"，愉快', 'C. shuì，说服', 'D. tuō，通"脱"，解脱'], answer: 'B', studentAnswer: 'B', analysis: '"说"在此处为通假字，通"悦"，意为愉快、高兴。' },
+        { qid: 'q2', type: 'fill', title: '"有朋自远方来"的下一句是"____"？', score: 10, studentScore: 10, status: 'correct', answer: '不亦乐乎', studentAnswer: '不亦乐乎', analysis: '完整句子为"有朋自远方来，不亦乐乎"，表达朋友远道而来时的喜悦之情。' },
+        { qid: 'q3', type: 'essay', title: '结合现实生活，谈谈你对"人不知而不愠，不亦君子乎"的理解。', score: 15, studentScore: 12, studentAnswer: '别人不了解自己也不生气，这是君子的修养。在现代社会中也应该保持这种心态。', analysis: '答案基本正确，能联系现实，但缺少对"君子"内涵的深入探讨，举例不够具体。' },
+        { qid: 'q4', type: 'choice', title: '以下哪一项不是《论语》中关于"学"的论述？', score: 10, studentScore: 0, status: 'wrong', errorReason: '理解错误', options: ['A. 学而不思则罔', 'B. 敏而好学，不耻下问', 'C. 道可道，非常道', 'D. 温故而知新'], answer: 'C', studentAnswer: 'A', analysis: 'C项"道可道，非常道"出自《道德经》，是老子的话，不属于《论语》。' },
+        { qid: 'q5', type: 'fill', title: '"吾日三省吾身"中"三"的含义是____。', score: 5, studentScore: 5, status: 'correct', answer: '多次', studentAnswer: '多次', analysis: '"三"在此处为虚指，表示多次，而非确指三次。' }
+      ]
+    },
+    {
+      id: 'yy004', studentNo: '20240003', studentName: '王五', className: '2024考研语文2班',
+      articleTitle: '《论语》选读 — 学而篇',
+      doneCount: 4, totalCount: 5, score: 30, totalScore: 50,
+      submitTime: '2026-06-14 11:30:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"学而时习之，不亦说乎"中"说"的正确读音和含义是？', score: 10, studentScore: 10, status: 'correct', options: ['A. shuō，说话', 'B. yuè，通"悦"，愉快', 'C. shuì，说服', 'D. tuō，通"脱"，解脱'], answer: 'B', studentAnswer: 'B', analysis: '"说"在此处为通假字，通"悦"，意为愉快、高兴。' },
+        { qid: 'q2', type: 'fill', title: '"有朋自远方来"的下一句是"____"？', score: 10, studentScore: 10, status: 'correct', answer: '不亦乐乎', studentAnswer: '不亦乐乎', analysis: '完整句子为"有朋自远方来，不亦乐乎"。' },
+        { qid: 'q3', type: 'essay', title: '结合现实生活，谈谈你对"人不知而不愠，不亦君子乎"的理解。', score: 15, studentScore: 5, studentAnswer: '就是别人不了解自己也不要生气。', analysis: '答案过于简略，未结合现实生活，也缺少对"君子"修养层次的深入分析。' },
+        { qid: 'q4', type: 'choice', title: '以下哪一项不是《论语》中关于"学"的论述？', score: 10, studentScore: 0, status: 'unanswered', options: ['A. 学而不思则罔', 'B. 敏而好学，不耻下问', 'C. 道可道，非常道', 'D. 温故而知新'], answer: 'C', studentAnswer: '', analysis: 'C项出自《道德经》，不属于《论语》。' },
+        { qid: 'q5', type: 'fill', title: '"吾日三省吾身"中"三"的含义是____。', score: 5, studentScore: 5, status: 'correct', answer: '多次', studentAnswer: '多次', analysis: '"三"在此处为虚指，表示多次。' }
+      ]
+    },
+    {
+      id: 'yy005', studentNo: '20240007', studentName: '孙八', className: '2024考研语文1班',
+      articleTitle: '《岳阳楼记》选段 — 范仲淹',
+      doneCount: 4, totalCount: 4, score: 32, totalScore: 40,
+      submitTime: '2026-06-16 09:45:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"先天下之忧而忧，后天下之乐而乐"体现了作者怎样的情怀？', score: 10, studentScore: 10, status: 'correct', options: ['A. 自私自利', 'B. 忧国忧民，以天下为己任', 'C. 悲观厌世', 'D. 享乐主义'], answer: 'B', studentAnswer: 'B', analysis: '此句体现了范仲淹"以天下为己任"的政治抱负和忧国忧民的高尚情怀。' },
+        { qid: 'q2', type: 'fill', title: '《岳阳楼记》中描写洞庭湖"衔远山，吞长江"的修辞手法是____。', score: 10, studentScore: 5, status: 'half', errorReason: '理解错误', answer: '拟人', studentAnswer: '夸张', analysis: '"衔"和"吞"将洞庭湖人格化，赋予其动物的动作特征，是拟人手法。答"夸张"有部分道理但不准确。' },
+        { qid: 'q3', type: 'essay', title: '请分析《岳阳楼记》中"不以物喜，不以己悲"的思想内涵。', score: 15, studentScore: 12, studentAnswer: '不因外物的好坏和自己的得失而或喜或悲，这是一种超然物外的豁达胸襟。', analysis: '答案较好，点出了超然物外的核心思想，但可进一步联系"古仁人之心"和作者的为政理念进行阐发。' },
+        { qid: 'q4', type: 'choice', title: '"去国怀乡，忧谗畏讥"中"去"的含义是？', score: 5, studentScore: 5, status: 'correct', options: ['A. 前往', 'B. 离开', 'C. 去除', 'D. 过去'], answer: 'B', studentAnswer: 'B', analysis: '"去国"意为离开国都，指被贬谪外放。' }
+      ]
+    },
+    {
+      id: 'yy006', studentNo: '20240010', studentName: '周十一', className: '2024考研语文3班',
+      articleTitle: '《岳阳楼记》选段 — 范仲淹',
+      doneCount: 3, totalCount: 4, score: 25, totalScore: 40,
+      submitTime: '2026-06-16 14:00:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"先天下之忧而忧，后天下之乐而乐"体现了作者怎样的情怀？', score: 10, studentScore: 10, status: 'correct', options: ['A. 自私自利', 'B. 忧国忧民，以天下为己任', 'C. 悲观厌世', 'D. 享乐主义'], answer: 'B', studentAnswer: 'B', analysis: '此句体现了范仲淹"以天下为己任"的政治抱负。' },
+        { qid: 'q2', type: 'fill', title: '《岳阳楼记》中描写洞庭湖"衔远山，吞长江"的修辞手法是____。', score: 10, studentScore: 0, status: 'wrong', errorReason: '理解错误', answer: '拟人', studentAnswer: '比喻', analysis: '"衔"和"吞"是拟人手法，将洞庭湖人格化。' },
+        { qid: 'q3', type: 'essay', title: '请分析《岳阳楼记》中"不以物喜，不以己悲"的思想内涵。', score: 15, studentScore: 10, studentAnswer: '这是一种高尚的思想境界。', analysis: '答案过于空洞，缺少对具体文本的分析和思想内涵的解读。' },
+        { qid: 'q4', type: 'choice', title: '"去国怀乡，忧谗畏讥"中"去"的含义是？', score: 5, studentScore: 5, status: 'correct', options: ['A. 前往', 'B. 离开', 'C. 去除', 'D. 过去'], answer: 'B', studentAnswer: 'B', analysis: '"去国"意为离开国都，指被贬谪外放。' }
+      ]
+    },
+    {
+      id: 'yy007', studentNo: '20240004', studentName: '陈七', className: '2024考研语文3班',
+      articleTitle: '《劝学》选段 — 荀子',
+      doneCount: 6, totalCount: 6, score: 55, totalScore: 60,
+      submitTime: '2026-06-13 08:20:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"青，取之于蓝而青于蓝"比喻什么？', score: 10, studentScore: 10, status: 'correct', options: ['A. 颜色变化', 'B. 学生可以超过老师', 'C. 染料制作工艺', 'D. 蓝色比青色好看'], answer: 'B', studentAnswer: 'B', analysis: '"青出于蓝而胜于蓝"比喻学生可以超越老师，后辈可以胜过前辈。' },
+        { qid: 'q2', type: 'fill', title: '"不积跬步，无以至千里"中"跬步"的意思是____。', score: 10, studentScore: 10, status: 'correct', answer: '半步', studentAnswer: '半步', analysis: '"跬"是半步，古人以跨出一脚为跬，再跨出一脚为步。"跬步"即半步，形容极短的距离。' },
+        { qid: 'q3', type: 'choice', title: '"锲而不舍，金石可镂"说明的道理是？', score: 10, studentScore: 10, status: 'correct', options: ['A. 金石很容易雕刻', 'B. 坚持就能成功', 'C. 雕刻技术很重要', 'D. 金石是软的材料'], answer: 'B', studentAnswer: 'B', analysis: '此句意在说明只要有恒心、坚持不懈，即使坚硬的金石也能雕刻，比喻持之以恒的重要性。' },
+        { qid: 'q4', type: 'essay', title: '结合荀子《劝学》全文，谈谈"学不可以已"的内涵及现实意义。', score: 20, studentScore: 15, studentAnswer: '学习不能停止，人需要终身学习。在现代社会，知识更新很快，更不能停止学习。', analysis: '答案方向正确，但未联系荀子原文中"青出于蓝""冰寒于水"等比喻进行深入阐发，现实意义部分较浅。' },
+        { qid: 'q5', type: 'fill', title: '"君子生非异也"中"生"的通假字是____。', score: 5, studentScore: 5, status: 'correct', answer: '性', studentAnswer: '性', analysis: '"生"通"性"，意为资质、禀赋。全句意为君子的资质禀赋与一般人没有不同，区别在于善于学习。' },
+        { qid: 'q6', type: 'choice', title: '下列成语不是出自《劝学》的一项是？', score: 5, studentScore: 5, status: 'correct', options: ['A. 青出于蓝', 'B. 锲而不舍', 'C. 画蛇添足', 'D. 积水成渊'], answer: 'C', studentAnswer: 'C', analysis: 'C项"画蛇添足"出自《战国策》，其余三项均出自荀子《劝学》。' }
+      ]
+    },
+    {
+      id: 'yy008', studentNo: '20240008', studentName: '吴九', className: '2024考研语文3班',
+      articleTitle: '《劝学》选段 — 荀子',
+      doneCount: 5, totalCount: 6, score: 38, totalScore: 60,
+      submitTime: '2026-06-13 15:10:00',
+      questions: [
+        { qid: 'q1', type: 'choice', title: '"青，取之于蓝而青于蓝"比喻什么？', score: 10, studentScore: 10, status: 'correct', options: ['A. 颜色变化', 'B. 学生可以超过老师', 'C. 染料制作工艺', 'D. 蓝色比青色好看'], answer: 'B', studentAnswer: 'B', analysis: '"青出于蓝而胜于蓝"比喻学生可以超越老师。' },
+        { qid: 'q2', type: 'fill', title: '"不积跬步，无以至千里"中"跬步"的意思是____。', score: 10, studentScore: 0, status: 'wrong', errorReason: '理解错误', answer: '半步', studentAnswer: '一步', analysis: '"跬"是半步，不是一步。"跬步"形容极短的距离。' },
+        { qid: 'q3', type: 'choice', title: '"锲而不舍，金石可镂"说明的道理是？', score: 10, studentScore: 10, status: 'correct', options: ['A. 金石很容易雕刻', 'B. 坚持就能成功', 'C. 雕刻技术很重要', 'D. 金石是软的材料'], answer: 'B', studentAnswer: 'B', analysis: '此句意在说明坚持不懈的重要性。' },
+        { qid: 'q4', type: 'essay', title: '结合荀子《劝学》全文，谈谈"学不可以已"的内涵及现实意义。', score: 20, studentScore: 8, studentAnswer: '学习很重要，不能停止。', analysis: '答案过于简略，既未联系原文的具体论证，也未展开现实意义的讨论。' },
+        { qid: 'q5', type: 'fill', title: '"君子生非异也"中"生"的通假字是____。', score: 5, studentScore: 0, status: 'unanswered', answer: '性', studentAnswer: '', analysis: '"生"通"性"，意为资质、禀赋。' },
+        { qid: 'q6', type: 'choice', title: '下列成语不是出自《劝学》的一项是？', score: 5, studentScore: 5, status: 'correct', options: ['A. 青出于蓝', 'B. 锲而不舍', 'C. 画蛇添足', 'D. 积水成渊'], answer: 'C', studentAnswer: 'C', analysis: 'C项出自《战国策》，其余出自《劝学》。' }
+      ]
+    }
+  ];
+
+  function renderYuwenYueduPage(){
+    var yyKw = yyStudentSearch.toLowerCase();
+
+    var filtered = yuwenYueduData.filter(function(r){
+      if(yyClassFilter && r.className !== yyClassFilter) return false;
+      if(yyKw && r.studentName.toLowerCase().indexOf(yyKw)===-1 && r.studentNo.toLowerCase().indexOf(yyKw)===-1) return false;
+      if(yySubmitStart && r.submitTime < yySubmitStart) return false;
+      if(yySubmitEnd   && r.submitTime > yySubmitEnd + ' 23:59:59') return false;
+      return true;
+    });
+
+    var classNames = [];
+    yuwenYueduData.forEach(function(r){ if(classNames.indexOf(r.className)===-1) classNames.push(r.className); });
+    classNames.sort();
+
+    var html = '';
+    html += '<div class="page-header"><h2>语文阅读</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+
+    html += '<div class="yy-filter-row">';
+    html += '<div class="filter-label">班级筛选</div>';
+    html += '<div class="filter-select"><select id="yyClassFilter" onchange="window._yyDoFilter()"><option value="">全部班级</option>';
+    classNames.forEach(function(c){ html += '<option value="'+c+'"'+(yyClassFilter===c?' selected':'')+'>'+c+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-label">学员姓名</div>';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学号或姓名..." id="yyStudentSearch" value="'+yyStudentSearch.replace(/"/g,'&quot;')+'" oninput="window._yyDoFilter()"></div>';
+    html += '<div class="filter-label">提交时间</div>';
+    html += '<div class="filter-date"><input type="date" id="yySubmitStart" value="'+yySubmitStart+'" onchange="window._yyDoFilter()"><span>至</span><input type="date" id="yySubmitEnd" value="'+yySubmitEnd+'" onchange="window._yyDoFilter()"></div>';
+    html += '<div class="filter-actions"><button class="btn btn-outline btn-xs" onclick="window._yyResetFilter()">重置</button></div>';
+    html += '</div>';
+
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
+    html += '<th>学号</th><th>姓名</th><th>班级</th><th>文章标题</th><th>做题数/总数</th><th>得分/总分</th><th>提交时间</th><th style="width:70px">操作</th>';
+    html += '</tr></thead><tbody>';
+
+    if(filtered.length===0){
+      html += '<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的阅读记录</td></tr>';
+    } else {
+      filtered.forEach(function(r){
+        var scorePercent = r.totalScore > 0 ? Math.round(r.score / r.totalScore * 100) : 0;
+        var scoreColor = scorePercent >= 80 ? 'var(--success)' : scorePercent >= 60 ? 'var(--warning)' : 'var(--danger)';
+        html += '<tr>';
+        html += '<td>'+r.studentNo+'</td>';
+        html += '<td style="font-weight:500">'+r.studentName+'</td>';
+        html += '<td>'+r.className+'</td>';
+        html += '<td style="font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+r.articleTitle+'">'+r.articleTitle+'</td>';
+        html += '<td><span style="font-weight:600">'+r.doneCount+'</span><span style="color:var(--text-muted)">/'+r.totalCount+'</span></td>';
+        html += '<td><span style="font-weight:700;color:'+scoreColor+'">'+r.score+'</span><span style="color:var(--text-muted)">/'+r.totalScore+'</span></td>';
+        html += '<td>'+r.submitTime+'</td>';
+        html += '<td><button class="btn btn-primary btn-xs" onclick="window._yyViewDetail(\''+r.id+'\')">查看</button></td>';
+        html += '</tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+    html += '</div></div>';
+
+    contentArea.innerHTML = html;
+  }
+
+  function renderYuwenYueduDetailPage(recordId){
+    var record = null;
+    for(var i=0; i<yuwenYueduData.length; i++){
+      if(yuwenYueduData[i].id === recordId){ record = yuwenYueduData[i]; break; }
+    }
+    if(!record){ contentArea.innerHTML = '<div class="empty-state"><div class="empty-icon">&#x1F50D;</div><p>未找到该阅读记录</p></div>'; return; }
+
+    var questions = record.questions || [];
+    var totalStudentScore = 0;
+    var totalQScore = 0;
+    questions.forEach(function(q){ totalStudentScore += q.studentScore; totalQScore += q.score; });
+
+    var html = '';
+    html += '<div class="yy-detail-header">';
+    html += '<button class="back-btn" onclick="window._yyBackToList()">&#x2190; 返回列表</button>';
+    html += '<h2 style="font-size:18px;font-weight:600">阅读详情</h2>';
+    html += '</div>';
+
+    html += '<div class="yy-detail-info">';
+    html += '<div class="info-item"><span class="info-label">学号</span><span class="info-value">'+record.studentNo+'</span></div>';
+    html += '<div class="info-item"><span class="info-label">姓名</span><span class="info-value">'+record.studentName+'</span></div>';
+    html += '<div class="info-item"><span class="info-label">班级</span><span class="info-value">'+record.className+'</span></div>';
+    html += '<div class="info-item"><span class="info-label">文章标题</span><span class="info-value">'+record.articleTitle+'</span></div>';
+    html += '<div class="info-item"><span class="info-label">提交时间</span><span class="info-value">'+record.submitTime+'</span></div>';
+    html += '<div class="info-item"><span class="info-label">总分</span><span class="info-value score-highlight">'+totalStudentScore+'<span class="slash">/'+totalQScore+'</span></span></div>';
+    html += '</div>';
+
+    html += '<div class="yy-question-list">';
+    questions.forEach(function(q, idx){
+      var typeLabel = q.type==='choice' ? '选择题' : q.type==='fill' ? '填空题' : '解答题';
+      var typeCls = 'type-'+q.type;
+
+      var statusConfig = { correct: { cls: 'correct', label: '对', dot: '#16a34a' }, half: { cls: 'half', label: '半对', dot: '#f59e0b' }, wrong: { cls: 'wrong', label: '错', dot: '#ef4444' }, unanswered: { cls: 'unanswered', label: '未做', dot: '#94a3b8' } };
+      var sc = statusConfig[q.status] || { cls: '', label: q.status, dot: '#94a3b8' };
+
+      html += '<div class="yy-question-card" id="yyq-'+idx+'">';
+      html += '<div class="qq-header" onclick="window._yyToggleQuestion(\'yyq-'+idx+'\')">';
+      html += '<div class="qq-title"><span class="qq-num">'+(idx+1)+'</span><span class="qq-type-tag '+typeCls+'">'+typeLabel+'</span><span class="qq-text">'+q.title+'</span></div>';
+      html += '<div class="qq-meta">';
+      if(q.type==='essay'){
+        html += '<span class="qq-score">得分 <strong>'+q.studentScore+'</strong>/'+q.score+'</span>';
+      } else {
+        html += '<span class="answer-status '+sc.cls+'"><span class="status-dot"></span>'+sc.label+'</span>';
+        html += '<span class="qq-score" style="margin-left:8px"><strong>'+q.studentScore+'</strong>/'+q.score+'分</span>';
+      }
+      html += '<span class="qq-arrow">&#x25BC;</span></div>';
+      html += '</div>';
+
+      html += '<div class="qq-body">';
+
+      if(q.type==='choice' && q.options){
+        html += '<div class="qq-options">';
+        q.options.forEach(function(opt){
+          var letter = opt.charAt(0);
+          var optCls = '';
+          if(letter === q.answer && letter === q.studentAnswer) optCls = 'is-correct';
+          else if(letter === q.studentAnswer && q.status==='wrong') optCls = 'is-wrong';
+          else if(letter === q.answer) optCls = 'is-correct-answer';
+          html += '<div class="qq-option '+optCls+'"><span class="opt-letter">'+letter+'</span>'+opt.substring(2)+'</div>';
+        });
+        html += '</div>';
+      }
+
+      // Error reason for half/wrong
+      if((q.status==='half' || q.status==='wrong') && q.errorReason){
+        html += '<div class="qq-error-reason"><span class="er-label">错误原因</span><span class="er-tag">'+q.errorReason+'</span></div>';
+      }
+
+      html += '<div class="qq-score-info">';
+      html += '<span class="score-item score-gain">本题得分：<strong>'+q.studentScore+'</strong></span>';
+      html += '<span style="color:var(--text-muted)">|</span>';
+      html += '<span class="score-item score-total">分值：<strong>'+q.score+'</strong>分</span>';
+      html += '</div>';
+
+      if(q.analysis){
+        html += '<div class="qq-analysis-wrap">';
+        html += '<button class="qq-analysis-toggle" onclick="event.stopPropagation();window._yyToggleAnalysis(this)"><span>查看答案解析</span><span class="toggle-arrow">&#x25BC;</span></button>';
+        html += '<div class="qq-analysis-content">';
+        if(q.answer && (q.type==='choice' || q.type==='fill')) html += '<p style="margin-bottom:6px"><strong>正确答案：</strong>'+q.answer+'</p>';
+        if(q.type==='essay' && q.answer) html += '<p style="margin-bottom:6px"><strong>参考答案：</strong>'+q.answer+'</p>';
+        html += '<p><strong>解析：</strong>'+q.analysis+'</p>';
+        html += '</div></div>';
+      }
+
+      html += '</div></div>';
+    });
+    html += '</div>';
+
+    contentArea.innerHTML = html;
+  }
+
+  window._yyDoFilter = function(){
+    var clsSel = document.getElementById('yyClassFilter');
+    var stuInp = document.getElementById('yyStudentSearch');
+    var startInp = document.getElementById('yySubmitStart');
+    var endInp = document.getElementById('yySubmitEnd');
+    yyClassFilter = clsSel ? clsSel.value : '';
+    yyStudentSearch = stuInp ? stuInp.value : '';
+    yySubmitStart = startInp ? startInp.value : '';
+    yySubmitEnd = endInp ? endInp.value : '';
+    renderYuwenYueduPage();
+  };
+
+  window._yyResetFilter = function(){
+    yyClassFilter = '';
+    yyStudentSearch = '';
+    yySubmitStart = '';
+    yySubmitEnd = '';
+    renderYuwenYueduPage();
+  };
+
+  window._yyViewDetail = function(id){
+    renderYuwenYueduDetailPage(id);
+  };
+
+  window._yyBackToList = function(){
+    renderYuwenYueduPage();
+  };
+
+  window._yyToggleQuestion = function(cardId){
+    var card = document.getElementById(cardId);
+    if(card) card.classList.toggle('open');
+  };
+
+  window._yyToggleAnalysis = function(btn){
+    btn.classList.toggle('open');
+    var content = btn.nextElementSibling;
+    if(content) content.classList.toggle('show');
+  };
+
   renderPage('banji-guanli');
 })();
 </script>
