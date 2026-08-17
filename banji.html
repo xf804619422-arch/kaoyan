@@ -6834,6 +6834,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // Student selection filters
   var tdSubjectFilter = '';
   var tdClassFilter = '';
+  var tdJieshuFilter = '';
   var tdLevelFilter = '';
   var tdNameSearch = '';
 
@@ -7004,6 +7005,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       });
     }
     if(tdClassFilter){ result = result.filter(function(s){ return s.stuClass === tdClassFilter; }); }
+    if(tdJieshuFilter){ result = result.filter(function(s){ return getStudentJieshu(s) === tdJieshuFilter; }); }
     if(tdLevelFilter){
       result = result.filter(function(s){
         if(tdLevelFilter.startsWith('math:')){
@@ -7025,6 +7027,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   }
 
   function renderStep1Html(){
+    var jieshuList = [];
+    studentData.forEach(function(s){
+      var js = getStudentJieshu(s);
+      if(js !== '-' && jieshuList.indexOf(js)===-1) jieshuList.push(js);
+    });
+    jieshuList.sort();
+    if(!tdJieshuFilter && jieshuList.length > 0){ tdJieshuFilter = jieshuList[0]; }
+
     var filtered = getFilteredStudentsForDispatch();
     var allChecked = filtered.length > 0 && filtered.every(function(s){ return tdSelectedStudentIds.indexOf(s.id)>-1; });
     var someChecked = filtered.some(function(s){ return tdSelectedStudentIds.indexOf(s.id)>-1; });
@@ -7045,6 +7055,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<select id="tdSubjectFilter" onchange="window._tdSubjectFilterChange()"><option value="">全部学科</option><option value="数学"'+(tdSubjectFilter==='数学'?' selected':'')+'>数学</option><option value="英语"'+(tdSubjectFilter==='英语'?' selected':'')+'>英语</option></select>';
     html += '<select id="tdClassFilter" onchange="window._tdApplyFilters()"><option value="">全部班级</option>';
     classes.forEach(function(c){ html += '<option value="'+c+'"'+(tdClassFilter===c?' selected':'')+'>'+c+'</option>'; });
+    html += '</select>';
+    html += '<select id="tdJieshuFilter" onchange="window._tdApplyFilters()">';
+    jieshuList.forEach(function(j){ html += '<option value="'+j+'"'+(tdJieshuFilter===j?' selected':'')+'>'+j+'</option>'; });
     html += '</select>';
     html += '<select id="tdLevelFilter" onchange="window._tdApplyFilters()"><option value="">全部当前水平</option>';
     html += '<optgroup label="数学水平"><option value="math:<60"'+(tdLevelFilter==='math:<60'?' selected':'')+'>数学 &lt;60</option><option value="math:60-79"'+(tdLevelFilter==='math:60-79'?' selected':'')+'>数学 60-79</option><option value="math:80-99"'+(tdLevelFilter==='math:80-99'?' selected':'')+'>数学 80-99</option><option value="math:100-119"'+(tdLevelFilter==='math:100-119'?' selected':'')+'>数学 100-119</option><option value="math:120-139"'+(tdLevelFilter==='math:120-139'?' selected':'')+'>数学 120-139</option><option value="math:140+"'+(tdLevelFilter==='math:140+'?' selected':'')+'>数学 140+</option></optgroup>';
@@ -7130,6 +7143,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._tdApplyFilters = function(){
     tdSubjectFilter = document.getElementById('tdSubjectFilter') ? document.getElementById('tdSubjectFilter').value : tdSubjectFilter;
     tdClassFilter = document.getElementById('tdClassFilter') ? document.getElementById('tdClassFilter').value : '';
+    tdJieshuFilter = document.getElementById('tdJieshuFilter') ? document.getElementById('tdJieshuFilter').value : '';
     tdLevelFilter = document.getElementById('tdLevelFilter') ? document.getElementById('tdLevelFilter').value : '';
     tdNameSearch = document.getElementById('tdNameSearch') ? document.getElementById('tdNameSearch').value : '';
     renderTaskDispatchPage();
