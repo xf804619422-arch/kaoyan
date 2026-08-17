@@ -292,6 +292,35 @@
   .jieshu-tab:hover{color:#334155;background:#f8fafc}
   .jieshu-tab.active{color:#1e293b;background:#f1f5f9;border-color:#e2e8f0}
   .jieshu-tab .count{font-size:11px;color:#94a3b8;margin-left:4px;font-weight:400}
+  /* 届数课程结构树 */
+  .jieshu-modal .modal{width:640px}
+  .course-subject-tabs{display:flex;gap:2px;margin-bottom:8px;background:#f1f5f9;border-radius:6px;padding:3px}
+  .course-subject-tab{flex:1;text-align:center;padding:6px 0;border-radius:4px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;transition:all .2s}
+  .course-subject-tab:hover{color:#334155}
+  .course-subject-tab.active{background:#fff;color:#1e293b;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .course-tree-actions{display:flex;gap:16px;margin-bottom:8px}
+  .course-tree-actions button{font-size:12px;color:#475569;background:none;border:none;cursor:pointer;padding:2px 0}
+  .course-tree-actions button:hover{color:#1e293b;text-decoration:underline}
+  .course-tree{max-height:320px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px}
+  .course-node{display:flex;align-items:center;padding:4px 0}
+  .course-node-toggle{width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;color:#94a3b8;font-size:9px;cursor:pointer;flex-shrink:0;transition:transform .15s;user-select:none}
+  .course-node-toggle.expanded{transform:rotate(90deg)}
+  .course-node-toggle.spacer{visibility:hidden}
+  .course-node input[type="checkbox"]{accent-color:#475569;width:15px;height:15px;margin-right:8px;flex-shrink:0;cursor:pointer}
+  .course-node .course-node-label{font-size:13px;color:#334155;line-height:1.4}
+  .course-node .course-node-type{font-size:10px;padding:1px 6px;border-radius:4px;margin-left:8px;font-weight:500;flex-shrink:0}
+  .course-node.level-0{padding-left:2px}
+  .course-node.level-0 .course-node-label{font-weight:600;color:#1e293b}
+  .course-node.level-0 .course-node-type{background:#eff6ff;color:#2563eb}
+  .course-node.level-1{padding-left:22px}
+  .course-node.level-1 .course-node-label{font-weight:500}
+  .course-node.level-1 .course-node-type{background:#f0fdf4;color:#059669}
+  .course-node.level-2{padding-left:42px}
+  .course-node.level-2 .course-node-type{background:#fff7ed;color:#c2410c}
+  .course-node.level-3{padding-left:62px}
+  .course-node.level-3 .course-node-label{color:#475569}
+  .course-node.level-4{padding-left:82px}
+  .course-node.level-4 .course-node-label{color:#64748b}
   .record-table{width:100%;border-collapse:collapse;font-size:13px}
   .record-table th,.record-table td{padding:10px 14px;text-align:left;border-bottom:1px solid #f1f5f9}
   .record-table th{background:#f8fafc;color:#64748b;font-weight:600;font-size:12px;white-space:nowrap}
@@ -646,7 +675,7 @@
 </div><!-- /app -->
 
 <!-- ===== 届数管理弹窗 ===== -->
-<div class="modal-overlay" id="jieshuModalOverlay">
+<div class="modal-overlay jieshu-modal" id="jieshuModalOverlay">
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title" id="jieshuModalTitle">新增届数</span>
@@ -667,6 +696,21 @@
           <label>结束时间 <span style="color:#ef4444">*</span></label>
           <input type="date" id="jieshuModalEndDate">
         </div>
+      </div>
+      <div class="form-group" style="margin-top:4px">
+        <label>课程结构</label>
+        <div class="course-subject-tabs" id="jieshuCourseTabs">
+          <div class="course-subject-tab active" data-subject="math" onclick="switchJieshuCourseSubject('math')">数学</div>
+          <div class="course-subject-tab" data-subject="english" onclick="switchJieshuCourseSubject('english')">英语</div>
+        </div>
+        <div class="course-tree-actions">
+          <button type="button" onclick="jieshuCourseSelectAll()">全选当前科目</button>
+          <button type="button" onclick="jieshuCourseClearAll()">清空当前科目</button>
+          <button type="button" onclick="jieshuCourseExpandAll()">展开全部</button>
+          <button type="button" onclick="jieshuCourseCollapseAll()">折叠全部</button>
+        </div>
+        <div class="course-tree" id="jieshuCourseTree"></div>
+        <div class="modal-hint" style="margin-top:6px">勾选该届数启用的课程内容，默认全部启用</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -2647,6 +2691,293 @@ function initAccountAndRole(){
 // ==================== 届数管理 ====================
 var currentJieshuTab = 'all';
 
+// 课程结构树（读取自教研管理「课程架构管理」完整树：学科 → 子科目 → 课程类型 → 课程 → 章节 → 知识点）
+var jieshuCourseSubjects = {
+  math: {
+    name: '数学',
+    children: [
+      {id:'c_gd',name:'高等数学',type:'子科目',children:[
+        {id:'st_gd_basic',name:'基础阶段',type:'课程类型',children:[
+          {id:'co_gd_func',name:'函数、极限与连续',type:'课程',children:[
+            {id:'ch_gd_f1',name:'第一章 函数',type:'章节',children:[
+              {id:'k_gd_f1_1',name:'函数的概念与表示法',type:'知识点'},
+              {id:'k_gd_f1_2',name:'函数的性质：单调性、奇偶性',type:'知识点'},
+              {id:'k_gd_f1_3',name:'反函数与复合函数',type:'知识点'}
+            ]},
+            {id:'ch_gd_f2',name:'第二章 极限',type:'章节',children:[
+              {id:'k_gd_f2_1',name:'数列极限的定义与性质',type:'知识点'},
+              {id:'k_gd_f2_2',name:'函数极限的定义',type:'知识点'},
+              {id:'k_gd_f2_3',name:'无穷小与无穷大',type:'知识点'}
+            ]}
+          ]},
+          {id:'co_gd_deriv',name:'导数与微分',type:'课程',children:[
+            {id:'ch_gd_d1',name:'导数的概念',type:'章节',children:[
+              {id:'k_gd_d1_1',name:'导数的定义',type:'知识点'},
+              {id:'k_gd_d1_2',name:'导数的几何意义',type:'知识点'}
+            ]}
+          ]}
+        ]},
+        {id:'st_gd_strong',name:'强化阶段',type:'课程类型',children:[
+          {id:'co_gd_mid',name:'中值定理与导数应用',type:'课程',children:[
+            {id:'ch_gd_m1',name:'中值定理',type:'章节',children:[
+              {id:'k_gd_m1_1',name:'罗尔定理',type:'知识点'},
+              {id:'k_gd_m1_2',name:'拉格朗日中值定理',type:'知识点'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:'c_xd',name:'线性代数',type:'子科目',children:[
+        {id:'st_xd_basic',name:'基础阶段',type:'课程类型',children:[
+          {id:'co_xd_det',name:'行列式',type:'课程',children:[
+            {id:'ch_xd_d1',name:'行列式的概念',type:'章节',children:[
+              {id:'k_xd_d1_1',name:'二阶与三阶行列式',type:'知识点'},
+              {id:'k_xd_d1_2',name:'n阶行列式的定义',type:'知识点'}
+            ]}
+          ]}
+        ]},
+        {id:'st_xd_strong',name:'强化阶段',type:'课程类型',children:[
+          {id:'co_xd_mat',name:'矩阵',type:'课程',children:[
+            {id:'ch_xd_m1',name:'矩阵的概念与运算',type:'章节',children:[
+              {id:'k_xd_m1_1',name:'矩阵的定义与类型',type:'知识点'},
+              {id:'k_xd_m1_2',name:'矩阵的加减与数乘',type:'知识点'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:'c_gs',name:'概率统计',type:'子科目',children:[
+        {id:'st_gs_basic',name:'基础阶段',type:'课程类型',children:[
+          {id:'co_gs_event',name:'随机事件与概率',type:'课程',children:[
+            {id:'ch_gs_e1',name:'随机事件与样本空间',type:'章节',children:[
+              {id:'k_gs_e1_1',name:'随机试验与样本空间',type:'知识点'},
+              {id:'k_gs_e1_2',name:'随机事件及其运算',type:'知识点'}
+            ]}
+          ]}
+        ]},
+        {id:'st_gs_strong',name:'强化阶段',type:'课程类型',children:[
+          {id:'co_gs_dist',name:'随机变量与分布',type:'课程',children:[
+            {id:'ch_gs_d1',name:'随机变量及其分布函数',type:'章节',children:[
+              {id:'k_gs_d1_1',name:'离散型随机变量',type:'知识点'},
+              {id:'k_gs_d1_2',name:'连续型随机变量',type:'知识点'}
+            ]}
+          ]}
+        ]}
+      ]}
+    ]
+  },
+  english: {
+    name: '英语',
+    children: [
+      {id:'c_none',name:'无',type:'子科目',children:[
+        {id:'st_eng_basic',name:'基础阶段',type:'课程类型',children:[
+          {id:'co_eng_cet4',name:'四级核心词汇',type:'课程',children:[
+            {id:'ch_eng_c41',name:'高频词汇（一）',type:'章节',children:[
+              {id:'k_eng_c4_1',name:'abandon-breach (50词)',type:'知识点'},
+              {id:'k_eng_c4_2',name:'brief-consume (50词)',type:'知识点'}
+            ]}
+          ]},
+          {id:'co_eng_cet6',name:'六级核心词汇',type:'课程',children:[
+            {id:'ch_eng_c61',name:'学术词汇（一）',type:'章节',children:[
+              {id:'k_eng_c6_1',name:'academic-consensus (50词)',type:'知识点'},
+              {id:'k_eng_c6_2',name:'constitute-explicit (50词)',type:'知识点'}
+            ]}
+          ]}
+        ]},
+        {id:'st_eng_strong',name:'强化阶段',type:'课程类型',children:[
+          {id:'co_eng_sentence',name:'四级长难句',type:'课程',children:[
+            {id:'ch_eng_s1',name:'定语从句',type:'章节',children:[
+              {id:'k_eng_s1_1',name:'限制性定语从句',type:'知识点'},
+              {id:'k_eng_s1_2',name:'非限制性定语从句',type:'知识点'}
+            ]}
+          ]},
+          {id:'co_eng_reading',name:'六级阅读精讲',type:'课程',children:[
+            {id:'ch_eng_r1',name:'长篇阅读技巧',type:'章节',children:[
+              {id:'k_eng_r1_1',name:'快速定位关键信息',type:'知识点'},
+              {id:'k_eng_r1_2',name:'推理判断题解题策略',type:'知识点'}
+            ]}
+          ]}
+        ]}
+      ]}
+    ]
+  }
+};
+var currentJieshuCourseSubject = 'math';
+// 当前弹窗内的勾选状态（知识点叶子 id -> true）
+var jieshuCourseChecked = {};
+// 节点展开状态（节点 id -> true 展开）
+var jieshuCourseExpanded = {};
+
+function getAllSubjectChildren(){
+  var list = [];
+  Object.keys(jieshuCourseSubjects).forEach(function(key){
+    jieshuCourseSubjects[key].children.forEach(function(n){ list.push(n); });
+  });
+  return list;
+}
+function getCurrentSubjectNodes(){
+  return jieshuCourseSubjects[currentJieshuCourseSubject].children;
+}
+function findJieshuCourseNode(id, nodes){
+  nodes = nodes || getAllSubjectChildren();
+  for(var i=0;i<nodes.length;i++){
+    if(nodes[i].id===id) return nodes[i];
+    if(nodes[i].children){
+      var f = findJieshuCourseNode(id, nodes[i].children);
+      if(f) return f;
+    }
+  }
+  return null;
+}
+function getLeafIdsUnder(node){
+  var ids = [];
+  function walk(n){
+    if(n.children && n.children.length){ n.children.forEach(walk); }
+    else { ids.push(n.id); }
+  }
+  walk(node);
+  return ids;
+}
+function getAllJieshuCourseLeafIds(){
+  var ids = [];
+  getAllSubjectChildren().forEach(function(s){ ids = ids.concat(getLeafIdsUnder(s)); });
+  return ids;
+}
+function getSubjectLeafIds(subjectKey){
+  var ids = [];
+  jieshuCourseSubjects[subjectKey].children.forEach(function(s){ ids = ids.concat(getLeafIdsUnder(s)); });
+  return ids;
+}
+function isCourseNodeExpanded(node){
+  if(jieshuCourseExpanded.hasOwnProperty(node.id)) return jieshuCourseExpanded[node.id];
+  return node.type==='子科目' || node.type==='课程类型';
+}
+function switchJieshuCourseSubject(subject){
+  currentJieshuCourseSubject = subject;
+  var tabs = document.querySelectorAll('#jieshuCourseTabs .course-subject-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  document.querySelector('#jieshuCourseTabs .course-subject-tab[data-subject="'+subject+'"]').classList.add('active');
+  renderJieshuCourseTree();
+}
+function renderJieshuCourseTree(){
+  var container = document.getElementById('jieshuCourseTree');
+  var html = '';
+  getCurrentSubjectNodes().forEach(function(s){
+    html += renderJieshuCourseNode(s, 0);
+  });
+  container.innerHTML = html;
+  updateJieshuCourseParentStates();
+}
+function renderJieshuCourseNode(node, level){
+  var hasChildren = node.children && node.children.length>0;
+  var isLeaf = !hasChildren;
+  var isExpanded = isCourseNodeExpanded(node);
+  var checked = isLeaf ? (jieshuCourseChecked[node.id]?'checked':'') : '';
+  var showBadge = node.type==='子科目' || node.type==='课程类型' || node.type==='课程';
+  var html = '<div class="course-node level-'+level+'">';
+  if(hasChildren){
+    html += '<span class="course-node-toggle'+(isExpanded?' expanded':'')+'" onclick="toggleCourseNodeExpand(\''+node.id+'\')">&#9654;</span>';
+  }else{
+    html += '<span class="course-node-toggle spacer">&#9654;</span>';
+  }
+  if(isLeaf){
+    html += '<input type="checkbox" id="jc_'+node.id+'" '+checked+' onchange="toggleJieshuLeaf(\''+node.id+'\',this.checked)">';
+  }else{
+    html += '<input type="checkbox" id="jc_'+node.id+'" onchange="toggleJieshuBranch(\''+node.id+'\',this.checked)">';
+  }
+  html += '<span class="course-node-label">'+node.name+'</span>';
+  if(showBadge){
+    html += '<span class="course-node-type">'+node.type+'</span>';
+  }
+  html += '</div>';
+  if(hasChildren && isExpanded){
+    node.children.forEach(function(c){
+      html += renderJieshuCourseNode(c, level+1);
+    });
+  }
+  return html;
+}
+function updateJieshuCourseParentStates(){
+  function update(nodes){
+    nodes.forEach(function(n){
+      if(n.children && n.children.length){
+        var leaves = getLeafIdsUnder(n);
+        var cnt = 0;
+        leaves.forEach(function(lid){ if(jieshuCourseChecked[lid]) cnt++; });
+        var cb = document.getElementById('jc_'+n.id);
+        if(cb){
+          cb.checked = cnt === leaves.length;
+          cb.indeterminate = cnt > 0 && cnt < leaves.length;
+        }
+        update(n.children);
+      }
+    });
+  }
+  update(getCurrentSubjectNodes());
+}
+function toggleCourseNodeExpand(id){
+  var node = findJieshuCourseNode(id);
+  if(!node) return;
+  jieshuCourseExpanded[id] = !isCourseNodeExpanded(node);
+  renderJieshuCourseTree();
+}
+function toggleJieshuLeaf(id, checked){
+  jieshuCourseChecked[id] = checked;
+  updateJieshuCourseParentStates();
+}
+function toggleJieshuBranch(id, checked){
+  var node = findJieshuCourseNode(id);
+  if(!node) return;
+  getLeafIdsUnder(node).forEach(function(lid){ jieshuCourseChecked[lid] = checked; });
+  renderJieshuCourseTree();
+}
+function jieshuCourseSelectAll(){
+  getSubjectLeafIds(currentJieshuCourseSubject).forEach(function(lid){ jieshuCourseChecked[lid] = true; });
+  renderJieshuCourseTree();
+}
+function jieshuCourseClearAll(){
+  getSubjectLeafIds(currentJieshuCourseSubject).forEach(function(lid){ jieshuCourseChecked[lid] = false; });
+  renderJieshuCourseTree();
+}
+function jieshuCourseExpandAll(){
+  setAllCourseExpand(true);
+}
+function jieshuCourseCollapseAll(){
+  setAllCourseExpand(false);
+}
+function setAllCourseExpand(flag){
+  function walk(nodes){
+    nodes.forEach(function(n){
+      if(n.children && n.children.length){
+        jieshuCourseExpanded[n.id] = flag;
+        walk(n.children);
+      }
+    });
+  }
+  walk(getAllSubjectChildren());
+  renderJieshuCourseTree();
+}
+function resetJieshuCourseChecked(selectedIds){
+  var all = getAllJieshuCourseLeafIds();
+  var map = {};
+  if(selectedIds && selectedIds.length){
+    selectedIds.forEach(function(id){ map[id] = true; });
+  }
+  jieshuCourseChecked = {};
+  all.forEach(function(id){ jieshuCourseChecked[id] = !!map[id]; });
+}
+function resetJieshuCourseTree(selectedIds){
+  currentJieshuCourseSubject = 'math';
+  jieshuCourseExpanded = {};
+  var tabs = document.querySelectorAll('#jieshuCourseTabs .course-subject-tab');
+  tabs.forEach(function(t){
+    if(t.getAttribute('data-subject')==='math'){ t.classList.add('active'); }
+    else { t.classList.remove('active'); }
+  });
+  resetJieshuCourseChecked(selectedIds);
+}
+function collectJieshuCourseChecked(){
+  return getAllJieshuCourseLeafIds().filter(function(id){ return jieshuCourseChecked[id]; });
+}
+
 function getJieshuStatus(j){
   var today = new Date().toISOString().slice(0,10);
   if(j.startDate > today) return 'weikaishi';
@@ -2720,12 +3051,18 @@ function openJieshuModal(editIndex){
     document.getElementById('jieshuModalName').value = j.name;
     document.getElementById('jieshuModalStartDate').value = j.startDate;
     document.getElementById('jieshuModalEndDate').value = j.endDate;
+    // 加载已保存的课程结构（未设置则默认全选）
+    var saved = (j.courseStructure && j.courseStructure.length) ? j.courseStructure : getAllJieshuCourseLeafIds();
+    resetJieshuCourseTree(saved);
   }else{
     document.getElementById('jieshuModalTitle').textContent = '新增届数';
     document.getElementById('jieshuModalName').value = '';
     document.getElementById('jieshuModalStartDate').value = '';
     document.getElementById('jieshuModalEndDate').value = '';
+    // 默认全选
+    resetJieshuCourseTree(getAllJieshuCourseLeafIds());
   }
+  renderJieshuCourseTree();
   document.getElementById('jieshuModalOverlay').classList.add('show');
   setTimeout(function(){ document.getElementById('jieshuModalName').focus(); },100);
 }
@@ -2749,10 +3086,13 @@ function saveJieshu(){
   if(!endDate){showToast('请选择结束时间');return;}
   if(startDate >= endDate){showToast('开始时间必须早于结束时间');return;}
 
+  var courseStructure = collectJieshuCourseChecked();
+
   if(editIndex>=0){
     jieshuData[editIndex].name = name;
     jieshuData[editIndex].startDate = startDate;
     jieshuData[editIndex].endDate = endDate;
+    jieshuData[editIndex].courseStructure = courseStructure;
     showToast('届数已更新');
   }else{
     var exists = jieshuData.some(function(j){return j.name===name;});
@@ -2763,7 +3103,8 @@ function saveJieshu(){
       startDate:startDate,
       endDate:endDate,
       createdAt:new Date().toISOString().replace('T',' ').slice(0,19),
-      hasClasses:false
+      hasClasses:false,
+      courseStructure:courseStructure
     });
     showToast('届数已新增');
   }

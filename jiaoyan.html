@@ -1742,6 +1742,10 @@ tr:hover td{background:#fafbfc}
             <textarea class="form-textarea" id="zjDesc" placeholder="请输入试卷说明（可选）" style="min-height:50px"></textarea>
           </div>
           <div class="form-group">
+            <label class="form-label">应用范围 <span style="font-size:11px;color:var(--text-secondary);font-weight:400">（勾选适用的届数）</span></label>
+            <div class="ae-check-grid" id="zjScopeList"></div>
+          </div>
+          <div class="form-group">
             <label class="form-label"><span class="required">*</span> 试卷类型 <span style="font-size:11px;color:var(--text-secondary);font-weight:400">（可多选）</span></label>
             <div class="zj-type-tags" id="zjExamTypes">
               <span class="zj-type-tag" data-value="lian" onclick="zjToggleExamType(this)">练测</span>
@@ -3073,6 +3077,10 @@ tr:hover td{background:#fafbfc}
             </div>
           </div>
           <div class="form-group">
+            <label class="form-label">应用范围 <span style="font-size:11px;color:var(--text-secondary);font-weight:400">（勾选适用的届数）</span></label>
+            <div class="ae-check-grid" id="editExamScopeList"></div>
+          </div>
+          <div class="form-group">
             <label class="form-label">试卷说明</label>
             <textarea class="form-textarea" id="editExamDesc" placeholder="请输入试卷说明（可选）" style="min-height:50px"></textarea>
           </div>
@@ -4022,6 +4030,36 @@ let homeworkData = [
   {id:2,title:'导数计算练习',subject:'数学',qCount:12,status:'published',creator:'教研员',time:'2026-07-08'},
   {id:3,title:'定语从句翻译练习',subject:'英语',qCount:6,status:'published',creator:'教研员',time:'2026-07-06'}
 ];
+
+// 应用范围（进行中的届数）
+let jieshuData = [
+  {id:'js_1', name:'2026届', startDate:'2025-09-01', endDate:'2026-12-31'},
+  {id:'js_2', name:'2027届', startDate:'2026-03-01', endDate:'2027-06-30'}
+];
+function getActiveJieshu(){
+  const today = new Date().toISOString().slice(0,10);
+  return jieshuData.filter(j => j.startDate <= today && j.endDate >= today);
+}
+function renderScopeCheckboxes(containerId, selectedIds){
+  const el = $(containerId);
+  if(!el) return;
+  const active = getActiveJieshu();
+  if(active.length===0){
+    el.innerHTML = '<span style="font-size:12px;color:var(--text-secondary)">当前无进行中的届数</span>';
+    return;
+  }
+  let h='';
+  active.forEach(j=>{
+    const checked = Array.isArray(selectedIds) ? selectedIds.includes(j.id) : true;
+    h+='<label class="ae-check-item"><input type="checkbox" value="'+j.id+'" '+(checked?'checked':'')+'> '+j.name+'</label>';
+  });
+  el.innerHTML=h;
+}
+function collectScopeIds(containerId){
+  const el=$(containerId);
+  if(!el) return [];
+  return Array.from(el.querySelectorAll('input[type=checkbox]:checked')).map(c=>c.value);
+}
 
 // Document data
 let docData = [
@@ -6201,6 +6239,7 @@ function initZujuan(){
   $('zjExamName').value = '';
   $('zjDesc').value = '';
   $('zjSubject').value = '数学';
+  renderScopeCheckboxes('zjScopeList');
   $('zjCatExtend').classList.remove('show');
   populateZjCatParent();
   $('zjCatParent').value = '';
@@ -6762,10 +6801,11 @@ function zjSaveExam(status){
   const hwCatParentEl=hwCatParentId?$('zjHwCatParent').selectedOptions[0]:null;
   const hwCatChildEl=hwCatChildId?$('zjHwCatChild').selectedOptions[0]:null;
   const hwCatLabel=(hwCatParentEl&&hwCatChildEl)?(hwCatParentEl.textContent+' / '+hwCatChildEl.textContent):'';
+  const scopeIds = collectScopeIds('zjScopeList');
   // save to both examData and homeworkData if applicable
-  examData.unshift({id:++_nextId,name:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:catParentId,catChildId:catChildId,catLabel:catLabel,time:new Date().toISOString().slice(0,10)});
+  examData.unshift({id:++_nextId,name:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:catParentId,catChildId:catChildId,catLabel:catLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
   if(zjExamTypes.includes('zuoye')){
-    homeworkData.unshift({id:++_nextId,title:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:hwCatParentId,catChildId:hwCatChildId,catLabel:hwCatLabel,time:new Date().toISOString().slice(0,10)});
+    homeworkData.unshift({id:++_nextId,title:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:hwCatParentId,catChildId:hwCatChildId,catLabel:hwCatLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
   }
   showToast(status==='draft'?'草稿已保存':'试卷保存成功','success');
   switchView('exam');renderExamTable();renderHomeworkTable();
@@ -12068,6 +12108,7 @@ function editExam(id){
   $('editExamName').value = e.name||'';
   $('editExamSubject').value = e.subject||'数学';
   $('editExamDesc').value = e.desc||'';
+  renderScopeCheckboxes('editExamScopeList', e.scopeIds);
   $('eeTypeFilter').value = 'all';
   $('eeQCatFilter').value = 'all';
   $('eeSourceFilter').value = 'all';
@@ -12333,6 +12374,7 @@ function saveEditExam(){
   if(editExamQuestions.length===0){showToast('请至少添加一道题','error');return}
   const subject = $('editExamSubject')?.value||'数学';
   const desc = $('editExamDesc')?.value?.trim()||'';
+  const scopeIds = collectScopeIds('editExamScopeList');
   let catParentId, catChildId, catLabel;
   if(_editingFromHomework){
     catParentId = $('editExamHwCatParent')?.value||'';
@@ -12356,6 +12398,7 @@ function saveEditExam(){
     examData[idx].catParentId = catParentId;
     examData[idx].catChildId = catChildId;
     examData[idx].catLabel = catLabel;
+    examData[idx].scopeIds = scopeIds;
     // Sync back to homeworkData if editing originated from homework
     const hwIdx = homeworkData.findIndex(x=>x.id===_editingExamId);
     if(hwIdx>=0){
@@ -12366,6 +12409,7 @@ function saveEditExam(){
       homeworkData[hwIdx].catParentId = catParentId;
       homeworkData[hwIdx].catChildId = catChildId;
       homeworkData[hwIdx].catLabel = catLabel;
+      homeworkData[hwIdx].scopeIds = scopeIds;
     }
   }
   showToast('试卷修改已保存','success');
@@ -12378,6 +12422,7 @@ function publishExam(){
   if(!name){showToast('请输入试卷名称','error');return}
   if(editExamQuestions.length===0){showToast('请至少添加一道题','error');return}
   if(!confirm('确定发布试卷「'+name+'」吗？发布后状态将变为已发布。')) return;
+  const scopeIds = collectScopeIds('editExamScopeList');
   const idx = examData.findIndex(x=>x.id===_editingExamId);
   if(idx>=0){
     examData[idx].name = name;
@@ -12402,6 +12447,7 @@ function publishExam(){
     examData[idx].catParentId = catParentId;
     examData[idx].catChildId = catChildId;
     examData[idx].catLabel = catLabel;
+    examData[idx].scopeIds = scopeIds;
     // Sync back to homeworkData
     const hwIdx = homeworkData.findIndex(x=>x.id===_editingExamId);
     if(hwIdx>=0){
@@ -12412,6 +12458,7 @@ function publishExam(){
       homeworkData[hwIdx].catParentId = catParentId;
       homeworkData[hwIdx].catChildId = catChildId;
       homeworkData[hwIdx].catLabel = catLabel;
+      homeworkData[hwIdx].scopeIds = scopeIds;
       homeworkData[hwIdx].status = 'published';
     }
   }
@@ -12543,7 +12590,8 @@ function editHomework(id){
     desc: hw.desc || '',
     catParentId: hw.catParentId || '',
     catChildId: hw.catChildId || '',
-    catLabel: hw.catLabel || ''
+    catLabel: hw.catLabel || '',
+    scopeIds: hw.scopeIds
   };
   // Temporarily put it in examData for editExam to find
   const existingIdx = examData.findIndex(x=>x.id===hw.id);
