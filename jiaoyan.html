@@ -130,6 +130,15 @@ tr:hover td{background:#fafbfc}
 .tree-children.expanded{display:block}
 .tree-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
 .tree-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cqb-cat-select{position:relative;border:1px solid var(--border);border-radius:6px;padding:7px 12px;font-size:13px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;min-height:22px;gap:8px}
+.cqb-cat-select:hover{border-color:var(--primary)}
+.cqb-cat-select .placeholder{color:#9ca3af}
+.cqb-cat-select .value{color:var(--text);font-weight:500}
+.cqb-cat-select .arrow{color:#9ca3af;font-size:11px;flex-shrink:0}
+.cqb-cat-dropdown{position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid var(--border);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:300;width:100%;max-height:280px;overflow-y:auto;display:none}
+.cqb-cat-dropdown.show{display:block}
+.cqb-cat-dropdown .tree-node-content{padding:6px 8px;font-size:13px}
+.cqb-cat-dropdown .tree-children{padding-left:16px}
 .tree-freq{display:inline-block;padding:1px 6px;font-size:9px;border-radius:6px;font-weight:500;flex-shrink:0;margin-left:2px}
 .tree-freq.high{background:#fee2e2;color:#dc2626}
 .tree-freq.mid{background:#fef3c7;color:#d97706}
@@ -949,6 +958,8 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="cijuCatMgr" onclick="switchView('cijuCatMgr',this)">词句分类</div>
         <div class="sidebar-item" data-view="cijuEntry" onclick="switchView('cijuEntry',this)">词句录入</div>
         <div class="sidebar-item" data-view="cijuMgr" onclick="switchView('cijuMgr',this)">词句管理</div>
+        <div class="sidebar-item" data-view="cijuQuestionBank" onclick="switchView('cijuQuestionBank',this)">词句题库管理</div>
+        <div class="sidebar-item" data-view="yuwenReadCatMgr" onclick="switchView('yuwenReadCatMgr',this)">阅读文章分类</div>
         <div class="sidebar-item" data-view="yuwenReadEntry" onclick="switchView('yuwenReadEntry',this)">阅读文章录入</div>
         <div class="sidebar-item" data-view="yuwenReadMgr" onclick="switchView('yuwenReadMgr',this)">阅读文章管理</div>
       </div>
@@ -2456,7 +2467,7 @@ tr:hover td{background:#fafbfc}
     <div class="view" id="view-cijuCatMgr">
       <div class="page-header">
         <div class="page-title">词句分类</div>
-        <div class="page-subtitle">管理语文词句的一级分类，支持创建、编辑和删除</div>
+        <div class="page-subtitle">管理语文词句的多级分类（最多三级），每一级均支持创建、编辑和删除</div>
       </div>
       <div class="btn-group">
         <button class="btn btn-primary btn-sm" onclick="addCijuCategory()">+ 新增分类</button>
@@ -2474,9 +2485,11 @@ tr:hover td{background:#fafbfc}
         <div class="ve-left">
           <div class="form-group">
             <label class="form-label"><span class="required">*</span> 词句分类</label>
-            <select class="form-select" id="ceCatSelect" onchange="updateCePreview()">
-              <option value="">请选择词句分类</option>
-            </select>
+            <div class="cqb-cat-select" id="ceTreeBox" onclick="event.stopPropagation();toggleTreeSelect('ce')">
+              <span id="ceTreeText" class="placeholder">请选择词句分类</span>
+              <span class="arrow">&#9662;</span>
+              <div class="cqb-cat-dropdown" id="ceTreeDrop" onclick="event.stopPropagation()"></div>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label"><span class="required">*</span> 标题</label>
@@ -2525,9 +2538,11 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="vocablib-filter-bar">
         <span class="vocablib-filter-label">分类：</span>
-        <select class="form-select" id="cmFilterCat" onchange="onCmFilterChange()" style="width:140px">
-          <option value="">全部</option>
-        </select>
+        <div class="cqb-cat-select" id="cmTreeBox" onclick="event.stopPropagation();toggleTreeSelect('cm')" style="width:140px">
+          <span id="cmTreeText" class="placeholder">全部</span>
+          <span class="arrow">&#9662;</span>
+          <div class="cqb-cat-dropdown" id="cmTreeDrop" onclick="event.stopPropagation()"></div>
+        </div>
         <span class="vocablib-search">
           <span class="icon">&#128269;</span>
           <input id="cmFilterTitle" placeholder="搜索标题" oninput="onCmFilterChange()">
@@ -2557,6 +2572,46 @@ tr:hover td{background:#fafbfc}
       <div class="vocablib-table-wrap" id="cmTableWrap"></div>
     </div>
 
+    <!-- ========== VIEW: 词句题库管理 ========== -->
+    <div class="view" id="view-cijuQuestionBank">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">词句题库管理</div>
+          <div class="page-subtitle">按词句分类管理题目，支持录入、批量导入、审核与发布</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <button class="btn btn-primary btn-sm" onclick="openCqbEntryModal()">录入题目</button>
+          <button class="btn btn-outline btn-sm" onclick="openCqbImportModal()">批量导入</button>
+        </div>
+      </div>
+      <div class="video-layout">
+        <div class="video-tree-panel">
+          <div style="padding:12px">
+            <span class="vocablib-search" style="width:100%">
+              <span class="icon">&#128269;</span>
+              <input id="cqbTreeSearch" placeholder="搜索分类" oninput="onCqbTreeSearch()" style="width:100%">
+            </span>
+          </div>
+          <div class="video-tree-scroll" id="cqbTreeContainer"></div>
+        </div>
+        <div class="video-right-panel" id="cqbRightPanel">
+          <div class="video-placeholder">请在左侧选择一个分类</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== VIEW: 阅读文章分类 ========== -->
+    <div class="view" id="view-yuwenReadCatMgr">
+      <div class="page-header">
+        <div class="page-title">阅读文章分类</div>
+        <div class="page-subtitle">管理语文阅读文章的多级分类（最多三级），每一级均支持创建、编辑和删除</div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm" onclick="addYuwenReadCategory()">+ 新增分类</button>
+      </div>
+      <div class="table-wrap" id="yuwenReadCatList"></div>
+    </div>
+
     <!-- ========== VIEW: 阅读文章录入(语文) ========== -->
     <div class="view" id="view-yuwenReadEntry">
       <div class="page-header">
@@ -2566,6 +2621,14 @@ tr:hover td{background:#fafbfc}
       <!-- 模块一：文章信息 -->
       <div class="card" style="margin-bottom:20px">
         <div class="card-header">📝 文章信息</div>
+        <div class="form-group">
+          <label class="form-label"><span class="required">*</span> 阅读文章分类</label>
+          <div class="cqb-cat-select" id="yreTreeBox" onclick="event.stopPropagation();toggleTreeSelect('yre')">
+            <span id="yreTreeText" class="placeholder">请选择阅读文章分类</span>
+            <span class="arrow">&#9662;</span>
+            <div class="cqb-cat-dropdown" id="yreTreeDrop" onclick="event.stopPropagation()"></div>
+          </div>
+        </div>
         <div class="form-group">
           <label class="form-label"><span class="required">*</span> 文章标题</label>
           <input class="form-input" id="yreTitle" placeholder="请输入文章标题" autocomplete="off">
@@ -2617,6 +2680,12 @@ tr:hover td{background:#fafbfc}
         <div class="page-subtitle">管理语文阅读文章，支持审核与发布流程</div>
       </div>
       <div class="vocablib-filter-bar">
+        <span class="vocablib-filter-label">分类：</span>
+        <div class="cqb-cat-select" id="yrmTreeBox" onclick="event.stopPropagation();toggleTreeSelect('yrm')" style="width:160px">
+          <span id="yrmTreeText" class="placeholder">全部</span>
+          <span class="arrow">&#9662;</span>
+          <div class="cqb-cat-dropdown" id="yrmTreeDrop" onclick="event.stopPropagation()"></div>
+        </div>
         <span class="vocablib-search">
           <span class="icon">&#128269;</span>
           <input id="yrmFilterTitle" placeholder="搜索标题" oninput="onYrmFilterChange()">
@@ -4035,6 +4104,8 @@ updateRABadge();
   if(viewName==='cijuCatMgr')renderCijuCategoryMgr();
   if(viewName==='cijuEntry')initCijuEntry();
   if(viewName==='cijuMgr')initCijuMgr();
+  if(viewName==='cijuQuestionBank')initCijuQuestionBank();
+  if(viewName==='yuwenReadCatMgr')renderYuwenReadCatMgr();
   if(viewName==='yuwenReadEntry')initYuwenReadEntry();
   if(viewName==='yuwenReadMgr')initYuwenReadMgr();
 }
@@ -8244,87 +8315,402 @@ function initReadMgr(){
 
 // ==================== CIJU CATEGORY MANAGER (词句分类) ====================
 let cijuCatData = [
-  {id:1,name:'成语'},{id:2,name:'古诗词'},{id:3,name:'名句'},{id:4,name:'文言文'}
+  {id:1,name:'成语',_expanded:true,children:[
+    {id:11,name:'四字成语',_expanded:true,children:[
+      {id:111,name:'褒义成语',children:[]},
+      {id:112,name:'贬义成语',children:[]}
+    ]},
+    {id:12,name:'多字成语',_expanded:false,children:[]}
+  ]},
+  {id:2,name:'古诗词',_expanded:true,children:[
+    {id:21,name:'唐诗',_expanded:false,children:[]},
+    {id:22,name:'宋词',_expanded:false,children:[]},
+    {id:23,name:'元曲',_expanded:false,children:[]}
+  ]},
+  {id:3,name:'名句',_expanded:true,children:[
+    {id:31,name:'励志名句',_expanded:false,children:[]},
+    {id:32,name:'哲理名句',_expanded:false,children:[]}
+  ]},
+  {id:4,name:'文言文',_expanded:false,children:[]}
 ];
-let _cijuCatNextId=100;
+let _cijuCatNextId=1000;
+
+// 展平分类树，供下拉框与查找使用
+function flattenCijuCatData(){
+  const out=[];
+  function walk(nodes,level,path){
+    nodes.forEach(n=>{
+      const fullName=path?path+' / '+n.name:n.name;
+      out.push({id:n.id,name:n.name,fullName:fullName,level:level});
+      if(n.children&&n.children.length) walk(n.children,level+1,fullName);
+    });
+  }
+  walk(cijuCatData,0,'');
+  return out;
+}
+
+// 按 id 查找分类节点对象
+function findCijuNodeById(id){
+  let found=null;
+  function walk(nodes){
+    nodes.forEach(n=>{
+      if(n.id===id){found=n;return;}
+      if(n.children&&n.children.length) walk(n.children);
+    });
+  }
+  walk(cijuCatData);
+  return found;
+}
+
+// 定位节点所在数组及下标，供删除/改名使用
+function _cijuLocate(id,nodes){
+  for(let i=0;i<nodes.length;i++){
+    if(nodes[i].id===id) return {arr:nodes,idx:i};
+    if(nodes[i].children&&nodes[i].children.length){
+      const r=_cijuLocate(id,nodes[i].children);
+      if(r) return r;
+    }
+  }
+  return null;
+}
+
+// 获取节点层级（1/2/3）
+function _cijuGetLevel(id){
+  let lvl=0;
+  function walk(nodes,d){
+    nodes.forEach(n=>{
+      if(n.id===id){lvl=d;return;}
+      if(n.children&&n.children.length) walk(n.children,d+1);
+    });
+  }
+  walk(cijuCatData,1);
+  return lvl;
+}
+
+// 获取节点完整路径名
+function getCijuCatFullName(id){
+  let result='';
+  function walk(nodes,path){
+    nodes.forEach(n=>{
+      const fp=path?path+' / '+n.name:n.name;
+      if(n.id===id){result=fp;return;}
+      if(n.children&&n.children.length) walk(n.children,fp);
+    });
+  }
+  walk(cijuCatData,'');
+  return result;
+}
 
 function renderCijuCategoryMgr(){
   let h='';
-  cijuCatData.forEach((p,pi)=>{
-    h+='<div class="cat-mgr-parent">';
-    h+='<div class="cat-mgr-parent-header">';
-    h+='<div class="cat-mgr-parent-title" id="cijucat-display-'+p.id+'">';
-    h+='<span class="cat-mgr-parent-icon">'+(pi+1)+'</span>';
-    h+='<span>'+escHtml(p.name)+'</span>';
-    h+='</div>';
-    h+='<div class="cat-mgr-inline-edit" id="cijucat-edit-'+p.id+'" style="display:none">';
-    h+='<input id="cijucat-input-'+p.id+'" value="'+escAttr(p.name)+'">';
-    h+='<button class="btn btn-primary btn-sm" onclick="saveCijuCatEdit('+pi+','+p.id+')">保存</button>';
-    h+='<button class="btn btn-ghost btn-sm" onclick="renderCijuCategoryMgr()">取消</button>';
-    h+='</div>';
-    h+='<div class="cat-mgr-parent-actions">';
-    h+='<button class="btn btn-ghost btn-xs" onclick="editCijuCat('+p.id+')">编辑</button>';
-    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteCijuCat('+pi+')">删除</button>';
-    h+='</div>';
-    h+='</div>';
-    h+='</div>';
-  });
+  const renderNode=(node,level)=>{
+    const hasChildren=node.children&&node.children.length>0;
+    const canAddChild=level<3;
+    const indent=level*22;
+    const icon=(level===0||hasChildren)?'📂':'📄';
+    let out='';
+    out+='<div class="tree-node">';
+    out+='<div class="tree-node-content" id="cijucat-display-'+node.id+'" style="padding-left:'+(8+indent)+'px">';
+    out+='<span class="tree-toggle'+(hasChildren?'':' empty')+'" onclick="event.stopPropagation();toggleCijuCatNode('+node.id+')">'+(node._expanded?'▼':'▶')+'</span>';
+    out+='<span class="tree-icon">'+icon+'</span>';
+    out+='<span class="tree-label">'+escHtml(node.name)+'</span>';
+    out+='<span class="tree-actions">';
+    if(canAddChild) out+='<button class="tree-act-btn add-btn" title="添加子分类" onclick="event.stopPropagation();addCijuChildCategory('+node.id+')">＋</button>';
+    out+='<button class="tree-act-btn edit-btn" title="编辑" onclick="event.stopPropagation();editCijuCat('+node.id+')">✎</button>';
+    out+='<button class="tree-act-btn del-btn" title="删除" onclick="event.stopPropagation();deleteCijuCat('+node.id+')">✕</button>';
+    out+='</span>';
+    out+='</div>';
+    out+='<div class="cat-inline-editor" id="cijucat-edit-'+node.id+'" style="display:none;padding:4px 8px 4px '+(26+indent)+'px">';
+    out+='<input id="cijucat-input-'+node.id+'" value="'+escAttr(node.name)+'">';
+    out+='<button class="btn btn-primary btn-xs" onclick="saveCijuCatEdit('+node.id+')" style="padding:3px 8px;font-size:10px">保存</button>';
+    out+='<button class="btn btn-ghost btn-xs" onclick="renderCijuCategoryMgr()" style="padding:3px 8px;font-size:10px">取消</button>';
+    out+='</div>';
+    out+='<div class="tree-children'+(node._expanded?' expanded':'')+'">';
+    if(hasChildren){
+      node.children.forEach(c=>{ out+=renderNode(c,level+1); });
+    } else if(canAddChild){
+      out+='<div style="padding:4px 8px 4px '+(26+indent)+'px;font-size:11px;color:var(--text-secondary)">暂无子分类</div>';
+    }
+    out+='</div>';
+    out+='</div>';
+    return out;
+  };
+  cijuCatData.forEach(n=>{ h+=renderNode(n,0); });
   if(cijuCatData.length===0){
-    h='<div class="cat-mgr-empty">暂无分类，请点击上方按钮创建</div>';
+    h='<div class="tree-placeholder" style="text-align:center;padding:40px">暂无分类，请点击上方按钮创建</div>';
   }
   $('cijuCatList').innerHTML=h;
 }
 
+function toggleCijuCatNode(id){
+  const n=findCijuNodeById(id);
+  if(n){ n._expanded=!n._expanded; renderCijuCategoryMgr(); }
+}
+
 function addCijuCategory(){
-  const name = prompt('请输入词句分类名称：');
+  const name=prompt('请输入一级分类名称：');
   if(!name||!name.trim()) return;
-  cijuCatData.push({id:++_cijuCatNextId,name:name.trim()});
+  cijuCatData.push({id:++_cijuCatNextId,name:name.trim(),_expanded:true,children:[]});
   renderCijuCategoryMgr();
   updateCijuCatSelects();
-  showToast('分类已添加','success');
+  showToast('一级分类已添加','success');
+}
+
+function addCijuChildCategory(parentId){
+  const parent=findCijuNodeById(parentId);
+  if(!parent) return;
+  const parentLevel=_cijuGetLevel(parentId);
+  if(parentLevel>=3){ showToast('最多支持三级分类','error'); return; }
+  const childLevelName=(parentLevel===1)?'二级':(parentLevel===2?'三级':'');
+  const name=prompt('请输入'+childLevelName+'分类名称：');
+  if(!name||!name.trim()) return;
+  if(!parent.children) parent.children=[];
+  parent.children.push({id:++_cijuCatNextId,name:name.trim(),_expanded:false,children:[]});
+  parent._expanded=true;
+  renderCijuCategoryMgr();
+  updateCijuCatSelects();
+  showToast(childLevelName+'分类已添加','success');
 }
 
 function editCijuCat(id){
-  const display = document.getElementById('cijucat-display-'+id);
-  const edit = document.getElementById('cijucat-edit-'+id);
-  if(display)display.style.display='none';
-  if(edit)edit.style.display='flex';
-  const inp = document.getElementById('cijucat-input-'+id);
-  if(inp){inp.focus();inp.select();}
+  const display=document.getElementById('cijucat-display-'+id);
+  const edit=document.getElementById('cijucat-edit-'+id);
+  if(display) display.style.display='none';
+  if(edit) edit.style.display='flex';
+  const inp=document.getElementById('cijucat-input-'+id);
+  if(inp){ inp.focus(); inp.select(); }
 }
 
-function saveCijuCatEdit(pi,id){
-  const inp = document.getElementById('cijucat-input-'+id);
-  if(!inp||!inp.value.trim()){showToast('名称不能为空','error');return}
-  cijuCatData[pi].name = inp.value.trim();
+function saveCijuCatEdit(id){
+  const inp=document.getElementById('cijucat-input-'+id);
+  if(!inp||!inp.value.trim()){ showToast('名称不能为空','error'); return; }
+  const loc=_cijuLocate(id,cijuCatData);
+  if(loc) loc.arr[loc.idx].name=inp.value.trim();
   renderCijuCategoryMgr();
   updateCijuCatSelects();
   showToast('名称已更新','success');
 }
 
-function deleteCijuCat(pi){
-  if(!confirm('确定删除分类「'+cijuCatData[pi].name+'」？')) return;
-  showToast('该分类下有词句内容，无法删除','error');
+function deleteCijuCat(id){
+  const loc=_cijuLocate(id,cijuCatData);
+  if(!loc) return;
+  const node=loc.arr[loc.idx];
+  const hasChildren=node.children&&node.children.length>0;
+  if(!confirm('确定删除分类「'+node.name+'」'+(hasChildren?'及其下所有子分类？':'？'))) return;
+  loc.arr.splice(loc.idx,1);
+  renderCijuCategoryMgr();
+  updateCijuCatSelects();
+  showToast('已删除','success');
 }
 
 function updateCijuCatSelects(){
-  const ceSel=$('ceCatSelect'),cmSel=$('cmFilterCat');
-  if(ceSel){
-    let h='<option value="">请选择词句分类</option>';
-    cijuCatData.forEach(c=>h+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>');
-    ceSel.innerHTML=h;
+  ensureTreeSelect('ce',{data:cijuCatData,fullName:getCijuCatFullName,placeholder:'请选择词句分类',allowClear:false,onChange:function(){updateCePreview();}});
+  ensureTreeSelect('cm',{data:cijuCatData,fullName:getCijuCatFullName,placeholder:'全部',allowClear:true,onChange:function(){onCmFilterChange();}});
+  _validateTreeSelect('ce');
+  _validateTreeSelect('cm');
+  renderTreeSelect('ce');
+  renderTreeSelect('cm');
+  renderTreeSelectDisplay('ce');
+  renderTreeSelectDisplay('cm');
+}
+
+// ==================== YUWEN READING CATEGORY MANAGER (阅读文章分类) ====================
+let yuwenReadCatData = [
+  {id:1,name:'现代文阅读',_expanded:true,children:[
+    {id:11,name:'文学类文本',_expanded:true,children:[
+      {id:111,name:'散文',children:[]},
+      {id:112,name:'小说',children:[]}
+    ]},
+    {id:12,name:'实用类文本',_expanded:false,children:[]}
+  ]},
+  {id:2,name:'古诗文阅读',_expanded:true,children:[
+    {id:21,name:'古诗词',_expanded:false,children:[]},
+    {id:22,name:'文言文',_expanded:false,children:[]}
+  ]},
+  {id:3,name:'论述类文本',_expanded:false,children:[]},
+  {id:4,name:'名著阅读',_expanded:false,children:[]}
+];
+let _yuwenReadCatNextId=1000;
+
+// 展平分类树，供下拉框与查找使用
+function flattenYuwenReadCatData(){
+  const out=[];
+  function walk(nodes,level,path){
+    nodes.forEach(n=>{
+      const fullName=path?path+' / '+n.name:n.name;
+      out.push({id:n.id,name:n.name,fullName:fullName,level:level});
+      if(n.children&&n.children.length) walk(n.children,level+1,fullName);
+    });
   }
-  if(cmSel){
-    let h='<option value="">全部</option>';
-    cijuCatData.forEach(c=>h+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>');
-    cmSel.innerHTML=h;
+  walk(yuwenReadCatData,0,'');
+  return out;
+}
+
+// 按 id 查找分类节点对象
+function findYuwenReadNodeById(id){
+  let found=null;
+  function walk(nodes){
+    nodes.forEach(n=>{
+      if(n.id===id){found=n;return;}
+      if(n.children&&n.children.length) walk(n.children);
+    });
   }
+  walk(yuwenReadCatData);
+  return found;
+}
+
+// 定位节点所在数组及下标，供删除/改名使用
+function _yuwenReadLocate(id,nodes){
+  for(let i=0;i<nodes.length;i++){
+    if(nodes[i].id===id) return {arr:nodes,idx:i};
+    if(nodes[i].children&&nodes[i].children.length){
+      const r=_yuwenReadLocate(id,nodes[i].children);
+      if(r) return r;
+    }
+  }
+  return null;
+}
+
+// 获取节点层级（1/2/3）
+function _yuwenReadGetLevel(id){
+  let lvl=0;
+  function walk(nodes,d){
+    nodes.forEach(n=>{
+      if(n.id===id){lvl=d;return;}
+      if(n.children&&n.children.length) walk(n.children,d+1);
+    });
+  }
+  walk(yuwenReadCatData,1);
+  return lvl;
+}
+
+// 获取节点完整路径名
+function getYuwenReadCatFullName(id){
+  let result='';
+  function walk(nodes,path){
+    nodes.forEach(n=>{
+      const fp=path?path+' / '+n.name:n.name;
+      if(n.id===id){result=fp;return;}
+      if(n.children&&n.children.length) walk(n.children,fp);
+    });
+  }
+  walk(yuwenReadCatData,'');
+  return result;
+}
+
+function renderYuwenReadCatMgr(){
+  let h='';
+  const renderNode=(node,level)=>{
+    const hasChildren=node.children&&node.children.length>0;
+    const canAddChild=level<3;
+    const indent=level*22;
+    const icon=(level===0||hasChildren)?'📂':'📄';
+    let out='';
+    out+='<div class="tree-node">';
+    out+='<div class="tree-node-content" id="yuwenreadcat-display-'+node.id+'" style="padding-left:'+(8+indent)+'px">';
+    out+='<span class="tree-toggle'+(hasChildren?'':' empty')+'" onclick="event.stopPropagation();toggleYuwenReadCatNode('+node.id+')">'+(node._expanded?'▼':'▶')+'</span>';
+    out+='<span class="tree-icon">'+icon+'</span>';
+    out+='<span class="tree-label">'+escHtml(node.name)+'</span>';
+    out+='<span class="tree-actions">';
+    if(canAddChild) out+='<button class="tree-act-btn add-btn" title="添加子分类" onclick="event.stopPropagation();addYuwenReadChildCategory('+node.id+')">＋</button>';
+    out+='<button class="tree-act-btn edit-btn" title="编辑" onclick="event.stopPropagation();editYuwenReadCat('+node.id+')">✎</button>';
+    out+='<button class="tree-act-btn del-btn" title="删除" onclick="event.stopPropagation();deleteYuwenReadCat('+node.id+')">✕</button>';
+    out+='</span>';
+    out+='</div>';
+    out+='<div class="cat-inline-editor" id="yuwenreadcat-edit-'+node.id+'" style="display:none;padding:4px 8px 4px '+(26+indent)+'px">';
+    out+='<input id="yuwenreadcat-input-'+node.id+'" value="'+escAttr(node.name)+'">';
+    out+='<button class="btn btn-primary btn-xs" onclick="saveYuwenReadCatEdit('+node.id+')" style="padding:3px 8px;font-size:10px">保存</button>';
+    out+='<button class="btn btn-ghost btn-xs" onclick="renderYuwenReadCatMgr()" style="padding:3px 8px;font-size:10px">取消</button>';
+    out+='</div>';
+    out+='<div class="tree-children'+(node._expanded?' expanded':'')+'">';
+    if(hasChildren){
+      node.children.forEach(c=>{ out+=renderNode(c,level+1); });
+    } else if(canAddChild){
+      out+='<div style="padding:4px 8px 4px '+(26+indent)+'px;font-size:11px;color:var(--text-secondary)">暂无子分类</div>';
+    }
+    out+='</div>';
+    out+='</div>';
+    return out;
+  };
+  yuwenReadCatData.forEach(n=>{ h+=renderNode(n,0); });
+  if(yuwenReadCatData.length===0){
+    h='<div class="tree-placeholder" style="text-align:center;padding:40px">暂无分类，请点击上方按钮创建</div>';
+  }
+  $('yuwenReadCatList').innerHTML=h;
+}
+
+function toggleYuwenReadCatNode(id){
+  const n=findYuwenReadNodeById(id);
+  if(n){ n._expanded=!n._expanded; renderYuwenReadCatMgr(); }
+}
+
+function addYuwenReadCategory(){
+  const name=prompt('请输入一级分类名称：');
+  if(!name||!name.trim()) return;
+  yuwenReadCatData.push({id:++_yuwenReadCatNextId,name:name.trim(),_expanded:true,children:[]});
+  renderYuwenReadCatMgr();
+  showToast('一级分类已添加','success');
+}
+
+function addYuwenReadChildCategory(parentId){
+  const parent=findYuwenReadNodeById(parentId);
+  if(!parent) return;
+  const parentLevel=_yuwenReadGetLevel(parentId);
+  if(parentLevel>=3){ showToast('最多支持三级分类','error'); return; }
+  const childLevelName=(parentLevel===1)?'二级':(parentLevel===2?'三级':'');
+  const name=prompt('请输入'+childLevelName+'分类名称：');
+  if(!name||!name.trim()) return;
+  if(!parent.children) parent.children=[];
+  parent.children.push({id:++_yuwenReadCatNextId,name:name.trim(),_expanded:false,children:[]});
+  parent._expanded=true;
+  renderYuwenReadCatMgr();
+  showToast(childLevelName+'分类已添加','success');
+}
+
+function editYuwenReadCat(id){
+  const display=document.getElementById('yuwenreadcat-display-'+id);
+  const edit=document.getElementById('yuwenreadcat-edit-'+id);
+  if(display) display.style.display='none';
+  if(edit) edit.style.display='flex';
+  const inp=document.getElementById('yuwenreadcat-input-'+id);
+  if(inp){ inp.focus(); inp.select(); }
+}
+
+function saveYuwenReadCatEdit(id){
+  const inp=document.getElementById('yuwenreadcat-input-'+id);
+  if(!inp||!inp.value.trim()){ showToast('名称不能为空','error'); return; }
+  const loc=_yuwenReadLocate(id,yuwenReadCatData);
+  if(loc) loc.arr[loc.idx].name=inp.value.trim();
+  renderYuwenReadCatMgr();
+  showToast('名称已更新','success');
+}
+
+function deleteYuwenReadCat(id){
+  const loc=_yuwenReadLocate(id,yuwenReadCatData);
+  if(!loc) return;
+  const node=loc.arr[loc.idx];
+  const hasChildren=node.children&&node.children.length>0;
+  if(!confirm('确定删除分类「'+node.name+'」'+(hasChildren?'及其下所有子分类？':'？'))) return;
+  loc.arr.splice(loc.idx,1);
+  renderYuwenReadCatMgr();
+  showToast('已删除','success');
+}
+
+function updateYuwenReadCatSelects(){
+  ensureTreeSelect('yre',{data:yuwenReadCatData,fullName:getYuwenReadCatFullName,placeholder:'请选择阅读文章分类',allowClear:false,onChange:null});
+  ensureTreeSelect('yrm',{data:yuwenReadCatData,fullName:getYuwenReadCatFullName,placeholder:'全部',allowClear:true,onChange:function(){onYrmFilterChange();}});
+  _validateTreeSelect('yre');
+  _validateTreeSelect('yrm');
+  renderTreeSelect('yre');
+  renderTreeSelect('yrm');
+  renderTreeSelectDisplay('yre');
+  renderTreeSelectDisplay('yrm');
 }
 
 // ==================== CIJU ENTRY (词句录入) ====================
 function initCijuEntry(){
   updateCijuCatSelects();
-  $('ceCatSelect').value='';
+  resetTreeSelectValue('ce');
   $('ceTitle').value='';
   $('ceContent').innerHTML='<p>请输入词句内容...</p>';
 }
@@ -8335,7 +8721,7 @@ function execCeRichtext(cmd){
 }
 
 function clearCeForm(){
-  $('ceCatSelect').value='';
+  resetTreeSelectValue('ce');
   $('ceTitle').value='';
   $('ceContent').innerHTML='<p>请输入词句内容...</p>';
   updateCePreview();
@@ -8343,7 +8729,8 @@ function clearCeForm(){
 }
 
 function updateCePreview(){
-  const catId=$('ceCatSelect').value;
+  const catSel=_treeSelects['ce'];
+  const catId=catSel?catSel.value:null;
   const title=$('ceTitle').value.trim();
   const content=$('ceContent').innerHTML;
   const tmp=document.createElement('div');tmp.innerHTML=content;
@@ -8355,8 +8742,8 @@ function updateCePreview(){
   let h='';
   if(title) h+='<div class="ve-preview-word">'+escHtml(title)+'</div>';
   if(catId){
-    const cat=cijuCatData.find(c=>c.id===parseInt(catId));
-    if(cat) h+='<span class="ve-preview-cat">'+escHtml(cat.name)+'</span>';
+    const catName=getCijuCatFullName(parseInt(catId));
+    if(catName) h+='<span class="ve-preview-cat">'+escHtml(catName)+'</span>';
   }
   if(contentText&&contentText!=='请输入词句内容...'){
     h+='<div class="ve-preview-def">'+content+'</div>';
@@ -8365,16 +8752,17 @@ function updateCePreview(){
 }
 
 function saveCeWord(){
-  const catId=$('ceCatSelect').value;
+  const catSel=_treeSelects['ce'];
+  const catId=catSel?catSel.value:null;
   const title=$('ceTitle').value.trim();
   const content=$('ceContent').innerHTML;
-  if(!catId){showToast('请选择词句分类','error');return;}
+  if(catId==null){showToast('请选择词句分类','error');return;}
   if(!title){showToast('请输入标题','error');return;}
   const tmpC=document.createElement('div');tmpC.innerHTML=content;
   const contentText=tmpC.textContent.trim();
   if(!contentText||contentText==='请输入词句内容...'){showToast('请输入词句内容','error');return;}
-  const cat=cijuCatData.find(c=>c.id===parseInt(catId));
-  cijuMgrData.push({id:++_cijuMgrNextId,title:title,content:content,catId:parseInt(catId),catName:cat?cat.name:'',status:'reviewing',createTime:new Date().toISOString().slice(0,10),creator:'张老师',auditTime:'',auditor:''});
+  const catName=getCijuCatFullName(parseInt(catId));
+  cijuMgrData.push({id:++_cijuMgrNextId,title:title,content:content,catId:parseInt(catId),catName:catName,status:'reviewing',createTime:new Date().toISOString().slice(0,10),creator:'张老师',auditTime:'',auditor:''});
   showToast('词句已保存：'+title,'success');
   clearCeForm();
 }
@@ -8396,7 +8784,7 @@ function initCijuMgr(){
   cijuMgrTab='published';
   cmFilters={cat:'',title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
   updateCijuCatSelects();
-  $('cmFilterCat').value='';
+  resetTreeSelectValue('cm');
   $('cmFilterTitle').value='';
   $('cmFilterCreateFrom').value='';
   $('cmFilterCreateTo').value='';
@@ -8415,7 +8803,8 @@ function switchCmTab(tab){
 }
 
 function onCmFilterChange(){
-  cmFilters.cat=$('cmFilterCat').value;
+  const catSel=_treeSelects['cm'];
+  cmFilters.cat=(catSel&&catSel.value!=null)?catSel.value:'';
   cmFilters.title=$('cmFilterTitle').value.trim();
   cmFilters.createFrom=$('cmFilterCreateFrom').value;
   cmFilters.createTo=$('cmFilterCreateTo').value;
@@ -8516,7 +8905,7 @@ function editCijuItem(id){
   const v=cijuMgrData.find(r=>r.id===id);
   if(!v)return;
   let catOpts='';
-  cijuCatData.forEach(c=>catOpts+='<option value="'+c.id+'"'+(c.id===v.catId?' selected':'')+'>'+escHtml(c.name)+'</option>');
+  flattenCijuCatData().forEach(c=>catOpts+='<option value="'+c.id+'"'+(c.id===v.catId?' selected':'')+'>'+escHtml(c.fullName)+'</option>');
   const html='<div class="vocablib-modal-overlay" onclick="closeCijuEditModal(event)">\
     <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:700px">\
       <div class="vocablib-modal-header"><h3>编辑词句 #'+v.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCijuEditModal()">✕</button></div>\
@@ -8574,9 +8963,9 @@ function saveCijuEdit(id){
   if(!title){showToast('请输入标题','error');return;}
   const tmpC=document.createElement('div');tmpC.innerHTML=content;
   if(!tmpC.textContent.trim()){showToast('请输入内容','error');return;}
-  const cat=cijuCatData.find(c=>c.id===parseInt(catId));
+  const catName=getCijuCatFullName(parseInt(catId));
   v.catId=parseInt(catId);
-  v.catName=cat?cat.name:'';
+  v.catName=catName;
   v.title=title;
   v.content=content;
   closeCijuEditModal();
@@ -8727,7 +9116,7 @@ function processCijuImport(){
   if(_cijuImportRows.length===0){showToast('请先选择要导入的文件','error');return;}
   let added=0,skipped=0;
   _cijuImportRows.forEach(function(row){
-    const cat=cijuCatData.find(function(c){return c.name===row.cat;});
+    const cat=flattenCijuCatData().find(function(c){return c.fullName===row.cat||c.name===row.cat;});
     if(!cat){skipped++;return;}
     cijuMgrData.push({
       id:++_cijuMgrNextId,
@@ -8751,11 +9140,931 @@ function processCijuImport(){
   showToast('成功导入 '+added+' 条词句'+(skipped>0?'，'+skipped+' 条因分类不匹配跳过':''),'success');
 }
 
+// ==================== CIJU QUESTION BANK (词句题库管理) ====================
+let cijuQuestionBankData = [
+  {id:5001,catId:111,catName:'成语 / 四字成语 / 褒义成语',type:'choice',stem:'下列成语中，属于褒义词的是哪一项？',options:['画龙点睛','守株待兔','狐假虎威','亡羊补牢'],correctAnswer:'正确答案：A。画龙点睛比喻写文章或讲话时，在关键处点明实质，使内容生动有力，含褒义；其余三项多为贬义或中性。',score:4,status:'published',createTime:'2026-06-16',creator:'张老师',auditTime:'2026-06-18',auditor:'李主任',rejectReason:''},
+  {id:5002,catId:112,catName:'成语 / 四字成语 / 贬义成语',type:'choice',stem:'下列成语中，感情色彩为贬义的是哪一项？',options:['坚持不懈','自强不息','狐假虎威','精益求精'],correctAnswer:'正确答案：C。狐假虎威比喻依仗别人的势力欺压人，含贬义；其余三项均为褒义。',score:4,status:'rejected',createTime:'2026-06-20',creator:'赵老师',auditTime:'2026-06-22',auditor:'李主任',rejectReason:'选项区分度不够典型，建议替换为更具代表性的贬义成语。'},
+  {id:5003,catId:22,catName:'古诗词 / 宋词',type:'fill',stem:'"但愿人长久，千里共婵娟"出自苏轼的《____》。',options:[],correctAnswer:'水调歌头·明月几时有。',score:3,status:'published',createTime:'2026-06-25',creator:'王教研',auditTime:'2026-06-27',auditor:'李主任',rejectReason:''},
+  {id:5004,catId:4,catName:'文言文',type:'fill',stem:'"学而时习之，不亦说乎"中"说"的意思是____。',options:[],correctAnswer:'通"悦"，愉快、高兴。',score:3,status:'reviewing',createTime:'2026-07-08',creator:'张老师',auditTime:'',auditor:'',rejectReason:''},
+  {id:5005,catId:21,catName:'古诗词 / 唐诗',type:'answer',stem:'请赏析"床前明月光，疑是地上霜"中"霜"字的表达效果。',options:[],correctAnswer:'"霜"字既写出月光的洁白清冷，又暗示了秋夜的寒凉，渲染了游子客居他乡的孤寂氛围，为下文抒发思乡之情做铺垫。',score:6,status:'reviewing',createTime:'2026-07-10',creator:'王教研',auditTime:'',auditor:'',rejectReason:''},
+  {id:5006,catId:31,catName:'名句 / 励志名句',type:'answer',stem:'结合全诗，谈谈"会当凌绝顶，一览众山小"蕴含的哲理。',options:[],correctAnswer:'这两句表现了诗人不怕困难、敢于攀登绝顶、俯视一切的雄心和气概，蕴含了只有站得高才能看得远的人生哲理。',score:6,status:'published',createTime:'2026-07-12',creator:'赵老师',auditTime:'2026-07-14',auditor:'李主任',rejectReason:''},
+  {id:5007,catId:22,catName:'古诗词 / 宋词',type:'choice',stem:'"众里寻他千百度，蓦然回首，那人却在灯火阑珊处"出自哪位词人？',options:['苏轼','辛弃疾','李清照','柳永'],correctAnswer:'正确答案：B。出自辛弃疾《青玉案·元夕》。',score:3,status:'reviewing',createTime:'2026-07-15',creator:'张老师',auditTime:'',auditor:'',rejectReason:''}
+];
+let _cqbNextId = 5008;
+let cqbSelectedCatId = null;
+let cqbStatusFilter = 'all';
+let cqbSearchKeyword = '';
+let cqbTreeSearch = '';
+let cqbTempQuestions = [];
+let _cqbTempQid = 1;
+let cqbEditObj = null;
+let cqbEntryCatId = null;
+let cqbEntryCatName = '';
+let cqbEntryCatTreeOpen = false;
+let cqbEntryExpanded = new Set();
+let cqbEditCatId = null;
+let cqbEditCatName = '';
+let cqbEditCatTreeOpen = false;
+let cqbEditExpanded = new Set();
+let _cqbImportRows = [];
+
+// ==================== 通用树形分类选择器 ====================
+let _treeSelects = {};
+let _tsDocBound = false;
+
+function ensureTreeSelect(key,opts){
+  if(_treeSelects[key]) return _treeSelects[key];
+  const s={data:opts.data,fullName:opts.fullName,placeholder:opts.placeholder,allowClear:opts.allowClear,onChange:opts.onChange,value:null,name:'',open:false,expanded:new Set()};
+  opts.data.forEach(function(l1){s.expanded.add(l1.id);(l1.children||[]).forEach(function(l2){s.expanded.add(l2.id);});});
+  _treeSelects[key]=s;
+  return s;
+}
+
+function renderTreeSelectDisplay(key){
+  const s=_treeSelects[key];
+  const t=document.getElementById(key+'TreeText');
+  if(!s||!t)return;
+  if(s.value!=null){t.className='value';t.textContent=s.name;}
+  else {t.className='placeholder';t.textContent=s.placeholder;}
+}
+
+function resetTreeSelectValue(key){
+  const s=_treeSelects[key];
+  if(!s)return;
+  s.value=null;
+  s.name='';
+  renderTreeSelectDisplay(key);
+}
+
+function _validateTreeSelect(key){
+  const s=_treeSelects[key];
+  if(!s)return;
+  if(s.value!=null && !s.fullName(s.value)){
+    s.value=null;
+    s.name='';
+  }
+}
+
+function _ensureTsDoc(){
+  if(_tsDocBound)return;
+  _tsDocBound=true;
+  document.addEventListener('click',function(e){
+    Object.keys(_treeSelects).forEach(function(key){
+      const s=_treeSelects[key];
+      if(!s.open)return;
+      const box=document.getElementById(key+'TreeBox');
+      const dd=document.getElementById(key+'TreeDrop');
+      if(box&&dd&&!box.contains(e.target)&&!dd.contains(e.target)){closeTreeSelect(key);}
+    });
+  });
+}
+
+function toggleTreeSelect(key){
+  const s=_treeSelects[key];
+  if(!s)return;
+  if(s.open){closeTreeSelect(key);return;}
+  s.open=true;
+  renderTreeSelect(key);
+  const dd=document.getElementById(key+'TreeDrop');
+  if(dd)dd.classList.add('show');
+  _ensureTsDoc();
+}
+
+function renderTreeSelect(key){
+  const s=_treeSelects[key];
+  const box=document.getElementById(key+'TreeDrop');
+  if(!s||!box)return;
+  function walk(nodes,level){
+    let h='';
+    nodes.forEach(function(n){
+      const has=n.children&&n.children.length>0;
+      const expanded=s.expanded.has(n.id);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(n.id===s.value?' selected':'')+'" style="padding-left:'+(6+level*18)+'px" onclick="event.stopPropagation();selectTreeSelect(\''+key+'\','+n.id+')">';
+      h+='<span class="tree-toggle'+(has?'':' empty')+'" onclick="event.stopPropagation();toggleTreeSelectNode(\''+key+'\','+n.id+')">'+(has?(expanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-label">'+escHtml(n.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(expanded?' expanded':'')+'">';
+      if(has) h+=walk(n.children,level+1);
+      h+='</div>';
+      h+='</div>';
+    });
+    return h;
+  }
+  let h='';
+  if(s.allowClear){
+    h+='<div class="tree-node"><div class="tree-node-content'+(s.value==null?' selected':'')+'" style="padding-left:6px" onclick="event.stopPropagation();clearTreeSelect(\''+key+'\')"><span class="tree-toggle empty"></span><span class="tree-label">全部</span></div></div>';
+  }
+  h+=walk(s.data,0);
+  box.innerHTML=h;
+}
+
+function toggleTreeSelectNode(key,id){
+  const s=_treeSelects[key];
+  if(!s)return;
+  if(s.expanded.has(id))s.expanded.delete(id);else s.expanded.add(id);
+  renderTreeSelect(key);
+}
+
+function selectTreeSelect(key,id){
+  const s=_treeSelects[key];
+  if(!s)return;
+  s.value=id;
+  s.name=s.fullName(id);
+  closeTreeSelect(key);
+  renderTreeSelectDisplay(key);
+  if(s.onChange)s.onChange();
+}
+
+function clearTreeSelect(key){
+  const s=_treeSelects[key];
+  if(!s)return;
+  s.value=null;
+  s.name='';
+  closeTreeSelect(key);
+  renderTreeSelectDisplay(key);
+  if(s.onChange)s.onChange();
+}
+
+function closeTreeSelect(key){
+  const s=_treeSelects[key];
+  if(!s)return;
+  s.open=false;
+  const dd=document.getElementById(key+'TreeDrop');
+  if(dd)dd.classList.remove('show');
+}
+
+function initCijuQuestionBank(){
+  cqbSelectedCatId=null;
+  cqbStatusFilter='all';
+  cqbSearchKeyword='';
+  cqbTreeSearch='';
+  $('cqbTreeSearch').value='';
+  renderCqbTree();
+  renderCqbRightPanel();
+}
+
+// 左侧分类树：搜索时过滤匹配节点（自身匹配保留全部子树，仅后代匹配保留匹配子节点）
+function filterCijuCatTree(nodes, kw){
+  if(!kw) return nodes;
+  kw=kw.toLowerCase();
+  function walk(list){
+    const out=[];
+    list.forEach(function(n){
+      const selfMatch=n.name.toLowerCase().indexOf(kw)>-1;
+      if(n.children&&n.children.length){
+        const children=walk(n.children);
+        if(selfMatch){
+          out.push(Object.assign({},n,{_expanded:true}));
+        } else if(children.length){
+          out.push(Object.assign({},n,{_expanded:true,children:children}));
+        }
+      } else if(selfMatch){
+        out.push(Object.assign({},n));
+      }
+    });
+    return out;
+  }
+  return walk(nodes);
+}
+
+function renderCqbTree(){
+  const container=$('cqbTreeContainer');
+  const tree=filterCijuCatTree(cijuCatData, cqbTreeSearch);
+  let h='';
+  const renderNode=function(node,level){
+    const hasChildren=node.children&&node.children.length>0;
+    const indent=level*20;
+    const icon=(level===0||hasChildren)?'📂':'📄';
+    let out='';
+    out+='<div class="tree-node">';
+    out+='<div class="tree-node-content'+(node.id===cqbSelectedCatId?' selected':'')+'" style="padding-left:'+(8+indent)+'px" onclick="selectCqbCategory('+node.id+')">';
+    out+='<span class="tree-toggle'+(hasChildren?'':' empty')+'" onclick="event.stopPropagation();toggleCqbTreeNode('+node.id+')">'+(hasChildren?(node._expanded?'▼':'▶'):'')+'</span>';
+    out+='<span class="tree-icon">'+icon+'</span>';
+    out+='<span class="tree-label">'+escHtml(node.name)+'</span>';
+    out+='</div>';
+    out+='<div class="tree-children'+(node._expanded?' expanded':'')+'">';
+    if(hasChildren){
+      node.children.forEach(function(c){ out+=renderNode(c,level+1); });
+    }
+    out+='</div>';
+    out+='</div>';
+    return out;
+  };
+  if(tree.length===0){
+    h='<div style="text-align:center;padding:30px;color:#9ca3af">未找到匹配的分类</div>';
+  } else {
+    tree.forEach(function(n){ h+=renderNode(n,0); });
+  }
+  container.innerHTML=h;
+}
+
+function toggleCqbTreeNode(id){
+  const n=findCijuNodeById(id);
+  if(n){ n._expanded=!n._expanded; renderCqbTree(); }
+}
+
+function selectCqbCategory(id){
+  cqbSelectedCatId=id;
+  cqbStatusFilter='all';
+  cqbSearchKeyword='';
+  renderCqbTree();
+  renderCqbRightPanel();
+}
+
+function onCqbTreeSearch(){
+  cqbTreeSearch=$('cqbTreeSearch').value.trim();
+  renderCqbTree();
+}
+
+function renderCqbRightPanel(){
+  const panel=$('cqbRightPanel');
+  if(cqbSelectedCatId==null){
+    panel.innerHTML='<div class="video-placeholder">请在左侧选择一个分类</div>';
+    return;
+  }
+  const catName=getCijuCatFullName(cqbSelectedCatId);
+  const all=cijuQuestionBankData.filter(function(q){return q.catId===cqbSelectedCatId;});
+  const published=all.filter(function(q){return q.status==='published';}).length;
+  const reviewing=all.filter(function(q){return q.status==='reviewing';}).length;
+  const rejected=all.filter(function(q){return q.status==='rejected';}).length;
+  const tabs=[['all','全部',all.length],['published','已发布',published],['reviewing','审核中',reviewing],['rejected','审核驳回',rejected]];
+  let h='<div style="padding:16px 20px;border-bottom:1px solid var(--border)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">';
+  h+='<div style="font-size:15px;font-weight:600">'+escHtml(catName)+'</div>';
+  h+='<span class="vocablib-search">';
+  h+='<span class="icon">&#128269;</span>';
+  h+='<input id="cqbSearchInput" placeholder="搜索题干 / ID" value="'+escAttr(cqbSearchKeyword)+'" oninput="onCqbSearchInput(this.value)">';
+  h+='</span>';
+  h+='</div>';
+  h+='<div class="video-tree-filter" style="margin-top:12px">';
+  tabs.forEach(function(t){
+    h+='<div class="video-filter-tab'+(cqbStatusFilter===t[0]?' active':'')+'" onclick="filterCqbStatus(\''+t[0]+'\')">'+t[1]+' <span style="opacity:.6">'+t[2]+'</span></div>';
+  });
+  h+='</div>';
+  h+='</div>';
+  h+='<div id="cqbListWrap"></div>';
+  panel.innerHTML=h;
+  renderCqbList();
+}
+
+function renderCqbList(){
+  const wrap=document.getElementById('cqbListWrap');
+  if(!wrap)return;
+  let list=cijuQuestionBankData.filter(function(q){return q.catId===cqbSelectedCatId;});
+  if(cqbStatusFilter!=='all') list=list.filter(function(q){return q.status===cqbStatusFilter;});
+  if(cqbSearchKeyword){
+    const kw=cqbSearchKeyword.toLowerCase();
+    list=list.filter(function(q){return q.stem.toLowerCase().indexOf(kw)>-1 || String(q.id).toLowerCase().indexOf(kw)>-1;});
+  }
+  if(list.length===0){
+    wrap.innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af">该分类下暂无题目</div>';
+    return;
+  }
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'审核驳回'};
+  let h='<div style="padding:16px 20px;overflow:auto">';
+  h+='<table class="vocablib-table"><thead><tr><th>ID</th><th>题干</th><th>题型</th><th>分值</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody>';
+  list.forEach(function(q){
+    h+='<tr>';
+    h+='<td>'+q.id+'</td>';
+    h+='<td><span style="display:inline-block;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle" title="'+escAttr(q.stem)+'">'+escHtml(q.stem)+'</span></td>';
+    h+='<td>'+typeLabel[q.type]+'</td>';
+    h+='<td>'+q.score+'</td>';
+    h+='<td><span class="vocablib-status '+q.status+'">'+statusMap[q.status]+'</span></td>';
+    h+='<td>'+q.createTime+'</td>';
+    h+='<td><span class="vocab-actions">';
+    h+='<button class="btn btn-ghost btn-xs" onclick="viewCqbQuestion('+q.id+')">查看</button>';
+    if(q.status!=='published'){h+='<button class="btn btn-ghost btn-xs" onclick="editCqbQuestion('+q.id+')">编辑</button>';}
+    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteCqbQuestion('+q.id+')">删除</button>';
+    h+='</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  h+='</div>';
+  wrap.innerHTML=h;
+}
+
+function filterCqbStatus(key){
+  cqbStatusFilter=key;
+  renderCqbRightPanel();
+}
+
+function onCqbSearchInput(val){
+  cqbSearchKeyword=val;
+  renderCqbList();
+}
+
+// 录入题目弹窗
+function openCqbEntryModal(){
+  cqbTempQuestions=[];
+  _cqbTempQid=1;
+  cqbEntryCatId=null;
+  cqbEntryCatName='';
+  cqbEntryCatTreeOpen=false;
+  cqbEntryExpanded=new Set();
+  cijuCatData.forEach(function(l1){cqbEntryExpanded.add(l1.id);(l1.children||[]).forEach(function(l2){cqbEntryExpanded.add(l2.id);});});
+  const html='<div class="vocablib-modal-overlay" onclick="closeCqbEntryModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:900px;height:90vh;display:flex;flex-direction:column">\
+      <div class="vocablib-modal-header"><h3>录入题目</h3><button class="vocablib-modal-close-btn" onclick="closeCqbEntryModal()">✕</button></div>\
+      <div class="vocablib-modal-body" style="flex:1;overflow-y:auto;min-height:0">\
+        <div class="vocablib-edit-field" style="position:relative">\
+          <label><span class="req">*</span> 词句分类</label>\
+          <div class="cqb-cat-select" id="cqbEntryCatBox" onclick="event.stopPropagation();toggleCqbEntryCatTree()">\
+            <span id="cqbEntryCatText" class="placeholder">请选择词句分类</span>\
+            <span class="arrow">&#9662;</span>\
+            <div class="cqb-cat-dropdown" id="cqbEntryCatTree" onclick="event.stopPropagation()"></div>\
+          </div>\
+        </div>\
+        <div style="display:flex;gap:8px;margin-bottom:14px">\
+          <button class="btn btn-outline btn-sm" onclick="addCqbTempQuestion(\'choice\')">+ 选择题</button>\
+          <button class="btn btn-outline btn-sm" onclick="addCqbTempQuestion(\'fill\')">+ 填空题</button>\
+          <button class="btn btn-outline btn-sm" onclick="addCqbTempQuestion(\'answer\')">+ 解答题</button>\
+        </div>\
+        <div id="cqbTempQuestionList"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCqbEntryModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="saveCqbEntry()">保存题目</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cqbEntryWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+  renderCqbEntryCatDisplay();
+  renderCqbTempQuestions();
+}
+
+function closeCqbEntryModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cqbEntryWrap');if(wrap)wrap.remove();
+  document.removeEventListener('click',closeCqbEntryCatOnOutside);
+}
+
+function renderCqbEntryCatDisplay(){
+  const t=document.getElementById('cqbEntryCatText');
+  if(!t)return;
+  if(cqbEntryCatId!=null){t.className='value';t.textContent=cqbEntryCatName;}
+  else {t.className='placeholder';t.textContent='请选择词句分类';}
+}
+
+function toggleCqbEntryCatTree(){
+  if(cqbEntryCatTreeOpen){closeCqbEntryCatTree();return;}
+  cqbEntryCatTreeOpen=true;
+  renderCqbEntryCatTree();
+  const dd=document.getElementById('cqbEntryCatTree');
+  if(dd)dd.classList.add('show');
+  setTimeout(function(){document.addEventListener('click',closeCqbEntryCatOnOutside);},0);
+}
+
+function renderCqbEntryCatTree(){
+  const box=document.getElementById('cqbEntryCatTree');
+  if(!box)return;
+  function walk(nodes,level){
+    let h='';
+    nodes.forEach(function(n){
+      const has=n.children&&n.children.length>0;
+      const expanded=cqbEntryExpanded.has(n.id);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(n.id===cqbEntryCatId?' selected':'')+'" style="padding-left:'+(6+level*18)+'px" onclick="event.stopPropagation();selectCqbEntryCat('+n.id+')">';
+      h+='<span class="tree-toggle'+(has?'':' empty')+'" onclick="event.stopPropagation();toggleCqbEntryCatNode('+n.id+')">'+(has?(expanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-label">'+escHtml(n.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(expanded?' expanded':'')+'">';
+      if(has) h+=walk(n.children,level+1);
+      h+='</div>';
+      h+='</div>';
+    });
+    return h;
+  }
+  box.innerHTML=walk(cijuCatData,0);
+}
+
+function toggleCqbEntryCatNode(id){
+  if(cqbEntryExpanded.has(id))cqbEntryExpanded.delete(id);else cqbEntryExpanded.add(id);
+  renderCqbEntryCatTree();
+}
+
+function selectCqbEntryCat(id){
+  cqbEntryCatId=id;
+  cqbEntryCatName=getCijuCatFullName(id);
+  closeCqbEntryCatTree();
+  renderCqbEntryCatDisplay();
+}
+
+function closeCqbEntryCatTree(){
+  cqbEntryCatTreeOpen=false;
+  const dd=document.getElementById('cqbEntryCatTree');
+  if(dd)dd.classList.remove('show');
+  document.removeEventListener('click',closeCqbEntryCatOnOutside);
+}
+
+function closeCqbEntryCatOnOutside(e){
+  const box=document.getElementById('cqbEntryCatBox');
+  const dd=document.getElementById('cqbEntryCatTree');
+  if(box&&dd&&!box.contains(e.target)&&!dd.contains(e.target)){
+    closeCqbEntryCatTree();
+  }
+}
+
+function addCqbTempQuestion(type){
+  const defaults={choice:{options:['','','',''],score:3},fill:{options:[],score:2},answer:{options:[],score:5}};
+  const q={id:_cqbTempQid++,type:type,stem:'',options:defaults[type].options||[],correctAnswer:'',score:defaults[type].score};
+  cqbTempQuestions.push(q);
+  renderCqbTempQuestions();
+}
+
+function removeCqbTempQuestion(qid){
+  cqbTempQuestions=cqbTempQuestions.filter(function(q){return q.id!==qid;});
+  renderCqbTempQuestions();
+}
+
+function updateCqbTempStem(qid,val){const q=cqbTempQuestions.find(function(x){return x.id===qid;});if(q)q.stem=val;}
+function updateCqbTempOption(qid,oi,val){const q=cqbTempQuestions.find(function(x){return x.id===qid;});if(q)q.options[oi]=val;}
+function updateCqbTempAnswer(qid,val){const q=cqbTempQuestions.find(function(x){return x.id===qid;});if(q)q.correctAnswer=val;}
+function updateCqbTempScore(qid,val){const q=cqbTempQuestions.find(function(x){return x.id===qid;});if(q){q.score=parseInt(val)||0;const b=document.querySelector('#cqb-q-'+qid+' .yre-q-card-score');if(b)b.textContent=q.score+' 分';}}
+
+function renderCqbTempQuestions(){
+  const container=document.getElementById('cqbTempQuestionList');
+  if(!container)return;
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  if(cqbTempQuestions.length===0){
+    container.style.textAlign='center';
+    container.innerHTML='<div style="padding:20px;color:#9ca3af">暂无题目，请点击上方按钮添加</div>';
+    return;
+  }
+  container.style.textAlign='';
+  let h='';
+  cqbTempQuestions.forEach(function(q,qi){
+    h+='<div class="yre-q-card" id="cqb-q-'+q.id+'">';
+    h+='<div class="yre-q-card-header">';
+    h+='<div class="yre-q-card-header-left">';
+    h+='<span class="yre-q-card-num">题目 #'+(qi+1)+'</span>';
+    h+='<span class="yre-q-card-type '+q.type+'">'+typeLabel[q.type]+'</span>';
+    h+='<span class="yre-q-card-score">'+q.score+' 分</span>';
+    h+='</div>';
+    h+='<button class="yre-q-card-del" onclick="removeCqbTempQuestion('+q.id+')">删除</button>';
+    h+='</div>';
+    h+='<div class="yre-q-card-body">';
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+    h+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updateCqbTempStem('+q.id+',this.value)" placeholder="请输入题目题干"></div>';
+    if(q.type==='choice'){
+      h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项</div>';
+      h+='<div class="yre-q-options-grid">';
+      ['A','B','C','D'].forEach(function(l,i){
+        h+='<div class="yre-q-option-row">';
+        h+='<span class="yre-q-option-letter">'+l+'.</span>';
+        h+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updateCqbTempOption('+q.id+','+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+        h+='</div>';
+      });
+      h+='</div></div>';
+    }
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 分值</div>';
+    h+='<input class="form-input yre-q-score-input" type="number" value="'+q.score+'" onchange="updateCqbTempScore('+q.id+',this.value)" min="0" max="100"></div>';
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 答案与解析</div>';
+    h+='<textarea class="form-textarea" onchange="updateCqbTempAnswer('+q.id+',this.value)" placeholder="请输入正确答案及解析说明" style="min-height:70px">'+escHtml(q.correctAnswer)+'</textarea></div>';
+    h+='</div></div>';
+  });
+  container.innerHTML=h;
+}
+
+function saveCqbEntry(){
+  if(cqbEntryCatId==null){showToast('请选择词句分类','error');return;}
+  const catId=cqbEntryCatId;
+  if(cqbTempQuestions.length===0){showToast('请至少添加一道题目','error');return;}
+  for(let i=0;i<cqbTempQuestions.length;i++){
+    const q=cqbTempQuestions[i];
+    if(!q.stem.trim()){showToast('题目 #'+(i+1)+' 题干不能为空','error');return;}
+    if(q.type==='choice'&&q.options.some(function(o){return !o.trim();})){showToast('题目 #'+(i+1)+' 选项不能为空','error');return;}
+    if(!q.correctAnswer.trim()){showToast('题目 #'+(i+1)+' 答案与解析不能为空','error');return;}
+    if(!q.score||q.score<=0){showToast('题目 #'+(i+1)+' 分值必须大于0','error');return;}
+  }
+  const catName=getCijuCatFullName(parseInt(catId));
+  cqbTempQuestions.forEach(function(q){
+    cijuQuestionBankData.push({
+      id:++_cqbNextId,
+      catId:parseInt(catId),
+      catName:catName,
+      type:q.type,
+      stem:q.stem,
+      options:q.options.slice(),
+      correctAnswer:q.correctAnswer,
+      score:q.score,
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'张老师',
+      auditTime:'',
+      auditor:'',
+      rejectReason:''
+    });
+  });
+  const count=cqbTempQuestions.length;
+  closeCqbEntryModal();
+  if(cqbSelectedCatId===parseInt(catId)) renderCqbRightPanel();
+  showToast('成功录入 '+count+' 道题目','success');
+}
+
+// 批量导入弹窗
+function openCqbImportModal(){
+  const html='<div class="vocablib-modal-overlay" onclick="closeCqbImportModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:640px">\
+      <div class="vocablib-modal-header"><h3>批量导入题目</h3><button class="vocablib-modal-close-btn" onclick="closeCqbImportModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="import-steps">\
+          <div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载导入模板</div><div class="step-desc">模板包含「词句一级分类、词句二级分类、词句三级分类、题型、题干、分值、答案与解析」列</div></div></div>\
+          <div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">分类需与系统已有分类名称一致；题型填「选择题 / 填空题 / 解答题」</div></div></div>\
+          <div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">支持 .xls / .csv 格式文件</div></div></div>\
+        </div>\
+        <button class="btn btn-outline btn-sm" onclick="downloadCqbImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>\
+        <div class="upload-zone" onclick="document.getElementById(\'cqbImportFileInput\').click()">\
+          <div class="upload-zone-icon">&#128196;</div>\
+          <div class="upload-zone-text">点击选择导入文件<br><strong>支持 .xls / .csv 格式</strong></div>\
+        </div>\
+        <input type="file" id="cqbImportFileInput" accept=".xls,.csv,.xlsx" style="display:none" onchange="handleCqbImportFile(this)">\
+        <div id="cqbImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCqbImportModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="processCqbImport()">开始导入</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cqbImportWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCqbImportModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cqbImportWrap');if(wrap)wrap.remove();
+  _cqbImportRows=[];
+}
+
+function downloadCqbImportTemplate(){
+  const header=['词句一级分类','词句二级分类','词句三级分类','题型','题干','分值','答案与解析'];
+  const sampleRows=[
+    ['成语','四字成语','褒义成语','选择题','下列成语中，属于褒义词的是哪一项？','4','A. 画龙点睛；B. 守株待兔；C. 狐假虎威；D. 亡羊补牢'],
+    ['古诗词','宋词','','填空题','"但愿人长久，千里共婵娟"出自苏轼的《____》。','3','水调歌头·明月几时有。'],
+    ['文言文','','','解答题','请翻译"学而时习之，不亦说乎"。','5','学习了知识并按时温习，不也是很快乐的吗？']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1">';
+  html+='<tr>';
+  header.forEach(function(h){html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});
+  html+='</tr>';
+  sampleRows.forEach(function(row){
+    html+='<tr>';
+    row.forEach(function(c){html+='<td style="padding:4px 8px">'+c+'</td>';});
+    html+='</tr>';
+  });
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='词句题库导入模板.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast('模板已下载','success');
+}
+
+function handleCqbImportFile(input){
+  const f=input.files[0];
+  if(!f)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const text=e.target.result;
+    _cqbImportRows=parseCqbImportText(text);
+    const info=document.getElementById('cqbImportFileInfo');
+    if(info){info.style.display='block';info.textContent='已选择：'+f.name+'（解析到 '+_cqbImportRows.length+' 条数据）';}
+    else showToast('已解析 '+_cqbImportRows.length+' 条数据','success');
+  };
+  reader.readAsText(f,'UTF-8');
+}
+
+function parseCqbImportText(text){
+  const rows=[];
+  if(!text)return rows;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  text=text.trim();
+  if(!text)return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    const trs=doc.querySelectorAll('table tr');
+    trs.forEach(function(tr,ti){
+      if(ti===0)return;
+      const tds=tr.querySelectorAll('th,td');
+      const cells=[];
+      tds.forEach(function(td){cells.push(td.textContent.trim());});
+      if(cells.length>=6&&cells[4]){
+        rows.push({l1:cells[0]||'',l2:cells[1]||'',l3:cells[2]||'',type:cells[3]||'',stem:cells[4]||'',score:cells[5]||'',answer:cells[6]||''});
+      }
+    });
+  }else{
+    const lines=text.split(/\r?\n/);
+    lines.forEach(function(line,li){
+      if(li===0)return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=6&&cells[4]){
+        rows.push({l1:cells[0]||'',l2:cells[1]||'',l3:cells[2]||'',type:cells[3]||'',stem:cells[4]||'',score:cells[5]||'',answer:cells[6]||''});
+      }
+    });
+  }
+  return rows;
+}
+
+function processCqbImport(){
+  if(_cqbImportRows.length===0){showToast('请先选择要导入的文件','error');return;}
+  const typeMap={'选择题':'choice','填空题':'fill','解答题':'answer'};
+  let added=0,skipped=0;
+  _cqbImportRows.forEach(function(row){
+    const stem=(row.stem||'').trim();
+    if(!stem){skipped++;return;}
+    const l1=(row.l1||'').trim(),l2=(row.l2||'').trim(),l3=(row.l3||'').trim();
+    const fullParts=[l1,l2,l3].filter(function(s){return s;});
+    const fullName=fullParts.join(' / ');
+    let cat=flattenCijuCatData().find(function(c){return c.fullName===fullName;});
+    if(!cat){
+      const last=fullParts[fullParts.length-1];
+      cat=flattenCijuCatData().find(function(c){return c.name===last;});
+    }
+    if(!cat){skipped++;return;}
+    const type=typeMap[(row.type||'').trim()]||'fill';
+    const score=parseInt(row.score)||0;
+    if(score<=0){skipped++;return;}
+    cijuQuestionBankData.push({
+      id:++_cqbNextId,
+      catId:cat.id,
+      catName:getCijuCatFullName(cat.id),
+      type:type,
+      stem:stem,
+      options:type==='choice'?['','','','']:[],
+      correctAnswer:(row.answer||'').trim(),
+      score:score,
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'张老师',
+      auditTime:'',
+      auditor:'',
+      rejectReason:''
+    });
+    added++;
+  });
+  closeCqbImportModal();
+  if(added===0){showToast('导入失败：分类不匹配或数据无效','error');return;}
+  if(cqbSelectedCatId!=null) renderCqbRightPanel();
+  showToast('成功导入 '+added+' 道题目'+(skipped>0?'，'+skipped+' 条因分类不匹配或数据无效跳过':''),'success');
+}
+
+// 查看题目弹窗（含审核模块）
+function viewCqbQuestion(id){
+  const q=cijuQuestionBankData.find(function(x){return x.id===id;});
+  if(!q)return;
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'审核驳回'};
+  let optionsHtml='';
+  if(q.type==='choice'){
+    const labels=['A','B','C','D'];
+    optionsHtml='<div style="font-size:13px;margin-top:6px">';
+    q.options.forEach(function(o,i){ optionsHtml+='<div style="margin-left:4px;padding:2px 0">'+labels[i]+'. '+escHtml(o)+'</div>'; });
+    optionsHtml+='</div>';
+  }
+  const html='<div class="vocablib-modal-overlay" onclick="closeCqbViewModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:720px;max-height:85vh;overflow-y:auto">\
+      <div class="vocablib-modal-header"><h3>题目详情 #'+q.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCqbViewModal()">✕</button></div>\
+      <div class="video-detail-panel">\
+        <div class="video-detail-header"><span class="video-detail-title">'+escHtml(q.stem)+'</span><span class="vocablib-status '+q.status+'">'+statusMap[q.status]+'</span></div>\
+        <div class="vocablib-modal-card"><div class="card-title">题目信息</div>\
+          <div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">题型</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+typeLabel[q.type]+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">分类</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(q.catName)+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">分值</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+q.score+'分</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(q.creator)+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+q.createTime+'</span></div>\
+          </div>\
+        </div>\
+        <div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:14px;line-height:1.7">'+escHtml(q.stem)+'</div>'+optionsHtml+'</div>\
+        <div class="vocablib-modal-card"><div class="card-title">答案与解析</div><div style="font-size:14px;line-height:1.7">'+escHtml(q.correctAnswer||'-')+'</div></div>\
+        <div class="vocablib-modal-card"><div class="card-title">审核信息</div>\
+          <div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核状态</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+statusMap[q.status]+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+(q.auditor||'-')+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+(q.auditTime||'-')+'</span></div>\
+          </div>\
+        </div>\
+        '+(q.status==='rejected'?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(q.rejectReason||'未填写')+'</div></div>':'')+'\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCqbViewModal();editCqbQuestion('+q.id+')">编辑</button>\
+        <button class="btn btn-primary btn-sm" onclick="closeCqbViewModal()">关闭</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cqbViewWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closeCqbViewModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cqbViewWrap');if(wrap)wrap.remove();
+}
+
+// 编辑题目弹窗
+function editCqbQuestion(id){
+  closeCqbViewModal();
+  closeCqbEditModal();
+  const q=cijuQuestionBankData.find(function(x){return x.id===id;});
+  if(!q)return;
+  cqbEditObj=JSON.parse(JSON.stringify(q));
+  cqbEditCatId=q.catId;
+  cqbEditCatName=q.catName||getCijuCatFullName(q.catId);
+  cqbEditCatTreeOpen=false;
+  cqbEditExpanded=new Set();
+  cijuCatData.forEach(function(l1){cqbEditExpanded.add(l1.id);(l1.children||[]).forEach(function(l2){cqbEditExpanded.add(l2.id);});});
+  const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
+  let typeOpts='';
+  ['choice','fill','answer'].forEach(function(t){ typeOpts+='<option value="'+t+'"'+(t===q.type?' selected':'')+'>'+typeLabel[t]+'</option>'; });
+  const html='<div class="vocablib-modal-overlay" onclick="closeCqbEditModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:820px;max-height:90vh;overflow-y:auto">\
+      <div class="vocablib-modal-header"><h3>编辑题目 #'+q.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeCqbEditModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">\
+          <div class="vocablib-edit-field" style="position:relative">\
+            <label><span class="req">*</span> 词句分类</label>\
+            <div class="cqb-cat-select" id="cqbEditCatBox" onclick="event.stopPropagation();toggleCqbEditCatTree()">\
+              <span id="cqbEditCatText" class="placeholder">请选择词句分类</span>\
+              <span class="arrow">&#9662;</span>\
+              <div class="cqb-cat-dropdown" id="cqbEditCatTree" onclick="event.stopPropagation()"></div>\
+            </div>\
+          </div>\
+          <div class="vocablib-edit-field">\
+            <label><span class="req">*</span> 题型</label>\
+            <select class="form-select" id="cqbEditType" onchange="onCqbEditTypeChange()">'+typeOpts+'</select>\
+          </div>\
+        </div>\
+        <div id="cqbEditQuestionBody"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closeCqbEditModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="saveCqbEdit('+q.id+')">保存修改</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div');wrap.id='cqbEditWrap';wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+  renderCqbEditCatDisplay();
+  renderCqbEditBody();
+}
+
+function renderCqbEditCatDisplay(){
+  const t=document.getElementById('cqbEditCatText');
+  if(!t)return;
+  if(cqbEditCatId!=null){t.className='value';t.textContent=cqbEditCatName;}
+  else {t.className='placeholder';t.textContent='请选择词句分类';}
+}
+
+function toggleCqbEditCatTree(){
+  if(cqbEditCatTreeOpen){closeCqbEditCatTree();return;}
+  cqbEditCatTreeOpen=true;
+  renderCqbEditCatTree();
+  const dd=document.getElementById('cqbEditCatTree');
+  if(dd)dd.classList.add('show');
+  setTimeout(function(){document.addEventListener('click',closeCqbEditCatOnOutside);},0);
+}
+
+function renderCqbEditCatTree(){
+  const box=document.getElementById('cqbEditCatTree');
+  if(!box)return;
+  function walk(nodes,level){
+    let h='';
+    nodes.forEach(function(n){
+      const has=n.children&&n.children.length>0;
+      const expanded=cqbEditExpanded.has(n.id);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(n.id===cqbEditCatId?' selected':'')+'" style="padding-left:'+(6+level*18)+'px" onclick="event.stopPropagation();selectCqbEditCat('+n.id+')">';
+      h+='<span class="tree-toggle'+(has?'':' empty')+'" onclick="event.stopPropagation();toggleCqbEditCatNode('+n.id+')">'+(has?(expanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-label">'+escHtml(n.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(expanded?' expanded':'')+'">';
+      if(has) h+=walk(n.children,level+1);
+      h+='</div>';
+      h+='</div>';
+    });
+    return h;
+  }
+  box.innerHTML=walk(cijuCatData,0);
+}
+
+function toggleCqbEditCatNode(id){
+  if(cqbEditExpanded.has(id))cqbEditExpanded.delete(id);else cqbEditExpanded.add(id);
+  renderCqbEditCatTree();
+}
+
+function selectCqbEditCat(id){
+  cqbEditCatId=id;
+  cqbEditCatName=getCijuCatFullName(id);
+  closeCqbEditCatTree();
+  renderCqbEditCatDisplay();
+}
+
+function closeCqbEditCatTree(){
+  cqbEditCatTreeOpen=false;
+  const dd=document.getElementById('cqbEditCatTree');
+  if(dd)dd.classList.remove('show');
+  document.removeEventListener('click',closeCqbEditCatOnOutside);
+}
+
+function closeCqbEditCatOnOutside(e){
+  const box=document.getElementById('cqbEditCatBox');
+  const dd=document.getElementById('cqbEditCatTree');
+  if(box&&dd&&!box.contains(e.target)&&!dd.contains(e.target)){
+    closeCqbEditCatTree();
+  }
+}
+
+function onCqbEditTypeChange(){
+  const type=document.getElementById('cqbEditType').value;
+  cqbEditObj.type=type;
+  if(type==='choice'){
+    if(!cqbEditObj.options||cqbEditObj.options.length!==4) cqbEditObj.options=['','','',''];
+  } else {
+    cqbEditObj.options=[];
+  }
+  renderCqbEditBody();
+}
+
+function updateCqbEditStem(val){if(cqbEditObj)cqbEditObj.stem=val;}
+function updateCqbEditOption(i,val){if(cqbEditObj)cqbEditObj.options[i]=val;}
+function updateCqbEditAnswer(val){if(cqbEditObj)cqbEditObj.correctAnswer=val;}
+function updateCqbEditScore(val){if(cqbEditObj){cqbEditObj.score=parseInt(val)||0;}}
+
+function renderCqbEditBody(){
+  const container=document.getElementById('cqbEditQuestionBody');
+  if(!container)return;
+  const q=cqbEditObj;
+  let h='<div class="yre-q-card">';
+  h+='<div class="yre-q-card-body">';
+  h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+  h+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updateCqbEditStem(this.value)" placeholder="请输入题目题干"></div>';
+  if(q.type==='choice'){
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项</div>';
+    h+='<div class="yre-q-options-grid">';
+    ['A','B','C','D'].forEach(function(l,i){
+      h+='<div class="yre-q-option-row">';
+      h+='<span class="yre-q-option-letter">'+l+'.</span>';
+      h+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updateCqbEditOption('+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  }
+  h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 分值</div>';
+  h+='<input class="form-input yre-q-score-input" type="number" value="'+q.score+'" onchange="updateCqbEditScore(this.value)" min="0" max="100"></div>';
+  h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 答案与解析</div>';
+  h+='<textarea class="form-textarea" onchange="updateCqbEditAnswer(this.value)" placeholder="请输入正确答案及解析说明" style="min-height:70px">'+escHtml(q.correctAnswer)+'</textarea></div>';
+  h+='</div></div>';
+  container.innerHTML=h;
+}
+
+function saveCqbEdit(id){
+  const q=cijuQuestionBankData.find(function(x){return x.id===id;});
+  if(!q)return;
+  if(cqbEditCatId==null){showToast('请选择词句分类','error');return;}
+  const catId=cqbEditCatId;
+  const o=cqbEditObj;
+  if(!o.stem.trim()){showToast('题干不能为空','error');return;}
+  if(o.type==='choice'&&o.options.some(function(x){return !x.trim();})){showToast('选项不能为空','error');return;}
+  if(!o.correctAnswer.trim()){showToast('答案与解析不能为空','error');return;}
+  if(!o.score||o.score<=0){showToast('分值必须大于0','error');return;}
+  q.catId=parseInt(catId);
+  q.catName=getCijuCatFullName(parseInt(catId));
+  q.type=o.type;
+  q.stem=o.stem;
+  q.options=o.options.slice();
+  q.correctAnswer=o.correctAnswer;
+  q.score=o.score;
+  closeCqbEditModal();
+  renderCqbRightPanel();
+  showToast('题目已更新','success');
+}
+
+function closeCqbEditModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=document.getElementById('cqbEditWrap');if(wrap)wrap.remove();
+  document.removeEventListener('click',closeCqbEditCatOnOutside);
+  cqbEditObj=null;
+}
+
+function deleteCqbQuestion(id){
+  const q=cijuQuestionBankData.find(function(x){return x.id===id;});
+  if(!q)return;
+  if(!confirm('确定删除题目 #'+id+'？')) return;
+  cijuQuestionBankData=cijuQuestionBankData.filter(function(x){return x.id!==id;});
+  renderCqbRightPanel();
+  showToast('已删除','success');
+}
+
 // ==================== YUWEN READING ENTRY (阅读文章录入-语文) ====================
 let yreQuestions = [];
 let _yreQid=1;
 
 function initYuwenReadEntry(){
+  updateYuwenReadCatSelects();
+  resetTreeSelectValue('yre');
   $('yreTitle').value='';
   $('yreContent').innerHTML='<p>请输入文章内容...</p>';
   yreQuestions=[];
@@ -8838,6 +10147,7 @@ function updateYreQAnswer(qid,val){const q=yreQuestions.find(x=>x.id===qid);if(q
 function updateYreQScore(qid,val){const q=yreQuestions.find(x=>x.id===qid);if(q){q.score=parseInt(val)||0;updateYreTotalScore();const b1=document.querySelector('#yre-q-'+qid+' .yre-q-card-score');if(b1)b1.textContent=q.score+' 分';const b2=document.querySelector('#yre-edit-q-'+qid+' .yre-q-card-score');if(b2)b2.textContent=q.score+' 分';}}
 
 function clearYreForm(){
+  resetTreeSelectValue('yre');
   $('yreTitle').value='';
   $('yreContent').innerHTML='<p>请输入文章内容...</p>';
   yreQuestions=[];
@@ -8847,8 +10157,11 @@ function clearYreForm(){
 }
 
 function saveYreArticle(){
+  const catSel=_treeSelects['yre'];
+  const catId=catSel?catSel.value:null;
   const title=$('yreTitle').value.trim();
   const content=$('yreContent').innerHTML;
+  if(catId==null){showToast('请选择阅读文章分类','error');return;}
   if(!title){showToast('请输入文章标题','error');return;}
   const tmpC=document.createElement('div');tmpC.innerHTML=content;
   if(!tmpC.textContent.trim()||tmpC.textContent.trim()==='请输入文章内容...'){showToast('请输入文章内容','error');return;}
@@ -8863,6 +10176,8 @@ function saveYreArticle(){
     id:++_yrmNextId,
     title:title,
     content:content,
+    catId:parseInt(catId),
+    catName:getYuwenReadCatFullName(parseInt(catId)),
     questions:JSON.parse(JSON.stringify(yreQuestions)),
     status:'reviewing',
     createTime:new Date().toISOString().slice(0,10),
@@ -8876,19 +10191,21 @@ function saveYreArticle(){
 
 // ==================== YUWEN READING MANAGER (阅读文章管理-语文) ====================
 let yuwenReadData = [
-  {id:4001,title:'荷塘月色（节选）',content:'<p>曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。</p><p>层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。</p>',questions:[{id:1,type:'choice',stem:'作者描写荷叶时使用的修辞手法是什么？',options:['拟人','比喻','夸张','排比'],correctAnswer:'正确答案：B（比喻）。作者将荷叶比作"亭亭的舞女的裙"，运用了比喻的修辞手法，生动形象地写出了荷叶高挑、优美、舒展的姿态。',score:4},{id:2,type:'answer',stem:'请分析"袅娜"一词的表达效果。',correctAnswer:'"袅娜"形容女子体态轻盈柔美。文中用"袅娜"来描写荷花，运用了拟人的修辞手法，赋予荷花以女性柔美的气质，生动地写出了荷花开放时柔美、轻盈、优雅的姿态，表达了作者对荷花的喜爱之情。',score:6}],status:'published',createTime:'2026-06-10',creator:'张老师',auditTime:'2026-06-12',auditor:'李主任'},
-  {id:4002,title:'岳阳楼记',content:'<p>庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上，属予作文以记之。</p><p>予观夫巴陵胜状，在洞庭一湖。衔远山，吞长江，浩浩汤汤，横无际涯，朝晖夕阴，气象万千，此则岳阳楼之大观也，前人之述备矣。</p>',questions:[{id:1,type:'choice',stem:'"政通人和，百废具兴"中的"具"是什么意思？',options:['工具','通"俱"，全、都','具有','具体'],correctAnswer:'正确答案：B。"具"通"俱"，全都的意思。"百废具兴"意为各种荒废的事业都兴办起来了，表现了滕子京治理巴陵的政绩。',score:3},{id:2,type:'fill',stem:'"衔远山，吞长江"中的"衔"和"吞"运用了____的修辞手法。',correctAnswer:'拟人。"衔"意为含着，"吞"意为吞下，这两个动词将洞庭湖人格化，生动地写出了洞庭湖与远山、长江的关系——含着远山、吞吐长江，气势磅礴。',score:3}],status:'published',createTime:'2026-06-12',creator:'王教研',auditTime:'2026-06-14',auditor:'李主任'},
-  {id:4003,title:'祝福（节选）',content:'<p>旧历的年底毕竟最像年底，村镇上不必说，就在天空中也显出将到新年的气象来。灰白色的沉重的晚云中间时时发出闪光，接着一声钝响，是送灶的爆竹；近处燃放的可就更强烈了，震耳的大音还没有息，空气里已经散满了幽微的火药香。</p>',questions:[{id:1,type:'choice',stem:'这段文字营造了怎样的氛围？',options:['欢快热烈','阴冷沉重','宁静祥和','悲伤凄凉'],correctAnswer:'正确答案：B（阴冷沉重）。"灰白色"、"沉重"、"钝响"等词语渲染出压抑、沉闷的氛围，与过年本应有的喜庆形成对比，暗示了祥林嫂的悲剧命运。',score:4},{id:2,type:'answer',stem:'分析文中"灰白色"、"沉重"等词语的作用。',correctAnswer:'这些词语从视觉（灰白色）、感觉（沉重）等角度，渲染了一种压抑、沉闷的气氛。年关将至，本应喜庆，作者却以灰暗沉重的笔调开篇，与过年应有的喜庆形成鲜明对比，为祥林嫂的悲剧命运埋下了伏笔，体现了鲁迅"将人生有价值的东西毁灭给人看"的悲剧意识。',score:6}],status:'reviewing',createTime:'2026-07-08',creator:'赵老师',auditTime:'',auditor:''},
-  {id:4004,title:'故都的秋',content:'<p>秋天，无论在什么地方的秋天，总是好的；可是啊，北国的秋，却特别地来得清，来得静，来得悲凉。我的不远千里，要从杭州赶上青岛，更要从青岛赶上北平来的理由，也不过想饱尝一尝这"秋"，这故都的秋味。</p>',questions:[{id:1,type:'choice',stem:'作者说北国的秋"来得清，来得静，来得悲凉"，使用了什么修辞？',options:['比喻','拟人','排比','反复'],correctAnswer:'正确答案：C（排比）。"来得清，来得静，来得悲凉"三个分句结构相同、意义相关、语气一致，构成了排比句式，增强了语言的气势和节奏感，突出表现了故都之秋的独特韵味。',score:3},{id:2,type:'answer',stem:'结合全文，分析作者为什么"不远千里"要从杭州赶到北平来？',correctAnswer:'作者不远千里从杭州赶到北平，是为了饱尝故都的秋味。在作者笔下，南国的秋"色彩不浓，回味不永"，而北国的秋则"清、静、悲凉"，色彩浓烈、回味隽永。这体现了作者对故都北京深切的眷恋之情，以及对那种独特审美趣味的追求。',score:7}],status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:''},
-  {id:4005,title:'赤壁赋',content:'<p>壬戌之秋，七月既望，苏子与客泛舟游于赤壁之下。清风徐来，水波不兴。举酒属客，诵明月之诗，歌窈窕之章。</p><p>少焉，月出于东山之上，徘徊于斗牛之间。白露横江，水光接天。纵一苇之所如，凌万顷之茫然。</p>',questions:[{id:1,type:'answer',stem:'翻译"纵一苇之所如，凌万顷之茫然"。',correctAnswer:'任凭小船在茫茫无际的江面上飘荡，越过那浩瀚无边的江面。"一苇"比喻小船，语出《诗经》；"万顷"形容江面广阔；"茫然"形容江水浩渺无边。这两句写出了作者泛舟江上、超然物外的自由心境。',score:5},{id:2,type:'choice',stem:'"月出于东山之上，徘徊于斗牛之间"中"徘徊"一词的作用是什么？',options:['形容月亮移动缓慢','表现作者流连忘返','运用拟人手法赋予月亮情感','暗示时间已晚'],correctAnswer:'正确答案：C。"徘徊"一词运用了拟人修辞，将月亮人格化，仿佛月亮也有了情感，不愿离去，在斗宿和牛宿之间来回移动。这个词生动地写出了月光的柔和、月亮的徐徐升起，营造出宁静悠远的意境。',score:5}],status:'rejected',createTime:'2026-07-03',creator:'王教研',auditTime:'2026-07-05',auditor:'李主任',rejectReason:'题目数量偏少，建议增加2-3道选择题以增强对重点词句的考查'},
+  {id:4001,catId:111,catName:'现代文阅读 / 文学类文本 / 散文',title:'荷塘月色（节选）',content:'<p>曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。</p><p>层层的叶子中间，零星地点缀着些白花，有袅娜地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。</p>',questions:[{id:1,type:'choice',stem:'作者描写荷叶时使用的修辞手法是什么？',options:['拟人','比喻','夸张','排比'],correctAnswer:'正确答案：B（比喻）。作者将荷叶比作"亭亭的舞女的裙"，运用了比喻的修辞手法，生动形象地写出了荷叶高挑、优美、舒展的姿态。',score:4},{id:2,type:'answer',stem:'请分析"袅娜"一词的表达效果。',correctAnswer:'"袅娜"形容女子体态轻盈柔美。文中用"袅娜"来描写荷花，运用了拟人的修辞手法，赋予荷花以女性柔美的气质，生动地写出了荷花开放时柔美、轻盈、优雅的姿态，表达了作者对荷花的喜爱之情。',score:6}],status:'published',createTime:'2026-06-10',creator:'张老师',auditTime:'2026-06-12',auditor:'李主任'},
+  {id:4002,catId:22,catName:'古诗文阅读 / 文言文',title:'岳阳楼记',content:'<p>庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴，乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上，属予作文以记之。</p><p>予观夫巴陵胜状，在洞庭一湖。衔远山，吞长江，浩浩汤汤，横无际涯，朝晖夕阴，气象万千，此则岳阳楼之大观也，前人之述备矣。</p>',questions:[{id:1,type:'choice',stem:'"政通人和，百废具兴"中的"具"是什么意思？',options:['工具','通"俱"，全、都','具有','具体'],correctAnswer:'正确答案：B。"具"通"俱"，全都的意思。"百废具兴"意为各种荒废的事业都兴办起来了，表现了滕子京治理巴陵的政绩。',score:3},{id:2,type:'fill',stem:'"衔远山，吞长江"中的"衔"和"吞"运用了____的修辞手法。',correctAnswer:'拟人。"衔"意为含着，"吞"意为吞下，这两个动词将洞庭湖人格化，生动地写出了洞庭湖与远山、长江的关系——含着远山、吞吐长江，气势磅礴。',score:3}],status:'published',createTime:'2026-06-12',creator:'王教研',auditTime:'2026-06-14',auditor:'李主任'},
+  {id:4003,catId:112,catName:'现代文阅读 / 文学类文本 / 小说',title:'祝福（节选）',content:'<p>旧历的年底毕竟最像年底，村镇上不必说，就在天空中也显出将到新年的气象来。灰白色的沉重的晚云中间时时发出闪光，接着一声钝响，是送灶的爆竹；近处燃放的可就更强烈了，震耳的大音还没有息，空气里已经散满了幽微的火药香。</p>',questions:[{id:1,type:'choice',stem:'这段文字营造了怎样的氛围？',options:['欢快热烈','阴冷沉重','宁静祥和','悲伤凄凉'],correctAnswer:'正确答案：B（阴冷沉重）。"灰白色"、"沉重"、"钝响"等词语渲染出压抑、沉闷的氛围，与过年本应有的喜庆形成对比，暗示了祥林嫂的悲剧命运。',score:4},{id:2,type:'answer',stem:'分析文中"灰白色"、"沉重"等词语的作用。',correctAnswer:'这些词语从视觉（灰白色）、感觉（沉重）等角度，渲染了一种压抑、沉闷的气氛。年关将至，本应喜庆，作者却以灰暗沉重的笔调开篇，与过年应有的喜庆形成鲜明对比，为祥林嫂的悲剧命运埋下了伏笔，体现了鲁迅"将人生有价值的东西毁灭给人看"的悲剧意识。',score:6}],status:'reviewing',createTime:'2026-07-08',creator:'赵老师',auditTime:'',auditor:''},
+  {id:4004,catId:111,catName:'现代文阅读 / 文学类文本 / 散文',title:'故都的秋',content:'<p>秋天，无论在什么地方的秋天，总是好的；可是啊，北国的秋，却特别地来得清，来得静，来得悲凉。我的不远千里，要从杭州赶上青岛，更要从青岛赶上北平来的理由，也不过想饱尝一尝这"秋"，这故都的秋味。</p>',questions:[{id:1,type:'choice',stem:'作者说北国的秋"来得清，来得静，来得悲凉"，使用了什么修辞？',options:['比喻','拟人','排比','反复'],correctAnswer:'正确答案：C（排比）。"来得清，来得静，来得悲凉"三个分句结构相同、意义相关、语气一致，构成了排比句式，增强了语言的气势和节奏感，突出表现了故都之秋的独特韵味。',score:3},{id:2,type:'answer',stem:'结合全文，分析作者为什么"不远千里"要从杭州赶到北平来？',correctAnswer:'作者不远千里从杭州赶到北平，是为了饱尝故都的秋味。在作者笔下，南国的秋"色彩不浓，回味不永"，而北国的秋则"清、静、悲凉"，色彩浓烈、回味隽永。这体现了作者对故都北京深切的眷恋之情，以及对那种独特审美趣味的追求。',score:7}],status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:''},
+  {id:4005,catId:22,catName:'古诗文阅读 / 文言文',title:'赤壁赋',content:'<p>壬戌之秋，七月既望，苏子与客泛舟游于赤壁之下。清风徐来，水波不兴。举酒属客，诵明月之诗，歌窈窕之章。</p><p>少焉，月出于东山之上，徘徊于斗牛之间。白露横江，水光接天。纵一苇之所如，凌万顷之茫然。</p>',questions:[{id:1,type:'answer',stem:'翻译"纵一苇之所如，凌万顷之茫然"。',correctAnswer:'任凭小船在茫茫无际的江面上飘荡，越过那浩瀚无边的江面。"一苇"比喻小船，语出《诗经》；"万顷"形容江面广阔；"茫然"形容江水浩渺无边。这两句写出了作者泛舟江上、超然物外的自由心境。',score:5},{id:2,type:'choice',stem:'"月出于东山之上，徘徊于斗牛之间"中"徘徊"一词的作用是什么？',options:['形容月亮移动缓慢','表现作者流连忘返','运用拟人手法赋予月亮情感','暗示时间已晚'],correctAnswer:'正确答案：C。"徘徊"一词运用了拟人修辞，将月亮人格化，仿佛月亮也有了情感，不愿离去，在斗宿和牛宿之间来回移动。这个词生动地写出了月光的柔和、月亮的徐徐升起，营造出宁静悠远的意境。',score:5}],status:'rejected',createTime:'2026-07-03',creator:'王教研',auditTime:'2026-07-05',auditor:'李主任',rejectReason:'题目数量偏少，建议增加2-3道选择题以增强对重点词句的考查'},
 ];
 let yrmTab='published';
 let _yrmNextId=4006;
-let yrmFilters={title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+let yrmFilters={cat:'',title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
 
 function initYuwenReadMgr(){
   yrmTab='published';
-  yrmFilters={title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+  yrmFilters={cat:'',title:'',createFrom:'',createTo:'',auditFrom:'',auditTo:'',creator:'',auditor:''};
+  updateYuwenReadCatSelects();
+  resetTreeSelectValue('yrm');
   $('yrmFilterTitle').value='';
   $('yrmFilterCreateFrom').value='';
   $('yrmFilterCreateTo').value='';
@@ -8907,6 +10224,8 @@ function switchYrmTab(tab){
 }
 
 function onYrmFilterChange(){
+  const catSel=_treeSelects['yrm'];
+  yrmFilters.cat=(catSel&&catSel.value!=null)?catSel.value:'';
   yrmFilters.title=$('yrmFilterTitle').value.trim();
   yrmFilters.createFrom=$('yrmFilterCreateFrom').value;
   yrmFilters.createTo=$('yrmFilterCreateTo').value;
@@ -8919,6 +10238,7 @@ function onYrmFilterChange(){
 
 function renderYrmTable(){
   let filtered=yuwenReadData.filter(a=>a.status===yrmTab);
+  if(yrmFilters.cat) filtered=filtered.filter(a=>a.catId===parseInt(yrmFilters.cat));
   if(yrmFilters.title){const kw=yrmFilters.title.toLowerCase();filtered=filtered.filter(a=>a.title.toLowerCase().includes(kw));}
   if(yrmFilters.createFrom) filtered=filtered.filter(a=>a.createTime>=yrmFilters.createFrom);
   if(yrmFilters.createTo) filtered=filtered.filter(a=>a.createTime<=yrmFilters.createTo);
@@ -8941,11 +10261,12 @@ function renderYrmTable(){
     return;
   }
   const showRejectCol=yrmTab==='rejected';
-  let h='<table class="vocablib-table"><thead><tr><th>ID</th><th>标题</th><th>题目数</th><th>状态</th>'+(showRejectCol?'<th>驳回原因</th>':'')+'<th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  let h='<table class="vocablib-table"><thead><tr><th>ID</th><th>标题</th><th>分类</th><th>题目数</th><th>状态</th>'+(showRejectCol?'<th>驳回原因</th>':'')+'<th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
   filtered.forEach(a=>{
     h+='<tr>';
     h+='<td>'+a.id+'</td>';
     h+='<td><span class="vocablib-word">'+escHtml(a.title)+'</span></td>';
+    h+='<td>'+escHtml(a.catName||'')+'</td>';
     h+='<td>'+(a.questions?a.questions.length:0)+'</td>';
     h+='<td><span class="vocablib-status '+a.status+'">'+({published:'已发布',reviewing:'审核中',rejected:'已驳回'}[a.status])+'</span></td>';
     if(showRejectCol) h+='<td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#991b1b" title="'+escAttr(a.rejectReason||'')+'">'+escHtml(a.rejectReason||'-')+'</td>';
@@ -8998,6 +10319,7 @@ function showYuwenReadDetail(id){
         <div class="vocablib-modal-card"><div class="card-title">基本信息</div>\
           <div class="info-grid">\
             <div class="info-item"><span class="info-lbl">文章标题</span><span class="info-val">'+escHtml(a.title)+'</span></div>\
+            <div class="info-item"><span class="info-lbl">分类</span><span class="info-val">'+escHtml(a.catName||'-')+'</span></div>\
             <div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+a.status+'">'+statusMap[a.status]+'</span></span></div>\
             <div class="info-item"><span class="info-lbl">题目数</span><span class="info-val">'+(a.questions?a.questions.length:0)+'</span></div>\
             <div class="info-item"><span class="info-lbl">总分</span><span class="info-val">'+totalScore+'分</span></div>\
@@ -9033,6 +10355,8 @@ function editYuwenReadArticle(id){
   if(!a)return;
   yreQuestions=a.questions?JSON.parse(JSON.stringify(a.questions)):[];
   _yreQid=yreQuestions.length>0?Math.max(...yreQuestions.map(q=>q.id))+1:1;
+  let catOpts='';
+  flattenYuwenReadCatData().forEach(c=>catOpts+='<option value="'+c.id+'"'+(c.id===a.catId?' selected':'')+'>'+escHtml(c.fullName)+'</option>');
   const typeLabel={choice:'选择题',fill:'填空题',answer:'解答题'};
   let totalScore=yreQuestions.reduce((s,q)=>s+(q.score||0),0);
   let qhtml='';
@@ -9074,6 +10398,10 @@ function editYuwenReadArticle(id){
     <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:1100px;max-height:90vh;overflow-y:auto">\
       <div class="vocablib-modal-header"><h3>编辑文章 #'+a.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeYuwenReadEditModal()">✕</button></div>\
       <div class="vocablib-modal-body">\
+        <div class="vocablib-edit-field">\
+          <label><span class="req">*</span> 阅读文章分类</label>\
+          <select class="form-select" id="yreEditCat">'+catOpts+'</select>\
+        </div>\
         <div class="vocablib-edit-field">\
           <label><span class="req">*</span> 文章标题</label>\
           <input class="vocablib-edit-input" id="yreEditTitle" value="'+escAttr(a.title)+'" placeholder="请输入文章标题">\
@@ -9175,8 +10503,10 @@ function refreshYreEditQuestionList(){
 function saveYuwenReadEdit(id){
   const a=yuwenReadData.find(r=>r.id===id);
   if(!a)return;
+  const catId=document.getElementById('yreEditCat').value;
   const title=document.getElementById('yreEditTitle').value.trim();
   const content=document.getElementById('yreEditContent').innerHTML;
+  if(!catId){showToast('请选择阅读文章分类','error');return;}
   if(!title){showToast('请输入文章标题','error');return;}
   const tmpC=document.createElement('div');tmpC.innerHTML=content;
   if(!tmpC.textContent.trim()){showToast('请输入文章内容','error');return;}
@@ -9187,6 +10517,8 @@ function saveYuwenReadEdit(id){
     if(!q.correctAnswer.trim()){showToast('题目 #'+(i+1)+' 答案与解析不能为空','error');return;}
     if(!q.score||q.score<=0){showToast('题目 #'+(i+1)+' 分值必须大于0','error');return;}
   }
+  a.catId=parseInt(catId);
+  a.catName=getYuwenReadCatFullName(parseInt(catId));
   a.title=title;
   a.content=content;
   a.questions=JSON.parse(JSON.stringify(yreQuestions));
@@ -9220,7 +10552,7 @@ function initCijuAudit(){
   $('cjaAuditor').value='';
   const sel=$('cjaCatFilter');
   sel.innerHTML='<option value="">全部</option>';
-  cijuCatData.forEach(c=>{sel.innerHTML+='<option value="'+c.id+'">'+escHtml(c.name)+'</option>';});
+  flattenCijuCatData().forEach(c=>{sel.innerHTML+='<option value="'+c.id+'">'+escHtml(c.fullName)+'</option>';});
   document.querySelectorAll('#cjaTabs .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
   renderCJATable();
 }
