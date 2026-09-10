@@ -451,6 +451,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .danci-order-option:hover{border-color:var(--primary);background:var(--primary-light)}
 .danci-order-option:has(input:checked){border-color:var(--primary);background:var(--primary-light);color:var(--primary);font-weight:500}
 .danci-order-option input[type="radio"]{accent-color:var(--primary);cursor:pointer;margin:0}
+.danci-print-type-group{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.danci-print-type-option{align-items:flex-start;padding:12px 14px}
+.danci-print-type-option input[type="radio"]{margin-top:3px}
+.danci-print-type-copy{display:flex;flex-direction:column;gap:2px;line-height:1.4}
+.danci-print-type-copy strong{font-size:13px;color:inherit}
+.danci-print-type-copy small{font-size:11px;color:var(--text-muted);font-weight:400}
 
 /* Danci Sortable Header */
 .sortable-th{cursor:pointer;user-select:none;transition:color var(--transition)}
@@ -1050,6 +1056,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 /* --- Image Thumbnail --- */
 .lcmx-img-thumb{width:48px;height:48px;border-radius:6px;object-fit:cover;border:1px solid var(--border);cursor:pointer;transition:transform var(--transition)}
 .lcmx-img-thumb:hover{transform:scale(1.15);box-shadow:var(--shadow-lg)}
+.lcmx-score-cell{display:inline-flex;align-items:baseline;gap:2px;white-space:nowrap;font-size:13px;color:var(--text-secondary)}
+.lcmx-score-cell strong{font-size:15px;color:var(--primary)}
+.lcmx-score-cell.unsubmitted strong{color:var(--text-muted)}
 
 /* ================================================================
    Question Detail Modal Styles
@@ -1061,6 +1070,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .qm-modal .qm-header h3{font-size:16px;font-weight:600}
 .qm-modal .qm-body{flex:1;overflow-y:auto;padding:20px 24px}
 .qm-modal .qm-footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 24px;border-top:1px solid var(--border);flex-shrink:0}
+.qm-score-summary{display:flex;align-items:center;gap:28px;padding:14px 18px;margin-bottom:12px;background:#f8fafc;border:1px solid var(--border);border-radius:8px}
+.qm-score-item{display:flex;align-items:baseline;gap:6px;font-size:13px;color:var(--text-secondary)}
+.qm-score-item strong{font-size:20px;color:var(--text)}
+.qm-score-item.highlight strong{color:var(--primary)}
+.qm-score-item .qm-score-unit{font-size:12px;color:var(--text-muted)}
 
 /* --- Question Card --- */
 .qm-question-card{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden;transition:border var(--transition)}
@@ -1070,6 +1084,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .qm-question-header:hover{background:#f8fafc}
 .qm-question-header .qm-q-num{font-size:14px;font-weight:600;color:var(--primary);white-space:nowrap;min-width:42px}
 .qm-question-header .qm-q-text{flex:1;font-size:14px;color:var(--text);line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qm-question-score{display:inline-flex;align-items:baseline;gap:2px;font-size:12px;color:var(--text-secondary);white-space:nowrap;flex-shrink:0}
+.qm-question-score strong{font-size:15px;color:var(--primary)}
 .qm-question-header .qm-q-arrow{font-size:10px;color:var(--text-muted);transition:transform .2s ease;flex-shrink:0}
 .qm-question-card.expanded .qm-q-arrow{transform:rotate(180deg)}
 
@@ -2176,6 +2192,70 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .kt-empty-state h3{font-size:16px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
 .kt-empty-state p{font-size:13px}
 </style>
+<style>
+/* ========== 英语阅读练习 ========== */
+.ery-filter-panel{background:#f8fafd;border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:16px}
+.ery-filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.ery-filter-item{display:flex;align-items:center;gap:8px}
+.ery-filter-item label{font-size:13px;font-weight:500;color:var(--text-secondary);white-space:nowrap}
+.ery-filter-item select,.ery-filter-item input{height:34px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--text);font:inherit;font-size:13px;outline:none;transition:all var(--transition)}
+.ery-filter-item select:focus,.ery-filter-item input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.ery-filter-item select{min-width:180px}
+.ery-filter-item .ery-search{width:220px}
+.ery-filter-item input[type="date"]{width:140px}
+.ery-date-sep{font-size:12px;color:var(--text-muted)}
+.ery-filter-actions{display:flex;gap:8px;margin-left:auto}
+.ery-error-ratio{display:inline-flex;align-items:baseline;gap:2px;font-size:13px;color:var(--text-secondary);white-space:nowrap}
+.ery-error-ratio strong{font-size:15px;color:var(--danger)}
+.ery-error-ratio.zero strong{color:var(--success)}
+
+.ery-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:1200;align-items:flex-start;justify-content:center;padding:36px 20px;overflow-y:auto}
+.ery-overlay.show{display:flex}
+.ery-modal{width:100%;max-width:980px;max-height:calc(100vh - 72px);background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(15,23,42,.2);display:flex;flex-direction:column;overflow:hidden;animation:modalIn .25s ease}
+.ery-modal-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px;border-bottom:1px solid var(--border);flex-shrink:0}
+.ery-modal-header h3{font-size:17px;font-weight:600;color:var(--text)}
+.ery-modal-body{padding:20px 22px;overflow-y:auto}
+.ery-modal-footer{display:flex;justify-content:flex-end;padding:14px 22px;border-top:1px solid var(--border);flex-shrink:0}
+.ery-detail-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px;padding:14px 16px;background:#f8fafc;border:1px solid var(--border);border-radius:8px}
+.ery-detail-summary-item{min-width:0}
+.ery-detail-summary-item .label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:3px}
+.ery-detail-summary-item .value{display:block;font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ery-article-section{margin-bottom:18px;border:1px solid var(--border);border-radius:9px;overflow:hidden;background:#fff}
+.ery-article-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;background:#f8fafc;color:var(--text);font-size:14px;font-weight:600;text-align:left;transition:background var(--transition)}
+.ery-article-toggle:hover{background:#f1f5f9}
+.ery-article-toggle-side{display:flex;align-items:center;gap:8px;color:var(--primary);font-size:12px;font-weight:500;white-space:nowrap}
+.ery-article-arrow{font-size:10px;transition:transform var(--transition)}
+.ery-article-section.expanded .ery-article-arrow{transform:rotate(180deg)}
+.ery-article-content{display:none;padding:16px 18px;border-top:1px solid var(--border);font-size:14px;line-height:1.9;color:#334155}
+.ery-article-section.expanded .ery-article-content{display:block}
+.ery-article-content p+p{margin-top:12px}
+.ery-question-list{display:flex;flex-direction:column;gap:14px}
+.ery-question-card{border:1px solid var(--border);border-radius:9px;overflow:hidden;background:#fff}
+.ery-question-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f8fafc;border-bottom:1px solid var(--border)}
+.ery-question-num{font-size:13px;font-weight:700;color:var(--primary);white-space:nowrap}
+.ery-result-tag{margin-left:auto;display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.ery-result-tag.correct{background:var(--success-bg);color:#15803d}
+.ery-result-tag.wrong{background:var(--danger-bg);color:#dc2626}
+.ery-question-content{padding:15px 16px 16px}
+.ery-question-stem{font-size:14px;font-weight:600;color:var(--text);line-height:1.7;margin-bottom:12px}
+.ery-options{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
+.ery-option{display:flex;align-items:flex-start;gap:8px;min-height:42px;padding:9px 11px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:13px;color:var(--text-secondary);line-height:1.55}
+.ery-option.correct-answer{border-color:#86efac;background:#f0fdf4;color:#166534}
+.ery-option.student-wrong{border-color:#fca5a5;background:#fef2f2;color:#b91c1c}
+.ery-option-letter{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#e2e8f0;color:#475569;font-size:12px;font-weight:700;flex-shrink:0}
+.ery-option.correct-answer .ery-option-letter{background:#bbf7d0;color:#15803d}
+.ery-option.student-wrong .ery-option-letter{background:#fecaca;color:#dc2626}
+.ery-option-text{flex:1;min-width:0}
+.ery-option-marks{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px}
+.ery-option-mark{padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;white-space:nowrap}
+.ery-option-mark.answer{background:#dcfce7;color:#15803d}
+.ery-option-mark.student{background:#dbeafe;color:#1d4ed8}
+.ery-answer-summary{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--border);font-size:13px;color:var(--text-secondary)}
+.ery-answer-summary strong{color:var(--text)}
+
+@media (max-width:900px){.ery-filter-actions{margin-left:0}.ery-detail-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.ery-options{grid-template-columns:1fr}}
+@media (max-width:600px){.ery-filter-row,.ery-filter-item{align-items:stretch}.ery-filter-item{width:100%;flex-wrap:wrap}.ery-filter-item select,.ery-filter-item .ery-search{width:100%;flex:1}.ery-detail-summary{grid-template-columns:1fr}.ery-overlay{padding:12px}.ery-modal{max-height:calc(100vh - 24px)}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -2300,6 +2380,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="chengji-tongji" href="javascript:void(0)">
           <span class="sub-dot"></span>成绩统计
+        </a>
+        <a class="nav-sub-item" data-page="yingyu-yuedu-lianxi" href="javascript:void(0)">
+          <span class="sub-dot"></span>英语阅读练习
         </a>
         <a class="nav-sub-item" data-page="yuwen-yuedu" href="javascript:void(0)">
           <span class="sub-dot"></span>语文阅读
@@ -2931,6 +3014,20 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   </div>
 </div>
 
+<!-- ========== 英语阅读练习详情 Modal ========== -->
+<div class="ery-overlay" id="englishReadingExerciseModal" onclick="if(event.target===this)window._eryCloseDetail()">
+  <div class="ery-modal" role="dialog" aria-modal="true" aria-labelledby="englishReadingExerciseModalTitle">
+    <div class="ery-modal-header">
+      <h3 id="englishReadingExerciseModalTitle">英语阅读练习详情</h3>
+      <button class="modal-close" onclick="window._eryCloseDetail()">&#10005;</button>
+    </div>
+    <div class="ery-modal-body" id="englishReadingExerciseModalBody"></div>
+    <div class="ery-modal-footer">
+      <button class="btn btn-outline" onclick="window._eryCloseDetail()">关闭</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   // ==================== Mock Data - 班级数据 ====================
@@ -3379,6 +3476,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'danci-xiaoce':     { title: '单词小测', group: '学情管理' },
     'chengji-dengji':   { title: '成绩登记', group: '学情管理' },
     'chengji-tongji':   { title: '成绩统计', group: '学情管理' },
+    'yingyu-yuedu-lianxi': { title: '英语阅读练习', group: '学情管理' },
     'yuwen-yuedu':      { title: '语文阅读', group: '学情管理' },
     'ciju-timu-tongji': { title: '词句题目统计', group: '学情管理' },
     'cuoti-tongji':     { title: '错题统计', group: '错题管理' },
@@ -3534,6 +3632,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'danci-xiaoce') renderDanciXiaocePage();
     else if(pageKey === 'chengji-dengji') renderChengjiDengjiPage();
     else if(pageKey === 'chengji-tongji') renderChengjiTongjiPage();
+    else if(pageKey === 'yingyu-yuedu-lianxi') renderEnglishReadingExercisePage();
     else if(pageKey === 'yuwen-yuedu') renderYuwenYueduPage();
     else if(pageKey === 'ciju-timu-tongji') renderCijuTimuTongjiPage();
     else if(pageKey === 'cuoti-tongji') renderCuotiTongjiPage();
@@ -5331,7 +5430,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     html += '<button class="btn btn-outline" onclick="window._danciBeisongReset()">重置</button>';
     html += '<div style="flex:1"></div>';
     // 批量操作按钮
-    html += '<button class="btn btn-outline" onclick="window._danciBeisongBatchPrint()"'+ (selectedCount===0?' disabled':'') +'>批量打印单词小测'+(selectedCount>0?' ('+selectedCount+')':'')+'</button>';
+    html += '<button class="btn btn-outline" onclick="window._danciBeisongBatchPrint()"'+ (selectedCount===0?' disabled':'') +'>批量打印单词小测与精翻'+(selectedCount>0?' ('+selectedCount+')':'')+'</button>';
     html += '<button class="btn btn-outline" onclick="window._danciBeisongExport()">导出</button>';
     html += '</div>';
 
@@ -5391,7 +5490,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         html += '<td class="score-cell">'+scores.countScore+'</td>';
         html += '<td class="score-cell">'+scores.qualityScore+'</td>';
         // 操作
-        html += '<td><button class="btn btn-primary btn-xs" onclick="openDanciQuiz(\''+item.studentName.replace(/'/g,"\\'")+'\',\''+item.className.replace(/'/g,"\\'")+'\')">单词小测</button></td>';
+        html += '<td><button class="btn btn-primary btn-xs" onclick="openDanciQuiz(\''+item.studentName.replace(/'/g,"\\'")+'\',\''+item.className.replace(/'/g,"\\'")+'\')">单词小测与精翻</button></td>';
         html += '</tr>';
       });
     }
@@ -5452,7 +5551,147 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     openDanciQuizBatch(selectedNames, className);
   };
 
-  // 批量单词小测弹窗
+  // 精翻打印使用的英语真题例句数据（与教研端数据口径保持一致）
+  var danciExamSentenceMap = {
+    'abandon':'The tendency to abandon long-term goals can undermine meaningful progress.',
+    'abstract':'An abstract idea becomes persuasive when it is supported by concrete evidence.',
+    'academy':'The academy has long encouraged researchers to challenge established assumptions.',
+    'accelerate':'Digital tools may accelerate learning, but they cannot replace careful thought.',
+    'access':'Equal access to education remains essential to social mobility.',
+    'accommodate':'Universities should accommodate diverse learning needs without lowering academic standards.',
+    'accompany':'Rapid technological change is often accompanied by new social concerns.',
+    'accomplish':'Individuals rarely accomplish ambitious goals without sustained effort.',
+    'according':'According to the survey, younger workers place greater value on flexibility.',
+    'accumulate':'Small advantages can accumulate into significant differences over time.',
+    'accurate':'An accurate account of the past depends on evidence from multiple sources.',
+    'achieve':'Policies must balance competing interests to achieve lasting progress.',
+    'acknowledge':'Researchers increasingly acknowledge that social context shapes individual decisions.',
+    'acquire':'Students acquire critical skills by questioning information rather than merely receiving it.',
+    'adapt':'Institutions must adapt to changing needs while preserving their core values.',
+    'benevolent':'Even a benevolent policy may produce unintended consequences when applied broadly.',
+    'bureaucracy':'Excessive bureaucracy can prevent useful ideas from becoming practical reforms.',
+    'catastrophe':'What first appeared to be a minor failure eventually developed into a catastrophe.',
+    'conscientious':'Conscientious workers tend to consider the long-term effects of their decisions.',
+    'deteriorate':'Public trust may deteriorate when institutions fail to explain their choices.',
+    'elaborate':'The author develops an elaborate argument based on several historical examples.',
+    'fluctuate':'Consumer confidence tends to fluctuate as economic expectations change.',
+    'gratitude':'Expressions of gratitude can strengthen cooperation within a community.',
+    'hierarchy':'A rigid hierarchy may discourage junior members from presenting new ideas.',
+    'illuminate':'These findings illuminate the relationship between language and social identity.',
+    'jeopardize':'Short-term gains should not jeopardize the stability of the wider system.',
+    'kaleidoscope':'Modern cities offer a kaleidoscope of cultures, occupations, and lifestyles.',
+    'legitimate':'Citizens may question whether such restrictions serve a legitimate public purpose.',
+    'magnificent':'The magnificent building also reveals the ambitions of the age that produced it.',
+    'negotiate':'Workers increasingly expect to negotiate how and where their duties are performed.',
+    'xenophobia':'Economic uncertainty can deepen xenophobia unless public debate remains responsible.',
+    'quintessence':'For many readers, the novel represents the quintessence of social criticism.',
+    'reminiscent':'The current debate is reminiscent of earlier disputes over technological change.',
+    'surreptitious':'The surreptitious collection of personal data has raised serious ethical concerns.',
+    'unprecedented':'The scale of the demographic shift is unprecedented in modern history.',
+    'vicarious':'Digital media provide a form of vicarious experience that can shape real expectations.',
+    'warranted':'The available evidence suggests that cautious optimism is warranted.',
+    'yesteryear':'The working patterns of yesteryear no longer fit many modern families.',
+    'zealous':'Zealous support for a cause should not prevent careful examination of its effects.',
+    'aberration':'The decline was initially dismissed as an aberration rather than a lasting trend.',
+    'cacophony':'The cacophony of competing claims makes reliable information harder to identify.',
+    'dichotomy':'The simple dichotomy between work and leisure fails to reflect modern life.',
+    'ephemeral':'Online attention is often intense but ephemeral.',
+    'facetious':'A facetious response can obscure the seriousness of a public debate.',
+    'grandiose':'Grandiose promises are unlikely to inspire trust without a practical plan.'
+  };
+
+  var danciExamSentenceExtraMap = {
+    'abandon':['Few researchers are willing to abandon a theory before a better explanation is available.','Society should not abandon long-term investment for the sake of immediate returns.'],
+    'abstract':['Children often understand an abstract principle through a familiar example.','The debate remained abstract until its practical consequences became visible.'],
+    'academy':['The academy was established to promote independent inquiry and public discussion.','Critics argue that the academy has become too distant from ordinary experience.'],
+    'accelerate':['Competition can accelerate innovation when new ideas are allowed to circulate.','An aging population may accelerate changes in the organization of work.'],
+    'access':['Technology has expanded access to information without guaranteeing understanding.','Many rural communities still lack access to essential public services.'],
+    'accommodate':['A flexible schedule can accommodate both professional duties and family needs.','The legal system must accommodate new forms of work and communication.'],
+    'accompany':['Greater freedom must accompany a stronger sense of personal responsibility.','The growth of cities was accompanied by profound changes in social life.'],
+    'accomplish':['The reform cannot accomplish its aims without the support of local communities.','What groups accomplish together often exceeds what individuals can achieve alone.'],
+    'according':['According to recent research, habits are shaped by both context and repetition.','The results vary considerably according to age, education, and income.'],
+    'accumulate':['Knowledge tends to accumulate through the correction of earlier mistakes.','Unresolved problems accumulate when short-term solutions replace careful planning.'],
+    'accurate':['Reliable decisions require accurate information as well as sound judgment.','The model provides a reasonably accurate picture of long-term population change.'],
+    'achieve':['Schools cannot achieve equality merely by applying identical rules to every student.','To achieve meaningful reform, leaders must first earn public confidence.'],
+    'acknowledge':['Effective policies acknowledge the limits of both markets and governments.','We should acknowledge uncertainty instead of presenting estimates as facts.'],
+    'acquire':['People acquire social habits long before they become aware of them.','The ability to acquire new knowledge has become increasingly valuable at work.'],
+    'adapt':['Human beings adapt their behavior in response to rewards and social expectations.','Traditional organizations often struggle to adapt when change occurs rapidly.'],
+    'benevolent':['A benevolent intention does not always lead to a beneficial result.','The image of a benevolent employer can conceal unequal relations at work.'],
+    'bureaucracy':['The expansion of bureaucracy created new opportunities as well as new delays.','A complex bureaucracy may value procedure more highly than practical outcomes.'],
+    'catastrophe':['Preventing catastrophe requires action before every uncertainty has been resolved.','The event was a human catastrophe as well as an economic failure.'],
+    'conscientious':['A conscientious reader checks whether evidence genuinely supports the conclusion.','Employers continue to value conscientious employees who can work without close supervision.'],
+    'deteriorate':['Working conditions deteriorate when rapid growth is not matched by effective regulation.','Relationships may deteriorate if disagreement is treated as personal hostility.'],
+    'elaborate':['The researchers designed an elaborate experiment to test a simple claim.','An elaborate system of rules does not necessarily produce fair decisions.'],
+    'fluctuate':['Prices fluctuate in response to expectations as well as actual shortages.','Levels of public concern fluctuate as media attention rises and falls.'],
+    'gratitude':['Gratitude encourages people to recognize how much they depend on others.','The volunteers received little reward beyond the gratitude of the community.'],
+    'hierarchy':['Position within a hierarchy can influence whose ideas receive attention.','The traditional hierarchy is giving way to more flexible forms of cooperation.'],
+    'illuminate':['Historical comparison can illuminate problems that appear entirely new.','The experiment helps illuminate how people make choices under pressure.'],
+    'jeopardize':['Poor communication can jeopardize even a carefully designed reform.','Measures intended to improve efficiency may jeopardize public confidence.'],
+    'kaleidoscope':['The internet presents a kaleidoscope of opinions with little indication of their reliability.','The exhibition offers a kaleidoscope of images from everyday urban life.'],
+    'legitimate':['Scientific authority remains legitimate only when it is open to criticism.','The desire for security is legitimate, but it does not justify unlimited control.'],
+    'magnificent':['A magnificent monument may tell us more about power than about beauty.','The landscape looked magnificent, yet the communities within it remained poor.'],
+    'negotiate':['Citizens constantly negotiate the boundary between privacy and public responsibility.','Young adults must learn to negotiate uncertainty rather than simply avoid it.'],
+    'xenophobia':['Education alone cannot eliminate xenophobia, but it can challenge false assumptions.','Political leaders may exploit xenophobia during periods of rapid social change.'],
+    'quintessence':['The small town was once regarded as the quintessence of national tradition.','Efficiency is often treated as the quintessence of good management.'],
+    'reminiscent':['Her account is reminiscent of earlier arguments about industrial automation.','The pattern is reminiscent of changes observed during the previous century.'],
+    'surreptitious':['Surreptitious advertising is difficult to recognize and therefore difficult to resist.','The report exposed a surreptitious attempt to influence public opinion.'],
+    'unprecedented':['Modern societies face an unprecedented demand for continuous learning.','The crisis produced unprecedented cooperation among normally competing institutions.'],
+    'vicarious':['Stories allow readers to gain vicarious knowledge of lives unlike their own.','Television turns distant events into a powerful form of vicarious experience.'],
+    'warranted':['Further investigation is warranted before a final judgment is made.','Concern is warranted, although the evidence does not support panic.'],
+    'yesteryear':['The stable careers of yesteryear have become less common in a flexible economy.','Ideas celebrated in yesteryear may appear deeply mistaken today.'],
+    'zealous':['A zealous pursuit of efficiency can overlook important human needs.','Even zealous reformers must consider the costs of sudden change.'],
+    'aberration':['The result may be an aberration caused by the unusually small sample.','One successful year should not be mistaken for more than a temporary aberration.'],
+    'cacophony':['A cacophony of online voices can make thoughtful discussion more difficult.','Consumers face a cacophony of messages competing for their attention.'],
+    'dichotomy':['The familiar dichotomy between nature and culture is increasingly difficult to defend.','Public debate often creates a false dichotomy between freedom and security.'],
+    'ephemeral':['The popularity of many online trends is both intense and ephemeral.','Political enthusiasm may prove ephemeral unless it leads to durable institutions.'],
+    'facetious':['His facetious remark distracted attention from the evidence under discussion.','A facetious tone may be misunderstood when cultural expectations differ.'],
+    'grandiose':['The project failed because its grandiose vision was unsupported by realistic estimates.','Grandiose plans often attract attention before practical difficulties are considered.']
+  };
+
+  function getDanciExamSentences(word){
+    var normalized = String(word || '').replace(/\s+\d+$/, '').toLowerCase();
+    var candidates = [];
+    if(danciExamSentenceMap[normalized]) candidates.push(danciExamSentenceMap[normalized]);
+    if(danciExamSentenceExtraMap[normalized]) candidates = candidates.concat(danciExamSentenceExtraMap[normalized]);
+    if(candidates.length < 2){
+      candidates = candidates.concat([
+        'The passage uses the term "'+normalized+'" to clarify the author\'s central argument.',
+        'In context, "'+normalized+'" marks an important shift in the discussion.',
+        'The meaning of "'+normalized+'" becomes clear from the contrast in the following paragraph.'
+      ]);
+    }
+    for(var i = candidates.length - 1; i > 0; i--){
+      var randomIndex = Math.floor(Math.random() * (i + 1));
+      var temp = candidates[i];
+      candidates[i] = candidates[randomIndex];
+      candidates[randomIndex] = temp;
+    }
+    var minCount = Math.min(2, candidates.length);
+    var maxCount = Math.min(3, candidates.length);
+    var count = minCount + Math.floor(Math.random() * (maxCount - minCount + 1));
+    return candidates.slice(0, count);
+  }
+
+  function buildDanciTranslationItems(mockWords){
+    var html = '<div class="translation-list">';
+    mockWords.forEach(function(w, idx){
+      var sentencesHtml = '<div class="translation-sentences">';
+      getDanciExamSentences(w.word).forEach(function(sentence, sentenceIndex){
+        sentencesHtml += '<div class="translation-sentence-block">' +
+          '<div class="translation-sentence"><span class="translation-sentence-index">'+(sentenceIndex+1)+'.</span>'+sentence+'</div>' +
+          '<div class="translation-answer-line"></div>' +
+        '</div>';
+      });
+      sentencesHtml += '</div>';
+      html += '<div class="translation-item">' +
+        '<div class="translation-word"><span class="translation-seq">'+(idx+1)+'.</span>'+w.word+'</div>' +
+        sentencesHtml +
+      '</div>';
+    });
+    return html + '</div>';
+  }
+
+  // 批量单词小测与精翻弹窗
   window.openDanciQuizBatch = function(studentNames, className){
     var existing = document.getElementById('danciQuizOverlay');
     if(existing) existing.remove();
@@ -5461,9 +5700,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     overlay.id = 'danciQuizOverlay';
     overlay.className = 'modal-overlay show';
     overlay.innerHTML = '<div class="modal" style="max-width:560px" onclick="event.stopPropagation()">' +
-      '<div class="modal-header"><h3>单词小测（批量）</h3><button class="modal-close" onclick="closeDanciQuiz()">&times;</button></div>' +
+      '<div class="modal-header"><h3>单词小测与精翻（批量）</h3><button class="modal-close" onclick="closeDanciQuiz()">&times;</button></div>' +
       '<div class="modal-body">' +
         '<div class="danci-quiz-student-info"><span class="danci-quiz-student-icon">&#x1F4DA;</span><div><strong>已选 '+studentNames.length+' 名学员</strong><span class="danci-quiz-class">'+className+'</span></div></div>' +
+        '<div class="form-section"><div class="form-section-title">打印类型</div>' +
+          '<div class="danci-print-type-group">' +
+            '<label class="danci-order-option danci-print-type-option"><input type="radio" name="dcPrintType" value="quiz" checked><span class="danci-print-type-copy"><strong>单词小测</strong><small>保留原单词与自评表格</small></span></label>' +
+            '<label class="danci-order-option danci-print-type-option"><input type="radio" name="dcPrintType" value="translation"><span class="danci-print-type-copy"><strong>精翻</strong><small>真题例句与译文填写横线</small></span></label>' +
+          '</div>' +
+        '</div>' +
         '<div class="form-section"><div class="form-section-title">抽查范围</div>' +
           '<div class="form-grid" style="grid-template-columns:1fr 1fr">' +
             '<div class="form-group"><label>开始日期</label><input type="date" id="dcQuizDateStart" class="form-control"></div>' +
@@ -5514,6 +5759,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var order = document.querySelector('input[name="dcQuizOrder"]:checked');
     var orderVal = order ? order.value : 'far-to-near';
     var orderLabel = orderVal === 'far-to-near' ? '由远到近' : (orderVal === 'near-to-far' ? '由近到远' : '随机抽取');
+    var printType = document.querySelector('input[name="dcPrintType"]:checked');
+    var isTranslation = printType ? printType.value === 'translation' : false;
     var easyCount = parseInt(document.getElementById('dcQuizEasy').value) || 0;
     var fuzzyCount = parseInt(document.getElementById('dcQuizFuzzy').value) || 0;
     var strangeCount = parseInt(document.getElementById('dcQuizStrange').value) || 0;
@@ -5544,6 +5791,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       wordRows += '<tr><td class="col-seq">'+(idx+1)+'</td><td class="word-cell">'+w.word+'</td><td class="col-self"></td></tr>';
     });
 
+    var translationItems = isTranslation ? buildDanciTranslationItems(mockWords) : '';
+
     // 构建批量打印HTML
     var studentsHtml = '';
     studentNames.forEach(function(name){
@@ -5559,13 +5808,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           '</div>' +
           '<div class="print-qr">'+qrPlaceholder()+'<div class="print-qr-meta">扫码验证<br>本次打印</div></div>' +
         '</div>' +
-        '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>单词</th><th class="col-self">自评</th></tr></thead><tbody>' +
-        wordRows +
-        '</tbody></table>' +
+        (isTranslation ? translationItems :
+          '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>单词</th><th class="col-self">自评</th></tr></thead><tbody>' +
+          wordRows +
+          '</tbody></table>') +
         '<div class="page-break"></div>';
     });
 
-    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>单词小测打印（批量）</title>';
+    var printTitle = isTranslation ? '单词精翻打印（批量）' : '单词小测打印（批量）';
+    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>'+printTitle+'</title>';
     printHtml += '<style>' +
       'body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;margin:32px 40px;color:#1e293b;line-height:1.8;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
       '.print-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:2px dashed #e2e8f0}' +
@@ -5595,7 +5846,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '.print-footer{text-align:center;font-size:11px;color:#94a3b8;padding-top:16px;border-top:1px solid #e2e8f0}' +
       '@media print{body{margin:12px 16px}.print-info{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-summary-item{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.word-table thead th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page-break:last-child{page-break-after:avoid}}' +
       '</style></head><body>' +
-      '<div class="print-header"><h1>单词小测打印（批量）</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起') : '')+' | 共 '+studentNames.length+' 人 | 每人 '+totalCount+' 词</div></div>' +
+      '<div class="print-header"><h1>'+printTitle+'</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起') : '')+' | 共 '+studentNames.length+' 人 | 每人 '+totalCount+' 词</div></div>' +
       '<div class="print-summary">' +
         '<div class="print-summary-item easy"><div class="num">'+easyCount+'</div><div class="lbl">简单词</div></div>' +
         '<div class="print-summary-item fuzzy"><div class="num">'+fuzzyCount+'</div><div class="lbl">模糊词</div></div>' +
@@ -6203,6 +6454,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '.word-table .col-seq{width:40px;text-align:center;color:#94a3b8}' +
       '.word-table .col-self{width:70px;text-align:center;font-size:11px;color:#94a3b8}' +
       '.word-table .word-cell{font-weight:600;font-size:14px;font-variant:small-caps}' +
+      '.translation-list{margin:0 0 16px}' +
+      '.translation-item{padding:10px 2px 13px;border-bottom:1px solid #e2e8f0;page-break-inside:avoid}' +
+      '.translation-word{font-size:15px;font-weight:700;line-height:1.5;font-variant:small-caps}' +
+      '.translation-seq{display:inline-block;width:32px;color:#94a3b8;font-size:12px;font-weight:500;text-align:center}' +
+      '.translation-sentences{margin:3px 0 8px}' +
+      '.translation-sentence-block{page-break-inside:avoid}' +
+      '.translation-sentence{display:flex;gap:6px;margin:3px 0;padding-left:32px;font-family:Georgia,"Times New Roman",serif;font-size:12px;line-height:1.6;color:#334155}' +
+      '.translation-sentence-index{flex:0 0 14px;color:#94a3b8;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:10px;text-align:right}' +
+      '.translation-answer-line{height:22px;margin:0 0 7px 32px;border-bottom:1px solid #475569}' +
       '.page-break{page-break-after:always;height:1px}' +
       '.print-footer{text-align:center;font-size:11px;color:#94a3b8;padding-top:16px;border-top:1px solid #e2e8f0}' +
       '@media print{body{margin:12px 16px}.print-info{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-summary-item{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.word-table thead th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page-break:last-child{page-break-after:avoid}}' +
@@ -6428,7 +6688,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(ov) ov.remove();
   };
 
-  // ==================== 单词小测弹窗 ====================
+  // ==================== 单词小测与精翻弹窗 ====================
   window.openDanciQuiz = function(studentName, className){
     // Remove existing modal if any
     var existing = document.getElementById('danciQuizOverlay');
@@ -6438,9 +6698,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     overlay.id = 'danciQuizOverlay';
     overlay.className = 'modal-overlay show';
     overlay.innerHTML = '<div class="modal" style="max-width:560px" onclick="event.stopPropagation()">' +
-      '<div class="modal-header"><h3>单词小测</h3><button class="modal-close" onclick="closeDanciQuiz()">&times;</button></div>' +
+      '<div class="modal-header"><h3>单词小测与精翻</h3><button class="modal-close" onclick="closeDanciQuiz()">&times;</button></div>' +
       '<div class="modal-body">' +
         '<div class="danci-quiz-student-info"><span class="danci-quiz-student-icon">&#x1F4D6;</span><div><strong>'+studentName+'</strong><span class="danci-quiz-class">'+className+'</span></div></div>' +
+        '<div class="form-section"><div class="form-section-title">打印类型</div>' +
+          '<div class="danci-print-type-group">' +
+            '<label class="danci-order-option danci-print-type-option"><input type="radio" name="dcPrintType" value="quiz" checked><span class="danci-print-type-copy"><strong>单词小测</strong><small>保留原单词与自评表格</small></span></label>' +
+            '<label class="danci-order-option danci-print-type-option"><input type="radio" name="dcPrintType" value="translation"><span class="danci-print-type-copy"><strong>精翻</strong><small>真题例句与译文填写横线</small></span></label>' +
+          '</div>' +
+        '</div>' +
         '<div class="form-section"><div class="form-section-title">抽查范围</div>' +
           '<div class="form-grid" style="grid-template-columns:1fr 1fr">' +
             '<div class="form-group"><label>开始日期</label><input type="date" id="dcQuizDateStart" class="form-control"></div>' +
@@ -6496,6 +6762,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var order = document.querySelector('input[name="dcQuizOrder"]:checked');
     var orderVal = order ? order.value : 'far-to-near';
     var orderLabel = orderVal === 'far-to-near' ? '由远到近' : (orderVal === 'near-to-far' ? '由近到远' : '随机抽取');
+    var printType = document.querySelector('input[name="dcPrintType"]:checked');
+    var isTranslation = printType ? printType.value === 'translation' : false;
     var easyCount = parseInt(document.getElementById('dcQuizEasy').value) || 0;
     var fuzzyCount = parseInt(document.getElementById('dcQuizFuzzy').value) || 0;
     var strangeCount = parseInt(document.getElementById('dcQuizStrange').value) || 0;
@@ -6531,7 +6799,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var qrSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><rect width="100" height="100" fill="#fff"/><rect x="10" y="10" width="25" height="25" rx="3" fill="#1e293b"/><rect x="14" y="14" width="17" height="17" rx="2" fill="#fff"/><rect x="18" y="18" width="9" height="9" rx="1" fill="#1e293b"/><rect x="65" y="10" width="25" height="25" rx="3" fill="#1e293b"/><rect x="69" y="14" width="17" height="17" rx="2" fill="#fff"/><rect x="73" y="18" width="9" height="9" rx="1" fill="#1e293b"/><rect x="10" y="65" width="25" height="25" rx="3" fill="#1e293b"/><rect x="14" y="69" width="17" height="17" rx="2" fill="#fff"/><rect x="18" y="73" width="9" height="9" rx="1" fill="#1e293b"/><circle cx="44" cy="12" r="2" fill="#1e293b"/><circle cx="56" cy="18" r="2" fill="#1e293b"/><circle cx="38" cy="30" r="2" fill="#1e293b"/><circle cx="62" cy="28" r="2" fill="#1e293b"/><circle cx="50" cy="38" r="2" fill="#1e293b"/><circle cx="44" cy="48" r="2" fill="#1e293b"/><circle cx="56" cy="50" r="2" fill="#1e293b"/><circle cx="32" cy="36" r="2" fill="#1e293b"/><circle cx="68" cy="42" r="2" fill="#1e293b"/><circle cx="40" cy="58" r="2" fill="#1e293b"/><circle cx="60" cy="60" r="2" fill="#1e293b"/><circle cx="12" cy="42" r="2" fill="#1e293b"/><circle cx="20" cy="55" r="2" fill="#1e293b"/><circle cx="80" cy="38" r="2" fill="#1e293b"/><circle cx="88" cy="55" r="2" fill="#1e293b"/><circle cx="70" cy="65" r="2" fill="#1e293b"/><circle cx="82" cy="80" r="2" fill="#1e293b"/><circle cx="30" cy="78" r="2" fill="#1e293b"/><circle cx="46" cy="72" r="2" fill="#1e293b"/><circle cx="54" cy="82" r="2" fill="#1e293b"/><circle cx="70" cy="72" r="2" fill="#1e293b"/><circle cx="80" cy="68" r="2" fill="#1e293b"/><circle cx="88" cy="48" r="2" fill="#1e293b"/><circle cx="88" cy="75" r="2" fill="#1e293b"/><circle cx="38" cy="68" r="2" fill="#1e293b"/><circle cx="28" cy="48" r="2" fill="#1e293b"/><circle cx="76" cy="18" r="2" fill="#1e293b"/><circle cx="90" cy="28" r="2" fill="#1e293b"/><circle cx="60" cy="88" r="2" fill="#1e293b"/><circle cx="50" cy="92" r="2" fill="#1e293b"/><circle cx="44" cy="62" r="2" fill="#1e293b"/><circle cx="14" cy="62" r="2" fill="#1e293b"/><circle cx="22" cy="78" r="2" fill="#1e293b"/><rect x="70" y="88" width="18" height="8" rx="2" fill="#ef4444"/><text x="79" y="95" font-size="7" fill="#fff" text-anchor="middle" font-family="sans-serif">打印</text></svg>';
 
     // 构建打印HTML
-    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>单词小测打印 - '+studentName+'</title>';
+    var printTitle = isTranslation ? '单词精翻打印' : '单词小测打印';
+    var printHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>'+printTitle+' - '+studentName+'</title>';
     printHtml += '<style>body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;margin:32px 40px;color:#1e293b;line-height:1.8;-webkit-print-color-adjust:exact;print-color-adjust:exact}' +
       '.print-header{text-align:center;margin-bottom:24px;padding-bottom:20px;border-bottom:2px dashed #e2e8f0}' +
       '.print-header h1{font-size:22px;font-weight:700;margin-bottom:4px;letter-spacing:2px}' +
@@ -6556,10 +6825,19 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '.word-table .col-seq{width:50px;text-align:center;color:#94a3b8}' +
       '.word-table .col-self{width:80px;text-align:center;font-size:12px;color:#94a3b8}' +
       '.word-table .word-cell{font-weight:600;font-size:15px;font-variant:small-caps}' +
+      '.translation-list{margin:0 0 24px}' +
+      '.translation-item{padding:12px 2px 16px;border-bottom:1px solid #e2e8f0;page-break-inside:avoid}' +
+      '.translation-word{font-size:16px;font-weight:700;line-height:1.5;font-variant:small-caps}' +
+      '.translation-seq{display:inline-block;width:38px;color:#94a3b8;font-size:13px;font-weight:500;text-align:center}' +
+      '.translation-sentences{margin:4px 0 10px}' +
+      '.translation-sentence-block{page-break-inside:avoid}' +
+      '.translation-sentence{display:flex;gap:7px;margin:4px 0;padding-left:38px;font-family:Georgia,"Times New Roman",serif;font-size:13px;line-height:1.7;color:#334155}' +
+      '.translation-sentence-index{flex:0 0 16px;color:#94a3b8;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:11px;text-align:right}' +
+      '.translation-answer-line{height:26px;margin:0 0 9px 38px;border-bottom:1px solid #475569}' +
       '.print-footer{text-align:center;font-size:11px;color:#94a3b8;padding-top:16px;border-top:1px solid #e2e8f0}' +
       '@media print{body{margin:16px 20px}.print-header{border-bottom:1px dashed #ccc}.word-table thead th{background:#f1f5f9!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-info{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.print-summary-item{background:#f8fafc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}' +
       '</style></head><body>' +
-      '<div class="print-header"><h1>单词小测打印</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起')+'' : '')+'</div></div>' +
+      '<div class="print-header"><h1>'+printTitle+'</h1><div class="subtitle">抽查顺序：'+orderLabel+(dateStart?' | 时间范围：'+dateStart+(dateEnd?' ~ '+dateEnd:'起')+'' : '')+'</div></div>' +
       '<div class="print-info">' +
         '<div class="print-info-left">' +
           '<div class="info-row"><span>学员：</span><strong>'+studentName+'</strong></div>' +
@@ -6573,14 +6851,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         '<div class="print-summary-item fuzzy"><div class="num">'+fuzzyCount+'</div><div class="lbl">模糊词</div></div>' +
         '<div class="print-summary-item strange"><div class="num">'+strangeCount+'</div><div class="lbl">陌生词</div></div>' +
         '<div class="print-summary-item"><div class="num" style="color:var(--primary)">'+totalCount+'</div><div class="lbl">合计</div></div>' +
-      '</div>' +
-      '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>单词</th><th class="col-self">自评</th></tr></thead><tbody>';
+      '</div>';
 
-    mockWords.forEach(function(w, idx){
-      printHtml += '<tr><td class="col-seq">'+(idx+1)+'</td><td class="word-cell">'+w.word+'</td><td class="col-self"></td></tr>';
-    });
-
-    printHtml += '</tbody></table>';
+    if(isTranslation){
+      printHtml += buildDanciTranslationItems(mockWords);
+    }else{
+      printHtml += '<table class="word-table"><thead><tr><th class="col-seq">序号</th><th>单词</th><th class="col-self">自评</th></tr></thead><tbody>';
+      mockWords.forEach(function(w, idx){
+        printHtml += '<tr><td class="col-seq">'+(idx+1)+'</td><td class="word-cell">'+w.word+'</td><td class="col-self"></td></tr>';
+      });
+      printHtml += '</tbody></table>';
+    }
     printHtml += '<div class="print-footer">本文件仅供学习使用 | 生成于 '+printTime+'</div>';
     printHtml += '</body></html>';
 
@@ -10501,6 +10782,35 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     return lianCeQuestionsMap[recordId] || lianCeQuestionsMap['lc1'] || [];
   }
 
+  // --- 练测/作业明细计分 ---
+  // 分值配置总计均为 100 分；题目数据后续若提供 score/studentScore 字段，会优先使用接口值。
+  var lianCeQuestionScoreProfile = [5, 10, 20, 5, 5, 5, 10, 5, 20, 15];
+  var zuoYeQuestionScoreProfile = [5, 10, 15, 5, 5, 5, 10, 5, 10, 10, 10, 10];
+
+  function getMingxiScoreInfo(record, questions, scoreProfile){
+    var scoredQuestions = questions.map(function(q, index){
+      var questionScore = typeof q.score === 'number' ? q.score : (scoreProfile[index] || 0);
+      var studentScore = 0;
+      if(record.submitStatus === 'submitted'){
+        if(typeof q.studentScore === 'number') studentScore = q.studentScore;
+        else if(q.selfTag === 'correct') studentScore = questionScore;
+        else if(q.selfTag === 'half') studentScore = Math.round(questionScore / 2);
+      }
+      return {
+        question: q,
+        originalIndex: index,
+        score: questionScore,
+        studentScore: studentScore
+      };
+    });
+
+    return {
+      questions: scoredQuestions,
+      totalScore: scoredQuestions.reduce(function(sum, item){ return sum + item.score; }, 0),
+      studentScore: scoredQuestions.reduce(function(sum, item){ return sum + item.studentScore; }, 0)
+    };
+  }
+
   // --- State ---
   var lcMingxiClassFilter = 'all';
   var lcMingxiSubjectFilter = 'all';
@@ -10570,17 +10880,21 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     // Table
     html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
-    html += '<th>练测试卷名称</th><th>学科</th><th>练测分类</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>自主批改(总/答/错)</th><th>图片</th><th style="width:70px">操作</th>';
+    html += '<th>练测试卷名称</th><th>学科</th><th>练测分类</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>得分/总分</th><th>自主批改(总/答/错)</th><th>图片</th><th style="width:70px">操作</th>';
     html += '</tr></thead><tbody>';
 
     if(filtered.length===0){
-      html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的练测记录</td></tr>';
+      html += '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的练测记录</td></tr>';
     } else {
       filtered.forEach(function(r){
         var subjCls = r.subject==='数学' ? 'layer-math' : r.subject==='英语' ? 'layer-english' : '';
         var submitTagCls = r.submitStatus==='submitted' ? 'submitted' : 'unsubmitted';
         var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
         var submitTimeText = r.submitTime || '—';
+        var scoreInfo = getMingxiScoreInfo(r, getQuestionsForRecord(r.id), lianCeQuestionScoreProfile);
+        var scoreHtml = r.submitStatus==='submitted'
+          ? '<span class="lcmx-score-cell"><strong>'+scoreInfo.studentScore+'</strong>/'+scoreInfo.totalScore+'</span>'
+          : '<span class="lcmx-score-cell unsubmitted"><strong>—</strong>/'+scoreInfo.totalScore+'</span>';
         var reviewHtml = r.selfReview.done > 0
           ? '<span class="lcmx-review-stats"><span class="done">'+r.selfReview.done+'</span>/<span class="wrong">'+r.selfReview.wrong+'</span>/<span class="total">'+r.selfReview.total+'</span></span>'
           : '<span style="color:var(--text-muted);font-size:12px">—</span>';
@@ -10600,6 +10914,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           '<td>'+r.keBiaoDate+'</td>' +
           '<td><span class="lcmx-submit-tag '+submitTagCls+'">'+submitTagText+'</span></td>' +
           '<td style="white-space:nowrap">'+submitTimeText+'</td>' +
+          '<td>'+scoreHtml+'</td>' +
           '<td>'+reviewHtml+'</td>' +
           '<td class="text-center">'+imgHtml+'</td>' +
           '<td class="text-center">'+actionHtml+'</td>' +
@@ -10679,11 +10994,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     if(filtered.length === 0){ showToast('无数据可导出'); return; }
 
-    var csvContent = '\uFEFF练测试卷名称,学科,练测分类,学员姓名,班级,课表日期,提交状态,提交时间,自主批改-总题数,自主批改-已答,自主批改-错题\n';
+    var csvContent = '\uFEFF练测试卷名称,学科,练测分类,学员姓名,班级,课表日期,提交状态,提交时间,得分/总分,自主批改-总题数,自主批改-已答,自主批改-错题\n';
     filtered.forEach(function(r){
       var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
       var submitTimeText = r.submitTime || '';
-      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
+      var scoreInfo = getMingxiScoreInfo(r, getQuestionsForRecord(r.id), lianCeQuestionScoreProfile);
+      var scoreText = r.submitStatus==='submitted' ? scoreInfo.studentScore+'/'+scoreInfo.totalScore : '—/'+scoreInfo.totalScore;
+      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '","' + scoreText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
     });
 
     var blob = new Blob([csvContent], { type: 'text/csv;charset=UTF-8;' });
@@ -10705,11 +11022,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(!record) return;
 
     var questions = getQuestionsForRecord(recordId);
+    var scoreInfo = getMingxiScoreInfo(record, questions, lianCeQuestionScoreProfile);
 
     // Sort: self-reviewed first, then not_done
-    var sortedQuestions = questions.slice().sort(function(a, b){
-      var aReviewed = a.selfTag !== 'not_done' ? 0 : 1;
-      var bReviewed = b.selfTag !== 'not_done' ? 0 : 1;
+    var sortedQuestions = scoreInfo.questions.slice().sort(function(a, b){
+      var aReviewed = a.question.selfTag !== 'not_done' ? 0 : 1;
+      var bReviewed = b.question.selfTag !== 'not_done' ? 0 : 1;
       return aReviewed - bReviewed;
     });
 
@@ -10724,9 +11042,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     document.getElementById('qmModalTitle').innerHTML = '题目详情 — ' + record.studentName + ' · ' + record.paperName;
 
+    bodyHtml += '<div class="qm-score-summary">';
+    bodyHtml += '<div class="qm-score-item"><span>试卷总分</span><strong>'+scoreInfo.totalScore+'</strong><span class="qm-score-unit">分</span></div>';
+    bodyHtml += '<div class="qm-score-item highlight"><span>学员得分</span><strong>'+scoreInfo.studentScore+'</strong><span class="qm-score-unit">/'+scoreInfo.totalScore+' 分</span></div>';
+    bodyHtml += '</div>';
     bodyHtml += '<div class="qm-sort-hint">&#x2139;&#xFE0F; 已自批的题目优先展示，共 '+questions.length+' 题</div>';
 
-    sortedQuestions.forEach(function(q, idx){
+    sortedQuestions.forEach(function(scoredQuestion, idx){
+      var q = scoredQuestion.question;
       var tagCfg = selfTagConfig[q.selfTag] || { cls: 'not-done', label: '未做' };
       var hasMeta = (q.selfTag === 'wrong' || q.selfTag === 'half');
       var noteText = q.notes || '无';
@@ -10735,8 +11058,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
       // --- Header (clickable) ---
       bodyHtml += '<div class="qm-question-header" onclick="window._toggleQuestionDetail('+idx+')">';
-      bodyHtml += '<span class="qm-q-num">第'+(idx+1)+'题</span>';
+      bodyHtml += '<span class="qm-q-num">第'+(scoredQuestion.originalIndex+1)+'题</span>';
       bodyHtml += '<span class="qm-q-text">'+q.title+'</span>';
+      bodyHtml += '<span class="qm-question-score">得分 <strong>'+scoredQuestion.studentScore+'</strong>/'+scoredQuestion.score+'分</span>';
       bodyHtml += '<span class="qm-self-tag '+tagCfg.cls+'">'+tagCfg.label+'</span>';
       bodyHtml += '<span class="qm-q-arrow">&#x25BC;</span>';
       bodyHtml += '</div>';
@@ -10899,17 +11223,21 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     // Table
     html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
-    html += '<th>作业名称</th><th>学科</th><th>作业分类</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>自主批改(总/答/错)</th><th>图片</th><th style="width:70px">操作</th>';
+    html += '<th>作业名称</th><th>学科</th><th>作业分类</th><th>学员姓名</th><th>班级</th><th>课表日期</th><th>提交状态</th><th>提交时间</th><th>得分/总分</th><th>自主批改(总/答/错)</th><th>图片</th><th style="width:70px">操作</th>';
     html += '</tr></thead><tbody>';
 
     if(filtered.length===0){
-      html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的作业记录</td></tr>';
+      html += '<tr><td colspan="12" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的作业记录</td></tr>';
     } else {
       filtered.forEach(function(r){
         var subjCls = r.subject==='数学' ? 'layer-math' : r.subject==='英语' ? 'layer-english' : '';
         var submitTagCls = r.submitStatus==='submitted' ? 'submitted' : 'unsubmitted';
         var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
         var submitTimeText = r.submitTime || '—';
+        var scoreInfo = getMingxiScoreInfo(r, getZuoYeQuestionsForRecord(r.id), zuoYeQuestionScoreProfile);
+        var scoreHtml = r.submitStatus==='submitted'
+          ? '<span class="lcmx-score-cell"><strong>'+scoreInfo.studentScore+'</strong>/'+scoreInfo.totalScore+'</span>'
+          : '<span class="lcmx-score-cell unsubmitted"><strong>—</strong>/'+scoreInfo.totalScore+'</span>';
         var reviewHtml = r.selfReview.done > 0
           ? '<span class="lcmx-review-stats"><span class="done">'+r.selfReview.done+'</span>/<span class="wrong">'+r.selfReview.wrong+'</span>/<span class="total">'+r.selfReview.total+'</span></span>'
           : '<span style="color:var(--text-muted);font-size:12px">—</span>';
@@ -10929,6 +11257,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           '<td>'+r.keBiaoDate+'</td>' +
           '<td><span class="lcmx-submit-tag '+submitTagCls+'">'+submitTagText+'</span></td>' +
           '<td style="white-space:nowrap">'+submitTimeText+'</td>' +
+          '<td>'+scoreHtml+'</td>' +
           '<td>'+reviewHtml+'</td>' +
           '<td class="text-center">'+imgHtml+'</td>' +
           '<td class="text-center">'+actionHtml+'</td>' +
@@ -10987,11 +11316,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     if(filtered.length === 0){ showToast('无数据可导出'); return; }
 
-    var csvContent = '\uFEFF作业名称,学科,作业分类,学员姓名,班级,课表日期,提交状态,提交时间,自主批改-总题数,自主批改-已答,自主批改-错题\n';
+    var csvContent = '\uFEFF作业名称,学科,作业分类,学员姓名,班级,课表日期,提交状态,提交时间,得分/总分,自主批改-总题数,自主批改-已答,自主批改-错题\n';
     filtered.forEach(function(r){
       var submitTagText = r.submitStatus==='submitted' ? '已提交' : '未提交';
       var submitTimeText = r.submitTime || '';
-      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
+      var scoreInfo = getMingxiScoreInfo(r, getZuoYeQuestionsForRecord(r.id), zuoYeQuestionScoreProfile);
+      var scoreText = r.submitStatus==='submitted' ? scoreInfo.studentScore+'/'+scoreInfo.totalScore : '—/'+scoreInfo.totalScore;
+      csvContent += '"' + r.paperName + '","' + r.subject + '","' + r.category + '","' + r.studentName + '","' + r.className + '","' + r.keBiaoDate + '","' + submitTagText + '","' + submitTimeText + '","' + scoreText + '",' + r.selfReview.total + ',' + r.selfReview.done + ',' + r.selfReview.wrong + '\n';
     });
 
     var blob = new Blob([csvContent], { type: 'text/csv;charset=UTF-8;' });
@@ -11011,10 +11342,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var record = zuoYeMingxiData.filter(function(r){ return r.id===recordId; })[0];
     if(!record) return;
     var questions = getZuoYeQuestionsForRecord(recordId);
+    var scoreInfo = getMingxiScoreInfo(record, questions, zuoYeQuestionScoreProfile);
 
-    var sortedQuestions = questions.slice().sort(function(a, b){
-      var aReviewed = a.selfTag !== 'not_done' ? 0 : 1;
-      var bReviewed = b.selfTag !== 'not_done' ? 0 : 1;
+    var sortedQuestions = scoreInfo.questions.slice().sort(function(a, b){
+      var aReviewed = a.question.selfTag !== 'not_done' ? 0 : 1;
+      var bReviewed = b.question.selfTag !== 'not_done' ? 0 : 1;
       return aReviewed - bReviewed;
     });
 
@@ -11027,17 +11359,23 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     var bodyHtml = '';
     document.getElementById('qmModalTitle').innerHTML = '题目详情 — ' + record.studentName + ' · ' + record.paperName;
+    bodyHtml += '<div class="qm-score-summary">';
+    bodyHtml += '<div class="qm-score-item"><span>试卷总分</span><strong>'+scoreInfo.totalScore+'</strong><span class="qm-score-unit">分</span></div>';
+    bodyHtml += '<div class="qm-score-item highlight"><span>学员得分</span><strong>'+scoreInfo.studentScore+'</strong><span class="qm-score-unit">/'+scoreInfo.totalScore+' 分</span></div>';
+    bodyHtml += '</div>';
     bodyHtml += '<div class="qm-sort-hint">&#x2139;&#xFE0F; 已自批的题目优先展示，共 '+questions.length+' 题</div>';
 
-    sortedQuestions.forEach(function(q, idx){
+    sortedQuestions.forEach(function(scoredQuestion, idx){
+      var q = scoredQuestion.question;
       var tagCfg = selfTagConfig[q.selfTag] || { cls: 'not-done', label: '未做' };
       var hasMeta = (q.selfTag === 'wrong' || q.selfTag === 'half');
       var noteText = q.notes || '无';
 
       bodyHtml += '<div class="qm-question-card" id="qm-card-zy-'+idx+'">';
       bodyHtml += '<div class="qm-question-header" onclick="window._toggleZyQuestionDetail('+idx+')">';
-      bodyHtml += '<span class="qm-q-num">第'+(idx+1)+'题</span>';
+      bodyHtml += '<span class="qm-q-num">第'+(scoredQuestion.originalIndex+1)+'题</span>';
       bodyHtml += '<span class="qm-q-text">'+q.title+'</span>';
+      bodyHtml += '<span class="qm-question-score">得分 <strong>'+scoredQuestion.studentScore+'</strong>/'+scoredQuestion.score+'分</span>';
       bodyHtml += '<span class="qm-self-tag '+tagCfg.cls+'">'+tagCfg.label+'</span>';
       bodyHtml += '<span class="qm-q-arrow">&#x25BC;</span>';
       bodyHtml += '</div>';
@@ -15254,6 +15592,243 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._cjBackToList = function(){
     renderCijuTimuTongjiPage();
   };
+
+  // ==================== 英语阅读练习 ====================
+  // 与教研端“阅读文章关联练习”保持一致：文章下挂单选题，题目以 answerIndex 标记正确答案。
+  var englishReadingArticlePractices = {
+    'read-2001': {
+      title: 'Artificial Intelligence in Healthcare',
+      content: [
+        'Artificial intelligence is revolutionizing the healthcare industry in unprecedented ways. From diagnostic imaging to personalized treatment plans, AI algorithms are helping doctors make more accurate decisions faster than ever before.',
+        'Machine learning models can now analyze medical images with accuracy that rivals or exceeds human radiologists, particularly in detecting early-stage cancers that might be missed by the human eye.'
+      ],
+      questions: [
+        {
+          stem: 'What is one major advantage of AI in medical imaging?',
+          options: ['It can replace all doctors immediately', 'It can help detect early-stage cancers', 'It makes treatment plans unnecessary', 'It only works with old medical records'],
+          answerIndex: 1
+        },
+        {
+          stem: 'Which statement best summarizes the passage?',
+          options: ['AI is slowing down medical decisions', 'AI has little impact on healthcare', 'AI is improving diagnosis and treatment efficiency', 'Human radiologists no longer work in hospitals'],
+          answerIndex: 2
+        }
+      ]
+    },
+    'read-2002': {
+      title: 'Global Climate Change and Economic Development',
+      content: [
+        'The relationship between climate change and economic development is complex and multifaceted. As global temperatures continue to rise, nations around the world are grappling with the economic implications of environmental degradation.',
+        'Recent studies suggest that unchecked climate change could reduce global GDP by up to 18% by 2050, making it one of the most significant economic challenges of our time.'
+      ],
+      questions: [
+        {
+          stem: 'What is the main threat discussed in the passage?',
+          options: ['Declining internet access', 'Global food insecurity caused by climate change', 'The high cost of city housing', 'A shortage of scientific journals'],
+          answerIndex: 1
+        }
+      ]
+    },
+    'read-2003': {
+      title: 'The Impact of Social Media on Teenagers',
+      content: [
+        'Social media has become an integral part of modern teenage life. Studies show that the average teenager spends approximately three hours per day on social media platforms.',
+        'While these platforms offer opportunities for connection and self-expression, research indicates potential negative effects on mental health, including increased anxiety and depression among heavy users.'
+      ],
+      questions: [
+        {
+          stem: 'What potential problem is associated with heavy social media use?',
+          options: ['Higher travel costs', 'Increased anxiety and depression', 'Less access to information', 'Reduced interest in technology'],
+          answerIndex: 1
+        }
+      ]
+    }
+  };
+
+  var englishReadingExerciseData = [
+    { id:'ery001', studentNo:'2025007', studentName:'吴九', className:'2026届考研英语一班', articleKey:'read-2001', studentAnswers:[1,0], submitTime:'2026-09-08 10:21:36' },
+    { id:'ery002', studentNo:'2025010', studentName:'林二', className:'2026届考研英语一班', articleKey:'read-2001', studentAnswers:[1,2], submitTime:'2026-09-08 09:42:18' },
+    { id:'ery003', studentNo:'2025004', studentName:'赵六', className:'25考研英语一班', articleKey:'read-2001', studentAnswers:[0,2], submitTime:'2026-09-07 16:35:09' },
+    { id:'ery004', studentNo:'2025001', studentName:'张三', className:'25考研数学一班', articleKey:'read-2002', studentAnswers:[1], submitTime:'2026-09-07 14:08:27' },
+    { id:'ery005', studentNo:'2025002', studentName:'李四', className:'25考研数学一班', articleKey:'read-2002', studentAnswers:[3], submitTime:'2026-09-06 20:16:42' },
+    { id:'ery006', studentNo:'2025003', studentName:'王五', className:'25考研数学二班', articleKey:'read-2003', studentAnswers:[1], submitTime:'2026-09-05 11:28:53' },
+    { id:'ery007', studentNo:'2025006', studentName:'周八', className:'25考研数学二班', articleKey:'read-2003', studentAnswers:[0], submitTime:'2026-09-04 19:05:14' },
+    { id:'ery008', studentNo:'2025008', studentName:'郑十', className:'2026届考研数学二班', articleKey:'read-2001', studentAnswers:[1,2], submitTime:'2026-09-03 08:56:31' }
+  ];
+
+  var englishReadingClassFilter = '';
+  var englishReadingStudentKeyword = '';
+  var englishReadingSubmitStart = '';
+  var englishReadingSubmitEnd = '';
+
+  function escapeEnglishReadingHtml(value){
+    var map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch){ return map[ch]; });
+  }
+
+  function getEnglishReadingResult(record){
+    var article = englishReadingArticlePractices[record.articleKey] || { title:'-', questions:[] };
+    var results = article.questions.map(function(question, index){
+      var studentAnswerIndex = record.studentAnswers[index];
+      return {
+        question: question,
+        studentAnswerIndex: studentAnswerIndex,
+        isCorrect: studentAnswerIndex === question.answerIndex
+      };
+    });
+    return {
+      article: article,
+      questions: results,
+      wrongCount: results.filter(function(item){ return !item.isCorrect; }).length,
+      totalCount: results.length
+    };
+  }
+
+  function renderEnglishReadingExercisePage(){
+    var keyword = englishReadingStudentKeyword.toLowerCase();
+    var filtered = englishReadingExerciseData.filter(function(record){
+      if(englishReadingClassFilter && record.className !== englishReadingClassFilter) return false;
+      if(keyword && record.studentName.toLowerCase().indexOf(keyword) === -1 && record.studentNo.toLowerCase().indexOf(keyword) === -1) return false;
+      if(englishReadingSubmitStart && record.submitTime < englishReadingSubmitStart) return false;
+      if(englishReadingSubmitEnd && record.submitTime > englishReadingSubmitEnd + ' 23:59:59') return false;
+      return true;
+    });
+
+    var classNames = [];
+    englishReadingExerciseData.forEach(function(record){
+      if(classNames.indexOf(record.className) === -1) classNames.push(record.className);
+    });
+    classNames.sort();
+
+    var html = '';
+    html += '<div class="page-header"><h2>英语阅读练习</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+    html += '<div class="ery-filter-panel"><div class="ery-filter-row">';
+    html += '<div class="ery-filter-item"><label for="eryClassFilter">班级</label><select id="eryClassFilter"><option value="">全部班级</option>';
+    classNames.forEach(function(className){
+      html += '<option value="'+escapeEnglishReadingHtml(className)+'"'+(englishReadingClassFilter===className?' selected':'')+'>'+escapeEnglishReadingHtml(className)+'</option>';
+    });
+    html += '</select></div>';
+    html += '<div class="ery-filter-item"><label for="eryStudentKeyword">学生</label><input class="ery-search" id="eryStudentKeyword" value="'+escapeEnglishReadingHtml(englishReadingStudentKeyword)+'" placeholder="搜索学生姓名/学号" onkeydown="if(event.key===\'Enter\')window._eryDoFilter()"></div>';
+    html += '<div class="ery-filter-item"><label>提交时间</label><input type="date" id="erySubmitStart" value="'+englishReadingSubmitStart+'"><span class="ery-date-sep">至</span><input type="date" id="erySubmitEnd" value="'+englishReadingSubmitEnd+'"></div>';
+    html += '<div class="ery-filter-actions"><button class="btn btn-primary btn-xs" onclick="window._eryDoFilter()">查询</button><button class="btn btn-outline btn-xs" onclick="window._eryResetFilter()">重置</button></div>';
+    html += '</div></div>';
+
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr>';
+    html += '<th>学号</th><th>姓名</th><th>班级</th><th>文章标题</th><th>错题数/总题数</th><th>提交时间</th><th style="width:80px">操作</th>';
+    html += '</tr></thead><tbody>';
+    if(filtered.length === 0){
+      html += '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px">暂无匹配的英语阅读练习记录</td></tr>';
+    } else {
+      filtered.forEach(function(record){
+        var result = getEnglishReadingResult(record);
+        var ratioClass = result.wrongCount === 0 ? ' zero' : '';
+        html += '<tr>';
+        html += '<td>'+escapeEnglishReadingHtml(record.studentNo)+'</td>';
+        html += '<td style="font-weight:600">'+escapeEnglishReadingHtml(record.studentName)+'</td>';
+        html += '<td>'+escapeEnglishReadingHtml(record.className)+'</td>';
+        html += '<td style="font-weight:500">'+escapeEnglishReadingHtml(result.article.title)+'</td>';
+        html += '<td><span class="ery-error-ratio'+ratioClass+'"><strong>'+result.wrongCount+'</strong>/'+result.totalCount+'</span></td>';
+        html += '<td style="white-space:nowrap">'+escapeEnglishReadingHtml(record.submitTime)+'</td>';
+        html += '<td><button class="btn btn-primary btn-xs" onclick="window._eryOpenDetail(\''+record.id+'\')">查看</button></td>';
+        html += '</tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+    html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    html += '</div></div>';
+    contentArea.innerHTML = html;
+  }
+
+  window._eryDoFilter = function(){
+    var classSelect = document.getElementById('eryClassFilter');
+    var studentInput = document.getElementById('eryStudentKeyword');
+    var startInput = document.getElementById('erySubmitStart');
+    var endInput = document.getElementById('erySubmitEnd');
+    englishReadingClassFilter = classSelect ? classSelect.value : '';
+    englishReadingStudentKeyword = studentInput ? studentInput.value.trim() : '';
+    englishReadingSubmitStart = startInput ? startInput.value : '';
+    englishReadingSubmitEnd = endInput ? endInput.value : '';
+    renderEnglishReadingExercisePage();
+  };
+
+  window._eryResetFilter = function(){
+    englishReadingClassFilter = '';
+    englishReadingStudentKeyword = '';
+    englishReadingSubmitStart = '';
+    englishReadingSubmitEnd = '';
+    renderEnglishReadingExercisePage();
+  };
+
+  window._eryOpenDetail = function(recordId){
+    var record = englishReadingExerciseData.filter(function(item){ return item.id === recordId; })[0];
+    if(!record) return;
+    var result = getEnglishReadingResult(record);
+    var letters = ['A','B','C','D'];
+    var bodyHtml = '';
+    bodyHtml += '<div class="ery-detail-summary">';
+    bodyHtml += '<div class="ery-detail-summary-item"><span class="label">学员</span><span class="value">'+escapeEnglishReadingHtml(record.studentName)+'（'+escapeEnglishReadingHtml(record.studentNo)+'）</span></div>';
+    bodyHtml += '<div class="ery-detail-summary-item"><span class="label">班级</span><span class="value">'+escapeEnglishReadingHtml(record.className)+'</span></div>';
+    bodyHtml += '<div class="ery-detail-summary-item"><span class="label">文章标题</span><span class="value" title="'+escapeEnglishReadingHtml(result.article.title)+'">'+escapeEnglishReadingHtml(result.article.title)+'</span></div>';
+    bodyHtml += '<div class="ery-detail-summary-item"><span class="label">错题数/总题数</span><span class="value">'+result.wrongCount+'/'+result.totalCount+'</span></div>';
+    bodyHtml += '</div>';
+    bodyHtml += '<div class="ery-article-section expanded" id="eryArticleSection">';
+    bodyHtml += '<button class="ery-article-toggle" id="eryArticleToggle" aria-expanded="true" onclick="window._eryToggleArticle()"><span>文章内容</span><span class="ery-article-toggle-side"><span id="eryArticleToggleText">收起文章</span><span class="ery-article-arrow">&#x25BC;</span></span></button>';
+    bodyHtml += '<div class="ery-article-content">';
+    (result.article.content || []).forEach(function(paragraph){
+      bodyHtml += '<p>'+escapeEnglishReadingHtml(paragraph)+'</p>';
+    });
+    bodyHtml += '</div></div>';
+    bodyHtml += '<div class="ery-question-list">';
+
+    result.questions.forEach(function(item, questionIndex){
+      var question = item.question;
+      var correctLetter = letters[question.answerIndex] || '-';
+      var studentLetter = typeof item.studentAnswerIndex === 'number' ? (letters[item.studentAnswerIndex] || '-') : '未作答';
+      var correctAnswerText = question.options[question.answerIndex] || '-';
+      var studentAnswerText = typeof item.studentAnswerIndex === 'number' ? (question.options[item.studentAnswerIndex] || '-') : '';
+      bodyHtml += '<div class="ery-question-card">';
+      bodyHtml += '<div class="ery-question-head"><span class="ery-question-num">第'+(questionIndex+1)+'题</span><span class="ery-result-tag '+(item.isCorrect?'correct':'wrong')+'">'+(item.isCorrect?'正确':'错误')+'</span></div>';
+      bodyHtml += '<div class="ery-question-content">';
+      bodyHtml += '<div class="ery-question-stem">'+escapeEnglishReadingHtml(question.stem)+'</div>';
+      bodyHtml += '<div class="ery-options">';
+      question.options.forEach(function(option, optionIndex){
+        var optionClass = '';
+        if(optionIndex === question.answerIndex) optionClass += ' correct-answer';
+        if(optionIndex === item.studentAnswerIndex && !item.isCorrect) optionClass += ' student-wrong';
+        var marks = '';
+        if(optionIndex === question.answerIndex) marks += '<span class="ery-option-mark answer">正确答案</span>';
+        if(optionIndex === item.studentAnswerIndex) marks += '<span class="ery-option-mark student">学生答案</span>';
+        bodyHtml += '<div class="ery-option'+optionClass+'"><span class="ery-option-letter">'+letters[optionIndex]+'</span><span class="ery-option-text">'+escapeEnglishReadingHtml(option)+'</span><span class="ery-option-marks">'+marks+'</span></div>';
+      });
+      bodyHtml += '</div>';
+      bodyHtml += '<div class="ery-answer-summary"><span>正确答案：<strong>'+correctLetter+'. '+escapeEnglishReadingHtml(correctAnswerText)+'</strong></span><span>学生答案：<strong>'+studentLetter+(studentAnswerText ? '. '+escapeEnglishReadingHtml(studentAnswerText) : '')+'</strong></span></div>';
+      bodyHtml += '</div></div>';
+    });
+
+    bodyHtml += '</div>';
+    document.getElementById('englishReadingExerciseModalTitle').textContent = '英语阅读练习详情 — ' + record.studentName;
+    document.getElementById('englishReadingExerciseModalBody').innerHTML = bodyHtml;
+    document.getElementById('englishReadingExerciseModal').classList.add('show');
+  };
+
+  window._eryToggleArticle = function(){
+    var section = document.getElementById('eryArticleSection');
+    var toggle = document.getElementById('eryArticleToggle');
+    var toggleText = document.getElementById('eryArticleToggleText');
+    if(!section) return;
+    var isExpanded = section.classList.toggle('expanded');
+    if(toggle) toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    if(toggleText) toggleText.textContent = isExpanded ? '收起文章' : '展开文章';
+  };
+
+  window._eryCloseDetail = function(){
+    document.getElementById('englishReadingExerciseModal').classList.remove('show');
+  };
+
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape') window._eryCloseDetail();
+  });
 
   renderPage('banji-guanli');
 })();

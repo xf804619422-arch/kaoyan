@@ -597,6 +597,37 @@ tr:hover td{background:#fafbfc}
 .ae-dl-content{color:var(--text);line-height:1.5;word-break:break-all}
 .ae-preview-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
 .ae-empty{display:flex;align-items:center;justify-content:center;flex:1;color:var(--text-secondary);font-size:14px;text-align:center;padding:40px}
+.zj-preview-summary{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-secondary)}
+.zj-total-score{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;background:#fff7ed;color:#c2410c;font-weight:600;border:1px solid #fed7aa;white-space:nowrap}
+.zj-score-field{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;margin-left:6px;padding:3px 7px;border:1px solid #c7d2fe;border-radius:6px;background:#fff;color:var(--primary);font-size:12px;font-weight:500}
+.zj-score-input{width:52px;border:none;outline:none;text-align:center;font-size:12px;font-weight:600;color:var(--primary);background:transparent;font-family:inherit}
+.zj-score-input:focus{box-shadow:none}
+.zj-score-field:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.ae-score-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;background:#fff7ed;color:#c2410c;font-size:11px;font-weight:600;white-space:nowrap}
+.es-toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.es-filter-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;margin-bottom:16px;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.es-filter-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary)}
+.es-filter-item label{font-weight:500;white-space:nowrap}
+.es-sentence-cell{display:block;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.es-translation-cell{display:block;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary)}
+.es-word-tags{display:flex;align-items:center;gap:4px;flex-wrap:wrap;min-width:120px}
+.es-word-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#4338ca;font-size:11px;white-space:nowrap}
+.es-word-tag button{border:none;background:none;color:#6366f1;cursor:pointer;padding:0;font-size:12px;line-height:1}
+.es-word-picker{border:1px solid var(--border);border-radius:8px;background:#fff;overflow:hidden}
+.es-word-selected{display:flex;gap:6px;flex-wrap:wrap;min-height:42px;padding:8px 10px;border-bottom:1px solid #f3f4f6;align-items:center}
+.es-word-selected .placeholder{font-size:12px;color:#9ca3af}
+.es-word-search{position:relative;padding:8px 10px;border-bottom:1px solid #f3f4f6}
+.es-word-search input{width:100%;padding:7px 10px 7px 30px;border:1px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit}
+.es-word-search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.08)}
+.es-word-search .icon{position:absolute;left:20px;top:16px;color:#9ca3af;font-size:12px}
+.es-word-options{max-height:180px;overflow-y:auto;padding:4px}
+.es-word-option{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:5px;font-size:12px;cursor:pointer}
+.es-word-option:hover{background:#f5f7ff}
+.es-word-option input{accent-color:var(--primary)}
+.es-word-option .word{font-weight:600;color:var(--text)}
+.es-word-option .def{color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.es-audit-actions{display:flex;align-items:center;gap:8px}
+.es-selected-count{font-size:12px;color:var(--text-secondary)}
 
 /* ---- CATEGORY MANAGER ---- */
 .cat-inline-editor{display:flex;align-items:center;gap:4px}
@@ -824,9 +855,32 @@ tr:hover td{background:#fafbfc}
 .re-editors .re-editor-half .ve-content-box{flex:1;display:flex;flex-direction:column}
 .re-editors .re-editor-half .ve-richtext-body{flex:1;min-height:280px}
 .re-actions{display:flex;gap:10px;justify-content:center;margin-top:20px}
+.read-practice-section{margin-top:18px;border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
+.read-practice-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;background:#f8fafc;border-bottom:1px solid var(--border)}
+.read-practice-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--text)}
+.read-practice-optional{font-size:11px;font-weight:500;color:#64748b;background:#e2e8f0;border-radius:10px;padding:2px 8px}
+.read-practice-tip{font-size:12px;color:#64748b;margin-top:4px}
+.read-practice-count{font-size:12px;color:var(--primary);font-weight:600;margin-right:4px}
+.read-practice-list{padding:16px 18px}
+.read-practice-empty{padding:26px 16px;text-align:center;color:#94a3b8;font-size:13px;border:1px dashed #cbd5e1;border-radius:8px;background:#f8fafc}
+.read-practice-question .yre-q-card-body{padding-bottom:8px}
+.read-practice-option-row{display:flex;align-items:center;gap:8px}
+.read-practice-option-row .form-input{flex:1;min-width:0}
+.read-practice-option-row input[type="radio"]{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+.read-practice-answer-label{font-size:11px;color:#64748b;white-space:nowrap;cursor:pointer}
+.read-practice-remove-option{width:26px;height:26px;border:0;background:transparent;color:#ef4444;border-radius:5px;cursor:pointer;font-size:15px;flex-shrink:0}
+.read-practice-remove-option:hover{background:#fef2f2}
+.read-practice-option-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:11px;color:#94a3b8}
+.read-practice-display{margin-top:16px}
+.read-practice-display-item{border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin-top:10px;background:#fff}
+.read-practice-display-stem{font-size:13px;font-weight:600;color:#1f2937;line-height:1.6}
+.read-practice-display-options{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;margin-top:9px}
+.read-practice-display-option{font-size:12px;color:#475569;padding:6px 9px;border-radius:6px;background:#f8fafc}
+.read-practice-display-option.correct{color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;font-weight:600}
 
 /* 阅读文章模态（宽屏） */
-.read-modal-wide .vocablib-modal{width:1000px}
+.read-modal-wide .vocablib-modal{width:1000px;max-height:90vh;display:flex;flex-direction:column}
+.read-modal-wide .vocablib-modal-body{overflow-y:auto;flex:1;min-height:0}
 .read-detail-dual{display:flex;gap:14px}
 .read-detail-dual .vocablib-modal-card{flex:1;min-width:0}
 .read-detail-dual .vocablib-modal-card .card-body{font-size:13px;line-height:1.8;color:#374151;max-height:360px;overflow-y:auto}
@@ -835,7 +889,9 @@ tr:hover td{background:#fafbfc}
 .read-edit-editors .vocablib-edit-field{flex:1;min-width:0;display:flex;flex-direction:column}
 .read-edit-editors .ve-content-box{flex:1;display:flex;flex-direction:column}
 .read-edit-editors .ve-richtext-body{flex:1;min-height:240px}
-.read-modal-wide-edit .vocablib-modal{width:1050px}
+.read-modal-wide-edit .vocablib-modal{width:1050px;max-height:90vh;display:flex;flex-direction:column}
+.read-modal-wide-edit .vocablib-modal-body{overflow-y:auto;flex:1;min-height:0}
+.read-modal-wide-edit .vocablib-modal-header,.read-modal-wide-edit .vocablib-modal-footer,.read-modal-wide .vocablib-modal-header,.read-modal-wide .vocablib-modal-footer{flex-shrink:0}
 .zj-steps{display:flex;align-items:center;justify-content:center;margin-bottom:24px;gap:0}
 .zj-step{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--text-secondary);cursor:default;padding:8px 16px;position:relative}
 .zj-step.active{color:var(--primary);font-weight:600}
@@ -946,6 +1002,7 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="vocabtest" onclick="switchView('vocabtest',this)">词汇量评估配置</div>
         <div class="sidebar-item" data-view="reading" onclick="switchView('reading',this)">阅读文章管理</div>
         <div class="sidebar-item" data-view="readEntry" onclick="switchView('readEntry',this)">阅读文章录入</div>
+        <div class="sidebar-item" data-view="exampleSentence" onclick="switchView('exampleSentence',this)">真题例句</div>
       </div>
     </div>
     <div class="sidebar-divider"></div>
@@ -978,6 +1035,7 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="formulaAudit" onclick="switchView('formulaAudit',this)">数学公式审核 <span class="sidebar-badge" id="faBadge">4</span></div>
         <div class="sidebar-item" data-view="vocabAudit" onclick="switchView('vocabAudit',this)">大纲词汇审核 <span class="sidebar-badge" id="vabBadge">3</span></div>
         <div class="sidebar-item" data-view="readingAudit" onclick="switchView('readingAudit',this)">阅读文章审核 <span class="sidebar-badge" id="raBadge">3</span></div>
+        <div class="sidebar-item" data-view="exampleSentenceAudit" onclick="switchView('exampleSentenceAudit',this)">英语真题审核 <span class="sidebar-badge" id="esaBadge">3</span></div>
         <div class="sidebar-item" data-view="cijuAudit" onclick="switchView('cijuAudit',this)">语文词句审核 <span class="sidebar-badge" id="cjaBadge">3</span></div>
         <div class="sidebar-item" data-view="yuwenReadAudit" onclick="switchView('yuwenReadAudit',this)">语文阅读审核 <span class="sidebar-badge" id="yraBadge">3</span></div>
       </div>
@@ -1702,6 +1760,43 @@ tr:hover td{background:#fafbfc}
       <div id="raEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
     </div>
 
+    <!-- ========== VIEW: 英语真题审核 ========== -->
+    <div class="view" id="view-exampleSentenceAudit">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">英语真题审核</div>
+          <div class="page-subtitle">审核真题例句内容及其关联单词，确保句子和翻译准确</div>
+        </div>
+        <div class="es-audit-actions">
+          <span class="es-selected-count" id="esaSelectedCount">已选择 0 条</span>
+          <button class="btn btn-outline btn-sm" id="esaBatchBtn" onclick="batchApproveExampleSentences()" disabled>批量审核</button>
+          <button class="btn btn-success btn-sm" id="esaAllBtn" onclick="approveAllExampleSentences()">全量审核</button>
+        </div>
+      </div>
+      <div class="tabs" id="esaTabs">
+        <div class="tab active" onclick="switchExampleSentenceAuditTab('reviewing',this)">待审核 (<span id="esaPendingCount">3</span>)</div>
+        <div class="tab" onclick="switchExampleSentenceAuditTab('published',this)">审核通过</div>
+        <div class="tab" onclick="switchExampleSentenceAuditTab('rejected',this)">审核驳回</div>
+      </div>
+      <div class="audit-filter-bar">
+        <div class="audit-filter-row">
+          <div class="audit-filter-group"><label>标题</label><input class="search-input" id="esaFilterTitle" placeholder="搜索标题" oninput="renderExampleSentenceAuditTable()" style="width:180px"></div>
+          <div class="audit-filter-group"><label>关联单词</label><input class="search-input" id="esaFilterWord" placeholder="搜索关联单词" oninput="renderExampleSentenceAuditTable()" style="width:160px"></div>
+          <div class="audit-filter-group"><label>英语句子</label><input class="search-input" id="esaFilterSentence" placeholder="搜索英语句子" oninput="renderExampleSentenceAuditTable()" style="width:220px"></div>
+          <div class="audit-filter-group"><label>创建人</label><input class="search-input" id="esaFilterCreator" placeholder="搜索创建人" oninput="renderExampleSentenceAuditTable()" style="width:120px"></div>
+          <div class="audit-filter-group"><label>审核人</label><input class="search-input" id="esaFilterAuditor" placeholder="搜索审核人" oninput="renderExampleSentenceAuditTable()" style="width:120px"></div>
+          <button class="btn btn-outline btn-sm" onclick="resetExampleSentenceAuditFilters()" style="margin-left:auto">重置筛选</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:42px"><input type="checkbox" id="esaCheckAll" onchange="toggleAllExampleSentenceAudit(this.checked)"></th><th>标题</th><th>英语句子</th><th>中文翻译</th><th>关联单词</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead>
+          <tbody id="esaTableBody"></tbody>
+        </table>
+      </div>
+      <div id="esaEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
+    </div>
+
     <!-- ========== VIEW: 组卷 ========== -->
     <div class="view" id="view-zujuan">
       <div class="page-header" style="margin-bottom:0">
@@ -1852,7 +1947,13 @@ tr:hover td{background:#fafbfc}
           </div>
           <!-- 右侧：试卷预览 -->
           <div class="manual-exam-right" style="flex:1">
-            <div class="ae-preview-header"><h3>试卷预览</h3><span style="margin-left:auto;display:flex;align-items:center;gap:8px"><span id="zjAutoActions" style="display:none;gap:6px"><button class="btn btn-outline btn-xs" onclick="zjAutoGenerate()">重新组卷</button><button class="btn btn-outline btn-xs" onclick="zjManualAddModal()">手动加题</button></span><span style="font-size:13px;color:var(--text-secondary)" id="zjPreviewQCount"></span></span></div>
+            <div class="ae-preview-header">
+              <h3>试卷预览</h3>
+              <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+                <span id="zjAutoActions" style="display:none;gap:6px"><button class="btn btn-outline btn-xs" onclick="zjAutoGenerate()">重新组卷</button><button class="btn btn-outline btn-xs" onclick="zjManualAddModal()">手动加题</button></span>
+                <span class="zj-preview-summary"><span id="zjPreviewQCount">共 0 题</span><span class="zj-total-score" id="zjPreviewTotalScore">总分 0 分</span></span>
+              </div>
+            </div>
             <div class="ae-empty" id="zjPreviewEmpty"><div><div style="font-size:48px;margin-bottom:12px">📝</div><div>请从左侧添加或生成题目</div></div></div>
             <div class="ae-preview-list" id="zjPreviewList" style="display:none"></div>
             <div class="ae-preview-info" id="zjPreviewInfo" style="display:none"></div>
@@ -1937,7 +2038,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>试卷名称</th><th>学科</th><th>练测分类</th><th>题数</th><th>状态</th><th>创建人</th><th>创建时间</th><th>操作</th></tr></thead>
+          <thead><tr><th>试卷名称</th><th>学科</th><th>练测分类</th><th>题数</th><th>分值</th><th>状态</th><th>创建人</th><th>创建时间</th><th>操作</th></tr></thead>
           <tbody id="examTableBody"></tbody>
         </table>
       </div>
@@ -2007,7 +2108,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>作业名称</th><th>学科</th><th>题数</th><th>状态</th><th>创建人</th><th>创建时间</th><th>操作</th></tr></thead>
+          <thead><tr><th>作业名称</th><th>学科</th><th>题数</th><th>分值</th><th>状态</th><th>创建人</th><th>创建时间</th><th>操作</th></tr></thead>
           <tbody id="homeworkTableBody"></tbody>
         </table>
       </div>
@@ -2461,10 +2562,51 @@ tr:hover td{background:#fafbfc}
           </div>
         </div>
       </div>
+      <div class="read-practice-section">
+        <div class="read-practice-header">
+          <div>
+            <div class="read-practice-title">关联练习 <span class="read-practice-optional">选填</span></div>
+            <div class="read-practice-tip">仅支持单选题；每题可设置 2–4 个选项，并指定一个正确答案，题目数量不限</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <span class="read-practice-count" id="rePracticeCount">共 0 题</span>
+            <button class="btn btn-primary btn-sm" type="button" onclick="addReadPracticeQuestion('entry')">+ 添加题目</button>
+          </div>
+        </div>
+        <div class="read-practice-list" id="rePracticeQuestionList">
+          <div class="read-practice-empty">暂无关联练习，可点击“添加题目”开始录入</div>
+        </div>
+      </div>
       <div class="re-actions">
         <button class="btn btn-outline" onclick="clearReForm()" style="padding:8px 32px;font-size:14px">清空</button>
         <button class="btn btn-primary" onclick="saveReArticle()" style="padding:8px 32px;font-size:14px">保存文章</button>
       </div>
+    </div>
+
+    <!-- ========== VIEW: 真题例句 ========== -->
+    <div class="view" id="view-exampleSentence">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">真题例句</div>
+          <div class="page-subtitle">录入和管理考研英语真题例句，并关联词汇库中的重点单词</div>
+        </div>
+        <div class="es-toolbar">
+          <button class="btn btn-primary btn-sm" onclick="openExampleSentenceModal()">+ 录入真题例句</button>
+          <button class="btn btn-outline btn-sm" onclick="openExampleSentenceImportModal()">&#128229; 批量导入</button>
+        </div>
+      </div>
+      <div class="es-filter-bar">
+        <div class="es-filter-item"><label>标题</label><input class="search-input" id="esFilterTitle" placeholder="搜索标题" oninput="renderExampleSentenceTable()" style="width:180px"></div>
+        <div class="es-filter-item"><label>关联单词</label><input class="search-input" id="esFilterWord" placeholder="搜索关联单词" oninput="renderExampleSentenceTable()" style="width:180px"></div>
+        <div class="es-filter-item"><label>英语句子</label><input class="search-input" id="esFilterSentence" placeholder="搜索英语句子" oninput="renderExampleSentenceTable()" style="width:220px"></div>
+        <button class="btn btn-outline btn-sm" onclick="resetExampleSentenceFilters()" style="margin-left:auto">重置筛选</button>
+      </div>
+      <div class="vocablib-tabs" id="esTabs">
+        <div class="vocablib-tab active" data-tab="published" onclick="switchExampleSentenceTab('published')">已发布 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="reviewing" onclick="switchExampleSentenceTab('reviewing')">审核中 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="rejected" onclick="switchExampleSentenceTab('rejected')">审核驳回 <span class="count"></span></div>
+      </div>
+      <div class="vocablib-table-wrap" id="esTableWrap"></div>
     </div>
 
     <!-- ========== VIEW: 词句分类 ========== -->
@@ -4015,20 +4157,28 @@ let readingAuditData = [
   {id:2007,title:'Global Economic Trends in the Post-Pandemic Era',difficulty:'medium',source:'Financial Times',content:'The global economy has undergone significant structural changes since 2020...',trans:'自2020年以来，全球经济经历了重大的结构性变化...',uploadTime:'2026-07-01 14:00',uploader:'教研员A',status:'rejected',auditor:'王审核',auditTime:'2026-07-03 09:00',rejectReason:'中文翻译部分存在多处翻译不准确的问题，第3段中"structural changes"翻译为"结构变化"过于直译，建议改为"结构性调整"，请修正后重新提交。'},
   {id:2008,title:'The Psychology of Decision Making',difficulty:'medium',source:'Psychology Today',content:'Every day, humans make thousands of decisions, from what to eat to major life choices...',trans:'每天，人类要做出成千上万个决定，从吃什么到重大的人生选择...',uploadTime:'2026-06-28 15:30',uploader:'教研员B',status:'rejected',auditor:'李审核',auditTime:'2026-07-01 11:00',rejectReason:'文章难度标注为"中等"，但实际词汇量和句式复杂度更适合归类为"简单"，请重新评估难度后修正。'},
 ];
+readingAuditData.forEach(function(article){article.questions=article.questions||[];});
+readingAuditData[0].questions=[
+  {id:1,stem:'According to the article, how is AI changing modern medicine?',options:['By reducing access to healthcare','By improving the speed and accuracy of medical decisions','By replacing every medical worker','By limiting personalized treatment'],answerIndex:1},
+  {id:2,stem:'Which field is mentioned as an application of AI?',options:['Diagnostic imaging','Traditional publishing','Urban transportation','Marine exploration'],answerIndex:0}
+];
+readingAuditData[1].questions=[
+  {id:1,stem:'What is the main threat discussed in the passage?',options:['Declining internet access','Global food insecurity caused by climate change','The high cost of city housing','A shortage of scientific journals'],answerIndex:1}
+];
 let raTab = 'pending';
 let _currentRAId = null;
 let examData = [
-  {id:1,name:'高等数学章节测试（一）',subject:'数学',qCount:20,status:'draft',creator:'教研员',time:'2026-07-10'},
-  {id:2,name:'线性代数综合测试',subject:'数学',qCount:15,status:'published',creator:'张组长',time:'2026-07-05'},
-  {id:3,name:'英语阅读理解专项',subject:'英语',qCount:10,status:'published',creator:'教研员',time:'2026-06-28'}
+  {id:1,name:'高等数学章节测试（一）',subject:'数学',qCount:20,totalScore:100,status:'draft',creator:'教研员',time:'2026-07-10'},
+  {id:2,name:'线性代数综合测试',subject:'数学',qCount:15,totalScore:75,status:'published',creator:'张组长',time:'2026-07-05'},
+  {id:3,name:'英语阅读理解专项',subject:'英语',qCount:10,totalScore:50,status:'published',creator:'教研员',time:'2026-06-28'}
 ];
 let examQuestions = [];
 
 // Homework data
 let homeworkData = [
-  {id:1,title:'函数极限课后作业',subject:'数学',qCount:8,status:'draft',creator:'教研员',time:'2026-07-11'},
-  {id:2,title:'导数计算练习',subject:'数学',qCount:12,status:'published',creator:'教研员',time:'2026-07-08'},
-  {id:3,title:'定语从句翻译练习',subject:'英语',qCount:6,status:'published',creator:'教研员',time:'2026-07-06'}
+  {id:1,title:'函数极限课后作业',subject:'数学',qCount:8,totalScore:40,status:'draft',creator:'教研员',time:'2026-07-11'},
+  {id:2,title:'导数计算练习',subject:'数学',qCount:12,totalScore:60,status:'published',creator:'教研员',time:'2026-07-08'},
+  {id:3,title:'定语从句翻译练习',subject:'英语',qCount:6,totalScore:30,status:'published',creator:'教研员',time:'2026-07-06'}
 ];
 
 // 应用范围（进行中的届数）
@@ -4116,6 +4266,7 @@ updateDABadge();
 updateFABadge();
 updateVABBadge();
 updateRABadge();
+updateExampleSentenceAuditBadge();
   if(viewName==='practice'){populatePracticeSubFilter();renderPracticeTree();renderPracticeRight();}
   if(viewName==='tree')renderTree();
   if(viewName==='assoc')renderAssocTree();
@@ -4124,6 +4275,7 @@ updateRABadge();
   if(viewName==='vocabEntry')initVocabEntry();
   if(viewName==='readEntry')initReadEntry();
   if(viewName==='reading')initReadMgr();
+  if(viewName==='exampleSentence')initExampleSentenceManager();
   if(viewName==='categoryMgr')renderCategoryMgr();
   if(viewName==='hwCategoryMgr')renderHwCategoryMgr();
   if(viewName==='formulaCatMgr')renderFormulaCatMgr();
@@ -4136,6 +4288,7 @@ updateRABadge();
   if(viewName==='formulaAudit'){renderFATable();}
   if(viewName==='vocabAudit'){renderVABTable();}
   if(viewName==='readingAudit'){renderRATable();}
+  if(viewName==='exampleSentenceAudit'){initExampleSentenceAudit();}
   if(viewName==='cijuAudit'){initCijuAudit();}
   if(viewName==='yuwenReadAudit'){initYuwenReadAudit();}
   if(viewName==='zujuan')initZujuan();
@@ -6227,6 +6380,24 @@ let zjQuestions = [];
 let zjSelectedKIdsM = [];
 let zjSelectedKIdsA = [];
 
+function createScoredQuestion(q, score){
+  const parsed = Number(score);
+  return Object.assign({}, q, {score:Number.isFinite(parsed)&&parsed>0?parsed:0});
+}
+function getQuestionTotalScore(questions){
+  const total=(questions||[]).reduce((sum,q)=>sum+(Number(q.score)||0),0);
+  return Math.round(total*10)/10;
+}
+function formatExamScore(score){
+  const value=Number(score)||0;
+  return Number.isInteger(value)?String(value):value.toFixed(1).replace(/\.0$/,'');
+}
+function updateZjPreviewSummary(){
+  const countEl=$('zjPreviewQCount'), scoreEl=$('zjPreviewTotalScore');
+  if(countEl)countEl.textContent='共 '+zjQuestions.length+' 题';
+  if(scoreEl)scoreEl.textContent='总分 '+formatExamScore(getQuestionTotalScore(zjQuestions))+' 分';
+}
+
 function initZujuan(){
   zjMethod = 'manual';
   zjExamTypes = [];
@@ -6460,7 +6631,7 @@ function renderZjQuestionPool(){
 }
 
 function zjToggleQ(qid,checked){
-  if(checked){if(zjQuestions.find(q=>q.id===qid))return;const q=questionData.find(x=>x.id===qid);if(q)zjQuestions.push(q);}
+  if(checked){if(zjQuestions.find(q=>q.id===qid))return;const q=questionData.find(x=>x.id===qid);if(q)zjQuestions.push(createScoredQuestion(q));}
   else{zjQuestions=zjQuestions.filter(q=>q.id!==qid);}
   renderZjPreview();renderZjQuestionPool();
 }
@@ -6550,7 +6721,7 @@ function zjAutoGenerate(){
       result=result.concat(catPool.slice(0,needed));
     }
   }
-  zjQuestions=result;
+  zjQuestions=result.map(q=>createScoredQuestion(q));
   $('zjAutoActions').style.display = 'flex';
   renderZjPreview();showToast('已生成'+zjQuestions.length+'题','success');
 }
@@ -6569,10 +6740,10 @@ function zjValidateCatPct(){
 // ---- Shared preview ----
 function renderZjPreview(){
   if(zjQuestions.length===0){
-    $('zjPreviewEmpty').style.display='flex';$('zjPreviewList').style.display='none';$('zjPreviewInfo').style.display='none';$('zjPreviewActions').style.display='none';$('zjPreviewQCount').textContent='';return;
+    $('zjPreviewEmpty').style.display='flex';$('zjPreviewList').style.display='none';$('zjPreviewInfo').style.display='none';$('zjPreviewActions').style.display='none';updateZjPreviewSummary();return;
   }
   $('zjPreviewEmpty').style.display='none';$('zjPreviewList').style.display='block';$('zjPreviewInfo').style.display='block';$('zjPreviewActions').style.display='flex';
-  $('zjPreviewQCount').textContent='共 '+zjQuestions.length+' 题';
+  updateZjPreviewSummary();
   const name=$('zjExamName').value.trim()||'（未填写）';
   const desc=$('zjDesc').value.trim()||'（未填写）';
   const subj=$('zjSubject').value;
@@ -6586,6 +6757,7 @@ function renderZjPreview(){
     h+='<div class="ae-meta"><span class="ae-meta-tag">#'+q.id+'</span><span class="ae-meta-tag">'+q.type+'</span><span class="ae-meta-tag">'+q.source+'</span>';
     if(q.category)h+='<span class="ae-meta-tag">'+q.category+'</span>';
     h+='</div></div>';
+    h+='<label class="zj-score-field" title="设置本题分值"><input class="zj-score-input" type="number" min="0" max="999" step="0.5" value="'+(Number(q.score)>0?formatExamScore(q.score):'')+'" placeholder="分值" aria-label="第 '+(i+1)+' 题分值" draggable="false" oninput="zjUpdateQuestionScore('+i+',this.value)"><span>分</span></label>';
     h+='<button class="ae-expand" id="zj-preview-expand-'+i+'" onclick="toggleZjPreviewQDetail('+i+')" title="展开/收起详情">▼</button>';
     h+='<button class="ae-remove" onclick="zjRemoveQ('+i+')">✕</button></div>';
     h+='<div class="ae-detail" id="zj-preview-detail-'+i+'" style="display:none;padding:8px 12px;border-top:1px dashed var(--border);font-size:12px;background:#fafbfc">';
@@ -6603,6 +6775,12 @@ function renderZjPreview(){
     item.addEventListener('dragleave',zjDragLeave);
     item.addEventListener('drop',zjDrop);
   });
+}
+function zjUpdateQuestionScore(idx,value){
+  if(!zjQuestions[idx])return;
+  const parsed=parseFloat(value);
+  zjQuestions[idx].score=Number.isFinite(parsed)&&parsed>=0?Math.round(parsed*10)/10:0;
+  updateZjPreviewSummary();
 }
 let zjDragIdx=null;
 function zjDragStart(e){zjDragIdx=parseInt(this.dataset.zjidx);this.classList.add('dragging');e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',zjDragIdx);}
@@ -6777,7 +6955,7 @@ function zjamRemoveSel(idx){ zjamSelected.splice(idx,1); renderZjAMSelected(); r
 function zjConfirmManualAdd(){
   if(zjamSelected.length===0){ showToast('请至少选择一道题','error'); return; }
   for(let q of zjamSelected){
-    if(!zjQuestions.find(eq=>eq.id===q.id)) zjQuestions.push(q);
+    if(!zjQuestions.find(eq=>eq.id===q.id)) zjQuestions.push(createScoredQuestion(q));
   }
   closeModal('zjManualAddModal');
   renderZjPreview();
@@ -6789,6 +6967,7 @@ function zjSaveExam(status){
   const name=$('zjExamName').value.trim();
   if(!name){showToast('请输入试卷名称','error');return}
   if(zjQuestions.length===0){showToast('请至少添加一道题','error');return}
+  if(status!=='draft'&&zjQuestions.some(q=>!(Number(q.score)>0))){showToast('请为每道题填写大于 0 的分值','error');return}
   const subject=$('zjSubject').value||'数学';
   const desc=$('zjDesc').value.trim()||'';
   const catParentId=zjExamTypes.includes('lian')?($('zjCatParent')?.value||''):'';
@@ -6802,10 +6981,12 @@ function zjSaveExam(status){
   const hwCatChildEl=hwCatChildId?$('zjHwCatChild').selectedOptions[0]:null;
   const hwCatLabel=(hwCatParentEl&&hwCatChildEl)?(hwCatParentEl.textContent+' / '+hwCatChildEl.textContent):'';
   const scopeIds = collectScopeIds('zjScopeList');
+  const totalScore = getQuestionTotalScore(zjQuestions);
+  const savedQuestions = zjQuestions.map(q=>Object.assign({},q));
   // save to both examData and homeworkData if applicable
-  examData.unshift({id:++_nextId,name:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:catParentId,catChildId:catChildId,catLabel:catLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
+  examData.unshift({id:++_nextId,name:name,subject:subject,qCount:zjQuestions.length,totalScore:totalScore,questions:savedQuestions,status:status,creator:'教研员',desc:desc,catParentId:catParentId,catChildId:catChildId,catLabel:catLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
   if(zjExamTypes.includes('zuoye')){
-    homeworkData.unshift({id:++_nextId,title:name,subject:subject,qCount:zjQuestions.length,status:status,creator:'教研员',desc:desc,catParentId:hwCatParentId,catChildId:hwCatChildId,catLabel:hwCatLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
+    homeworkData.unshift({id:++_nextId,title:name,subject:subject,qCount:zjQuestions.length,totalScore:totalScore,questions:savedQuestions.map(q=>Object.assign({},q)),status:status,creator:'教研员',desc:desc,catParentId:hwCatParentId,catChildId:hwCatChildId,catLabel:hwCatLabel,scopeIds:scopeIds,time:new Date().toISOString().slice(0,10)});
   }
   showToast(status==='draft'?'草稿已保存':'试卷保存成功','success');
   switchView('exam');renderExamTable();renderHomeworkTable();
@@ -8055,12 +8236,144 @@ function saveVeWord(){
 }
 
 // ==================== READ ENTRY (阅读文章录入) ====================
+let rePracticeQuestions=[];
+let readEditPracticeQuestions=[];
+let _readPracticeQid=1;
+
+function createReadPracticeQuestion(){
+  return {id:_readPracticeQid++,stem:'',options:['','','',''],answerIndex:0};
+}
+
+function cloneReadPracticeQuestions(list){
+  return (Array.isArray(list)?list:[]).map(function(item){
+    let options=Array.isArray(item.options)?item.options.slice(0,4):[];
+    while(options.length<2)options.push('');
+    let answerIndex=Number.isInteger(item.answerIndex)?item.answerIndex:0;
+    if(typeof item.correctAnswer==='string'&&/^[A-D]$/i.test(item.correctAnswer.trim()))answerIndex=item.correctAnswer.trim().toUpperCase().charCodeAt(0)-65;
+    if(answerIndex<0||answerIndex>=options.length)answerIndex=0;
+    const id=Number.isInteger(item.id)?item.id:_readPracticeQid++;
+    if(id>=_readPracticeQid)_readPracticeQid=id+1;
+    return {id:id,stem:item.stem||'',options:options,answerIndex:answerIndex};
+  });
+}
+
+function getReadPracticeCollection(scope){
+  return scope==='edit'?readEditPracticeQuestions:rePracticeQuestions;
+}
+
+function addReadPracticeQuestion(scope){
+  getReadPracticeCollection(scope).push(createReadPracticeQuestion());
+  renderReadPracticeEditor(scope);
+}
+
+function removeReadPracticeQuestion(scope,qid){
+  if(scope==='edit')readEditPracticeQuestions=readEditPracticeQuestions.filter(function(q){return q.id!==qid;});
+  else rePracticeQuestions=rePracticeQuestions.filter(function(q){return q.id!==qid;});
+  renderReadPracticeEditor(scope);
+}
+
+function addReadPracticeOption(scope,qid){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(!q)return;
+  if(q.options.length>=4){showToast('每道题最多设置 4 个选项','error');return;}
+  q.options.push('');
+  renderReadPracticeEditor(scope);
+}
+
+function removeReadPracticeOption(scope,qid,optionIndex){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(!q)return;
+  if(q.options.length<=2){showToast('每道题最少保留 2 个选项','error');return;}
+  q.options.splice(optionIndex,1);
+  if(q.answerIndex===optionIndex)q.answerIndex=0;
+  else if(q.answerIndex>optionIndex)q.answerIndex--;
+  renderReadPracticeEditor(scope);
+}
+
+function updateReadPracticeStem(scope,qid,value){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(q)q.stem=value;
+}
+
+function updateReadPracticeOption(scope,qid,optionIndex,value){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(q)q.options[optionIndex]=value;
+}
+
+function setReadPracticeAnswer(scope,qid,optionIndex){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(q)q.answerIndex=optionIndex;
+}
+
+function renderReadPracticeEditor(scope){
+  const questions=getReadPracticeCollection(scope);
+  const container=$(scope==='edit'?'readEditPracticeQuestionList':'rePracticeQuestionList');
+  const countEl=$(scope==='edit'?'readEditPracticeCount':'rePracticeCount');
+  if(countEl)countEl.textContent='共 '+questions.length+' 题';
+  if(!container)return;
+  if(questions.length===0){
+    container.innerHTML='<div class="read-practice-empty">暂无关联练习，可点击“添加题目”开始录入</div>';
+    return;
+  }
+  const letters=['A','B','C','D'];
+  let h='';
+  questions.forEach(function(q,questionIndex){
+    h+='<div class="yre-q-card read-practice-question">';
+    h+='<div class="yre-q-card-header"><div class="yre-q-card-header-left"><span class="yre-q-card-num">题目 #'+(questionIndex+1)+'</span><span class="yre-q-card-type choice">单选题</span></div>';
+    h+='<button class="yre-q-card-del" type="button" onclick="removeReadPracticeQuestion(\''+scope+'\','+q.id+')">删除题目</button></div>';
+    h+='<div class="yre-q-card-body">';
+    h+='<div class="yre-q-card-field"><label class="yre-q-card-label"><span class="req">*</span> 题干</label><textarea class="form-textarea" rows="2" placeholder="请输入题干" oninput="updateReadPracticeStem(\''+scope+'\','+q.id+',this.value)">'+escHtml(q.stem)+'</textarea></div>';
+    h+='<div class="yre-q-card-field"><label class="yre-q-card-label"><span class="req">*</span> 选项与正确答案</label><div class="yre-q-options-grid">';
+    q.options.forEach(function(option,optionIndex){
+      const radioId=scope+'-read-answer-'+q.id+'-'+optionIndex;
+      h+='<div class="read-practice-option-row"><span class="yre-q-option-letter">'+letters[optionIndex]+'.</span>';
+      h+='<input class="form-input" value="'+escAttr(option)+'" placeholder="选项 '+letters[optionIndex]+'" oninput="updateReadPracticeOption(\''+scope+'\','+q.id+','+optionIndex+',this.value)">';
+      h+='<input id="'+radioId+'" type="radio" name="'+scope+'-read-answer-'+q.id+'" '+(q.answerIndex===optionIndex?'checked':'')+' onchange="setReadPracticeAnswer(\''+scope+'\','+q.id+','+optionIndex+')">';
+      h+='<label class="read-practice-answer-label" for="'+radioId+'">正确答案</label>';
+      h+=(q.options.length>2?'<button class="read-practice-remove-option" type="button" title="删除该选项" onclick="removeReadPracticeOption(\''+scope+'\','+q.id+','+optionIndex+')">×</button>':'<span style="width:26px"></span>');
+      h+='</div>';
+    });
+    h+='</div><div class="read-practice-option-actions"><span>当前 '+q.options.length+' 个选项，最少 2 个、最多 4 个</span>';
+    h+='<button class="btn btn-outline btn-xs" type="button" '+(q.options.length>=4?'disabled':'')+' onclick="addReadPracticeOption(\''+scope+'\','+q.id+')">+ 添加选项</button></div></div>';
+    h+='</div></div>';
+  });
+  container.innerHTML=h;
+}
+
+function validateReadPracticeQuestions(questions){
+  for(let i=0;i<questions.length;i++){
+    const q=questions[i];
+    if(!String(q.stem||'').trim())return '题目 #'+(i+1)+' 的题干不能为空';
+    if(!Array.isArray(q.options)||q.options.length<2||q.options.length>4)return '题目 #'+(i+1)+' 的选项数量应为 2–4 个';
+    if(q.options.some(function(option){return !String(option||'').trim();}))return '题目 #'+(i+1)+' 的选项不能为空';
+    if(!Number.isInteger(q.answerIndex)||q.answerIndex<0||q.answerIndex>=q.options.length)return '请为题目 #'+(i+1)+' 选择正确答案';
+  }
+  return '';
+}
+
+function renderReadPracticeDisplay(questions){
+  const list=cloneReadPracticeQuestions(questions);
+  let h='<div class="vocablib-modal-card read-practice-display"><div class="card-title">关联练习（'+list.length+' 题）</div>';
+  if(list.length===0)return h+'<div style="font-size:13px;color:#94a3b8">未关联练习题</div></div>';
+  const letters=['A','B','C','D'];
+  list.forEach(function(q,index){
+    h+='<div class="read-practice-display-item"><div class="read-practice-display-stem">'+(index+1)+'. '+escHtml(q.stem)+'</div><div class="read-practice-display-options">';
+    q.options.forEach(function(option,optionIndex){
+      h+='<div class="read-practice-display-option '+(q.answerIndex===optionIndex?'correct':'')+'">'+letters[optionIndex]+'. '+escHtml(option)+(q.answerIndex===optionIndex?'　✓ 正确答案':'')+'</div>';
+    });
+    h+='</div></div>';
+  });
+  return h+'</div>';
+}
+
 function initReadEntry(){
   $('reDifficulty').value='';
   $('reSource').value='';
   $('reTitle').value='';
   $('reContent').innerHTML='<p>请输入文章内容...</p>';
   $('reTranslation').innerHTML='<p>请输入中文翻译...</p>';
+  rePracticeQuestions=[];
+  renderReadPracticeEditor('entry');
 }
 
 function execReRichtext(cmd){
@@ -8073,13 +8386,15 @@ function execReTransRichtext(cmd){
   $('reTranslation').focus();
 }
 
-function clearReForm(){
+function clearReForm(silent){
   $('reDifficulty').value='';
   $('reSource').value='';
   $('reTitle').value='';
   $('reContent').innerHTML='<p>请输入文章内容...</p>';
   $('reTranslation').innerHTML='<p>请输入中文翻译...</p>';
-  showToast('表单已清空','success');
+  rePracticeQuestions=[];
+  renderReadPracticeEditor('entry');
+  if(!silent)showToast('表单已清空','success');
 }
 
 function saveReArticle(){
@@ -8095,10 +8410,15 @@ function saveReArticle(){
   if(!contentText||contentText==='请输入文章内容...'){showToast('请输入文章内容','error');return;}
   const tmpT=document.createElement('div');tmpT.innerHTML=trans;
   const transText=tmpT.textContent.trim();
-  // 保存逻辑（演示用）
-  showToast('文章已保存：'+title+'（难度：'+(diff==='easy'?'简单':diff==='medium'?'中等':'困难')+'）','success');
-  // 清空表单
-  clearReForm();
+  const practiceError=validateReadPracticeQuestions(rePracticeQuestions);
+  if(practiceError){showToast(practiceError,'error');return;}
+  const articleId=_readNextId++;
+  const today=new Date().toISOString().slice(0,10);
+  const questions=cloneReadPracticeQuestions(rePracticeQuestions);
+  readArticleData.unshift({id:articleId,title:title,source:source,difficulty:diff,content:content,trans:trans,status:'reviewing',createTime:today,creator:'当前用户',auditTime:'',auditor:'',questions:questions});
+  readingAuditData.unshift({id:articleId,title:title,difficulty:diff,source:source,content:contentText,trans:transText,uploadTime:new Date().toLocaleString('zh-CN',{hour12:false}),uploader:'当前用户',status:'pending',questions:cloneReadPracticeQuestions(questions)});
+  clearReForm(true);
+  showToast('文章已保存并提交审核（关联 '+questions.length+' 道练习）','success');
 }
 
 // ==================== READING ARTICLE MANAGER (阅读文章管理) ====================
@@ -8109,6 +8429,14 @@ let readArticleData = [
   {id:2004,title:'量子计算的未来前景',source:'Nature',difficulty:'hard',content:'<p>Quantum computing represents a paradigm shift in computational capabilities. Unlike classical computers that use bits, quantum computers use qubits that can exist in multiple states simultaneously.</p><p>This fundamental difference allows quantum computers to solve certain problems exponentially faster than classical computers.</p>',trans:'<p>量子计算代表了计算能力的范式转变。与使用比特的经典计算机不同，量子计算机使用可以同时存在于多个状态的量子比特。</p><p>这种根本差异使得量子计算机能够以指数级的速度解决某些问题，远超经典计算机。</p>',status:'reviewing',createTime:'2026-07-08',creator:'张老师',auditTime:'',auditor:''},
   {id:2005,title:'远程办公的兴起与挑战',source:'Harvard Business Review',difficulty:'medium',content:'<p>The COVID-19 pandemic accelerated the adoption of remote work across industries worldwide. What began as a temporary measure has evolved into a permanent shift in how organizations approach work.</p><p>Companies are now navigating the challenges of maintaining productivity, company culture, and employee wellbeing in a distributed work environment.</p>',trans:'<p>新冠疫情加速了全球各行业远程办公的采纳。最初作为临时措施的做法已演变为组织对待工作方式的永久转变。</p><p>企业现在正在应对在分布式工作环境中保持生产力、公司文化和员工福祉的挑战。</p>',status:'rejected',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任',rejectReason:'文章内容与考研大纲关联度不足，建议选取更贴近教学目标的阅读材料'},
   {id:2006,title:'新能源汽车市场分析',source:'Bloomberg',difficulty:'easy',content:'<p>The electric vehicle market has experienced explosive growth in recent years. Global EV sales surpassed 10 million units for the first time in 2025, marking a significant milestone in the transition to sustainable transportation.</p><p>China continues to lead the global EV market, accounting for nearly 60% of worldwide sales.</p>',trans:'<p>电动汽车市场近年来经历了爆炸性增长。2025年全球电动汽车销量首次突破1000万辆，标志着向可持续交通转型的一个重要里程碑。</p><p>中国继续引领全球电动汽车市场，占全球销量的近60%。</p>',status:'rejected',createTime:'2026-07-01',creator:'赵老师',auditTime:'2026-07-03',auditor:'李主任',rejectReason:'中文翻译存在多处不准确，请对照原文逐句修正后重新提交'},
+];
+readArticleData.forEach(function(article){article.questions=article.questions||[];});
+readArticleData[0].questions=[
+  {id:1,stem:'What is one major advantage of AI in medical imaging?',options:['It can replace all doctors immediately','It can help detect early-stage cancers','It makes treatment plans unnecessary','It only works with old medical records'],answerIndex:1},
+  {id:2,stem:'Which statement best summarizes the passage?',options:['AI is slowing down medical decisions','AI has little impact on healthcare','AI is improving diagnosis and treatment efficiency','Human radiologists no longer work in hospitals'],answerIndex:2}
+];
+readArticleData[2].questions=[
+  {id:1,stem:'What potential problem is associated with heavy social media use?',options:['Higher travel costs','Increased anxiety and depression','Less access to information','Reduced interest in technology'],answerIndex:1}
 ];
 let readTab='published';
 let _readNextId=2007;
@@ -8211,6 +8539,7 @@ function showReadDetail(id){
           <div class="vocablib-modal-card"><div class="card-title">文章内容（英文）</div><div class="card-body">'+a.content+'</div></div>\
           <div class="vocablib-modal-card"><div class="card-title">中文翻译</div><div class="card-body">'+a.trans+'</div></div>\
         </div>\
+        '+renderReadPracticeDisplay(a.questions)+'\
       </div>\
       <div class="vocablib-modal-footer">\
         <button class="btn btn-outline btn-sm" onclick="closeReadDetailModal();editReadArticle('+a.id+')">编辑</button>\
@@ -8231,6 +8560,7 @@ function closeReadDetailModal(e){
 function editReadArticle(id){
   const a=readArticleData.find(r=>r.id===id);
   if(!a)return;
+  readEditPracticeQuestions=cloneReadPracticeQuestions(a.questions);
   const html='<div class="vocablib-modal-overlay read-modal-wide-edit" onclick="closeReadEditModal(event)">\
     <div class="vocablib-modal" onclick="event.stopPropagation()">\
       <div class="vocablib-modal-header"><h3>编辑文章 #'+a.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeReadEditModal()">✕</button></div>\
@@ -8283,6 +8613,13 @@ function editReadArticle(id){
             </div>\
           </div>\
         </div>\
+        <div class="read-practice-section">\
+          <div class="read-practice-header">\
+            <div><div class="read-practice-title">关联练习 <span class="read-practice-optional">选填</span></div><div class="read-practice-tip">仅支持单选题；每题支持 2–4 个选项</div></div>\
+            <div style="display:flex;align-items:center;gap:8px"><span class="read-practice-count" id="readEditPracticeCount">共 0 题</span><button class="btn btn-primary btn-sm" type="button" onclick="addReadPracticeQuestion(\'edit\')">+ 添加题目</button></div>\
+          </div>\
+          <div class="read-practice-list" id="readEditPracticeQuestionList"></div>\
+        </div>\
       </div>\
       <div class="vocablib-modal-footer">\
         <button class="btn btn-outline btn-sm" onclick="closeReadEditModal()">取消</button>\
@@ -8291,12 +8628,14 @@ function editReadArticle(id){
     </div></div>';
   const wrap=document.createElement('div');wrap.id='readEditWrap';wrap.innerHTML=html;
   document.body.appendChild(wrap);
+  renderReadPracticeEditor('edit');
 }
 
 function closeReadEditModal(e){
   if(e&&e.target!==e.currentTarget)return;
   const wrap=document.getElementById('readEditWrap');
   if(wrap)wrap.remove();
+  readEditPracticeQuestions=[];
 }
 
 function execReadEditRichtext(cmd){
@@ -8319,11 +8658,25 @@ function saveReadEdit(id){
   if(!title){showToast('请输入文章标题','error');return;}
   const tmp=document.createElement('div');tmp.innerHTML=content;
   if(!tmp.textContent.trim()){showToast('请输入文章内容','error');return;}
+  const practiceError=validateReadPracticeQuestions(readEditPracticeQuestions);
+  if(practiceError){showToast(practiceError,'error');return;}
   a.difficulty=diff;
   a.source=source;
   a.title=title;
   a.content=content;
   a.trans=trans;
+  a.questions=cloneReadPracticeQuestions(readEditPracticeQuestions);
+  const auditArticle=readingAuditData.find(function(item){return String(item.id)===String(id);});
+  if(auditArticle){
+    const contentTmp=document.createElement('div');contentTmp.innerHTML=content;
+    const transTmp=document.createElement('div');transTmp.innerHTML=trans;
+    auditArticle.title=title;
+    auditArticle.difficulty=diff;
+    auditArticle.source=source;
+    auditArticle.content=contentTmp.textContent.trim();
+    auditArticle.trans=transTmp.textContent.trim();
+    auditArticle.questions=cloneReadPracticeQuestions(a.questions);
+  }
   closeReadEditModal();
   renderReadTable();
   showToast('文章已更新','success');
@@ -8351,6 +8704,445 @@ function initReadMgr(){
   $('readFilterAuditor').value='';
   document.querySelectorAll('#readTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
   renderReadTable();
+}
+
+// ==================== ENGLISH EXAMPLE SENTENCES (真题例句) ====================
+let exampleSentenceData = [
+  {id:3001,title:'2024年英语一阅读 Text 1 例句',sentence:'The tendency to abandon long-term goals can undermine meaningful progress.',translation:'放弃长期目标的倾向可能会阻碍有意义的进步。',wordIds:[1001],status:'published',createTime:'2026-07-01',creator:'张老师',auditTime:'2026-07-03',auditor:'李主任'},
+  {id:3002,title:'2023年英语二阅读 Text 2 例句',sentence:'An abstract idea becomes persuasive when it is supported by concrete evidence.',translation:'当抽象观点得到具体证据支持时，它就会更有说服力。',wordIds:[1002],status:'published',createTime:'2026-07-02',creator:'王教研',auditTime:'2026-07-04',auditor:'李主任'},
+  {id:3003,title:'2024年英语二翻译 Text 3 例句',sentence:'Universities should accommodate diverse learning needs without lowering academic standards.',translation:'大学应在不降低学术标准的前提下满足多样化的学习需求。',wordIds:[1003,1009],status:'reviewing',createTime:'2026-07-10',creator:'赵老师',auditTime:'',auditor:''},
+  {id:3004,title:'2022年英语一翻译真题例句',sentence:'Researchers increasingly acknowledge that social context shapes individual decisions.',translation:'研究人员越来越认识到，社会环境会影响个人决策。',wordIds:[1004,1002],status:'reviewing',createTime:'2026-07-11',creator:'张老师',auditTime:'',auditor:''},
+  {id:3005,title:'2021年英语二阅读 Text 4 例句',sentence:'Ambitious reforms require both public trust and comprehensive planning.',translation:'雄心勃勃的改革既需要公众信任，也需要全面规划。',wordIds:[1005,1008],status:'reviewing',createTime:'2026-07-12',creator:'王教研',auditTime:'',auditor:''},
+  {id:3006,title:'2020年英语一完形填空例句',sentence:'The arbitrary distinction fails to reflect how language changes in real communities.',translation:'这种武断的区分无法反映语言在真实社群中的变化方式。',wordIds:[1006],status:'rejected',createTime:'2026-07-06',creator:'赵老师',auditTime:'2026-07-08',auditor:'李主任',rejectReason:'中文翻译对 arbitrary 的语义表达不够准确，请结合上下文调整后重新提交。'}
+];
+let _exampleSentenceNextId=3007;
+let exampleSentenceTab='published';
+let esEditingId=null;
+let esSelectedWordIds=[];
+let _exampleSentenceImportRows=[];
+
+function getExampleSentenceWords(item){
+  return (item.wordIds||[]).map(id=>vocabLibData.find(v=>v.id===id)).filter(Boolean);
+}
+
+function renderExampleSentenceWordTags(wordIds){
+  const words=(wordIds||[]).map(id=>vocabLibData.find(v=>v.id===id)).filter(Boolean);
+  if(words.length===0)return '<span style="color:#9ca3af">-</span>';
+  return '<span class="es-word-tags">'+words.map(v=>'<span class="es-word-tag">'+escHtml(v.word)+'</span>').join('')+'</span>';
+}
+
+function initExampleSentenceManager(){
+  exampleSentenceTab='published';
+  ['esFilterTitle','esFilterWord','esFilterSentence'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  document.querySelectorAll('#esTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
+  renderExampleSentenceTable();
+}
+
+function switchExampleSentenceTab(tab){
+  exampleSentenceTab=tab;
+  document.querySelectorAll('#esTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  renderExampleSentenceTable();
+}
+
+function resetExampleSentenceFilters(){
+  ['esFilterTitle','esFilterWord','esFilterSentence'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  renderExampleSentenceTable();
+}
+
+function getFilteredExampleSentenceData(){
+  let data=exampleSentenceData.filter(d=>d.status===exampleSentenceTab);
+  const title=(($('esFilterTitle')||{}).value||'').trim().toLowerCase();
+  const word=(($('esFilterWord')||{}).value||'').trim().toLowerCase();
+  const sentence=(($('esFilterSentence')||{}).value||'').trim().toLowerCase();
+  if(title)data=data.filter(d=>d.title.toLowerCase().includes(title));
+  if(sentence)data=data.filter(d=>d.sentence.toLowerCase().includes(sentence));
+  if(word)data=data.filter(d=>getExampleSentenceWords(d).some(v=>v.word.toLowerCase().includes(word)));
+  return data;
+}
+
+function renderExampleSentenceTable(){
+  const counts={
+    published:exampleSentenceData.filter(d=>d.status==='published').length,
+    reviewing:exampleSentenceData.filter(d=>d.status==='reviewing').length,
+    rejected:exampleSentenceData.filter(d=>d.status==='rejected').length
+  };
+  document.querySelectorAll('#esTabs .vocablib-tab').forEach(t=>{
+    const c=t.querySelector('.count');if(c)c.textContent=counts[t.dataset.tab]||0;
+  });
+  const wrap=$('esTableWrap');if(!wrap)return;
+  const data=getFilteredExampleSentenceData();
+  if(data.length===0){wrap.innerHTML='<div class="vocab-empty">暂无数据</div>';return;}
+  let h='<table class="vocablib-table"><thead><tr><th>标题</th><th>英语句子</th><th>中文翻译</th><th>关联单词</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  data.forEach(d=>{
+    h+='<tr>';
+    h+='<td><strong>'+escHtml(d.title)+'</strong></td>';
+    h+='<td><span class="es-sentence-cell" title="'+escAttr(d.sentence)+'">'+escHtml(d.sentence)+'</span></td>';
+    h+='<td><span class="es-translation-cell" title="'+escAttr(d.translation)+'">'+escHtml(d.translation)+'</span></td>';
+    h+='<td>'+renderExampleSentenceWordTags(d.wordIds)+'</td>';
+    h+='<td>'+d.createTime+'</td><td>'+escHtml(d.creator)+'</td><td>'+(d.auditTime||'-')+'</td><td>'+(d.auditor?escHtml(d.auditor):'-')+'</td>';
+    h+='<td><span class="vocab-actions"><button class="btn btn-ghost btn-xs" onclick="showExampleSentenceDetail('+d.id+')">详情</button><button class="btn btn-ghost btn-xs" onclick="openExampleSentenceModal('+d.id+')">编辑</button><button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteExampleSentence('+d.id+')">删除</button></span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  wrap.innerHTML=h;
+}
+
+function openExampleSentenceModal(id){
+  const item=id?exampleSentenceData.find(d=>d.id===id):null;
+  esEditingId=item?item.id:null;
+  esSelectedWordIds=item?[...(item.wordIds||[])]:[];
+  const old=$('esModalWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeExampleSentenceModal(event)">';
+  html+='<div class="vocablib-modal" onclick="event.stopPropagation()" style="width:720px;max-height:88vh;overflow-y:auto">';
+  html+='<div class="vocablib-modal-header"><h3>'+(item?'编辑真题例句':'录入真题例句')+'</h3><button class="vocablib-modal-close-btn" onclick="closeExampleSentenceModal()">✕</button></div>';
+  html+='<div class="vocablib-modal-body">';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 标题</label><input class="form-input" id="esModalTitle" value="'+escAttr(item?item.title:'')+'" placeholder="如：2024年英语一阅读 Text 1 例句"></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 英语句子</label><textarea class="form-textarea" id="esModalSentence" placeholder="请输入英语真题例句" style="min-height:90px">'+escHtml(item?item.sentence:'')+'</textarea></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 中文翻译</label><textarea class="form-textarea" id="esModalTranslation" placeholder="请输入对应的中文翻译" style="min-height:80px">'+escHtml(item?item.translation:'')+'</textarea></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 关联单词 <span style="font-size:11px;color:#9ca3af;font-weight:400">支持搜索和多选</span></label>';
+  html+='<div class="es-word-picker"><div class="es-word-selected" id="esSelectedWords"></div><div class="es-word-search"><span class="icon">⌕</span><input id="esWordSearch" placeholder="输入英文单词或中文释义搜索" oninput="renderExampleSentenceWordPicker()"></div><div class="es-word-options" id="esWordOptions"></div></div>';
+  html+='</div>';
+  if(item&&item.status==='rejected'&&item.rejectReason)html+='<div style="padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#991b1b"><strong>上次驳回原因：</strong>'+escHtml(item.rejectReason)+'</div>';
+  html+='</div>';
+  html+='<div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeExampleSentenceModal()">取消</button><button class="btn btn-primary btn-sm" onclick="saveExampleSentence()">保存并提交审核</button></div>';
+  html+='</div></div>';
+  const wrap=document.createElement('div');wrap.id='esModalWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+  renderExampleSentenceWordPicker();
+}
+
+function closeExampleSentenceModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('esModalWrap');if(wrap)wrap.remove();
+  esEditingId=null;esSelectedWordIds=[];
+}
+
+function renderExampleSentenceWordPicker(){
+  const selected=$('esSelectedWords'),options=$('esWordOptions');if(!selected||!options)return;
+  const selectedWords=esSelectedWordIds.map(id=>vocabLibData.find(v=>v.id===id)).filter(Boolean);
+  selected.innerHTML=selectedWords.length?selectedWords.map(v=>'<span class="es-word-tag">'+escHtml(v.word)+'<button onclick="removeExampleSentenceWord('+v.id+')" title="移除">✕</button></span>').join(''):'<span class="placeholder">暂未选择关联单词</span>';
+  const kw=(($('esWordSearch')||{}).value||'').trim().toLowerCase();
+  let data=vocabLibData.filter(v=>!kw||v.word.toLowerCase().includes(kw)||(v.def||'').toLowerCase().includes(kw)).slice(0,30);
+  if(data.length===0){options.innerHTML='<div style="padding:18px;text-align:center;color:#9ca3af;font-size:12px">未找到匹配单词</div>';return;}
+  options.innerHTML=data.map(v=>'<label class="es-word-option"><input type="checkbox" '+(esSelectedWordIds.includes(v.id)?'checked':'')+' onchange="toggleExampleSentenceWord('+v.id+',this.checked)"><span class="word">'+escHtml(v.word)+'</span><span class="def">'+escHtml(v.def||'')+'</span></label>').join('');
+}
+
+function toggleExampleSentenceWord(id,checked){
+  if(checked){if(!esSelectedWordIds.includes(id))esSelectedWordIds.push(id);}
+  else esSelectedWordIds=esSelectedWordIds.filter(v=>v!==id);
+  renderExampleSentenceWordPicker();
+}
+
+function removeExampleSentenceWord(id){
+  esSelectedWordIds=esSelectedWordIds.filter(v=>v!==id);
+  renderExampleSentenceWordPicker();
+}
+
+function saveExampleSentence(){
+  const title=$('esModalTitle').value.trim();
+  const sentence=$('esModalSentence').value.trim();
+  const translation=$('esModalTranslation').value.trim();
+  if(!title){showToast('请输入标题','error');return;}
+  if(!sentence){showToast('请输入英语句子','error');return;}
+  if(!translation){showToast('请输入中文翻译','error');return;}
+  if(esSelectedWordIds.length===0){showToast('请至少关联一个单词','error');return;}
+  const today=new Date().toISOString().slice(0,10);
+  const isEditing=Boolean(esEditingId);
+  if(esEditingId){
+    const item=exampleSentenceData.find(d=>d.id===esEditingId);if(!item)return;
+    item.title=title;item.sentence=sentence;item.translation=translation;item.wordIds=[...esSelectedWordIds];
+    item.status='reviewing';item.auditTime='';item.auditor='';delete item.rejectReason;
+  }else{
+    exampleSentenceData.unshift({id:_exampleSentenceNextId++,title,sentence,translation,wordIds:[...esSelectedWordIds],status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+  }
+  closeExampleSentenceModal();
+  exampleSentenceTab='reviewing';
+  document.querySelectorAll('#esTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='reviewing'));
+  renderExampleSentenceTable();updateExampleSentenceAuditBadge();
+  showToast(isEditing?'真题例句已更新并提交审核':'真题例句已提交审核','success');
+}
+
+function showExampleSentenceDetail(id){
+  const d=exampleSentenceData.find(v=>v.id===id);if(!d)return;
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'审核驳回'};
+  const statusClass={published:'published',reviewing:'reviewing',rejected:'rejected'};
+  const old=$('esDetailWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeExampleSentenceDetail(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:760px">';
+  html+='<div class="vocablib-modal-header"><h3>真题例句详情 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeExampleSentenceDetail()">✕</button></div>';
+  html+='<div class="vocablib-modal-body">';
+  html+='<div class="vocablib-modal-card"><div class="card-title">标题</div><div style="font-size:16px;font-weight:600">'+escHtml(d.title)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">英语句子</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.sentence)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">中文翻译</div><div style="font-size:14px;line-height:1.8">'+escHtml(d.translation)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderExampleSentenceWordTags(d.wordIds)+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+statusClass[d.status]+'">'+statusMap[d.status]+'</span></span></div><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
+  if(d.rejectReason)html+='<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b">'+escHtml(d.rejectReason)+'</div></div>';
+  html+='</div><div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeExampleSentenceDetail();openExampleSentenceModal('+d.id+')">编辑</button><button class="btn btn-primary btn-sm" onclick="closeExampleSentenceDetail()">关闭</button></div></div></div>';
+  const wrap=document.createElement('div');wrap.id='esDetailWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeExampleSentenceDetail(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('esDetailWrap');if(wrap)wrap.remove();
+}
+
+function deleteExampleSentence(id){
+  const d=exampleSentenceData.find(v=>v.id===id);if(!d)return;
+  if(!confirm('确定删除真题例句「'+d.title+'」吗？'))return;
+  exampleSentenceData=exampleSentenceData.filter(v=>v.id!==id);
+  renderExampleSentenceTable();updateExampleSentenceAuditBadge();
+  showToast('真题例句已删除','success');
+}
+
+function openExampleSentenceImportModal(){
+  _exampleSentenceImportRows=[];
+  const old=$('esImportWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeExampleSentenceImportModal(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:620px">';
+  html+='<div class="vocablib-modal-header"><h3>批量导入真题例句</h3><button class="vocablib-modal-close-btn" onclick="closeExampleSentenceImportModal()">✕</button></div>';
+  html+='<div class="vocablib-modal-body"><div class="import-steps">';
+  html+='<div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载 Excel 导入模板</div><div class="step-desc">模板字段：标题、英语句子、中文翻译、关联单词</div></div></div>';
+  html+='<div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">多个关联单词可使用中文顿号、逗号或分号分隔，单词需已存在于系统词汇库</div></div></div>';
+  html+='<div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">导入后的数据将进入“审核中”状态</div></div></div>';
+  html+='</div><button class="btn btn-outline btn-sm" onclick="downloadExampleSentenceImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>';
+  html+='<div class="upload-zone" onclick="document.getElementById(\'esImportFileInput\').click()"><div class="upload-zone-icon">&#128196;</div><div class="upload-zone-text">点击选择导入文件<br><strong>支持 Excel .xls / .csv 格式</strong></div></div>';
+  html+='<input type="file" id="esImportFileInput" accept=".xls,.csv" style="display:none" onchange="handleExampleSentenceImportFile(this)">';
+  html+='<div id="esImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div></div>';
+  html+='<div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeExampleSentenceImportModal()">取消</button><button class="btn btn-primary btn-sm" onclick="processExampleSentenceImport()">开始导入</button></div></div></div>';
+  const wrap=document.createElement('div');wrap.id='esImportWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeExampleSentenceImportModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('esImportWrap');if(wrap)wrap.remove();
+  _exampleSentenceImportRows=[];
+}
+
+function downloadExampleSentenceImportTemplate(){
+  const header=['标题','英语句子','中文翻译','关联单词'];
+  const rows=[
+    ['2024年英语一阅读 Text 1 例句','The tendency to abandon long-term goals can undermine meaningful progress.','放弃长期目标的倾向可能会阻碍有意义的进步。','abandon'],
+    ['2023年英语二阅读 Text 2 例句','An abstract idea becomes persuasive when supported by evidence.','抽象观点在得到证据支持时会更有说服力。','abstract、comprehensive']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1"><tr>';
+  header.forEach(h=>{html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});html+='</tr>';
+  rows.forEach(row=>{html+='<tr>';row.forEach(c=>{html+='<td style="padding:4px 8px">'+c+'</td>';});html+='</tr>';});
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='真题例句批量导入模板.xls';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+  showToast('Excel 导入模板已下载','success');
+}
+
+function handleExampleSentenceImportFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    _exampleSentenceImportRows=parseExampleSentenceImportText(e.target.result);
+    const info=$('esImportFileInfo');if(info){info.style.display='block';info.textContent='已选择：'+file.name+'（解析到 '+_exampleSentenceImportRows.length+' 条数据）';}
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+function parseExampleSentenceImportText(text){
+  const rows=[];if(!text)return rows;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  text=text.trim();if(!text)return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    doc.querySelectorAll('table tr').forEach((tr,index)=>{
+      if(index===0)return;
+      const cells=Array.from(tr.querySelectorAll('th,td')).map(td=>td.textContent.trim());
+      if(cells.length>=4&&cells[0]&&cells[1]&&cells[2])rows.push({title:cells[0],sentence:cells[1],translation:cells[2],words:cells[3]});
+    });
+  }else{
+    text.split(/\r?\n/).forEach((line,index)=>{
+      if(index===0||!line.trim())return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=4&&cells[0]&&cells[1]&&cells[2])rows.push({title:cells[0],sentence:cells[1],translation:cells[2],words:cells[3]});
+    });
+  }
+  return rows;
+}
+
+function resolveExampleSentenceWordIds(raw){
+  const names=String(raw||'').split(/[、,，;；|]/).map(v=>v.trim().toLowerCase()).filter(Boolean);
+  return [...new Set(names.map(name=>{const item=vocabLibData.find(v=>v.word.toLowerCase()===name);return item?item.id:null;}).filter(Boolean))];
+}
+
+function processExampleSentenceImport(){
+  if(_exampleSentenceImportRows.length===0){showToast('请先选择有效的导入文件','error');return;}
+  let imported=0,skipped=0;const today=new Date().toISOString().slice(0,10);
+  _exampleSentenceImportRows.forEach(row=>{
+    const wordIds=resolveExampleSentenceWordIds(row.words);
+    if(!row.title||!row.sentence||!row.translation||wordIds.length===0){skipped++;return;}
+    exampleSentenceData.unshift({id:_exampleSentenceNextId++,title:row.title,sentence:row.sentence,translation:row.translation,wordIds,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+    imported++;
+  });
+  closeExampleSentenceImportModal();
+  exampleSentenceTab='reviewing';
+  document.querySelectorAll('#esTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='reviewing'));
+  renderExampleSentenceTable();updateExampleSentenceAuditBadge();
+  showToast('成功导入 '+imported+' 条'+(skipped?'，跳过 '+skipped+' 条无效数据':''),imported?'success':'error');
+}
+
+// ==================== ENGLISH EXAMPLE SENTENCE AUDIT (英语真题审核) ====================
+let exampleSentenceAuditTab='reviewing';
+let exampleSentenceAuditSelectedIds=[];
+let _currentExampleSentenceAuditId=null;
+
+function initExampleSentenceAudit(){
+  exampleSentenceAuditTab='reviewing';exampleSentenceAuditSelectedIds=[];
+  ['esaFilterTitle','esaFilterWord','esaFilterSentence','esaFilterCreator','esaFilterAuditor'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  document.querySelectorAll('#esaTabs .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderExampleSentenceAuditTable();
+}
+
+function switchExampleSentenceAuditTab(tab,el){
+  exampleSentenceAuditTab=tab;exampleSentenceAuditSelectedIds=[];
+  document.querySelectorAll('#esaTabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderExampleSentenceAuditTable();
+}
+
+function resetExampleSentenceAuditFilters(){
+  ['esaFilterTitle','esaFilterWord','esaFilterSentence','esaFilterCreator','esaFilterAuditor'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  exampleSentenceAuditSelectedIds=[];renderExampleSentenceAuditTable();
+}
+
+function getFilteredExampleSentenceAuditData(){
+  let data=exampleSentenceData.filter(d=>d.status===exampleSentenceAuditTab);
+  const title=(($('esaFilterTitle')||{}).value||'').trim().toLowerCase();
+  const word=(($('esaFilterWord')||{}).value||'').trim().toLowerCase();
+  const sentence=(($('esaFilterSentence')||{}).value||'').trim().toLowerCase();
+  const creator=(($('esaFilterCreator')||{}).value||'').trim().toLowerCase();
+  const auditor=(($('esaFilterAuditor')||{}).value||'').trim().toLowerCase();
+  if(title)data=data.filter(d=>d.title.toLowerCase().includes(title));
+  if(sentence)data=data.filter(d=>d.sentence.toLowerCase().includes(sentence));
+  if(word)data=data.filter(d=>getExampleSentenceWords(d).some(v=>v.word.toLowerCase().includes(word)));
+  if(creator)data=data.filter(d=>(d.creator||'').toLowerCase().includes(creator));
+  if(auditor)data=data.filter(d=>(d.auditor||'').toLowerCase().includes(auditor));
+  return data;
+}
+
+function renderExampleSentenceAuditTable(){
+  const tbody=$('esaTableBody'),empty=$('esaEmpty');if(!tbody)return;
+  exampleSentenceAuditSelectedIds=exampleSentenceAuditSelectedIds.filter(id=>exampleSentenceData.some(d=>d.id===id&&d.status==='reviewing'));
+  const data=getFilteredExampleSentenceAuditData();
+  if(data.length===0){tbody.innerHTML='';if(empty)empty.style.display='block';updateExampleSentenceAuditControls();updateExampleSentenceAuditBadge();return;}
+  if(empty)empty.style.display='none';
+  let h='';
+  data.forEach(d=>{
+    const selectable=d.status==='reviewing';
+    const checked=exampleSentenceAuditSelectedIds.includes(d.id)?'checked':'';
+    h+='<tr><td><input type="checkbox" '+checked+' '+(selectable?'':'disabled')+' onchange="toggleExampleSentenceAuditSelection('+d.id+',this.checked)"></td>';
+    h+='<td><strong>'+escHtml(d.title)+'</strong></td><td><span class="es-sentence-cell" title="'+escAttr(d.sentence)+'">'+escHtml(d.sentence)+'</span></td><td><span class="es-translation-cell" title="'+escAttr(d.translation)+'">'+escHtml(d.translation)+'</span></td>';
+    h+='<td>'+renderExampleSentenceWordTags(d.wordIds)+'</td><td>'+d.createTime+'</td><td>'+escHtml(d.creator)+'</td><td>'+(d.auditTime||'-')+'</td><td>'+(d.auditor?escHtml(d.auditor):'-')+'</td>';
+    h+='<td><button class="btn '+(selectable?'btn-primary':'btn-ghost')+' btn-xs" onclick="openExampleSentenceAuditDetail('+d.id+')">'+(selectable?'审核':'查看')+'</button></td></tr>';
+  });
+  tbody.innerHTML=h;updateExampleSentenceAuditControls();updateExampleSentenceAuditBadge();
+}
+
+function updateExampleSentenceAuditBadge(){
+  const count=exampleSentenceData.filter(d=>d.status==='reviewing').length;
+  const badge=$('esaBadge');if(badge){badge.textContent=count;badge.style.display=count?'inline-block':'none';}
+  const pending=$('esaPendingCount');if(pending)pending.textContent=count;
+}
+
+function updateExampleSentenceAuditControls(){
+  const count=exampleSentenceAuditSelectedIds.length;
+  const countEl=$('esaSelectedCount');if(countEl)countEl.textContent='已选择 '+count+' 条';
+  const batch=$('esaBatchBtn');if(batch)batch.disabled=count===0||exampleSentenceAuditTab!=='reviewing';
+  const all=$('esaAllBtn');if(all)all.disabled=exampleSentenceData.every(d=>d.status!=='reviewing');
+  const checkAll=$('esaCheckAll');
+  if(checkAll){
+    const visible=getFilteredExampleSentenceAuditData().filter(d=>d.status==='reviewing');
+    checkAll.disabled=exampleSentenceAuditTab!=='reviewing'||visible.length===0;
+    checkAll.checked=visible.length>0&&visible.every(d=>exampleSentenceAuditSelectedIds.includes(d.id));
+  }
+}
+
+function toggleExampleSentenceAuditSelection(id,checked){
+  if(checked){if(!exampleSentenceAuditSelectedIds.includes(id))exampleSentenceAuditSelectedIds.push(id);}
+  else exampleSentenceAuditSelectedIds=exampleSentenceAuditSelectedIds.filter(v=>v!==id);
+  updateExampleSentenceAuditControls();
+}
+
+function toggleAllExampleSentenceAudit(checked){
+  const ids=getFilteredExampleSentenceAuditData().filter(d=>d.status==='reviewing').map(d=>d.id);
+  if(checked)exampleSentenceAuditSelectedIds=[...new Set([...exampleSentenceAuditSelectedIds,...ids])];
+  else exampleSentenceAuditSelectedIds=exampleSentenceAuditSelectedIds.filter(id=>!ids.includes(id));
+  renderExampleSentenceAuditTable();
+}
+
+function batchApproveExampleSentences(){
+  const ids=exampleSentenceAuditSelectedIds.filter(id=>exampleSentenceData.some(d=>d.id===id&&d.status==='reviewing'));
+  if(ids.length===0){showToast('请先选择待审核内容','error');return;}
+  if(!confirm('确定将选中的 '+ids.length+' 条真题例句批量审核通过吗？'))return;
+  const today=new Date().toISOString().slice(0,10);
+  exampleSentenceData.forEach(d=>{if(ids.includes(d.id)){d.status='published';d.auditTime=today;d.auditor='审核员';delete d.rejectReason;}});
+  exampleSentenceAuditSelectedIds=[];renderExampleSentenceAuditTable();renderExampleSentenceTable();
+  showToast('已批量审核通过 '+ids.length+' 条','success');
+}
+
+function approveAllExampleSentences(){
+  const pending=exampleSentenceData.filter(d=>d.status==='reviewing');
+  if(pending.length===0){showToast('当前没有待审核内容','error');return;}
+  if(!confirm('确定将全部 '+pending.length+' 条待审核真题例句审核通过吗？'))return;
+  const today=new Date().toISOString().slice(0,10);
+  pending.forEach(d=>{d.status='published';d.auditTime=today;d.auditor='审核员';delete d.rejectReason;});
+  exampleSentenceAuditSelectedIds=[];renderExampleSentenceAuditTable();renderExampleSentenceTable();
+  showToast('已完成全部待审核内容的审核','success');
+}
+
+function openExampleSentenceAuditDetail(id){
+  const d=exampleSentenceData.find(v=>v.id===id);if(!d)return;
+  _currentExampleSentenceAuditId=id;
+  const statusMap={published:'审核通过',reviewing:'待审核',rejected:'审核驳回'};
+  const badgeMap={published:'badge-success',reviewing:'badge-warning',rejected:'badge-danger'};
+  const old=$('esaDetailWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeExampleSentenceAuditDetail(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:780px;max-height:88vh;overflow-y:auto">';
+  html+='<div class="vocablib-modal-header"><h3>英语真题例句审核 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeExampleSentenceAuditDetail()">✕</button></div>';
+  html+='<div class="vocablib-modal-body"><div class="vocablib-modal-card"><div class="card-title">标题</div><div style="font-size:16px;font-weight:600">'+escHtml(d.title)+' <span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span></div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">英语句子</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.sentence)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">中文翻译</div><div style="font-size:14px;line-height:1.8">'+escHtml(d.translation)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderExampleSentenceWordTags(d.wordIds)+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
+  if(d.rejectReason)html+='<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b">'+escHtml(d.rejectReason)+'</div></div>';
+  if(d.status==='reviewing')html+='<div id="esaRejectPanel" style="display:none"><div class="form-group"><label class="form-label"><span class="required">*</span> 驳回原因</label><textarea class="form-textarea" id="esaRejectReason" placeholder="请填写驳回原因" rows="3"></textarea></div></div>';
+  html+='</div><div class="vocablib-modal-footer" id="esaDetailFooter"><button class="btn btn-ghost" onclick="closeExampleSentenceAuditDetail()">关闭</button>';
+  if(d.status==='reviewing')html+='<button class="btn btn-danger" id="esaRejectBtn" onclick="toggleExampleSentenceRejectPanel()">驳回</button><button class="btn btn-success" id="esaApproveBtn" onclick="approveExampleSentence('+d.id+')">审核通过</button>';
+  html+='</div></div></div>';
+  const wrap=document.createElement('div');wrap.id='esaDetailWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeExampleSentenceAuditDetail(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('esaDetailWrap');if(wrap)wrap.remove();
+  _currentExampleSentenceAuditId=null;
+}
+
+function approveExampleSentence(id){
+  const d=exampleSentenceData.find(v=>v.id===id);if(!d||d.status!=='reviewing')return;
+  d.status='published';d.auditTime=new Date().toISOString().slice(0,10);d.auditor='审核员';delete d.rejectReason;
+  closeExampleSentenceAuditDetail();renderExampleSentenceAuditTable();renderExampleSentenceTable();
+  showToast('真题例句已审核通过','success');
+}
+
+function toggleExampleSentenceRejectPanel(){
+  const panel=$('esaRejectPanel'),approve=$('esaApproveBtn'),reject=$('esaRejectBtn');if(!panel)return;
+  const open=panel.style.display!=='none';
+  panel.style.display=open?'none':'block';
+  reject.textContent=open?'驳回':'取消驳回';
+  reject.classList.toggle('btn-danger',open);reject.classList.toggle('btn-outline',!open);
+  approve.textContent=open?'审核通过':'确认驳回';
+  approve.classList.toggle('btn-success',open);approve.classList.toggle('btn-danger',!open);
+  approve.setAttribute('onclick',open?'approveExampleSentence('+_currentExampleSentenceAuditId+')':'confirmRejectExampleSentence('+_currentExampleSentenceAuditId+')');
+}
+
+function confirmRejectExampleSentence(id){
+  const reason=(($('esaRejectReason')||{}).value||'').trim();
+  if(!reason){showToast('请填写驳回原因','error');return;}
+  const d=exampleSentenceData.find(v=>v.id===id);if(!d||d.status!=='reviewing')return;
+  d.status='rejected';d.auditTime=new Date().toISOString().slice(0,10);d.auditor='审核员';d.rejectReason=reason;
+  closeExampleSentenceAuditDetail();renderExampleSentenceAuditTable();renderExampleSentenceTable();
+  showToast('真题例句已驳回','success');
 }
 
 // ==================== CIJU CATEGORY MANAGER (词句分类) ====================
@@ -11503,7 +12295,7 @@ function renderExamTable(){
   }
   let h='';
   for(let e of data){
-    h+='<tr><td>'+e.name+'</td><td>'+e.subject+'</td><td>'+(e.catLabel||'−')+'</td><td>'+e.qCount+'</td>';
+    h+='<tr><td>'+e.name+'</td><td>'+e.subject+'</td><td>'+(e.catLabel||'−')+'</td><td>'+e.qCount+'</td><td>'+formatExamScore(e.totalScore)+' 分</td>';
     h+='<td><span class="badge '+badgeMap[e.status]+'">'+statusMap[e.status]+'</span></td>';
     h+='<td>'+e.creator+'</td><td>'+e.time+'</td>';
     h+='<td>';
@@ -11512,7 +12304,7 @@ function renderExamTable(){
     h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteExam('+e.id+')">删除</button>';
     h+='</td></tr>';
   }
-  if(data.length===0)h='<tr><td colspan="8" style="text-align:center;color:#9ca3af;padding:40px">暂无试卷</td></tr>';
+  if(data.length===0)h='<tr><td colspan="9" style="text-align:center;color:#9ca3af;padding:40px">暂无试卷</td></tr>';
   $('examTableBody').innerHTML=h;
 }
 
@@ -11522,6 +12314,7 @@ function previewExam(id){
   $('examPreviewTitle').textContent = '试卷预览：'+e.name;
   let info = '<strong>试卷名称：</strong>'+e.name
     +' &nbsp;|&nbsp; <strong>学科：</strong>'+e.subject
+    +' &nbsp;|&nbsp; <strong>总分：</strong>'+formatExamScore(e.totalScore)+' 分'
     +' &nbsp;|&nbsp; <strong>练测分类：</strong>'+(e.catLabel||'−')
     +'<br><strong>创建人：</strong>'+e.creator
     +' &nbsp;|&nbsp; <strong>创建时间：</strong>'+e.time
@@ -12505,7 +13298,7 @@ function renderHomeworkTable(){
   if(statusF !== 'all') data = data.filter(h => h.status === statusF);
   let h='';
   for(let hw of data){
-    h+='<tr><td>'+hw.title+'</td><td>'+hw.subject+'</td><td>'+(hw.qCount||'−')+'</td>';
+    h+='<tr><td>'+hw.title+'</td><td>'+hw.subject+'</td><td>'+(hw.qCount||'−')+'</td><td>'+formatExamScore(hw.totalScore)+' 分</td>';
     h+='<td><span class="badge '+badgeMap[hw.status]+'">'+statusMap[hw.status]+'</span></td>';
     h+='<td>'+(hw.creator||'−')+'</td><td>'+hw.time+'</td>';
     h+='<td>';
@@ -12514,7 +13307,7 @@ function renderHomeworkTable(){
     h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteHomework('+hw.id+')">删除</button>';
     h+='</td></tr>';
   }
-  if(data.length===0)h='<tr><td colspan="7" style="text-align:center;color:#9ca3af;padding:40px">暂无作业</td></tr>';
+  if(data.length===0)h='<tr><td colspan="8" style="text-align:center;color:#9ca3af;padding:40px">暂无作业</td></tr>';
   $('homeworkTableBody').innerHTML=h;
 }
 
@@ -12525,6 +13318,7 @@ function previewHomework(id){
   $('examPreviewTitle').textContent = '试卷预览：'+hw.title;
   let info = '<strong>试卷名称：</strong>'+hw.title
     +' &nbsp;|&nbsp; <strong>学科：</strong>'+hw.subject
+    +' &nbsp;|&nbsp; <strong>总分：</strong>'+formatExamScore(hw.totalScore)+' 分'
     +'<br><strong>创建人：</strong>'+(hw.creator||'教研员')
     +' &nbsp;|&nbsp; <strong>创建时间：</strong>'+hw.time
     +' &nbsp;|&nbsp; <strong>状态：</strong>'+(hw.status==='draft'?'草稿':'已发布');
@@ -14277,6 +15071,8 @@ function openRADetailModal(id){
         '<div class="vocablib-modal-card" style="flex:1;min-width:0"><div class="card-title">文章内容（英文）</div><div class="card-body" style="font-size:13px;line-height:1.8;color:#374151;max-height:300px;overflow-y:auto">'+escHtml(d.content)+'</div></div>'+
         '<div class="vocablib-modal-card" style="flex:1;min-width:0"><div class="card-title">中文翻译</div><div class="card-body" style="font-size:13px;line-height:1.8;color:#374151;max-height:300px;overflow-y:auto">'+escHtml(d.trans)+'</div></div>'+
       '</div>';
+
+  h += renderReadPracticeDisplay(d.questions);
 
   if(d.status==='pending'){
     h += '<p style="color:#92400e;font-size:13px;margin-top:12px">⏳ 该文章正在待审核，请审核后决定通过或驳回。</p>';
