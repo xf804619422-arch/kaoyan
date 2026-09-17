@@ -877,6 +877,8 @@ tr:hover td{background:#fafbfc}
 .read-practice-display-options{display:grid;grid-template-columns:1fr 1fr;gap:7px 12px;margin-top:9px}
 .read-practice-display-option{font-size:12px;color:#475569;padding:6px 9px;border-radius:6px;background:#f8fafc}
 .read-practice-display-option.correct{color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;font-weight:600}
+.read-practice-display-analysis{margin-top:10px;padding:9px 11px;border-left:3px solid #a5b4fc;background:#f5f7ff;border-radius:0 6px 6px 0;font-size:12px;color:#475569;line-height:1.7}
+.read-practice-display-analysis strong{color:#4338ca;margin-right:6px}
 
 /* 阅读文章模态（宽屏） */
 .read-modal-wide .vocablib-modal{width:1000px;max-height:90vh;display:flex;flex-direction:column}
@@ -4159,8 +4161,8 @@ let readingAuditData = [
 ];
 readingAuditData.forEach(function(article){article.questions=article.questions||[];});
 readingAuditData[0].questions=[
-  {id:1,stem:'According to the article, how is AI changing modern medicine?',options:['By reducing access to healthcare','By improving the speed and accuracy of medical decisions','By replacing every medical worker','By limiting personalized treatment'],answerIndex:1},
-  {id:2,stem:'Which field is mentioned as an application of AI?',options:['Diagnostic imaging','Traditional publishing','Urban transportation','Marine exploration'],answerIndex:0}
+  {id:1,stem:'According to the article, how is AI changing modern medicine?',options:['By reducing access to healthcare','By improving the speed and accuracy of medical decisions','By replacing every medical worker','By limiting personalized treatment'],answerIndex:1,analysis:'文章强调 AI 能够帮助医生更快、更准确地做出医疗决策，因此选择 B。'},
+  {id:2,stem:'Which field is mentioned as an application of AI?',options:['Diagnostic imaging','Traditional publishing','Urban transportation','Marine exploration'],answerIndex:0,analysis:'原文直接提到 diagnostic imaging（诊断影像）是 AI 的应用领域。'}
 ];
 readingAuditData[1].questions=[
   {id:1,stem:'What is the main threat discussed in the passage?',options:['Declining internet access','Global food insecurity caused by climate change','The high cost of city housing','A shortage of scientific journals'],answerIndex:1}
@@ -8241,7 +8243,7 @@ let readEditPracticeQuestions=[];
 let _readPracticeQid=1;
 
 function createReadPracticeQuestion(){
-  return {id:_readPracticeQid++,stem:'',options:['','','',''],answerIndex:0};
+  return {id:_readPracticeQid++,stem:'',options:['','','',''],answerIndex:0,analysis:''};
 }
 
 function cloneReadPracticeQuestions(list){
@@ -8253,7 +8255,7 @@ function cloneReadPracticeQuestions(list){
     if(answerIndex<0||answerIndex>=options.length)answerIndex=0;
     const id=Number.isInteger(item.id)?item.id:_readPracticeQid++;
     if(id>=_readPracticeQid)_readPracticeQid=id+1;
-    return {id:id,stem:item.stem||'',options:options,answerIndex:answerIndex};
+    return {id:id,stem:item.stem||'',options:options,answerIndex:answerIndex,analysis:item.analysis||''};
   });
 }
 
@@ -8300,6 +8302,11 @@ function updateReadPracticeOption(scope,qid,optionIndex,value){
   if(q)q.options[optionIndex]=value;
 }
 
+function updateReadPracticeAnalysis(scope,qid,value){
+  const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
+  if(q)q.analysis=value;
+}
+
 function setReadPracticeAnswer(scope,qid,optionIndex){
   const q=getReadPracticeCollection(scope).find(function(item){return item.id===qid;});
   if(q)q.answerIndex=optionIndex;
@@ -8335,6 +8342,7 @@ function renderReadPracticeEditor(scope){
     });
     h+='</div><div class="read-practice-option-actions"><span>当前 '+q.options.length+' 个选项，最少 2 个、最多 4 个</span>';
     h+='<button class="btn btn-outline btn-xs" type="button" '+(q.options.length>=4?'disabled':'')+' onclick="addReadPracticeOption(\''+scope+'\','+q.id+')">+ 添加选项</button></div></div>';
+    h+='<div class="yre-q-card-field"><label class="yre-q-card-label">题目解析 <span class="read-practice-optional">选填</span></label><textarea class="form-textarea" rows="3" placeholder="请输入本题解析，说明正确答案与解题思路" oninput="updateReadPracticeAnalysis(\''+scope+'\','+q.id+',this.value)">'+escHtml(q.analysis||'')+'</textarea></div>';
     h+='</div></div>';
   });
   container.innerHTML=h;
@@ -8361,7 +8369,7 @@ function renderReadPracticeDisplay(questions){
     q.options.forEach(function(option,optionIndex){
       h+='<div class="read-practice-display-option '+(q.answerIndex===optionIndex?'correct':'')+'">'+letters[optionIndex]+'. '+escHtml(option)+(q.answerIndex===optionIndex?'　✓ 正确答案':'')+'</div>';
     });
-    h+='</div></div>';
+    h+='</div><div class="read-practice-display-analysis"><strong>题目解析</strong>'+(q.analysis?escHtml(q.analysis).replace(/\n/g,'<br>'):'暂未填写解析')+'</div></div>';
   });
   return h+'</div>';
 }
@@ -8432,8 +8440,8 @@ let readArticleData = [
 ];
 readArticleData.forEach(function(article){article.questions=article.questions||[];});
 readArticleData[0].questions=[
-  {id:1,stem:'What is one major advantage of AI in medical imaging?',options:['It can replace all doctors immediately','It can help detect early-stage cancers','It makes treatment plans unnecessary','It only works with old medical records'],answerIndex:1},
-  {id:2,stem:'Which statement best summarizes the passage?',options:['AI is slowing down medical decisions','AI has little impact on healthcare','AI is improving diagnosis and treatment efficiency','Human radiologists no longer work in hospitals'],answerIndex:2}
+  {id:1,stem:'What is one major advantage of AI in medical imaging?',options:['It can replace all doctors immediately','It can help detect early-stage cancers','It makes treatment plans unnecessary','It only works with old medical records'],answerIndex:1,analysis:'第二段指出，机器学习模型尤其擅长发现人眼可能遗漏的早期癌症，因此选择 B。'},
+  {id:2,stem:'Which statement best summarizes the passage?',options:['AI is slowing down medical decisions','AI has little impact on healthcare','AI is improving diagnosis and treatment efficiency','Human radiologists no longer work in hospitals'],answerIndex:2,analysis:'全文围绕 AI 提升诊断准确性和治疗决策效率展开，C 最符合主旨。'}
 ];
 readArticleData[2].questions=[
   {id:1,stem:'What potential problem is associated with heavy social media use?',options:['Higher travel costs','Increased anxiety and depression','Less access to information','Reduced interest in technology'],answerIndex:1}

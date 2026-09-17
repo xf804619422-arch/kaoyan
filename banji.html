@@ -2252,6 +2252,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .ery-option-mark.student{background:#dbeafe;color:#1d4ed8}
 .ery-answer-summary{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--border);font-size:13px;color:var(--text-secondary)}
 .ery-answer-summary strong{color:var(--text)}
+.ery-question-analysis{margin-top:12px;border:1px solid #dbe4f0;border-radius:7px;background:#f8fafc;overflow:hidden}
+.ery-question-analysis-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 12px;border:0;background:transparent;color:var(--text);font:inherit;font-size:13px;font-weight:600;cursor:pointer;text-align:left;transition:background var(--transition)}
+.ery-question-analysis-toggle:hover{background:#f1f5f9}
+.ery-question-analysis-side{display:flex;align-items:center;gap:7px;color:var(--primary);font-size:12px;font-weight:500}
+.ery-question-analysis-arrow{font-size:9px;transition:transform var(--transition)}
+.ery-question-analysis.expanded .ery-question-analysis-arrow{transform:rotate(90deg)}
+.ery-question-analysis-content{display:none;padding:12px;border-top:1px solid #dbe4f0;background:#fff;color:#475569;font-size:13px;line-height:1.75}
+.ery-question-analysis.expanded .ery-question-analysis-content{display:block}
 
 @media (max-width:900px){.ery-filter-actions{margin-left:0}.ery-detail-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.ery-options{grid-template-columns:1fr}}
 @media (max-width:600px){.ery-filter-row,.ery-filter-item{align-items:stretch}.ery-filter-item{width:100%;flex-wrap:wrap}.ery-filter-item select,.ery-filter-item .ery-search{width:100%;flex:1}.ery-detail-summary{grid-template-columns:1fr}.ery-overlay{padding:12px}.ery-modal{max-height:calc(100vh - 24px)}}
@@ -15606,12 +15614,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         {
           stem: 'What is one major advantage of AI in medical imaging?',
           options: ['It can replace all doctors immediately', 'It can help detect early-stage cancers', 'It makes treatment plans unnecessary', 'It only works with old medical records'],
-          answerIndex: 1
+          answerIndex: 1,
+          analysis: '定位第二段可知，机器学习模型能够分析医学影像，尤其可以发现人眼可能遗漏的早期癌症，因此选择 B。其余选项均使用了绝对化表达，且没有原文依据。'
         },
         {
           stem: 'Which statement best summarizes the passage?',
           options: ['AI is slowing down medical decisions', 'AI has little impact on healthcare', 'AI is improving diagnosis and treatment efficiency', 'Human radiologists no longer work in hospitals'],
-          answerIndex: 2
+          answerIndex: 2,
+          analysis: '首段介绍 AI 帮助医生更快、更准确地决策，第二段以医学影像和早期癌症检测为例加以说明。C 项完整概括了诊断准确性和治疗效率的提升，最符合全文主旨。'
         }
       ]
     },
@@ -15624,8 +15634,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       questions: [
         {
           stem: 'What is the main threat discussed in the passage?',
-          options: ['Declining internet access', 'Global food insecurity caused by climate change', 'The high cost of city housing', 'A shortage of scientific journals'],
-          answerIndex: 1
+          options: ['Declining internet access', 'Major economic losses caused by unchecked climate change', 'The high cost of city housing', 'A shortage of scientific journals'],
+          answerIndex: 1,
+          analysis: '文章围绕气候变化对经济发展的影响展开，并指出若气候变化得不到控制，到 2050 年全球 GDP 可能减少 18%。因此核心威胁是严重的经济损失，选择 B。'
         }
       ]
     },
@@ -15639,7 +15650,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         {
           stem: 'What potential problem is associated with heavy social media use?',
           options: ['Higher travel costs', 'Increased anxiety and depression', 'Less access to information', 'Reduced interest in technology'],
-          answerIndex: 1
+          answerIndex: 1,
+          analysis: '第二段明确指出，重度使用社交媒体可能对心理健康产生负面影响，其中包括焦虑和抑郁增加，因此选择 B。其他选项在文中均未提及。'
         }
       ]
     }
@@ -15803,6 +15815,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       });
       bodyHtml += '</div>';
       bodyHtml += '<div class="ery-answer-summary"><span>正确答案：<strong>'+correctLetter+'. '+escapeEnglishReadingHtml(correctAnswerText)+'</strong></span><span>学生答案：<strong>'+studentLetter+(studentAnswerText ? '. '+escapeEnglishReadingHtml(studentAnswerText) : '')+'</strong></span></div>';
+      bodyHtml += '<div class="ery-question-analysis" id="eryQuestionAnalysis_'+questionIndex+'">';
+      bodyHtml += '<button class="ery-question-analysis-toggle" type="button" aria-expanded="false" onclick="window._eryToggleQuestionAnalysis('+questionIndex+')"><span>题目解析</span><span class="ery-question-analysis-side"><span id="eryQuestionAnalysisText_'+questionIndex+'">展开</span><span class="ery-question-analysis-arrow">&#9654;</span></span></button>';
+      bodyHtml += '<div class="ery-question-analysis-content">'+escapeEnglishReadingHtml(question.analysis || '本题可根据文章中的关键词和上下文定位正确选项，并结合主旨排除与原文无关或表述过于绝对的干扰项。')+'</div>';
+      bodyHtml += '</div>';
       bodyHtml += '</div></div>';
     });
 
@@ -15820,6 +15836,16 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var isExpanded = section.classList.toggle('expanded');
     if(toggle) toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
     if(toggleText) toggleText.textContent = isExpanded ? '收起文章' : '展开文章';
+  };
+
+  window._eryToggleQuestionAnalysis = function(questionIndex){
+    var section = document.getElementById('eryQuestionAnalysis_'+questionIndex);
+    if(!section) return;
+    var isExpanded = section.classList.toggle('expanded');
+    var toggle = section.querySelector('.ery-question-analysis-toggle');
+    var toggleText = document.getElementById('eryQuestionAnalysisText_'+questionIndex);
+    if(toggle) toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    if(toggleText) toggleText.textContent = isExpanded ? '收起' : '展开';
   };
 
   window._eryCloseDetail = function(){
