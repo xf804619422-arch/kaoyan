@@ -130,6 +130,8 @@ table{border-collapse:collapse;width:100%}
 .status-completed{background:#f1f5f9;color:#64748b}
 .status-reviewing{background:#eff6ff;color:#2563eb}
 .status-rejected{background:#fef2f2;color:#dc2626}
+.status-trial{background:#eff6ff;color:#2563eb}
+.status-trial-ended{background:#f1f5f9;color:#64748b}
 
 /* ========== Switch disabled ========== */
 .switch.disabled{opacity:0.55;pointer-events:none}
@@ -3565,10 +3567,17 @@ var studentInfoData = [
     jiaowuReview:{ status:'通过', reviewer:'李主任', time:'2026-07-19 10:00:00' },
     caiwuReview:{ status:'审核驳回', reviewer:'张会计', time:'2026-07-20 14:30:00' } },
   { id:'2025010', name:'林二', phone:'188****9010', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-07-25', endDate:'2027-07-25', status:'审核中', acctEnabled:false,
-    subjects:'英语', levels:'英一：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', mathBaoming:'数一', engBaoming:'英一', hasMath:false, hasEnglish:true,
-    gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
-    jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
-    caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
+     subjects:'英语', levels:'英一：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', mathBaoming:'数一', engBaoming:'英一', hasMath:false, hasEnglish:true,
+     gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
+     jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
+     caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } },
+  // ---- 试用学员演示数据（与班主任端保持一致） ----
+  { id:'2025011', name:'试用学员甲', phone:'189****9011', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-09-10', endDate:'2026-09-24', status:'试用中', acctEnabled:true, isTrialStudent:true, trialStartDate:'2026-09-10', trialEndDate:'2026-09-24',
+    subjects:'英语', levels:'英一：60→75', mathCur:'', mathTarget:'', mathBaoming:'数一', engCur:'60-69', engTarget:'70-79', engBaoming:'英一', hasMath:false, hasEnglish:true,
+    gender:'女', email:'trialjia@example.com', idCard:'110101200101010111', uni:'北京师范大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 文学[05]-各学科专业' },
+  { id:'2025012', name:'试用学员乙', phone:'189****9012', district:'朝阳学区', stuClass:'2026届考研数学二班', regDate:'2026-08-15', endDate:'2026-08-29', status:'试用结束', acctEnabled:false, isTrialStudent:true, trialStartDate:'2026-08-15', trialEndDate:'2026-08-29',
+    subjects:'数学、英语', levels:'数二：70→110  英二：65→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数二', engCur:'60-69', engTarget:'80-89', engBaoming:'英二', hasMath:true, hasEnglish:true,
+    gender:'男', email:'trialyi@example.com', idCard:'110101200202020222', uni:'北京理工大学', major:'机械工程', targetUni:'同济大学', targetMajor:'机械工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' }
 ];
 
 var currentStudentInfoFilter = 'all';
@@ -3615,6 +3624,18 @@ function getJieShuFromClass(stuClass){
   return '-';
 }
 
+// 试用学员状态与班主任端保持一致：结束日当天仍视为试用中。
+function getLocalDateString(date){
+  var d = date || new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function getTrialStatus(s){
+  if(!s || !s.isTrialStudent) return '';
+  var endDate = s.trialEndDate || s.endDate || '';
+  return endDate && getLocalDateString() <= endDate ? '试用中' : '试用结束';
+}
+
 function buildSubjectHtml(s){
   var html='';
   if(s.hasMath){
@@ -3637,6 +3658,9 @@ function buildLevelHtml(s){
 }
 
 function getStudentInfoStatusHtml(s){
+  var trialStatus = getTrialStatus(s);
+  if(trialStatus==='试用中') return '<span class="status status-trial">试用中</span>';
+  if(trialStatus==='试用结束') return '<span class="status status-trial-ended">试用结束</span>';
   if(s.status==='在读') return '<span class="status status-active">在读</span>';
   if(s.status==='已结课') return '<span class="status status-completed">已结课</span>';
   return '<span class="status status-active">在读</span>';
@@ -3645,7 +3669,12 @@ function getStudentInfoStatusHtml(s){
 function renderStudentInfoPage(){
   var result = studentInfoData.slice();
   if(currentStudentInfoFilter && currentStudentInfoFilter!=='all'){
-    result = result.filter(function(s){ return s.status===currentStudentInfoFilter; });
+    result = result.filter(function(s){
+      if(currentStudentInfoFilter==='试用中' || currentStudentInfoFilter==='试用结束'){
+        return getTrialStatus(s)===currentStudentInfoFilter;
+      }
+      return s.status===currentStudentInfoFilter;
+    });
   }
   var classFilter = document.getElementById('stuInfoClassFilter') ? document.getElementById('stuInfoClassFilter').value : '';
   if(classFilter){ result = result.filter(function(s){ return s.stuClass===classFilter; }); }
@@ -3706,6 +3735,8 @@ function renderStudentInfoPage(){
     '<button class="student-tab'+ (currentStudentInfoFilter==='all'?' active':'') +'" data-tab="all" onclick="switchStudentInfoTab(\'all\',this)">全部</button>' +
     '<button class="student-tab'+ (currentStudentInfoFilter==='在读'?' active':'') +'" data-tab="在读" onclick="switchStudentInfoTab(\'在读\',this)">在读</button>' +
     '<button class="student-tab'+ (currentStudentInfoFilter==='已结课'?' active':'') +'" data-tab="已结课" onclick="switchStudentInfoTab(\'已结课\',this)">已结课</button>' +
+    '<button class="student-tab'+ (currentStudentInfoFilter==='试用中'?' active':'') +'" data-tab="试用中" onclick="switchStudentInfoTab(\'试用中\',this)">试用中</button>' +
+    '<button class="student-tab'+ (currentStudentInfoFilter==='试用结束'?' active':'') +'" data-tab="试用结束" onclick="switchStudentInfoTab(\'试用结束\',this)">试用结束</button>' +
   '</div>';
 
   // Table with pagination

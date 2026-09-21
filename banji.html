@@ -69,7 +69,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .user-name{font-size:13px;color:var(--text)}
 
 /* ========== Content Area ========== */
-.content{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:24px}
+.content{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:24px;display:flex;flex-direction:column;gap:24px}
 .content-placeholder{text-align:center;color:var(--text-muted);margin:auto}
 .content-placeholder .ph-icon{font-size:64px;margin-bottom:16px;opacity:.3}
 .content-placeholder h3{font-size:18px;font-weight:500;color:var(--text-secondary);margin-bottom:8px}
@@ -337,6 +337,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .status-reviewing{background:var(--info-bg);color:var(--primary)}
 .status-rejected{background:var(--danger-bg);color:var(--danger)}
 .status-completed{background:#f1f5f9;color:#64748b}
+.status-trial{background:#eff6ff;color:#2563eb}
+.status-trial-ended{background:#f1f5f9;color:#64748b}
 
 /* Switch (read-only for 学员信息) */
 .switch{position:relative;display:inline-block;width:40px;height:22px}
@@ -2191,6 +2193,60 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 .kt-empty-state .ph-icon{font-size:56px;margin-bottom:16px;opacity:.3}
 .kt-empty-state h3{font-size:16px;font-weight:500;color:var(--text-secondary);margin-bottom:6px}
 .kt-empty-state p{font-size:13px}
+
+/* ========== 学员学情报告 ========== */
+.learning-report-overlay{display:none;position:fixed;inset:0;z-index:1400;background:rgba(15,23,42,.58);align-items:flex-start;justify-content:center;padding:18px;overflow-y:auto}
+.learning-report-overlay.show{display:flex}
+.learning-report-modal{width:100%;max-width:1160px;max-height:calc(100vh - 36px);background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(15,23,42,.25);display:flex;flex-direction:column;overflow:hidden}
+.learning-report-head{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;flex:0 0 auto}
+.learning-report-head h3{margin:0;font-size:17px;color:#0f172a}
+.learning-report-head-actions{display:flex;align-items:center;gap:10px}
+.learning-report-body{overflow-y:auto;background:#f1f5f9;padding:18px}
+.learning-report-sheet{max-width:1030px;margin:0 auto;background:#fff;padding:30px 34px;box-shadow:0 1px 3px rgba(15,23,42,.08);color:#1e293b}
+.learning-report-cover{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:2px solid #2563eb;padding-bottom:20px;margin-bottom:20px}
+.learning-report-cover h1{font-size:26px;letter-spacing:2px;margin:0 0 10px;color:#0f172a}
+.learning-report-cover p{margin:4px 0;color:#64748b;font-size:13px}
+.learning-report-cover-meta{text-align:right;color:#64748b;font-size:12px;line-height:1.8}
+.learning-report-cover-meta strong{font-size:18px;color:#2563eb;display:block}
+.learning-report-summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:22px}
+.learning-report-summary-card{border:1px solid #dbeafe;background:#f8fbff;border-radius:8px;padding:12px 13px;min-height:70px}
+.learning-report-summary-card .label{font-size:12px;color:#64748b;margin-bottom:7px}
+.learning-report-summary-card .value{font-size:20px;font-weight:700;color:#1d4ed8}
+.learning-report-summary-card .sub{font-size:11px;color:#94a3b8;margin-top:3px}
+.learning-report-section{margin-top:20px}
+.learning-report-section h2{font-size:16px;margin:0 0 10px;padding-left:10px;border-left:3px solid #2563eb;color:#0f172a}
+.learning-report-table{width:100%;border-collapse:collapse;font-size:12px}
+.learning-report-table th{background:#f8fafc;color:#475569;font-weight:600;text-align:left;border-bottom:1px solid #cbd5e1;padding:9px 8px;white-space:nowrap}
+.learning-report-table td{padding:9px 8px;border-bottom:1px solid #e2e8f0;vertical-align:top;color:#334155}
+.learning-report-table tr:last-child td{border-bottom:0}
+.learning-report-tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;background:#eff6ff;color:#2563eb;font-size:11px;white-space:nowrap}
+.learning-report-tag.success{background:#ecfdf5;color:#059669}.learning-report-tag.warn{background:#fffbeb;color:#d97706}.learning-report-tag.danger{background:#fef2f2;color:#dc2626}.learning-report-tag.gray{background:#f1f5f9;color:#64748b}
+.learning-report-insight{border:1px solid #dbeafe;background:#f8fbff;border-radius:8px;padding:12px 14px;margin-top:8px;font-size:13px;line-height:1.8;color:#334155}
+.learning-report-insight strong{color:#1d4ed8}
+.learning-report-empty{text-align:center;color:#94a3b8;padding:18px 8px;font-size:12px}
+.learning-report-selector{max-width:700px;margin:36px auto;background:#fff;border:1px solid #dbeafe;border-radius:12px;padding:26px 30px;box-shadow:0 3px 12px rgba(37,99,235,.06)}
+.learning-report-selector h2{margin:0 0 8px;font-size:20px;color:#0f172a}.learning-report-selector p{margin:0 0 22px;color:#64748b;font-size:13px}
+.learning-report-selector-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.learning-report-selector-field label{display:block;margin-bottom:7px;font-size:13px;font-weight:600;color:#334155}
+.learning-report-selector-field select{width:100%;height:40px;border:1px solid #cbd5e1;border-radius:6px;padding:0 11px;color:#1e293b;background:#fff}
+.learning-report-selector-actions{margin-top:24px;display:flex;justify-content:flex-end;gap:8px}.learning-report-kpi-note{font-size:11px;color:#94a3b8;margin-top:4px}
+.learning-report-bar{height:7px;background:#e2e8f0;border-radius:999px;overflow:hidden;min-width:90px}.learning-report-bar i{display:block;height:100%;background:#2563eb;border-radius:999px}
+.learning-report-analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.learning-report-analysis-card{border:1px solid #e2e8f0;border-radius:8px;padding:14px;background:#fff}.learning-report-analysis-card h3{font-size:13px;margin:0 0 12px;color:#334155}
+.learning-report-metric-table td:first-child{width:35%;color:#64748b}.learning-report-source-note{font-size:11px;color:#94a3b8;margin-top:8px}
+.learning-report-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.learning-report-chart-card{border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:16px}.learning-report-chart-card h3{font-size:13px;color:#334155;margin:0 0 14px}
+.learning-report-donut-wrap{display:flex;align-items:center;gap:18px}.learning-report-donut{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:conic-gradient(#2563eb var(--rate),#e2e8f0 0)}.learning-report-donut:after{content:'';width:74px;height:74px;border-radius:50%;background:#fff}.learning-report-donut-value{position:absolute;font-size:20px;font-weight:700;color:#1d4ed8}.learning-report-donut-box{position:relative;display:grid;place-items:center}.learning-report-donut-caption{font-size:12px;color:#64748b;line-height:1.8}
+.learning-report-bar-chart{display:flex;align-items:flex-end;gap:14px;height:150px;padding:12px 8px 0;border-bottom:1px solid #cbd5e1}.learning-report-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}.learning-report-bar-col i{width:34px;min-height:8px;background:linear-gradient(180deg,#60a5fa,#2563eb);border-radius:5px 5px 0 0}.learning-report-bar-col span{font-size:11px;color:#64748b}.learning-report-bar-col em{font-size:11px;color:#1d4ed8;font-style:normal;font-weight:600}
+.learning-report-rank-list{display:flex;flex-direction:column;gap:11px}.learning-report-rank-row{display:grid;grid-template-columns:110px 1fr 38px;align-items:center;gap:8px;font-size:12px;color:#475569}.learning-report-rank-row .track{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden}.learning-report-rank-row .track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#93c5fd,#2563eb)}
+.learning-report-insight-panel{border-radius:10px;background:linear-gradient(135deg,#eff6ff,#f8fafc);padding:16px 18px;border:1px solid #dbeafe}.learning-report-insight-panel strong{color:#1d4ed8}
+.learning-report-detail-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff}.learning-report-detail-table th{background:#f8fafc;color:#475569;font-weight:600;text-align:left;padding:10px 9px;border-bottom:1px solid #cbd5e1;white-space:nowrap}.learning-report-detail-table td{padding:10px 9px;border-bottom:1px solid #e2e8f0;color:#334155}.learning-report-detail-table tr:last-child td{border-bottom:0}.learning-report-list-wrap{overflow-x:auto;border:1px solid #e2e8f0;border-radius:8px}
+.learning-report-level-records{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.learning-report-record-chip{display:inline-flex;align-items:center;padding:7px 10px;border-radius:7px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;font-size:12px}
+.learning-report-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.learning-report-stat-box{border-radius:9px;padding:14px 15px;background:linear-gradient(135deg,#eff6ff,#fff);border:1px solid #bfdbfe;min-height:78px}.learning-report-stat-box:nth-child(2){background:linear-gradient(135deg,#f5f3ff,#fff);border-color:#ddd6fe}.learning-report-stat-box:nth-child(3){background:linear-gradient(135deg,#ecfdf5,#fff);border-color:#a7f3d0}.learning-report-stat-box:nth-child(4){background:linear-gradient(135deg,#fff7ed,#fff);border-color:#fed7aa}.learning-report-stat-box .k{font-size:12px;color:#64748b}.learning-report-stat-box .v{font-size:22px;font-weight:700;color:#0f172a;margin-top:7px}.learning-report-stat-box .n{font-size:11px;color:#94a3b8;margin-top:3px;line-height:1.5}
+.learning-report-current-level{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 20px;border-radius:10px;background:linear-gradient(135deg,#ede9fe,#faf5ff);border:1px solid #c4b5fd}.learning-report-current-level .level-name{font-size:25px;font-weight:700;color:#6d28d9}.learning-report-current-level .level-time{font-size:12px;color:#64748b;margin-top:5px}
+.learning-report-chart-card:nth-child(2) .learning-report-donut{--donut-color:#8b5cf6}.learning-report-chart-card:nth-child(3) .learning-report-donut{--donut-color:#10b981}.learning-report-chart-card:nth-child(4) .learning-report-donut{--donut-color:#f59e0b}.learning-report-chart-card:nth-child(2) .learning-report-bar-col i{background:linear-gradient(180deg,#c4b5fd,#7c3aed)}.learning-report-chart-card:nth-child(3) .learning-report-bar-col i{background:linear-gradient(180deg,#6ee7b7,#059669)}.learning-report-chart-card:nth-child(4) .learning-report-bar-col i{background:linear-gradient(180deg,#fcd34d,#d97706)}
+.learning-report-rank-row:nth-child(2) .track i{background:linear-gradient(90deg,#c4b5fd,#7c3aed)}.learning-report-rank-row:nth-child(3) .track i{background:linear-gradient(90deg,#6ee7b7,#059669)}.learning-report-rank-row:nth-child(4) .track i{background:linear-gradient(90deg,#fcd34d,#d97706)}.learning-report-rank-row:nth-child(5) .track i{background:linear-gradient(90deg,#fda4af,#e11d48)}
+.learning-report-donut{background:conic-gradient(var(--donut-color,#2563eb) var(--rate),#e2e8f0 0)}.learning-report-donut-value{color:var(--donut-color,#1d4ed8)}
+.learning-report-foot{padding:12px 20px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px;flex:0 0 auto}
+@media(max-width:800px){.learning-report-overlay{padding:8px}.learning-report-modal{max-height:calc(100vh - 16px)}.learning-report-sheet{padding:20px 16px}.learning-report-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.learning-report-cover{display:block}.learning-report-cover-meta{text-align:left;margin-top:10px}.learning-report-table{min-width:760px}.learning-report-body{overflow-x:auto}.learning-report-selector{margin:18px auto;padding:20px 16px}.learning-report-selector-grid,.learning-report-analysis-grid,.learning-report-chart-grid{grid-template-columns:1fr}.learning-report-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{body.learning-report-printing>*:not(#studentLearningReportModal){display:none!important}body.learning-report-printing #studentLearningReportModal{display:flex!important;position:static;background:#fff;padding:0;overflow:visible}body.learning-report-printing .learning-report-modal{max-width:none;max-height:none;box-shadow:none;border-radius:0;overflow:visible}body.learning-report-printing .learning-report-head,body.learning-report-printing .learning-report-foot{display:none!important}body.learning-report-printing .learning-report-body{overflow:visible;padding:0;background:#fff}body.learning-report-printing .learning-report-sheet{box-shadow:none;max-width:none;padding:8mm 10mm;-webkit-print-color-adjust:exact;print-color-adjust:exact}body.learning-report-printing .learning-report-table{font-size:10px}}
 </style>
 <style>
 /* ========== 英语阅读练习 ========== */
@@ -2263,6 +2319,37 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
 @media (max-width:900px){.ery-filter-actions{margin-left:0}.ery-detail-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.ery-options{grid-template-columns:1fr}}
 @media (max-width:600px){.ery-filter-row,.ery-filter-item{align-items:stretch}.ery-filter-item{width:100%;flex-wrap:wrap}.ery-filter-item select,.ery-filter-item .ery-search{width:100%;flex:1}.ery-detail-summary{grid-template-columns:1fr}.ery-overlay{padding:12px}.ery-modal{max-height:calc(100vh - 24px)}}
+
+/* ========== 课堂答题 ========== */
+.classroom-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.classroom-page-head h2{margin:0 0 5px;font-size:22px;color:var(--text)}
+.classroom-page-head p{margin:0;color:var(--text-muted);font-size:13px}
+.classroom-console-nav{display:flex;align-items:center;gap:12px;margin-bottom:14px}.classroom-console-nav .back{color:var(--text-secondary);font-size:13px}.classroom-console-nav .back:hover{color:var(--primary)}
+.classroom-code{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:#eff6ff;color:var(--primary);font-size:16px;font-weight:700;letter-spacing:2px}
+.classroom-code small{font-size:11px;letter-spacing:0;font-weight:500;color:#60a5fa}
+.classroom-status{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.classroom-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.classroom-status.active{background:#ecfdf5;color:#059669}.classroom-status.pending{background:#fff7ed;color:#ea580c}.classroom-status.ended{background:#f1f5f9;color:#64748b}
+.classroom-layout{display:grid;grid-template-columns:minmax(360px,.9fr) minmax(500px,1.4fr);gap:16px;align-items:start}
+.classroom-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+.classroom-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--border)}
+.classroom-card-head h3{margin:0;font-size:15px;color:var(--text)}
+.classroom-card-head .sub{font-size:12px;color:var(--text-muted);font-weight:400;margin-left:6px}
+.classroom-table-wrap{overflow-x:auto}.classroom-table{width:100%;border-collapse:collapse;font-size:12px}.classroom-table th{padding:11px 12px;text-align:left;color:var(--text-muted);font-weight:600;background:#f8fafc;white-space:nowrap}.classroom-table td{padding:13px 12px;border-top:1px solid #f1f5f9;color:var(--text-secondary);vertical-align:middle}.classroom-table tr.selected{background:#eff6ff}.classroom-table tr:hover{background:#f8fbff}.classroom-table .name{color:var(--text);font-weight:600;min-width:150px}.classroom-table .time{white-space:nowrap;line-height:1.6}.classroom-table .actions{white-space:nowrap}
+.classroom-empty{padding:48px 20px;text-align:center;color:var(--text-muted);font-size:13px}
+.classroom-console{min-height:660px;flex-shrink:0}.classroom-console-body{padding:16px 18px}.classroom-console-top{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px;background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid #dbeafe;border-radius:9px;margin-bottom:16px}.classroom-console-title{min-width:0}.classroom-console-title h3{margin:0 0 6px;font-size:17px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.classroom-console-title p{margin:0;font-size:12px;color:var(--text-muted)}.classroom-console-code{text-align:right;flex-shrink:0}.classroom-console-code .label{display:block;font-size:11px;color:var(--text-muted);margin-bottom:4px}.classroom-console-code .code{font-size:26px;line-height:1;color:var(--primary);font-weight:800;letter-spacing:5px}
+.classroom-section{border:1px solid var(--border);border-radius:9px;margin-bottom:14px;overflow:hidden}.classroom-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;background:#f8fafc;border-bottom:1px solid var(--border)}.classroom-section-head h4{margin:0;font-size:13px;color:var(--text)}.classroom-section-head .hint{font-size:11px;color:var(--text-muted);font-weight:400}.classroom-section-body{padding:12px 13px}.classroom-question-list{display:flex;flex-direction:column;gap:8px}.classroom-question-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--border);border-radius:7px;background:#fff}.classroom-question-item.pushed{border-color:#86efac;background:#f0fdf4}.classroom-question-index{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#dbeafe;color:var(--primary);font-size:11px;font-weight:700;flex-shrink:0}.classroom-question-main{flex:1;min-width:0}.classroom-question-title{font-size:13px;line-height:1.6;color:var(--text);font-weight:500}.classroom-question-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:11px;color:var(--text-muted)}.classroom-question-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}.classroom-question-actions .btn{font-size:11px;padding:5px 9px}.classroom-pushed-tag{padding:3px 7px;border-radius:10px;background:#dcfce7;color:#15803d;font-size:11px;font-weight:600;white-space:nowrap}
+.classroom-response-table{width:100%;border-collapse:collapse;font-size:12px}.classroom-response-table th{padding:8px 10px;text-align:left;color:var(--text-muted);font-weight:600;background:#f8fafc}.classroom-response-table td{padding:9px 10px;border-top:1px solid #f1f5f9;color:var(--text-secondary)}.classroom-answer-status{display:inline-flex;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600}.classroom-answer-status.done{background:#dcfce7;color:#15803d}.classroom-answer-status.working{background:#dbeafe;color:#1d4ed8}.classroom-answer-status.waiting{background:#f1f5f9;color:#64748b}
+.classroom-tablet-preview{display:flex;align-items:center;gap:12px;padding:12px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px}.classroom-tablet-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#e0e7ff;color:#4338ca;font-size:20px;flex-shrink:0}.classroom-tablet-copy{flex:1;min-width:0}.classroom-tablet-copy strong{display:block;font-size:12px;color:var(--text);margin-bottom:3px}.classroom-tablet-copy span{display:block;font-size:11px;color:var(--text-muted)}.classroom-join-form{display:flex;gap:6px;flex-shrink:0}.classroom-join-form input{width:100px;padding:7px 9px;border:1px solid var(--border);border-radius:6px;font-size:12px;text-align:center;letter-spacing:2px}.classroom-join-form input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.classroom-tablet-question{padding:14px;background:#f8fbff;border:1px solid #dbeafe;border-radius:8px}.classroom-tablet-question .tablet-label{display:flex;align-items:center;gap:6px;margin-bottom:8px;color:var(--primary);font-size:12px;font-weight:600}.classroom-tablet-question .tablet-stem{font-size:13px;line-height:1.65;color:var(--text);font-weight:600;margin-bottom:10px}.classroom-tablet-options{display:grid;grid-template-columns:1fr 1fr;gap:7px}.classroom-tablet-options button{padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text-secondary);font-size:12px;text-align:left;cursor:pointer;transition:all var(--transition)}.classroom-tablet-options button:hover{border-color:var(--primary);background:#eff6ff;color:var(--primary)}
+.classroom-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:1300;align-items:center;justify-content:center;padding:20px}.classroom-overlay.show{display:flex}.classroom-modal{width:100%;max-width:620px;background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(15,23,42,.2);overflow:hidden;animation:modalIn .25s ease}.classroom-modal.wide{max-width:850px}.classroom-modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--border)}.classroom-modal-head h3{margin:0;font-size:17px;color:var(--text)}.classroom-modal-body{padding:20px 22px;max-height:65vh;overflow-y:auto}.classroom-modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--border)}.classroom-modal-tip{padding:10px 12px;margin-bottom:15px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:7px;color:#1d4ed8;font-size:12px;line-height:1.6}.classroom-question-bank{display:grid;grid-template-columns:1fr 1fr;gap:10px}.classroom-bank-item{display:flex;align-items:flex-start;gap:9px;padding:11px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all var(--transition)}.classroom-bank-item:hover{border-color:#93c5fd;background:#f8fbff}.classroom-bank-item input{margin-top:3px;accent-color:var(--primary)}.classroom-bank-item .bank-copy{flex:1;min-width:0}.classroom-bank-item .bank-copy strong{display:block;font-size:12px;color:var(--text);line-height:1.55}.classroom-bank-item .bank-copy span{display:block;margin-top:4px;font-size:11px;color:var(--text-muted)}.classroom-new-code{font-size:24px;color:var(--primary);font-weight:800;letter-spacing:4px;text-align:center;padding:9px 0 15px}.classroom-time-note{font-size:11px;color:var(--text-muted);margin-top:4px}
+.classroom-question-item{display:block;padding:0;overflow:hidden}.classroom-question-row{display:flex;align-items:flex-start;gap:10px;padding:11px 12px}.classroom-entry-count{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 9px;border-radius:12px;background:#e0f2fe;color:#0369a1;font-size:12px;font-weight:600}.classroom-inline-response{border-top:1px solid #bbf7d0;background:#fff}.classroom-inline-response-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:#f0fdf4;color:#166534;font-size:12px;font-weight:600;text-align:left}.classroom-inline-response-toggle:hover{background:#dcfce7}.classroom-inline-response-toggle .side{display:flex;align-items:center;gap:10px;font-weight:500}.classroom-inline-response-toggle .arrow{font-size:10px;transition:transform var(--transition)}.classroom-inline-response.expanded .arrow{transform:rotate(180deg)}.classroom-inline-response-body{display:none;padding:12px;border-top:1px solid #dcfce7}.classroom-inline-response.expanded .classroom-inline-response-body{display:block}.classroom-resend-btn{padding:4px 8px;border:1px solid #86efac;border-radius:5px;background:#fff;color:#15803d;font-size:11px;cursor:pointer}.classroom-resend-btn:hover{background:#dcfce7}
+.classroom-delete-btn{padding:4px 8px;border:1px solid #fecaca;border-radius:5px;background:#fff;color:#dc2626;font-size:11px;cursor:pointer}.classroom-delete-btn:hover{background:#fef2f2}.classroom-delete-btn:disabled,.classroom-resend-btn:disabled{opacity:.45;cursor:not-allowed}.classroom-code-recycled{background:#f1f5f9;color:#94a3b8;letter-spacing:0;font-size:13px;font-weight:500}.classroom-response-stats{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:10px;border-top:1px dashed #dbe4f0}.classroom-response-stats .stats-title{font-size:12px;color:#64748b;margin-right:2px}.classroom-response-stat{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:12px;background:#f1f5f9;color:#475569;font-size:11px}.classroom-response-stat strong{color:#1e40af}.classroom-response-stat em{font-style:normal;color:#64748b}
+
+/* 添加题目弹窗：题库筛选 + 知识点树 + 题目卡片 */
+.classroom-picker-modal{max-width:1060px!important;height:min(86vh,780px);display:flex;flex-direction:column}.classroom-picker-modal .classroom-modal-body{max-height:none;flex:1;min-height:0;padding:12px;background:#eef1f5;display:flex;flex-direction:column;gap:12px}.classroom-picker-modal .classroom-modal-foot{justify-content:space-between}.classroom-picker-selected{font-size:13px;color:var(--text-secondary);align-self:center}.classroom-picker-panel{background:#fff;border-radius:8px;border:1px solid #e2e8f0;padding:14px 16px}.classroom-picker-filter-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px}.classroom-picker-filter-row:last-of-type{margin-bottom:10px}.classroom-picker-filter{display:flex;align-items:center;gap:6px}.classroom-picker-filter label{font-size:12px;color:#475569;white-space:nowrap}.classroom-picker-filter select,.classroom-picker-filter input{height:32px;border:1px solid #d5dde8;border-radius:4px;background:#fff;color:#334155;font-size:12px;padding:5px 28px 5px 9px;outline:none}.classroom-picker-filter select:focus,.classroom-picker-filter input:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(37,99,235,.08)}.classroom-picker-filter input{width:165px;padding-right:9px}.classroom-knowledge-tree{height:142px;overflow-y:auto;border:1px solid #dbe2ea;border-radius:5px;padding:7px 12px}.classroom-knowledge-node{display:flex;align-items:center;gap:7px;height:27px;font-size:12px;color:#334155}.classroom-knowledge-node .tree-arrow{width:12px;color:#b1bccb;font-size:9px}.classroom-knowledge-node input{accent-color:var(--primary)}.classroom-picker-result{flex:1;min-height:0;overflow-y:auto;padding-right:3px;display:flex;flex-direction:column;gap:10px}.classroom-picker-empty{padding:55px 20px;text-align:center;background:#fff;border-radius:8px;border:1px solid var(--border);color:var(--text-muted);font-size:13px}.classroom-picker-card{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;box-shadow:0 1px 2px rgba(15,23,42,.03);transition:border var(--transition)}.classroom-picker-card:hover{border-color:#93c5fd}.classroom-picker-card.selected{border-color:#60a5fa;background:#f8fbff}.classroom-picker-card-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}.classroom-picker-card-head input{accent-color:var(--primary);margin-right:2px}.classroom-picker-tag{display:inline-flex;padding:2px 6px;border-radius:3px;font-size:11px}.classroom-picker-tag.id{background:#fff1f2;color:#f43f5e}.classroom-picker-tag.type{background:#fff7ed;color:#ea580c}.classroom-picker-tag.knowledge{background:#ecfdf5;color:#16a34a}.classroom-picker-tag.level{background:#f1f5f9;color:#64748b}.classroom-picker-stem{font-size:13px;line-height:1.7;color:#0f172a}.classroom-picker-card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:9px}.classroom-picker-expand{width:26px;height:23px;border:1px solid #d5dde8;border-radius:4px;background:#fff;color:#94a3b8;font-size:11px}.classroom-picker-detail{display:none;margin-top:10px;padding:10px 12px;border-top:1px dashed #dbe2ea;background:#f8fafc;font-size:12px;color:#475569;line-height:1.65}.classroom-picker-card.expanded .classroom-picker-detail{display:block}.classroom-picker-options{display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;margin-bottom:7px}.classroom-picker-detail strong{color:#0f172a}
+@media (max-width:1100px){.classroom-layout{grid-template-columns:1fr}.classroom-console{min-height:0}}
+@media (max-width:680px){.classroom-console-top{align-items:flex-start;flex-direction:column}.classroom-console-code{text-align:left}.classroom-question-bank{grid-template-columns:1fr}.classroom-tablet-preview{align-items:flex-start;flex-direction:column}.classroom-join-form{width:100%}.classroom-join-form input{flex:1;width:auto}}
 </style>
 </head>
 <body>
@@ -2323,6 +2410,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         <a class="nav-sub-item" data-page="kebiao-tongji" href="javascript:void(0)">
           <span class="sub-dot"></span>课表统计
         </a>
+        <a class="nav-sub-item" data-page="ketang-dati" href="javascript:void(0)">
+          <span class="sub-dot"></span>课堂答题
+        </a>
       </div>
 
       <!-- 3. 公共资料 -->
@@ -2373,6 +2463,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
         </a>
         <a class="nav-sub-item" data-page="cihui-pinggu" href="javascript:void(0)">
           <span class="sub-dot"></span>词汇评估
+        </a>
+        <a class="nav-sub-item" data-page="shuxue-shuiping-ceshi" href="javascript:void(0)">
+          <span class="sub-dot"></span>数学水平测试
         </a>
         <a class="nav-sub-item" data-page="danci-beisong" href="javascript:void(0)">
           <span class="sub-dot"></span>单词背诵
@@ -2723,6 +2816,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           <div class="form-group"><label>报名日期 <span class="required">*</span></label><input class="form-control" type="date" id="createStuRegDate"></div>
           <div class="form-group"><label>到期时间 <span class="required">*</span></label><input class="form-control" type="date" id="createStuEndDate"></div>
         </div>
+        <div class="form-section" id="createTrialPeriodSection" style="display:none;margin:12px 0 0;padding:12px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px">
+          <div class="form-section-title" style="color:#1d4ed8">试用期</div>
+          <div class="form-grid">
+            <div class="form-group"><label>试用开始日期</label><input class="form-control" type="date" id="createTrialStartDate" readonly></div>
+            <div class="form-group"><label>试用结束日期</label><input class="form-control" type="date" id="createTrialEndDate" readonly></div>
+          </div>
+        </div>
         <div class="form-group"><label>报名科目 <span class="required">*</span></label>
           <div style="display:flex;gap:16px;padding-top:6px">
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" id="createSubjMath" onchange="toggleCreateSubSubjects('math')"> 数学</label>
@@ -2817,7 +2917,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('studentCreateModal')">取消</button>
       <div style="flex:1;text-align:right;line-height:1.5" id="createFeeDisplay">支付费用：<span style="font-size:20px;font-weight:700;color:var(--primary)">0</span> 元<div style="font-size:11px;color:var(--text-muted)">若审核被驳回，费用将全额退回</div></div>
-      <button class="btn btn-primary" onclick="submitCreateStudent()">提交</button>
+      <button class="btn btn-primary" id="createStudentSubmitBtn" onclick="submitCreateStudent()">提交</button>
     </div>
   </div>
 </div>
@@ -3036,6 +3136,63 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   </div>
 </div>
 
+<!-- ========== 课堂答题 - 创建课堂 Modal ========== -->
+<div class="classroom-overlay" id="classroomCreateModal" onclick="if(event.target===this)window._closeClassroomModal('classroomCreateModal')">
+  <div class="classroom-modal" role="dialog" aria-modal="true" aria-labelledby="classroomCreateTitle">
+    <div class="classroom-modal-head">
+      <h3 id="classroomCreateTitle">创建课堂</h3>
+      <button class="modal-close" onclick="window._closeClassroomModal('classroomCreateModal')">&#10005;</button>
+    </div>
+    <div class="classroom-modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>课表名称 <span class="required">*</span></label><input class="form-control" id="classroomNameInput" placeholder="请输入课表名称"></div>
+        <div class="form-group"><label>学科 <span class="required">*</span></label><select class="form-control" id="classroomSubjectInput"><option value="数学" selected>数学</option></select></div>
+        <div class="form-group"><label>开始时间 <span class="required">*</span></label><input class="form-control" type="datetime-local" id="classroomStartInput"></div>
+        <div class="form-group"><label>结束时间 <span class="required">*</span></label><input class="form-control" type="datetime-local" id="classroomEndInput"></div>
+      </div>
+      <div class="classroom-time-note">结束时间后课堂自动结束，无法继续推送题目，学员也无法使用课堂码进入。</div>
+    </div>
+    <div class="classroom-modal-foot">
+      <button class="btn btn-outline" onclick="window._closeClassroomModal('classroomCreateModal')">取消</button>
+      <button class="btn btn-primary" onclick="window._submitClassroomCreate()">创建课堂并生成课堂码</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 课堂答题 - 选择题目 Modal ========== -->
+<div class="classroom-overlay" id="classroomQuestionModal" onclick="if(event.target===this)window._closeClassroomModal('classroomQuestionModal')">
+  <div class="classroom-modal wide classroom-picker-modal" role="dialog" aria-modal="true" aria-labelledby="classroomQuestionTitle">
+    <div class="classroom-modal-head">
+      <h3 id="classroomQuestionTitle">选择课堂题目</h3>
+      <button class="modal-close" onclick="window._closeClassroomModal('classroomQuestionModal')">&#10005;</button>
+    </div>
+    <div class="classroom-modal-body" id="classroomQuestionModalBody"></div>
+    <div class="classroom-modal-foot">
+      <span class="classroom-picker-selected" id="classroomPickerSelectedCount">已选择 0 道题</span>
+      <div style="display:flex;gap:8px"><button class="btn btn-outline" onclick="window._closeClassroomModal('classroomQuestionModal')">取消</button>
+      <button class="btn btn-primary" onclick="window._confirmClassroomQuestions()">加入已选题目</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 学员学情报告 Modal ========== -->
+<div class="learning-report-overlay" id="studentLearningReportModal" onclick="if(event.target===this)window._closeStudentLearningReport()">
+  <div class="learning-report-modal" role="dialog" aria-modal="true" aria-labelledby="studentLearningReportTitle">
+    <div class="learning-report-head">
+      <h3 id="studentLearningReportTitle">学员学情报告</h3>
+      <div class="learning-report-head-actions">
+        <button class="btn btn-primary btn-xs" id="studentLearningReportTopPrint" disabled onclick="window._printStudentLearningReport()">打印报告</button>
+        <button class="modal-close" onclick="window._closeStudentLearningReport()">&#10005;</button>
+      </div>
+    </div>
+    <div class="learning-report-body" id="studentLearningReportBody"></div>
+    <div class="learning-report-foot">
+      <button class="btn btn-outline" onclick="window._closeStudentLearningReport()">关闭</button>
+      <button class="btn btn-primary" id="studentLearningReportFooterPrint" disabled onclick="window._printStudentLearningReport()">打印报告</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   // ==================== Mock Data - 班级数据 ====================
@@ -3050,6 +3207,43 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     { name: '2027届考研英语三班', district: '丰台学区', studentCount: 0,  startDate: '2026-10-01', endDate: '2027-10-01', status: 'not-started' },
     { name: '2025届考研英语一班', district: '朝阳学区', studentCount: 45, startDate: '2025-03-01', endDate: '2026-03-01', status: 'ended' }
   ];
+
+  // ==================== Mock Data - 课堂答题 ====================
+  var classroomQuestionBank = [
+    { id:'KQ001', subject:'英语', subSubject:'阅读', courseType:'基础', type:'单选题', questionType:'考研真题', source:'公共题库', knowledge:'阅读理解', stem:'According to the passage, what is the main reason for the change?', options:['A. New technology','B. Social demand','C. Economic pressure','D. Natural conditions'], answer:'B', score:5, analysis:'结合文章第二段和第三段的因果关系，可判断社会需求是促成变化的主要原因。' },
+    { id:'KQ002', subject:'英语', subSubject:'阅读', courseType:'强化', type:'解答题', questionType:'提高题', source:'校区题库', knowledge:'长难句分析', stem:'Please explain the meaning of the underlined sentence in your own words.', options:[], answer:'强调该现象会随着时间及社会环境发生变化。', score:5, analysis:'关注句中的转折和时间表达，完整说明主干含义与逻辑关系。' },
+    { id:'KQ003', subject:'英语', subSubject:'阅读', courseType:'基础', type:'单选题', questionType:'基础题', source:'公共题库', knowledge:'词义猜测', stem:'The word “significant” in paragraph 4 is closest in meaning to:', options:['A. important','B. temporary','C. similar','D. hidden'], answer:'A', score:5, analysis:'根据上下文，significant 表示“重要的、显著的”，与 important 含义最接近。' },
+    { id:'KQ004', subject:'英语', subSubject:'翻译', courseType:'强化', type:'解答题', questionType:'考研真题', source:'我的题库', knowledge:'英译汉', stem:'Translate the following sentence: Learning is a lifelong process.', options:[], answer:'学习是一个终身的过程。', score:10, analysis:'lifelong 意为“终身的”，process 意为“过程”，注意保持句子主干完整。' },
+    { id:'KQ008', subject:'英语', subSubject:'语法', courseType:'基础', type:'填空题', questionType:'基础题', source:'公共题库', knowledge:'谓语动词', stem:'Fill in the blank: If it ____ tomorrow, we will stay at home.', options:[], answer:'rains', score:5, analysis:'if 引导的条件状语从句使用一般现在时表示将来。' },
+    { id:'KQ005', subject:'数学', subSubject:'高数', courseType:'基础', type:'单选题', questionType:'基础题', source:'公共题库', knowledge:'函数、极限与连续', stem:'若 f(x)=x²-2x+1，则 f(3) 的值为：', options:['A. 2','B. 3','C. 4','D. 5'], answer:'C', score:5, analysis:'将 x=3 代入，f(3)=9-6+1=4。' },
+    { id:'KQ006', subject:'数学', subSubject:'线代', courseType:'强化', type:'单选题', questionType:'提高题', source:'校区题库', knowledge:'矩阵', stem:'下列关于矩阵秩的说法正确的是：', options:['A. 初等行变换会改变矩阵的秩','B. 零矩阵的秩等于1','C. 可逆矩阵的秩等于其阶数','D. 矩阵秩可以大于行数'], answer:'C', score:5, analysis:'可逆矩阵满秩，秩等于矩阵的阶数；初等行变换不改变秩。' },
+    { id:'KQ007', subject:'数学', subSubject:'高数', courseType:'基础', type:'解答题', questionType:'考研真题', source:'公共题库', knowledge:'函数、极限与连续', stem:'求极限：lim(x→0) sinx/x，并写出主要推导过程。', options:[], answer:'1', score:10, analysis:'这是基本重要极限 lim(x→0) sinx/x=1。' },
+    { id:'KQ009', subject:'数学', subSubject:'高数', courseType:'基础', type:'填空题', questionType:'基础题', source:'我的题库', knowledge:'一元函数微分学', stem:'函数 f(x)=x³ 在 x=2 处的导数为 ____。', options:[], answer:'12', score:5, analysis:'f′(x)=3x²，因此 f′(2)=12。' }
+  ];
+  var classroomData = [
+    { id:'KT001', name:'数学高数互动课', subject:'数学', startTime:'2026-09-20T09:00', endTime:'2026-09-20T23:59', code:'526813',
+      selectedQuestionIds:['KQ005','KQ006','KQ007'], pushedQuestionIds:['KQ005'], pushTimes:{KQ005:'11:49:09'},
+      students:[
+        { id:'2025001', name:'张三', joined:true, responses:{KQ005:{answer:'A',selfEval:'',status:'已提交',submittedAt:'11:49:26'}} },
+        { id:'2025002', name:'李四', joined:true, responses:{KQ005:{answer:'B',selfEval:'',status:'已提交',submittedAt:'11:49:24'}} },
+        { id:'2025004', name:'赵六', joined:true, responses:{KQ005:{answer:'A',selfEval:'',status:'已提交',submittedAt:'11:49:25'}} },
+        { id:'2025006', name:'周八', joined:true, responses:{KQ005:{answer:'A',selfEval:'',status:'已提交',submittedAt:'11:49:25'}} }
+      ] },
+    { id:'KT002', name:'数学高数基础巩固课', subject:'数学', startTime:'2026-09-21T14:00', endTime:'2026-09-21T17:00', code:'841207',
+      selectedQuestionIds:['KQ005','KQ006','KQ009'], pushedQuestionIds:[], pushTimes:{},
+      students:[{ id:'2025001', name:'张三', joined:false, responses:{} },{ id:'2025003', name:'王五', joined:false, responses:{} }] },
+    { id:'KT003', name:'数学一轮复习答疑课', subject:'数学', startTime:'2026-09-19T09:00', endTime:'2026-09-19T12:00', code:'309455',
+      selectedQuestionIds:['KQ007','KQ009'], pushedQuestionIds:['KQ007','KQ009'], pushTimes:{KQ007:'10:18:04',KQ009:'10:20:12'},
+      students:[{ id:'2025001', name:'张三', joined:true, responses:{KQ007:{answer:'-',selfEval:'对',status:'已提交',submittedAt:'10:18:04'},KQ009:{answer:'-',selfEval:'半对',status:'已提交',submittedAt:'10:20:33'}} },{ id:'2025004', name:'赵六', joined:true, responses:{KQ007:{answer:'-',selfEval:'错',status:'已提交',submittedAt:'10:19:33'},KQ009:{answer:'-',selfEval:'对',status:'已提交',submittedAt:'10:21:02'}} }] }
+  ];
+  var currentClassroomId = 'KT001';
+  var classroomQuestionSelection = [];
+  var classroomJoinedId = null;
+  var classroomListFilter = 'active';
+  var classroomView = 'list';
+  var classroomResponseExpanded = { 'KT001_KQ005': true, 'KT003_KQ007': true, 'KT003_KQ009': true };
+  var classroomQuestionFilters = { subSubject:'', courseType:'', type:'', questionType:'', source:'', keyword:'', knowledge:[] };
+  var classroomQuestionDetailOpen = {};
 
   // ==================== Mock Data - 课表统计数据 ====================
   var kebiaoTongjiData = [
@@ -3114,7 +3308,14 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       subjects:'英语', levels:'英一：45→60', mathCur:'', mathTarget:'', engCur:'<50', engTarget:'60-69', mathBaoming:'数一', engBaoming:'英一', hasMath:false, hasEnglish:true,
       gender:'男', email:'liner@example.com', idCard:'500101200001010789', uni:'西南大学', major:'历史学', targetUni:'南开大学', targetMajor:'中国史', targetTier:'985', category:'2026 - 历史学[06]-各学科专业',
       jiaowuReview:{ status:'审核中', reviewer:'', time:'' },
-      caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } }
+      caiwuReview:{ status:'通过', reviewer:'王财务', time:'2026-07-26 16:00:00' } },
+    // ---- 试用学员演示数据 ----
+    { id:'2025011', name:'试用学员甲', phone:'189****9011', district:'海淀学区', stuClass:'2026届考研英语一班', regDate:'2026-09-10', endDate:'2026-09-24', status:'试用中', acctEnabled:true, isTrialStudent:true, trialStartDate:'2026-09-10', trialEndDate:'2026-09-24',
+      subjects:'英语', levels:'英一：60→75', mathCur:'', mathTarget:'', mathBaoming:'数一', engCur:'60-69', engTarget:'70-79', engBaoming:'英一', hasMath:false, hasEnglish:true,
+      gender:'女', email:'trialjia@example.com', idCard:'110101200101010111', uni:'北京师范大学', major:'英语', targetUni:'北京外国语大学', targetMajor:'翻译', targetTier:'211', category:'2026 - 文学[05]-各学科专业' },
+    { id:'2025012', name:'试用学员乙', phone:'189****9012', district:'朝阳学区', stuClass:'2026届考研数学二班', regDate:'2026-08-15', endDate:'2026-08-29', status:'试用结束', acctEnabled:false, isTrialStudent:true, trialStartDate:'2026-08-15', trialEndDate:'2026-08-29',
+      subjects:'数学、英语', levels:'数二：70→110  英二：65→80', mathCur:'60-79', mathTarget:'100-119', mathBaoming:'数二', engCur:'60-69', engTarget:'80-89', engBaoming:'英二', hasMath:true, hasEnglish:true,
+      gender:'男', email:'trialyi@example.com', idCard:'110101200202020222', uni:'北京理工大学', major:'机械工程', targetUni:'同济大学', targetMajor:'机械工程', targetTier:'985', category:'2026 - 工学[08]-工学照顾专业' }
   ];
 
   // ==================== Mock Data - 自动推课试卷数据 ====================
@@ -3171,6 +3372,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     { id:'10',studentName:'林二', className:'2026届考研英语一班', level:'高', score:85, testTime:'2026-07-16 11:15:27' },
     { id:'11',studentName:'黄三', className:'2026届考研政治二班', level:'中', score:48, testTime:'2026-07-15 15:40:12' },
     { id:'12',studentName:'刘四', className:'2026届考研英语二班', level:'低', score:22, testTime:'2026-07-15 10:08:59' }
+  ];
+
+  // ==================== Mock Data - 数学水平测试 ====================
+  var shuxueShuipingCeshiData = [
+    { id:'MS001', studentName:'张三', className:'25考研数学一班', level:'基础层', score:96, testTime:'2026-07-20 14:30:15' },
+    { id:'MS002', studentName:'张三', className:'25考研数学一班', level:'巩固层', score:108, testTime:'2026-08-18 19:12:40' },
+    { id:'MS003', studentName:'张三', className:'25考研数学一班', level:'拓展层', score:112, testTime:'2026-09-26 16:08:22' },
+    { id:'MS004', studentName:'李四', className:'25考研数学一班', level:'巩固层', score:101, testTime:'2026-08-20 10:15:22' },
+    { id:'MS005', studentName:'王五', className:'25考研数学二班', level:'基础层', score:88, testTime:'2026-08-19 09:25:10' },
+    { id:'MS006', studentName:'赵六', className:'25考研英语一班', level:'基础层', score:82, testTime:'2026-09-12 11:30:08' },
+    { id:'MS007', studentName:'周八', className:'25考研数学二班', level:'巩固层', score:104, testTime:'2026-09-15 15:40:12' }
   ];
 
   // ==================== Mock Data - 单词背诵数据 ====================
@@ -3438,11 +3650,17 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   var currentStudentFilter = 'all';
   var currentClassFilter = 'all';
   var editingStudentId = null;
+  var isTrialStudentCreation = false;
+  var activatingTrialStudentId = null;
 
   // 词汇评估筛选状态
   var cihuiPingguKeyword = '';
   var cihuiPingguClassFilter = '';
   var cihuiPingguLevelFilter = '';
+  // 数学水平测试筛选状态
+  var shuxueShuipingKeyword = '';
+  var shuxueShuipingClassFilter = '';
+  var shuxueShuipingLevelFilter = '';
 
   // ==================== Status Config ====================
   var classStatusConfig = {
@@ -3468,6 +3686,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'kebiao-fuzhi':     { title: '课表复制', group: '课表管理' },
     'zidong-tuike':     { title: '自动推课', group: '课表管理' },
     'kebiao-tongji':    { title: '课表统计', group: '课表管理' },
+    'ketang-dati':      { title: '课堂答题', group: '课表管理' },
     'gonggong-lianCe':  { title: '公共练测', group: '公共资料' },
     'gonggong-zuoye':   { title: '公共作业', group: '公共资料' },
     'gonggong-wendang': { title: '公共文档', group: '公共资料' },
@@ -3479,6 +3698,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     'tixing-mingxi':    { title: '提醒明细', group: '学情管理' },
     'kanke-mingxi':     { title: '看课明细', group: '学情管理' },
     'cihui-pinggu':     { title: '词汇评估', group: '学情管理' },
+    'shuxue-shuiping-ceshi': { title: '数学水平测试', group: '学情管理' },
     'danci-beisong':    { title: '单词背诵', group: '学情管理' },
     'ciju-beisong':     { title: '词句背诵', group: '学情管理' },
     'danci-xiaoce':     { title: '单词小测', group: '学情管理' },
@@ -3624,6 +3844,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'kebiao-fuzhi') renderKebiaoFuzhiPage();
     else if(pageKey === 'zidong-tuike') renderZidongTuikePage();
     else if(pageKey === 'kebiao-tongji') renderKebiaoTongjiPage();
+    else if(pageKey === 'ketang-dati') renderKetangDatiPage();
     else if(pageKey === 'gonggong-lianCe') renderLianCePage();
     else if(pageKey === 'gonggong-zuoye') renderZuoYePage();
     else if(pageKey === 'gonggong-wendang') renderWenDangPage();
@@ -3635,6 +3856,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     else if(pageKey === 'tixing-mingxi') renderTiXingMingxiPage();
     else if(pageKey === 'kanke-mingxi') renderKankeMingxiPage();
     else if(pageKey === 'cihui-pinggu') renderCihuiPingguPage();
+    else if(pageKey === 'shuxue-shuiping-ceshi') renderShuxueShuipingCeshiPage();
     else if(pageKey === 'danci-beisong') renderDanciBeisongPage();
     else if(pageKey === 'ciju-beisong') renderCijuBeisongPage();
     else if(pageKey === 'danci-xiaoce') renderDanciXiaocePage();
@@ -3725,6 +3947,25 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     return '-';
   }
 
+  function getLocalDateString(date){
+    var d = date || new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  }
+
+  function getTrialEndDate(startDate){
+    var parts = String(startDate||'').split('-').map(Number);
+    var now = new Date();
+    var d = new Date(parts[0] || now.getFullYear(), (parts[1] || (now.getMonth()+1))-1, parts[2] || now.getDate());
+    d.setDate(d.getDate()+14);
+    return getLocalDateString(d);
+  }
+
+  function getTrialStatus(s){
+    if(!s || !s.isTrialStudent) return '';
+    var endDate = s.trialEndDate || s.endDate || '';
+    return endDate && getLocalDateString() <= endDate ? '试用中' : '试用结束';
+  }
+
   function getFilteredStudents(){
     var result = studentData.slice();
     // Always exclude 在读 and 已结课 statuses on 学员录入 page
@@ -3756,6 +3997,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   }
 
   function getStudentStatusHtml(s){
+    var trialStatus = getTrialStatus(s);
+    if(trialStatus==='试用中') return '<span class="status status-trial">试用中</span>';
+    if(trialStatus==='试用结束') return '<span class="status status-trial-ended">试用结束</span>';
     if(s.status==='在读') return '<span class="status status-active">在读</span>';
     if(s.status==='已结课') return '<span class="status status-completed">已结课</span>';
     if(s.status==='审核中') return '<span class="status status-reviewing">审核中</span>';
@@ -3801,7 +4045,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     classes.sort();
 
     var html = '<div class="page-header"><h2>学员录入</h2>';
-    html += '<div class="actions"><button class="btn btn-primary" onclick="window._openCreateStudent()">+ 新增学员</button></div>';
+    html += '<div class="actions"><button class="btn btn-outline" onclick="window._openTrialStudent()">+ 试用学员</button><button class="btn btn-primary" onclick="window._openCreateStudent()">+ 新增学员</button></div>';
     html += '</div><div class="card"><div class="card-body">';
 
     // Search bar
@@ -3878,7 +4122,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   function renderStudentInfoPage(){
     var result = studentData.slice();
     if(currentStudentInfoFilter && currentStudentInfoFilter!=='all'){
-      result = result.filter(function(s){ return s.status===currentStudentInfoFilter; });
+      result = result.filter(function(s){
+        if(currentStudentInfoFilter==='试用中' || currentStudentInfoFilter==='试用结束') return getTrialStatus(s)===currentStudentInfoFilter;
+        return s.status===currentStudentInfoFilter;
+      });
     }
     // Class filter
     var classFilter = document.getElementById('stuInfoClassFilter') ? document.getElementById('stuInfoClassFilter').value : '';
@@ -3937,6 +4184,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '<button class="student-tab'+ (currentStudentInfoFilter==='all'?' active':'') +'" data-tab="all" onclick="window._switchStudentInfoTab(\'all\',this)">全部</button>' +
       '<button class="student-tab'+ (currentStudentInfoFilter==='在读'?' active':'') +'" data-tab="在读" onclick="window._switchStudentInfoTab(\'在读\',this)">在读</button>' +
       '<button class="student-tab'+ (currentStudentInfoFilter==='已结课'?' active':'') +'" data-tab="已结课" onclick="window._switchStudentInfoTab(\'已结课\',this)">已结课</button>' +
+      '<button class="student-tab'+ (currentStudentInfoFilter==='试用中'?' active':'') +'" data-tab="试用中" onclick="window._switchStudentInfoTab(\'试用中\',this)">试用中</button>' +
+      '<button class="student-tab'+ (currentStudentInfoFilter==='试用结束'?' active':'') +'" data-tab="试用结束" onclick="window._switchStudentInfoTab(\'试用结束\',this)">试用结束</button>' +
     '</div>';
 
     // Table
@@ -3952,6 +4201,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       html += '<tr><td colspan="11" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的学员数据</td></tr>';
     } else {
       pageItems.forEach(function(s){
+        var trialStatus = getTrialStatus(s);
+        var openButton = '<button class="btn btn-primary btn-xs" onclick="window._openTrialActivation(\''+s.id+'\')">开通</button>';
+var regularActions = '<div class="action-wrap"><button class="btn btn-ghost btn-xs" onclick="window._openStudentDetail(\''+s.id+'\')">详情</button><button class="btn btn-ghost btn-xs" onclick="window._openStudentEdit(\''+s.id+'\')">编辑</button><button class="btn btn-ghost btn-xs" onclick="window._toggleActionDropdown(event,\''+s.id+'\')">更多 ▾</button><div class="action-dropdown" id="actionDrop_'+s.id+'"><button class="dropdown-item" onclick="window._openKebiaoRili(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">查看课表</button><button class="dropdown-item" onclick="window._openStudentLearningReport(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">学情报告</button><button class="dropdown-item" onclick="window._openAdjustReg(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整报名信息</button><button class="dropdown-item" onclick="window._openAdjustRecords(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整记录</button><button class="dropdown-item danger" onclick="window._resetStudentPwd();window._closeActionDropdown(\''+s.id+'\')">重置密码</button></div></div>';
+        var actionHtml = trialStatus==='试用结束' ? openButton : ((trialStatus==='试用中' ? openButton+' ' : '') + regularActions);
         html += '<tr data-id="'+s.id+'">' +
           '<td>'+s.id+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+s.stuClass+'</td>' +
           '<td class="subject-cell">'+buildSubjectHtml(s)+'</td>' +
@@ -3961,7 +4214,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
           '<td class="text-center">'+(s.status==='在读'
             ? '<label class="switch"><input type="checkbox"'+(s.acctEnabled?' checked':'')+' onchange="window._toggleStudentAcct(\''+s.id+'\',this.checked)"><span class="slider"></span></label>'
             : '<label class="switch disabled"><input type="checkbox"'+(s.acctEnabled?' checked':'')+' disabled><span class="slider"></span></label>')+'</td>' +
-          '<td class="action-cell"><div class="action-wrap"><button class="btn btn-ghost btn-xs" onclick="window._openStudentDetail(\''+s.id+'\')">详情</button><button class="btn btn-ghost btn-xs" onclick="window._openStudentEdit(\''+s.id+'\')">编辑</button><button class="btn btn-ghost btn-xs" onclick="window._toggleActionDropdown(event,\''+s.id+'\')">更多 ▾</button><div class="action-dropdown" id="actionDrop_'+s.id+'"><button class="dropdown-item" onclick="window._openKebiaoRili(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">查看课表</button><button class="dropdown-item" onclick="window._openAdjustReg(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整报名信息</button><button class="dropdown-item" onclick="window._openAdjustRecords(\''+s.id+'\');window._closeActionDropdown(\''+s.id+'\')">调整记录</button><button class="dropdown-item danger" onclick="window._resetStudentPwd();window._closeActionDropdown(\''+s.id+'\')">重置密码</button></div></div></td>' +
+          '<td class="action-cell">'+actionHtml+'</td>' +
         '</tr>';
       });
     }
@@ -4008,6 +4261,9 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   }
 
   function getStudentInfoStatusHtml(s){
+    var trialStatus = getTrialStatus(s);
+    if(trialStatus==='试用中') return '<span class="status status-trial">试用中</span>';
+    if(trialStatus==='试用结束') return '<span class="status status-trial-ended">试用结束</span>';
     if(s.status==='在读') return '<span class="status status-active">在读</span>';
     if(s.status==='已结课') return '<span class="status status-completed">已结课</span>';
     return '<span class="status status-active">在读</span>';
@@ -4034,7 +4290,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     // Replicate filter logic from renderStudentInfoPage
     var result = studentData.slice();
     if(currentStudentInfoFilter && currentStudentInfoFilter!=='all'){
-      result = result.filter(function(s){ return s.status===currentStudentInfoFilter; });
+      result = result.filter(function(s){
+        if(currentStudentInfoFilter==='试用中' || currentStudentInfoFilter==='试用结束') return getTrialStatus(s)===currentStudentInfoFilter;
+        return s.status===currentStudentInfoFilter;
+      });
     }
     var classFilter = document.getElementById('stuInfoClassFilter') ? document.getElementById('stuInfoClassFilter').value : '';
     if(classFilter){ result = result.filter(function(s){ return s.stuClass===classFilter; }); }
@@ -4154,11 +4413,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._openAdjustReg = function(id){
     var s = studentData.filter(function(x){ return x.id===id; })[0];
     if(!s) return;
+    var isTrialAdjust = !!s.isTrialStudent;
 
     _adjustRegStudentId = id;
 
     // Check if there's a pending review
-    _adjustRegPendingExists = _hasPendingAdjust(id);
+    _adjustRegPendingExists = isTrialAdjust ? false : _hasPendingAdjust(id);
 
     // Collect all unique classes
     var classes = [];
@@ -4177,8 +4437,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     // Auto-populate dates from jieshu
     var ji = getStudentJieshu(s);
     var dm = _jieshuDateMap[ji];
-    document.getElementById('adjRegDateDisplay').textContent = dm ? dm.reg : s.regDate;
-    document.getElementById('adjRegEndDateDisplay').textContent = dm ? dm.end : s.endDate;
+    document.getElementById('adjRegDateDisplay').textContent = isTrialAdjust ? (s.trialStartDate||s.regDate) : (dm ? dm.reg : s.regDate);
+    document.getElementById('adjRegEndDateDisplay').textContent = isTrialAdjust ? (s.trialEndDate||s.endDate) : (dm ? dm.end : s.endDate);
 
     // Populate subjects
     document.getElementById('adjRegMath').checked = s.hasMath;
@@ -4204,8 +4464,15 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
     var submitBtn = document.getElementById('adjRegSubmitBtn');
     var fieldsEditable = !_adjustRegPendingExists;
+    submitBtn.textContent = isTrialAdjust ? '保存并立即生效' : '提交';
 
-    if(_adjustRegPendingExists){
+    if(isTrialAdjust){
+      banner.className = 'review-banner reviewing';
+      bannerTitle.textContent = '试用学员调整无需补差价和审核，提交后立即生效';
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+      submitBtn.style.pointerEvents = '';
+    } else if(_adjustRegPendingExists){
       banner.className = 'review-banner reviewing';
       bannerTitle.textContent = '该学员的报名信息调整正在审核中，暂不可编辑';
       submitBtn.disabled = true;
@@ -4233,6 +4500,12 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
 
   // When jieshu changes, auto-populate dates
   window._adjOnJieshuChange = function(){
+    var student = studentData.filter(function(item){ return item.id===_adjustRegStudentId; })[0];
+    if(student && student.isTrialStudent){
+      document.getElementById('adjRegDateDisplay').textContent = student.trialStartDate || student.regDate || '-';
+      document.getElementById('adjRegEndDateDisplay').textContent = student.trialEndDate || student.endDate || '-';
+      return;
+    }
     var ji = document.getElementById('adjRegJieshu').value;
     var dm = _jieshuDateMap[ji];
     document.getElementById('adjRegDateDisplay').textContent = dm ? dm.reg : '-';
@@ -4242,6 +4515,11 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // Calculate price difference
   window._adjCalcPrice = function(){
     if(_adjustRegPendingExists) return;
+    var student = studentData.filter(function(item){ return item.id===_adjustRegStudentId; })[0];
+    if(student && student.isTrialStudent){
+      document.getElementById('adjPriceInfo').style.display = 'none';
+      return;
+    }
     var math = document.getElementById('adjRegMath').checked;
     var eng = document.getElementById('adjRegEnglish').checked;
     var priceInfo = document.getElementById('adjPriceInfo');
@@ -4269,6 +4547,8 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   // Submit adjust registration (creates a record, no longer updates student immediately)
   window._submitAdjustReg = function(){
     if(_adjustRegPendingExists) return;
+    var student = studentData.filter(function(item){ return item.id===_adjustRegStudentId; })[0];
+    if(!student) return;
 
     var cls = document.getElementById('adjRegClass').value;
     var jieshu = document.getElementById('adjRegJieshu').value;
@@ -4298,6 +4578,38 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(hasMath && !hasEnglish) subjectsLabel = '数学';
     else if(!hasMath && hasEnglish) subjectsLabel = '英语';
     else if(hasMath && hasEnglish) subjectsLabel = '数学、英语';
+
+    if(student.isTrialStudent){
+      student.jieshu = jieshu;
+      student.stuClass = cls;
+      student.hasMath = hasMath;
+      student.hasEnglish = hasEnglish;
+      student.mathBaoming = mathBaoming;
+      student.engBaoming = engBaoming;
+      student.subjects = subjectsLabel;
+      var trialLevels = [];
+      if(hasMath) trialLevels.push(mathBaoming+'：'+(student.mathCur||'—')+'→'+(student.mathTarget||'—'));
+      if(hasEnglish) trialLevels.push(engBaoming+'：'+(student.engCur||'—')+'→'+(student.engTarget||'—'));
+      student.levels = trialLevels.join('  ');
+      student.regDate = student.trialStartDate || student.regDate;
+      student.endDate = student.trialEndDate || student.endDate;
+
+      var directRecord = {
+        id:'AR'+Date.now(), jieshu:jieshu, stuClass:cls, subjects:subjectsLabel,
+        hasMath:hasMath, hasEnglish:hasEnglish, mathBaoming:mathBaoming, engBaoming:engBaoming,
+        regDate:student.regDate, endDate:student.endDate, remark:remark, price:0, priceDiff:0,
+        time:new Date().toISOString().replace('T',' ').substring(0,19),
+        jiaowuReview:{ status:'无需审核', reviewer:'系统', time:'立即生效' },
+        caiwuReview:{ status:'无需审核', reviewer:'系统', time:'立即生效' }, rejectReason:''
+      };
+      if(!adjustRegRecords[_adjustRegStudentId]) adjustRegRecords[_adjustRegStudentId] = [];
+      adjustRegRecords[_adjustRegStudentId].push(directRecord);
+      closeModal('adjustRegModal');
+      showToast('试用学员报名信息已更新，已立即生效');
+      studentInfoPage = 1;
+      renderStudentInfoPage();
+      return;
+    }
 
     // Create adjust record
     var record = {
@@ -4947,7 +5259,7 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window._openStudentDetail = function(id){
     var s = studentData.filter(function(x){ return x.id===id; })[0];
     if(!s) return;
-    var statusText = s.status || '-';
+    var statusText = getTrialStatus(s) || s.status || '-';
     var body = document.getElementById('studentDetailBody');
     body.innerHTML = 
       '<div class="form-section"><div class="form-section-title">基本信息</div><div class="detail-grid">' +
@@ -4978,6 +5290,13 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       '<div class="form-section"><div class="form-section-title">科目信息</div><div class="detail-grid">' +
         '<div class="detail-item"><label>科目层级</label><div class="value">'+s.levels+'</div></div>' +
       '</div></div>';
+    if(s.isTrialStudent){
+      body.innerHTML += '<div class="form-section"><div class="form-section-title">试用信息</div><div class="detail-grid">' +
+        '<div class="detail-item"><label>试用开始日期</label><div class="value">'+(s.trialStartDate||s.regDate||'-')+'</div></div>' +
+        '<div class="detail-item"><label>试用结束日期</label><div class="value">'+(s.trialEndDate||s.endDate||'-')+'</div></div>' +
+        '<div class="detail-item"><label>试用状态</label><div class="value">'+getTrialStatus(s)+'</div></div>' +
+      '</div></div>';
+    }
     // 审核记录 — 只对审核中/审核驳回展示
     if(s.status==='审核中' || s.status==='审核驳回'){
       // Helper: render a single review card
@@ -5129,7 +5448,34 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   window.submitStudentEdit = window.submitStudentEdit;
 
   // ==================== 新增学员弹窗 ====================
+  function configureCreateStudentModal(trialMode){
+    isTrialStudentCreation = !!trialMode;
+    var title = document.querySelector('#studentCreateModal .modal-header h3');
+    var submitBtn = document.getElementById('createStudentSubmitBtn');
+    var feeDisplay = document.getElementById('createFeeDisplay');
+    var trialSection = document.getElementById('createTrialPeriodSection');
+    var regDateInput = document.getElementById('createStuRegDate');
+    var endDateInput = document.getElementById('createStuEndDate');
+    if(title) title.textContent = trialMode ? '新增试用学员' : '新增学员';
+    if(submitBtn) submitBtn.textContent = trialMode ? '提交并立即生效' : '提交';
+    if(trialSection) trialSection.style.display = trialMode ? '' : 'none';
+    if(trialMode){
+      var startDate = getLocalDateString();
+      var endDate = getTrialEndDate(startDate);
+      document.getElementById('createTrialStartDate').value = startDate;
+      document.getElementById('createTrialEndDate').value = endDate;
+      if(regDateInput){ regDateInput.value = startDate; regDateInput.setAttribute('readonly','readonly'); }
+      if(endDateInput){ endDateInput.value = endDate; endDateInput.setAttribute('readonly','readonly'); }
+      if(feeDisplay) feeDisplay.style.display = 'none';
+    }else{
+      if(regDateInput) regDateInput.removeAttribute('readonly');
+      if(endDateInput) endDateInput.removeAttribute('readonly');
+      if(feeDisplay){ feeDisplay.style.display = ''; updateCreateFee(); }
+    }
+  }
+
   window._openCreateStudent = function(){
+    activatingTrialStudentId = null;
     // Reset form
     document.getElementById('createStuName').value = '';
     document.getElementById('createStuGender').value = '';
@@ -5159,8 +5505,64 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     clearCreateStuImage();
     document.getElementById('createMathScoreSection').classList.add('score-disabled');
     document.getElementById('createEngScoreSection').classList.add('score-disabled');
-    updateCreateFee();
+    configureCreateStudentModal(false);
     document.getElementById('studentCreateModal').classList.add('show');
+  };
+
+  window._openTrialStudent = function(){
+    window._openCreateStudent();
+    configureCreateStudentModal(true);
+  };
+
+  function setCreateSelectValue(id, value){
+    var select = document.getElementById(id);
+    if(!select || !value) return;
+    var exists = false;
+    for(var i=0; i<select.options.length; i++){
+      if(select.options[i].value===value || select.options[i].textContent===value){ exists = true; break; }
+    }
+    if(!exists){
+      var option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    }
+    select.value = value;
+  }
+
+  window._openTrialActivation = function(id){
+    var s = studentData.filter(function(item){ return item.id===id && item.isTrialStudent; })[0];
+    if(!s) return;
+    window._openCreateStudent();
+    activatingTrialStudentId = id;
+    document.querySelector('#studentCreateModal .modal-header h3').textContent = '开通正式学员';
+    document.getElementById('createStudentSubmitBtn').textContent = '提交审核';
+    document.getElementById('createStuName').value = s.name || '';
+    document.getElementById('createStuGender').value = s.gender || '';
+    document.getElementById('createStuPhone').value = s.phone || '';
+    document.getElementById('createStuIdCard').value = s.idCard || '';
+    document.getElementById('createStuEmail').value = s.email || '';
+    setCreateSelectValue('createStuDistrict', s.district || '');
+    setCreateSelectValue('createStuJieshu', getStudentJieshu(s));
+    setCreateSelectValue('createStuClass', s.stuClass || '');
+    document.getElementById('createStuRegDate').value = s.regDate || getLocalDateString();
+    document.getElementById('createStuEndDate').value = s.endDate || '';
+    document.getElementById('createSubjMath').checked = !!s.hasMath;
+    document.getElementById('createSubjEnglish').checked = !!s.hasEnglish;
+    document.getElementById('createStuUni').value = s.uni || '';
+    document.getElementById('createStuMajor').value = s.major || '';
+    document.getElementById('createStuTargetUni').value = s.targetUni || '';
+    document.getElementById('createStuTargetMajor').value = s.targetMajor || '';
+    setCreateSelectValue('createStuTargetTier', s.targetTier || '');
+    setCreateSelectValue('createStuCategory', s.category || '');
+    document.getElementById('createStuMathBaoming').value = s.mathBaoming || '数一';
+    document.getElementById('createStuMathCur').value = s.mathCur || '';
+    document.getElementById('createStuMathTarget').value = s.mathTarget || '';
+    document.getElementById('createStuEngBaoming').value = s.engBaoming || '英一';
+    document.getElementById('createStuEngCur').value = s.engCur || '';
+    document.getElementById('createStuEngTarget').value = s.engTarget || '';
+    document.getElementById('createStuRemark').value = '';
+    window.toggleCreateSubSubjects('all');
   };
 
   window.submitCreateStudent = function(){
@@ -5173,6 +5575,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     var endDate = document.getElementById('createStuEndDate').value;
     var hasMath = document.getElementById('createSubjMath').checked;
     var hasEnglish = document.getElementById('createSubjEnglish').checked;
+    var trialMode = isTrialStudentCreation;
+    var activationMode = !!activatingTrialStudentId;
+    var trialStartDate = trialMode ? document.getElementById('createTrialStartDate').value : '';
+    var trialEndDate = trialMode ? document.getElementById('createTrialEndDate').value : '';
     if(!name){ showToast('请输入姓名'); return; }
     if(!phone){ showToast('请输入手机号'); return; }
     if(!district){ showToast('请选择所属学区'); return; }
@@ -5188,9 +5594,10 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     if(hasMath){ subjects += '数学'; levelsParts.push(mathBaoming+'：'+(document.getElementById('createStuMathCur').value||'—')+'→'+(document.getElementById('createStuMathTarget').value||'—')); }
     if(hasEnglish){ if(subjects) subjects += '、'; subjects += '英语'; levelsParts.push(engBaoming+'：'+(document.getElementById('createStuEngCur').value||'—')+'→'+(document.getElementById('createStuEngTarget').value||'—')); }
 
-    studentData.push({
+    var newStudent = {
       id:newId, name:name, phone:phone, district:district, jieshu:jieshu, stuClass:stuClass,
-      regDate:regDate, endDate:endDate, status:'审核中', acctEnabled:false,
+      regDate:regDate, endDate:endDate, status:trialMode ? '试用中' : '审核中', acctEnabled:trialMode,
+      isTrialStudent:trialMode, trialStartDate:trialStartDate, trialEndDate:trialEndDate,
       subjects:subjects, levels:levelsParts.join('  '),
       mathCur:document.getElementById('createStuMathCur').value,
       mathTarget:document.getElementById('createStuMathTarget').value,
@@ -5208,10 +5615,39 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
       targetMajor:document.getElementById('createStuTargetMajor').value,
       targetTier:document.getElementById('createStuTargetTier').value,
       category:document.getElementById('createStuCategory').value
-    });
+    };
+    if(activationMode){
+      var trialStudent = studentData.filter(function(item){ return item.id===activatingTrialStudentId; })[0];
+      if(!trialStudent){ showToast('未找到试用学员'); return; }
+      newStudent.id = trialStudent.id;
+      newStudent.status = '审核中';
+      newStudent.acctEnabled = false;
+      newStudent.isTrialStudent = false;
+      newStudent.wasTrialStudent = true;
+      newStudent.trialStartDate = trialStudent.trialStartDate || trialStudent.regDate || '';
+      newStudent.trialEndDate = trialStudent.trialEndDate || trialStudent.endDate || '';
+      newStudent.jiaowuReview = { status:'审核中', reviewer:'', time:'' };
+      newStudent.caiwuReview = { status:'审核中', reviewer:'', time:'' };
+      Object.assign(trialStudent, newStudent);
+    }else{
+      studentData.push(newStudent);
+    }
     closeModal('studentCreateModal');
-    showToast('学员添加成功');
-    renderStudentPage();
+    showToast(activationMode ? '开通申请已提交，请等待审核' : (trialMode ? '试用学员添加成功，已直接生效' : '学员添加成功'));
+    isTrialStudentCreation = false;
+    activatingTrialStudentId = null;
+    if(activationMode){
+      document.querySelectorAll('.nav-sub-item').forEach(function(item){ item.classList.remove('active'); });
+      var entryNav = document.querySelector('.nav-sub-item[data-page="xueyuan-guanli"]');
+      if(entryNav) entryNav.classList.add('active');
+      var topbar = document.querySelector('.topbar-title');
+      if(topbar) topbar.childNodes[0].textContent = '学员录入';
+      var breadcrumb = document.getElementById('breadcrumb');
+      if(breadcrumb) breadcrumb.textContent = '/ 服务管理';
+      renderPage('xueyuan-guanli');
+    }else{
+      renderStudentPage();
+    }
   };
 
   // 科目选择联动
@@ -5377,6 +5813,68 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     cihuiPingguClassFilter = '';
     cihuiPingguLevelFilter = '';
     renderCihuiPingguPage();
+  };
+
+  // ==================== 数学水平测试 ====================
+  function getFilteredShuxueShuipingCeshi(){
+    var keyword = shuxueShuipingKeyword ? shuxueShuipingKeyword.toLowerCase() : '';
+    return shuxueShuipingCeshiData.filter(function(item){
+      if(shuxueShuipingClassFilter && item.className !== shuxueShuipingClassFilter) return false;
+      if(shuxueShuipingLevelFilter && item.level !== shuxueShuipingLevelFilter) return false;
+      if(!keyword) return true;
+      return item.studentName.toLowerCase().indexOf(keyword) > -1;
+    });
+  }
+
+  function renderShuxueShuipingCeshiPage(){
+    var filtered = getFilteredShuxueShuipingCeshi();
+    var classes = [];
+    shuxueShuipingCeshiData.forEach(function(item){ if(classes.indexOf(item.className)===-1) classes.push(item.className); });
+    classes.sort();
+    var html = '<div class="page-header"><h2>数学水平测试</h2></div>';
+    html += '<div class="card"><div class="card-body">';
+    html += '<div class="search-bar" style="margin-bottom:16px">';
+    html += '<div class="search-input"><span class="search-icon">&#128269;</span><input type="text" placeholder="搜索学员姓名..." id="shuxueShuipingKeyword" value="'+shuxueShuipingKeyword.replace(/"/g,'&quot;')+'" oninput="window._shuxueShuipingSearch()"></div>';
+    html += '<div class="filter-select"><select id="shuxueShuipingClassFilter" onchange="window._shuxueShuipingClassChange()"><option value="">全部班级</option>';
+    classes.forEach(function(c){ html += '<option value="'+c+'"'+(shuxueShuipingClassFilter===c?' selected':'')+'>'+c+'</option>'; });
+    html += '</select></div>';
+    html += '<div class="filter-select"><select id="shuxueShuipingLevelFilter" onchange="window._shuxueShuipingLevelChange()"><option value="">全部测试水平</option>';
+    html += '<option value="基础层"'+(shuxueShuipingLevelFilter==='基础层'?' selected':'')+'>基础层</option>';
+    html += '<option value="巩固层"'+(shuxueShuipingLevelFilter==='巩固层'?' selected':'')+'>巩固层</option>';
+    html += '<option value="拓展层"'+(shuxueShuipingLevelFilter==='拓展层'?' selected':'')+'>拓展层</option>';
+    html += '</select></div>';
+    html += '<div style="display:flex;gap:8px"><button class="btn btn-outline" onclick="window._shuxueShuipingReset()">重置</button></div>';
+    html += '</div>';
+    html += '<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>学员姓名</th><th>班级</th><th>测试水平</th><th>测试时间</th></tr></thead><tbody>';
+    if(filtered.length===0){
+      html += '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:24px">暂无匹配的数学水平测试数据</td></tr>';
+    }else{
+      filtered.forEach(function(item){
+        var levelCls=item.level==='拓展层'?'level-high':item.level==='巩固层'?'level-mid':'level-low';
+        html += '<tr><td><strong>'+item.studentName+'</strong></td><td>'+item.className+'</td><td><span class="vocab-level-badge '+levelCls+'">'+item.level+'</span></td><td style="color:var(--text-secondary)">'+item.testTime+'</td></tr>';
+      });
+    }
+    html += '</tbody></table></div>';
+    html += '<div class="pagination"><span class="pagination-info">共 '+filtered.length+' 条记录</span><div class="pagination-btns"><button class="active">1</button></div></div>';
+    html += '</div></div>';
+    contentArea.innerHTML=html;
+  }
+
+  window._shuxueShuipingSearch=function(){
+    shuxueShuipingKeyword=document.getElementById('shuxueShuipingKeyword').value;
+    renderShuxueShuipingCeshiPage();
+  };
+  window._shuxueShuipingClassChange=function(){
+    shuxueShuipingClassFilter=document.getElementById('shuxueShuipingClassFilter').value;
+    renderShuxueShuipingCeshiPage();
+  };
+  window._shuxueShuipingLevelChange=function(){
+    shuxueShuipingLevelFilter=document.getElementById('shuxueShuipingLevelFilter').value;
+    renderShuxueShuipingCeshiPage();
+  };
+  window._shuxueShuipingReset=function(){
+    shuxueShuipingKeyword='';shuxueShuipingClassFilter='';shuxueShuipingLevelFilter='';
+    renderShuxueShuipingCeshiPage();
   };
 
   // ==================== 单词背诵 ====================
@@ -14763,6 +15261,304 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
     renderKebiaoTongjiPage();
   };
 
+  // ==================== 课堂答题 ====================
+  function escapeClassroomHtml(value){
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+    });
+  }
+
+  function classroomGetById(id){
+    for(var i=0;i<classroomData.length;i++) if(classroomData[i].id===id) return classroomData[i];
+    return null;
+  }
+
+  function classroomQuestionGetById(id){
+    for(var i=0;i<classroomQuestionBank.length;i++) if(classroomQuestionBank[i].id===id) return classroomQuestionBank[i];
+    return null;
+  }
+
+  function classroomPushedIds(c){
+    if(!c) return [];
+    if(!Array.isArray(c.pushedQuestionIds)) c.pushedQuestionIds=c.pushedQuestionId?[c.pushedQuestionId]:[];
+    return c.pushedQuestionIds;
+  }
+  function classroomQuestionIsPushed(c,qid){ return classroomPushedIds(c).indexOf(qid)>=0; }
+  function classroomQuestionPushTime(c,qid){ return (c&&c.pushTimes&&c.pushTimes[qid]) || '刚刚'; }
+  function classroomStudentResponse(student,qid){
+    if(!student.responses) student.responses={};
+    if(!student.responses[qid]) student.responses[qid]={answer:'-',selfEval:'',status:'未作答',submittedAt:''};
+    return student.responses[qid];
+  }
+  function classroomResponseStats(c,q){
+    var stats={};
+    if(q.type==='单选题') q.options.forEach(function(option){ stats[String(option).charAt(0)]=0; });
+    else ['对','半对','错'].forEach(function(result){ stats[result]=0; });
+    (c.students||[]).forEach(function(student){ var response=classroomStudentResponse(student,q.id); var value=q.type==='单选题'?response.answer:response.selfEval; if(Object.prototype.hasOwnProperty.call(stats,value)) stats[value]++; });
+    return stats;
+  }
+  function classroomResponseStatsHtml(c,q){
+    var stats=classroomResponseStats(c,q), html='<div class="classroom-response-stats"><span class="stats-title">作答统计</span>';
+    Object.keys(stats).forEach(function(key){ html+='<span class="classroom-response-stat"><strong>'+escapeClassroomHtml(key)+'</strong><em>'+stats[key]+' 人</em></span>'; });
+    return html+'</div>';
+  }
+
+  function classroomStatus(c){
+    var now = new Date();
+    var start = new Date(c.startTime);
+    var end = new Date(c.endTime);
+    if(now < start) return 'pending';
+    if(now >= end) return 'ended';
+    return 'active';
+  }
+
+  function classroomStatusLabel(status){ return status==='active' ? '进行中' : status==='pending' ? '未开始' : '已结束'; }
+  function classroomStatusClass(status){ return status==='active' ? 'active' : status==='pending' ? 'pending' : 'ended'; }
+  function classroomFormatTime(value){ return String(value||'').replace('T',' '); }
+  function classroomInputTime(date){
+    var d=date||new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  }
+  function classroomGenerateCode(){
+    var code='';
+    do { code=String(Math.floor(100000+Math.random()*900000)); } while(classroomData.some(function(c){return c.code===code;}));
+    return code;
+  }
+  function classroomSubjectQuestionIds(subject){
+    return classroomQuestionBank.filter(function(q){return q.subject===subject;}).map(function(q){return q.id;});
+  }
+
+  function renderKetangDatiPage(){
+    if(classroomView==='console') renderKetangConsolePage();
+    else renderKetangListPage();
+  }
+
+  function renderKetangListPage(){
+    var counts={active:0,pending:0,ended:0};
+    classroomData.forEach(function(c){ counts[classroomStatus(c)]++; });
+    var filtered=classroomData.filter(function(c){ return classroomStatus(c)===classroomListFilter; });
+    var tabText={active:'进行中',pending:'未开始',ended:'已结束'};
+    var html='<div class="classroom-page-head"><div><h2>课堂答题</h2><p>创建课堂并从课堂列表进入控制台</p></div><button class="btn btn-primary" onclick="window._openClassroomCreate()">＋ 创建课堂</button></div>';
+    html+='<div class="filter-bar classroom-tabs">';
+    ['active','pending','ended'].forEach(function(key){ html+='<button class="filter-tab '+(classroomListFilter===key?'active':'')+'" onclick="window._setClassroomListFilter(\''+key+'\')">'+tabText[key]+'<span class="count">'+counts[key]+'</span></button>'; });
+    html+='</div>';
+    html+='<section class="classroom-card"><div class="classroom-card-head"><h3>'+tabText[classroomListFilter]+'课堂 <span class="sub">共 '+filtered.length+' 个</span></h3><span style="font-size:12px;color:var(--text-muted)">点击课堂进入独立控制页面</span></div>';
+    if(!filtered.length) html+='<div class="classroom-empty">暂无'+tabText[classroomListFilter]+'课堂</div>';
+    else {
+      html+='<div class="classroom-table-wrap"><table class="classroom-table"><thead><tr><th>课表名称</th><th>学科</th><th>课堂时间</th><th>课堂码</th><th>已选题目</th><th>操作</th></tr></thead><tbody>';
+      filtered.forEach(function(c){ var status=classroomStatus(c); var codeCell=status==='ended'?'<span class="classroom-code classroom-code-recycled">—</span>':'<span class="classroom-code">'+escapeClassroomHtml(c.code)+'</span>'; html+='<tr><td class="name">'+escapeClassroomHtml(c.name)+'</td><td>'+escapeClassroomHtml(c.subject)+'</td><td class="time">'+escapeClassroomHtml(classroomFormatTime(c.startTime))+'<br><span style="color:var(--text-muted)">至 '+escapeClassroomHtml(classroomFormatTime(c.endTime))+'</span></td><td>'+codeCell+'</td><td>'+c.selectedQuestionIds.length+' 道</td><td class="actions"><button class="btn btn-primary btn-xs" onclick="window._selectClassroom(\''+c.id+'\')">进入课堂</button></td></tr>'; });
+      html+='</tbody></table></div>';
+    }
+    html+='</section>';
+    contentArea.innerHTML=html;
+  }
+
+  function renderKetangConsolePage(){
+    var selected=classroomGetById(currentClassroomId);
+    if(!selected){ classroomView='list'; renderKetangListPage(); return; }
+    var html='<div class="classroom-console-nav"><button class="btn btn-outline btn-xs back" onclick="window._backToClassroomList()">&#x2190; 返回课堂列表</button><div><h2 style="margin:0 0 4px;font-size:21px;color:var(--text)">课堂控制台</h2><p style="margin:0;font-size:13px;color:var(--text-muted)">管理题目推送并实时查看学员作答</p></div></div>';
+    var selectedStatus=classroomStatus(selected);
+    var students=selected.students||[];
+    var joinedCount=students.filter(function(s){return !!s.joined;}).length;
+    html += '<section class="classroom-card classroom-console"><div class="classroom-card-head"><h3>课堂控制台</h3><span class="classroom-status '+classroomStatusClass(selectedStatus)+'">'+classroomStatusLabel(selectedStatus)+'</span></div><div class="classroom-console-body">';
+    html += '<div class="classroom-console-top"><div class="classroom-console-title"><h3>'+escapeClassroomHtml(selected.name)+'</h3><p>'+escapeClassroomHtml(selected.subject)+' · '+escapeClassroomHtml(classroomFormatTime(selected.startTime))+' 至 '+escapeClassroomHtml(classroomFormatTime(selected.endTime))+'</p>'+(selectedStatus==='active'?'<span class="classroom-entry-count">已进入 '+joinedCount+' 人</span>':'')+'</div><div class="classroom-console-code">'+(selectedStatus==='ended'?'<span class="label">课堂码已回收</span>':'<span class="label">课堂码</span><span class="code">'+escapeClassroomHtml(selected.code)+'</span>')+'</div></div>';
+    html += '<div class="classroom-section"><div class="classroom-section-head"><h4>已选题目 <span class="hint">'+selected.selectedQuestionIds.length+' 道</span></h4><button class="btn btn-outline btn-xs" '+(selectedStatus==='ended'?'disabled':'')+' onclick="window._openClassroomQuestionPicker(\''+selected.id+'\')">＋ 添加题目</button></div><div class="classroom-section-body"><div class="classroom-question-list">';
+    if(!selected.selectedQuestionIds.length) html += '<div class="classroom-empty" style="padding:24px 10px">还没有选择题目，请添加题目后推送</div>';
+    selected.selectedQuestionIds.forEach(function(qid,index){
+      var q=classroomQuestionGetById(qid); if(!q) return;
+      var isPushed=classroomQuestionIsPushed(selected,qid);
+      var responseKey=selected.id+'_'+qid;
+      var isExpanded=!!classroomResponseExpanded[responseKey];
+      html += '<div class="classroom-question-item '+(isPushed?'pushed':'')+'"><div class="classroom-question-row"><span class="classroom-question-index">'+(index+1)+'</span><div class="classroom-question-main"><div class="classroom-question-title">'+escapeClassroomHtml(q.stem)+'</div><div class="classroom-question-meta"><span>'+escapeClassroomHtml(q.type)+'</span>'+(isPushed?'<span>推送时间：'+escapeClassroomHtml(classroomQuestionPushTime(selected,qid))+'</span>':'')+'</div></div><div class="classroom-question-actions">'+(isPushed?'<span class="classroom-pushed-tag">已推送</span><button class="classroom-resend-btn" '+(selectedStatus==='active'?'':'disabled')+' onclick="window._repushClassroomQuestion(\''+selected.id+'\',\''+qid+'\')">重新推送</button>':'<button class="btn btn-primary btn-xs" '+(selectedStatus==='active'?'':'disabled')+' onclick="window._pushClassroomQuestion(\''+selected.id+'\',\''+qid+'\')">推送</button>')+'<button class="classroom-delete-btn" '+(selectedStatus==='ended'||isPushed?'disabled':'')+' title="'+(isPushed?'已推送题目不可删除':'')+'" onclick="window._deleteClassroomQuestion(\''+selected.id+'\',\''+qid+'\')">删除</button></div></div>';
+      if(isPushed){
+        var answerHeader=q.type==='单选题'?'选项作答':'学员自评';
+        var questionDoneCount=students.filter(function(s){return classroomStudentResponse(s,qid).status==='已提交';}).length;
+        html += '<div class="classroom-inline-response '+(isExpanded?'expanded':'')+'"><button class="classroom-inline-response-toggle" onclick="window._toggleClassroomResponse(\''+selected.id+'\',\''+qid+'\')"><span>实时作答情况 · 已提交 '+questionDoneCount+' 人</span><span class="side"><span onclick="event.stopPropagation();window._refreshClassroomResponses(\''+selected.id+'\',\''+qid+'\')">&#x21BB; 刷新状态</span><span>'+(isExpanded?'收起':'展开')+'</span><span class="arrow">&#x25BC;</span></span></button><div class="classroom-inline-response-body">'+classroomResponseStatsHtml(selected,q)+'<table class="classroom-response-table"><thead><tr><th>学号</th><th>姓名</th><th>'+answerHeader+'</th><th>状态</th><th>提交时间</th></tr></thead><tbody>';
+        students.forEach(function(s){ var response=classroomStudentResponse(s,qid); var sc=response.status==='已提交'?'done':response.status==='作答中'?'working':'waiting'; var responseValue=q.type==='单选题'?(response.answer||'-'):(response.selfEval||'-'); html += '<tr><td>'+escapeClassroomHtml(s.id)+'</td><td style="color:var(--text);font-weight:500">'+escapeClassroomHtml(s.name)+'</td><td>'+escapeClassroomHtml(responseValue)+'</td><td><span class="classroom-answer-status '+sc+'">'+escapeClassroomHtml(response.status)+'</span></td><td>'+escapeClassroomHtml(response.submittedAt||'-')+'</td></tr>'; });
+        html += '</tbody></table></div></div>';
+      }
+      html += '</div>';
+    });
+    html += '</div></div></div>';
+    html += '</div></section>';
+    contentArea.innerHTML=html;
+  }
+
+  window._openClassroomCreate = function(){
+    var now = new Date();
+    var end = new Date(now.getTime()+2*60*60*1000);
+    document.getElementById('classroomNameInput').value='';
+    document.getElementById('classroomSubjectInput').value='数学';
+    document.getElementById('classroomStartInput').value=classroomInputTime(now);
+    document.getElementById('classroomEndInput').value=classroomInputTime(end);
+    document.getElementById('classroomCreateModal').classList.add('show');
+  };
+
+  window._submitClassroomCreate = function(){
+    var name=document.getElementById('classroomNameInput').value.trim();
+    var subject='数学';
+    var start=document.getElementById('classroomStartInput').value;
+    var end=document.getElementById('classroomEndInput').value;
+    if(!name||!start||!end){ showToast('请完整填写课堂信息'); return; }
+    if(new Date(end)<=new Date(start)){ showToast('结束时间必须晚于开始时间'); return; }
+    var qids=classroomSubjectQuestionIds(subject).slice(0,2);
+    var matched=studentData.filter(function(s){ return s.status==='在读' && String(s.subjects||'').indexOf(subject)>=0; }).slice(0,5).map(function(s){ return {id:s.id,name:s.name,answer:'-',selfEval:'',joined:false,status:'未作答',submittedAt:''}; });
+    var created={id:'KT'+String(Date.now()).slice(-6),name:name,subject:subject,startTime:start,endTime:end,code:classroomGenerateCode(),selectedQuestionIds:qids,pushedQuestionIds:[],pushTimes:{},students:matched};
+    classroomData.unshift(created); currentClassroomId=created.id; classroomView='console';
+    window._closeClassroomModal('classroomCreateModal'); showToast('课堂创建成功，课堂码 '+created.code); renderKetangDatiPage();
+  };
+
+  window._setClassroomListFilter = function(filter){ classroomListFilter=filter; classroomView='list'; renderKetangDatiPage(); };
+  window._backToClassroomList = function(){ var c=classroomGetById(currentClassroomId); if(c) classroomListFilter=classroomStatus(c); classroomView='list'; renderKetangDatiPage(); };
+  window._selectClassroom = function(id){ currentClassroomId=id; classroomView='console'; renderKetangDatiPage(); };
+
+  window._openClassroomQuestionPicker = function(id){
+    var c=classroomGetById(id); if(!c) return;
+    if(classroomStatus(c)==='ended'){ showToast('课堂已结束，无法添加题目'); return; }
+    currentClassroomId=id; classroomQuestionSelection=c.selectedQuestionIds.slice();
+    classroomQuestionFilters={subSubject:'',courseType:'',type:'',questionType:'',source:'',keyword:'',knowledge:[]};
+    document.getElementById('classroomQuestionTitle').textContent='添加题目 · '+c.subject;
+    renderClassroomQuestionPicker();
+    document.getElementById('classroomQuestionModal').classList.add('show');
+  };
+
+  function classroomPickerSelect(label,name,values,current,placeholder){
+    var html='<div class="classroom-picker-filter"><label>'+label+'</label><select onchange="window._setClassroomQuestionFilter(\''+name+'\',this.value)"><option value="">'+placeholder+'</option>';
+    values.forEach(function(value){ html+='<option value="'+escapeClassroomHtml(value)+'" '+(current===value?'selected':'')+'>'+escapeClassroomHtml(value)+'</option>'; });
+    return html+'</select></div>';
+  }
+
+  function renderClassroomQuestionPicker(){
+    var c=classroomGetById(currentClassroomId); if(!c) return;
+    var subjectQuestions=classroomQuestionBank.filter(function(q){return q.subject===c.subject;});
+    function unique(field){ var values=[]; subjectQuestions.forEach(function(q){if(q[field]&&values.indexOf(q[field])<0) values.push(q[field]);}); return values; }
+    var knowledgeCatalog=c.subject==='数学'?['函数、极限与连续','一元函数微分学','一元函数积分学','多元函数微分学','二重积分','矩阵','线性方程组']:['阅读理解','长难句分析','词义猜测','英译汉','谓语动词','完形填空','写作'];
+    var filtered=subjectQuestions.filter(function(q){
+      var f=classroomQuestionFilters;
+      if(f.subSubject&&q.subSubject!==f.subSubject) return false;
+      if(f.courseType&&q.courseType!==f.courseType) return false;
+      if(f.type&&q.type!==f.type) return false;
+      if(f.questionType&&q.questionType!==f.questionType) return false;
+      if(f.source&&q.source!==f.source) return false;
+      if(f.knowledge.length&&f.knowledge.indexOf(q.knowledge)<0) return false;
+      if(f.keyword){ var key=f.keyword.toLowerCase(); if(q.id.toLowerCase().indexOf(key)<0&&q.stem.toLowerCase().indexOf(key)<0) return false; }
+      return true;
+    });
+    var body='<div class="classroom-picker-panel"><div class="classroom-picker-filter-row">';
+    body+=classroomPickerSelect('子科目','subSubject',unique('subSubject'),classroomQuestionFilters.subSubject,'全部');
+    body+=classroomPickerSelect('课程类型','courseType',unique('courseType'),classroomQuestionFilters.courseType,'全部');
+    body+='</div><div class="classroom-picker-filter-row">';
+    body+=classroomPickerSelect('题型','type',['单选题','填空题','解答题'],classroomQuestionFilters.type,'全部');
+    body+=classroomPickerSelect('题目类型','questionType',unique('questionType'),classroomQuestionFilters.questionType,'全部');
+    body+=classroomPickerSelect('来源','source',unique('source'),classroomQuestionFilters.source,'全部');
+    body+='<div class="classroom-picker-filter"><input value="'+escapeClassroomHtml(classroomQuestionFilters.keyword)+'" placeholder="题目ID / 题干搜索" onchange="window._setClassroomQuestionFilter(\'keyword\',this.value)"></div></div>';
+    body+='<div class="classroom-knowledge-tree">';
+    knowledgeCatalog.forEach(function(name){ var checked=classroomQuestionFilters.knowledge.indexOf(name)>=0; body+='<label class="classroom-knowledge-node"><span class="tree-arrow">&#9654;</span><input type="checkbox" '+(checked?'checked':'')+' onchange="window._toggleClassroomKnowledge(\''+escapeClassroomHtml(name)+'\',this.checked)"><span>'+escapeClassroomHtml(name)+'</span></label>'; });
+    body+='</div></div><div class="classroom-picker-result">';
+    if(!filtered.length) body+='<div class="classroom-picker-empty">没有找到符合条件的题目，请调整筛选条件</div>';
+    filtered.forEach(function(q){
+      var checked=classroomQuestionSelection.indexOf(q.id)>=0;
+      var expanded=!!classroomQuestionDetailOpen[q.id];
+      body+='<div class="classroom-picker-card '+(checked?'selected ':'')+(expanded?'expanded':'')+'" id="classroomPickerCard_'+q.id+'"><div class="classroom-picker-card-head"><input type="checkbox" data-question-id="'+q.id+'" '+(checked?'checked':'')+' onchange="window._toggleClassroomQuestionSelection(\''+q.id+'\',this.checked,this)"><span class="classroom-picker-tag id">#'+escapeClassroomHtml(q.id)+'</span><span class="classroom-picker-tag type">'+escapeClassroomHtml(q.type)+'</span><span class="classroom-picker-tag knowledge">'+escapeClassroomHtml(q.knowledge)+'</span><span class="classroom-picker-tag level">'+escapeClassroomHtml(q.questionType)+'</span></div><div class="classroom-picker-stem">'+escapeClassroomHtml(q.stem)+'</div><div class="classroom-picker-card-foot"><span style="font-size:11px;color:var(--text-muted)">'+escapeClassroomHtml(q.source)+' · '+escapeClassroomHtml(q.courseType)+'</span><button class="classroom-picker-expand" onclick="window._toggleClassroomQuestionDetail(\''+q.id+'\')">'+(expanded?'&#9650;':'&#9660;')+'</button></div><div class="classroom-picker-detail">';
+      if(q.options&&q.options.length){ body+='<div class="classroom-picker-options">'; q.options.forEach(function(option){body+='<span>'+escapeClassroomHtml(option)+'</span>';}); body+='</div>'; }
+      body+='<div><strong>参考答案：</strong>'+escapeClassroomHtml(q.answer)+'</div><div><strong>题目解析：</strong>'+escapeClassroomHtml(q.analysis)+'</div></div></div>';
+    });
+    body+='</div>';
+    document.getElementById('classroomQuestionModalBody').innerHTML=body;
+    var count=document.getElementById('classroomPickerSelectedCount'); if(count) count.textContent='已选择 '+classroomQuestionSelection.length+' 道题';
+  }
+
+  window._setClassroomQuestionFilter = function(name,value){ classroomQuestionFilters[name]=value; renderClassroomQuestionPicker(); };
+  window._toggleClassroomKnowledge = function(name,checked){
+    var index=classroomQuestionFilters.knowledge.indexOf(name);
+    if(checked&&index<0) classroomQuestionFilters.knowledge.push(name);
+    if(!checked&&index>=0) classroomQuestionFilters.knowledge.splice(index,1);
+    renderClassroomQuestionPicker();
+  };
+  window._toggleClassroomQuestionSelection = function(id,checked,input){
+    var index=classroomQuestionSelection.indexOf(id);
+    if(checked&&index<0) classroomQuestionSelection.push(id);
+    if(!checked&&index>=0) classroomQuestionSelection.splice(index,1);
+    var card=input&&input.closest('.classroom-picker-card'); if(card) card.classList.toggle('selected',checked);
+    var count=document.getElementById('classroomPickerSelectedCount'); if(count) count.textContent='已选择 '+classroomQuestionSelection.length+' 道题';
+  };
+  window._toggleClassroomQuestionDetail = function(id){
+    classroomQuestionDetailOpen[id]=!classroomQuestionDetailOpen[id];
+    var card=document.getElementById('classroomPickerCard_'+id); if(card){ card.classList.toggle('expanded',classroomQuestionDetailOpen[id]); var btn=card.querySelector('.classroom-picker-expand'); if(btn) btn.innerHTML=classroomQuestionDetailOpen[id]?'&#9650;':'&#9660;'; }
+  };
+
+  window._confirmClassroomQuestions = function(){
+    var c=classroomGetById(currentClassroomId); if(!c) return;
+    if(classroomStatus(c)==='ended'){ showToast('课堂已结束，无法修改题目'); return; }
+    c.selectedQuestionIds=classroomQuestionSelection.slice();
+    window._closeClassroomModal('classroomQuestionModal'); showToast('已更新课堂题目'); renderKetangDatiPage();
+  };
+
+  window._pushClassroomQuestion = function(id,qid){
+    var c=classroomGetById(id); if(!c) return;
+    if(classroomStatus(c)!=='active'){ showToast(classroomStatus(c)==='ended'?'课堂已结束，无法推送题目':'课堂尚未开始，暂不能推送'); return; }
+    if(c.selectedQuestionIds.indexOf(qid)<0){ showToast('请先将题目加入已选列表'); return; }
+    var pushedIds=classroomPushedIds(c); if(pushedIds.indexOf(qid)<0) pushedIds.push(qid);
+    if(!c.pushTimes) c.pushTimes={}; c.pushTimes[qid]=new Date().toLocaleTimeString('zh-CN',{hour12:false});
+    c.students.forEach(function(s){ classroomStudentResponse(s,qid); });
+    classroomResponseExpanded[id+'_'+qid]=true;
+    showToast('题目已推送，学员端将收到新题目'); renderKetangDatiPage();
+  };
+
+  window._repushClassroomQuestion = function(id,qid){
+    var c=classroomGetById(id); if(!c||!classroomQuestionIsPushed(c,qid)) return;
+    if(classroomStatus(c)!=='active'){ showToast('课堂已结束，无法重新推送'); return; }
+    if(!c.pushTimes) c.pushTimes={}; c.pushTimes[qid]=new Date().toLocaleTimeString('zh-CN',{hour12:false});
+    showToast('题目已重新推送，未收到的学员将再次接收'); renderKetangDatiPage();
+  };
+
+  window._deleteClassroomQuestion = function(id,qid){
+    var c=classroomGetById(id); if(!c) return;
+    if(classroomStatus(c)==='ended'){ showToast('课堂已结束，无法删除题目'); return; }
+    if(classroomQuestionIsPushed(c,qid)){ showToast('已推送题目不可删除'); return; }
+    c.selectedQuestionIds=c.selectedQuestionIds.filter(function(item){return item!==qid;});
+    showToast('题目已从课堂列表删除'); renderKetangDatiPage();
+  };
+
+  window._toggleClassroomResponse = function(id,qid){
+    var key=id+'_'+qid; classroomResponseExpanded[key]=!classroomResponseExpanded[key]; renderKetangDatiPage();
+  };
+
+  window._refreshClassroomResponses = function(id,qid){
+    var c=classroomGetById(id); if(!c) return;
+    qid=qid||classroomPushedIds(c)[0]; if(!qid) return;
+    var q=classroomQuestionGetById(qid);
+    var next=false;
+    c.students.forEach(function(s){ var response=classroomStudentResponse(s,qid); if(!next && response.status==='作答中'){ response.status='已提交'; if(q&&q.type==='单选题') response.answer=response.answer==='-'?'B':response.answer; else response.selfEval=response.selfEval||'对'; response.submittedAt=new Date().toLocaleTimeString('zh-CN',{hour12:false}); next=true; } });
+    c.students.forEach(function(s){ var response=classroomStudentResponse(s,qid); if(!next && response.status==='未作答'&&s.joined){ response.status='作答中'; next=true; } });
+    showToast(next?'已刷新最新作答状态':'所有学员状态已是最新'); renderKetangDatiPage();
+  };
+
+  window._submitClassroomAnswer = function(id,qid,answer){
+    var c=classroomGetById(id); if(!c||!classroomQuestionIsPushed(c,qid)) return;
+    if(classroomStatus(c)!=='active'){ showToast('课堂已结束，无法继续作答'); return; }
+    var student=c.students.find(function(s){return classroomStudentResponse(s,qid).status!=='已提交';}) || c.students[0];
+    if(!student){ showToast('当前课堂暂无学员'); return; }
+    var q=classroomQuestionGetById(qid);
+    var response=classroomStudentResponse(student,qid);
+    if(q&&q.type==='单选题') response.answer=answer; else { response.answer='-'; response.selfEval=answer; }
+    student.joined=true; response.status='已提交'; response.submittedAt=new Date().toLocaleTimeString('zh-CN',{hour12:false});
+    showToast(student.name+' 已提交'+(q&&q.type==='单选题'?'答案 ':'自评 ')+answer); renderKetangDatiPage();
+  };
+
+  window._classroomStudentJoin = function(){
+    var input=document.getElementById('classroomJoinCode'); var code=input?input.value.trim():'';
+    var c=classroomData.find(function(item){return item.code===code;});
+    if(!c){ showToast('课堂码不存在，请核对后重试'); return; }
+    var status=classroomStatus(c);
+    if(status==='ended'){ showToast('课堂已结束，无法进入'); return; }
+    if(status==='pending'){ showToast('课堂尚未开始，请在开始时间后进入'); return; }
+    var joiningStudent=c.students.find(function(s){return !s.joined;}); if(joiningStudent) joiningStudent.joined=true;
+    currentClassroomId=c.id; classroomJoinedId=c.id; classroomView='console'; showToast('已成功进入课堂：'+c.name); renderKetangDatiPage();
+  };
+
+  window._closeClassroomModal = function(id){ var el=document.getElementById(id); if(el) el.classList.remove('show'); };
+
   // ==================== 语文阅读 ====================
   var yyClassFilter = '';
   var yyStudentSearch = '';
@@ -15855,6 +16651,577 @@ button{cursor:pointer;border:none;font-family:inherit;font-size:14px}
   document.addEventListener('keydown', function(event){
     if(event.key === 'Escape') window._eryCloseDetail();
   });
+
+  /* ========== 学员学情报告 ========== */
+  function _lrEscape(value){
+    return String(value===undefined || value===null ? '' : value)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function _lrMatch(record, student){
+    if(!record || !student) return false;
+    return String(record.studentId || record.studentNo || '')===String(student.id)
+      || String(record.studentName || '')===String(student.name);
+  }
+  function _lrDate(value){
+    if(!value) return '-';
+    return String(value).replace('T',' ').replace(/:00$/,'');
+  }
+  function _lrPercent(value){
+    var n=parseFloat(value);
+    if(isNaN(n)) return 0;
+    return Math.max(0,Math.min(100,n));
+  }
+  function _lrSummary(list){
+    var result={total:list.length,submitted:0,done:0,wrong:0,questions:0};
+    list.forEach(function(item){
+      if(item.submitStatus==='submitted' || item.submitTime) result.submitted++;
+      var review=item.selfReview;
+      if(review){
+        result.done+=Number(review.done)||0;
+        result.wrong+=Number(review.wrong)||0;
+        result.questions+=Number(review.total)||0;
+      }else if(item.testStats || item.practiceStats){
+        var stats=[item.testStats,item.practiceStats];
+        stats.forEach(function(s){
+          if(s){result.done+=Number(s.done)||0;result.wrong+=Number(s.wrong)||0;result.questions+=Number(s.total)||0;}
+        });
+      }
+    });
+    result.rate=result.questions?Math.round(result.done/result.questions*100):(
+      result.total?Math.round(result.submitted/result.total*100):0);
+    return result;
+  }
+  function _lrTag(text,kind){
+    return '<span class="learning-report-tag '+(kind||'')+'">'+_lrEscape(text)+'</span>';
+  }
+  function _lrEmpty(colspan,text){
+    return '<tr><td colspan="'+colspan+'" class="learning-report-empty">'+_lrEscape(text||'暂无数据')+'</td></tr>';
+  }
+  function _lrDataList(name,student){
+    var sourceMap={
+      lianCeMingxiData:lianCeMingxiData,
+      zuoYeMingxiData:zuoYeMingxiData,
+      wenDangMingxiData:wenDangMingxiData,
+      tiXingMingxiData:tiXingMingxiData,
+      kanKeMingxiData:kanKeMingxiData,
+      englishReadingExerciseData:englishReadingExerciseData,
+      yuwenYueduData:yuwenYueduData,
+      cijuTimuData:cijuTimuData,
+      chengjiTongjiData:chengjiTongjiData,
+      cuotiDingzhengData:cuotiDingzhengData,
+      cihuiPingguData:cihuiPingguData,
+      danciBeisongData:danciBeisongData,
+      cijuBeisongData:cijuBeisongData,
+      danciXiaoceData:danciXiaoceData
+    };
+    var source=sourceMap[name];
+    if(!Array.isArray(source)) return [];
+    return source.filter(function(item){return _lrMatch(item,student);});
+  }
+  function _lrBuildReport(studentId){
+    var student=(studentData||[]).find(function(item){return String(item.id)===String(studentId);});
+    if(!student) return null;
+    var lc=_lrDataList('lianCeMingxiData',student);
+    var zy=_lrDataList('zuoYeMingxiData',student);
+    var docs=_lrDataList('wenDangMingxiData',student);
+    var reminders=_lrDataList('tiXingMingxiData',student);
+    var lessons=_lrDataList('kanKeMingxiData',student);
+    var reading=_lrDataList('englishReadingExerciseData',student);
+    var yuwen=_lrDataList('yuwenYueduData',student);
+    var cijuExercises=_lrDataList('cijuTimuData',student);
+    var grades=_lrDataList('chengjiTongjiData',student);
+    var errors=_lrDataList('cuotiDingzhengData',student);
+    var vocab=_lrDataList('cihuiPingguData',student);
+    var words=_lrDataList('danciBeisongData',student)[0] || null;
+    var ciju=_lrDataList('cijuBeisongData',student)[0] || null;
+    var quizzes=_lrDataList('danciXiaoceData',student);
+    var lcSummary=_lrSummary(lc), zySummary=_lrSummary(zy);
+    var lessonProgress=lessons.map(function(item){return _lrPercent(item.progress);});
+    var avgProgress=lessonProgress.length?Math.round(lessonProgress.reduce(function(a,b){return a+b;},0)/lessonProgress.length):0;
+    var gradeScores=grades.map(function(item){return Number(item.totalScore)||0;});
+    var gradeAvg=gradeScores.length?Math.round(gradeScores.reduce(function(a,b){return a+b;},0)/gradeScores.length):0;
+    var gradeBest=gradeScores.length?Math.max.apply(Math,gradeScores):0;
+    var report={student:student,lc:lc,zy:zy,docs:docs,reminders:reminders,lessons:lessons,reading:reading,yuwen:yuwen,cijuExercises:cijuExercises,grades:grades,errors:errors,vocab:vocab,words:words,ciju: ciju,quizzes:quizzes,lcSummary:lcSummary,zySummary:zySummary,avgProgress:avgProgress,gradeAvg:gradeAvg,gradeBest:gradeBest};
+    return report;
+  }
+  function _lrRenderReport(report){
+    var s=report.student, lc=report.lc, zy=report.zy, lessons=report.lessons;
+    var allPractice=lc.concat(zy);
+    var html='<div class="learning-report-sheet">';
+    html+='<div class="learning-report-cover"><div><h1>学员学情报告</h1><p>基于学情管理模块的练测、作业、看课、词汇、阅读及成绩数据生成</p><p>学员：<strong>'+_lrEscape(s.name)+'</strong>　学号：'+_lrEscape(s.id)+'　班级：'+_lrEscape(s.stuClass)+'</p></div><div class="learning-report-cover-meta">报告生成时间<strong>'+_lrEscape(new Date().toLocaleDateString('zh-CN'))+'</strong>数据范围：系统当前记录</div></div>';
+    html+='<div class="learning-report-summary-grid">';
+    html+='<div class="learning-report-summary-card"><div class="label">练测完成率</div><div class="value">'+report.lcSummary.rate+'%</div><div class="sub">'+report.lcSummary.submitted+'/'+report.lcSummary.total+' 次已提交</div></div>';
+    html+='<div class="learning-report-summary-card"><div class="label">作业完成率</div><div class="value">'+report.zySummary.rate+'%</div><div class="sub">'+report.zySummary.submitted+'/'+report.zySummary.total+' 次已提交</div></div>';
+    html+='<div class="learning-report-summary-card"><div class="label">平均看课进度</div><div class="value">'+report.avgProgress+'%</div><div class="sub">'+lessons.length+' 节课程记录</div></div>';
+    html+='<div class="learning-report-summary-card"><div class="label">模拟成绩均分</div><div class="value">'+(report.grades.length?report.gradeAvg:'-')+'</div><div class="sub">'+(report.grades.length?'最高 '+report.gradeBest+' 分':'暂无成绩')+'</div></div>';
+    var vocab=report.vocab[0];
+    html+='<div class="learning-report-summary-card"><div class="label">词汇评估</div><div class="value">'+(vocab?vocab.score:'-')+'</div><div class="sub">'+(vocab?_lrEscape(vocab.level)+'水平':'暂无评估')+'</div></div>';
+    html+='</div>';
+
+    html+='<div class="learning-report-section"><h2>一、练测与作业完成情况</h2><table class="learning-report-table"><thead><tr><th>类型</th><th>名称</th><th>学科</th><th>提交状态</th><th>完成/总题数</th><th>错题数</th><th>提交时间</th></tr></thead><tbody>';
+    if(!allPractice.length) html+=_lrEmpty(7,'暂无练测或作业记录');
+    allPractice.forEach(function(item){
+      var review=item.selfReview||{}, done=review.done!==undefined?review.done:'-', total=review.total!==undefined?review.total:'-';
+      var submitted=item.submitStatus==='submitted' || item.submitTime;
+      html+='<tr><td>'+_lrEscape(lc.indexOf(item)>=0?'练测':'作业')+'</td><td>'+_lrEscape(item.paperName||item.title||'-')+'</td><td>'+_lrEscape(item.subject||'-')+'</td><td>'+_lrTag(submitted?'已提交':'未提交',submitted?'success':'gray')+'</td><td>'+done+'/'+total+'</td><td>'+(review.wrong===undefined?'-':review.wrong)+'</td><td>'+_lrEscape(_lrDate(item.submitTime))+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+
+    html+='<div class="learning-report-section"><h2>二、课程学习情况</h2><table class="learning-report-table"><thead><tr><th>课程</th><th>章节</th><th>看课进度</th><th>随堂练习</th><th>练习错题</th><th>学习时间</th></tr></thead><tbody>';
+    if(!lessons.length) html+=_lrEmpty(6,'暂无看课记录');
+    lessons.forEach(function(item){
+      var ts=item.testStats||{}, ps=item.practiceStats||{};
+      html+='<tr><td>'+_lrEscape(item.courseName||'-')+'</td><td>'+_lrEscape(item.chapter||'-')+'</td><td>'+_lrTag(item.progress||'0%',_lrPercent(item.progress)>=80?'success':(_lrPercent(item.progress)>=60?'warn':'danger'))+'</td><td>'+((ts.done===undefined)?'-':ts.done+'/'+(ts.total||0))+'</td><td>'+((ps.wrong===undefined)?'-':ps.wrong)+'</td><td>'+_lrEscape(_lrDate(item.viewTime))+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+
+    html+='<div class="learning-report-section"><h2>三、成绩与专项能力</h2>';
+    html+='<table class="learning-report-table"><thead><tr><th>数据项</th><th>记录</th><th>核心指标</th><th>时间/备注</th></tr></thead><tbody>';
+    if(!report.grades.length && !report.vocab.length && !report.words && !report.ciju && !report.reading.length && !report.yuwen.length && !report.cijuExercises.length) html+=_lrEmpty(4,'暂无成绩或专项能力数据');
+    report.grades.forEach(function(item){html+='<tr><td>模拟成绩</td><td>'+_lrEscape(item.paperName||'-')+'</td><td><strong>'+_lrEscape(item.totalScore)+' 分</strong>（班级第 '+_lrEscape(item.classRank||'-')+' 名）</td><td>'+_lrEscape(item.subject||'')+'</td></tr>';});
+    report.vocab.forEach(function(item){html+='<tr><td>词汇评估</td><td>'+_lrEscape(item.level)+'水平</td><td><strong>'+_lrEscape(item.score)+' 分</strong></td><td>'+_lrEscape(_lrDate(item.testTime))+'</td></tr>';});
+    if(report.words) html+='<tr><td>单词背诵</td><td>累计词汇</td><td><strong>'+_lrEscape(report.words.totalProgress)+'%</strong>（'+_lrEscape(report.words.easyCount+report.words.fuzzyCount+report.words.strangeCount)+'/'+_lrEscape(report.words.totalCount)+'）</td><td>本周 '+_lrEscape(report.words.weekCount)+' 词</td></tr>';
+    if(report.ciju){var catCount=Object.keys(report.ciju.cats||{}).length;var catProgress=[];Object.keys(report.ciju.cats||{}).forEach(function(k){catProgress.push(Number(report.ciju.cats[k].totalProgress)||0);});var cp=catProgress.length?Math.round(catProgress.reduce(function(a,b){return a+b;},0)/catProgress.length):0;html+='<tr><td>词句背诵</td><td>'+catCount+' 个分类</td><td><strong>'+cp+'%</strong> 平均进度</td><td>覆盖词句分类学习</td></tr>';};
+    report.quizzes.forEach(function(item){html+='<tr><td>单词小测</td><td>'+_lrEscape(item.dateRange||'词汇小测')+'</td><td><strong>'+_lrEscape(item.answeredCount||0)+'/'+_lrEscape(item.totalWords||0)+'</strong> 已作答</td><td>生成于 '+_lrEscape(_lrDate(item.generateTime))+'</td></tr>';});
+    if(report.errors.length) html+='<tr><td>错题订正</td><td>错题记录</td><td><strong>'+report.errors.length+' 条</strong></td><td>建议结合错题解析复习</td></tr>';
+    if(report.reading.length || report.yuwen.length || report.cijuExercises.length) html+='<tr><td>阅读/句子练习</td><td>'+_lrEscape(report.reading.length+report.yuwen.length+report.cijuExercises.length)+' 条记录</td><td><strong>已提交练习</strong></td><td>英语阅读、语文阅读及长难句</td></tr>';
+    html+='</tbody></table></div>';
+
+    html+='<div class="learning-report-section"><h2>四、资料阅读与提醒</h2><table class="learning-report-table"><thead><tr><th>类型</th><th>名称</th><th>学科</th><th>状态</th><th>时间</th></tr></thead><tbody>';
+    var resourceRows=report.docs.concat(report.reminders);
+    if(!resourceRows.length) html+=_lrEmpty(5,'暂无资料或提醒记录');
+    resourceRows.forEach(function(item){var isDoc=report.docs.indexOf(item)>=0;var name=isDoc?(item.docName||'-'):(item.title||'-');html+='<tr><td>'+_lrEscape(isDoc?'资料':'提醒')+'</td><td>'+_lrEscape(name)+'</td><td>'+_lrEscape(item.subject||'-')+'</td><td>'+_lrTag(item.submitStatus==='submitted'?'已完成':'已记录',item.submitStatus==='submitted'?'success':'gray')+'</td><td>'+_lrEscape(_lrDate(item.submitTime||item.remindTime||item.keBiaoDate))+'</td></tr>';});
+    html+='</tbody></table></div>';
+
+    var advice=[];
+    if(report.lcSummary.total && report.lcSummary.rate<70) advice.push('练测提交率为 '+report.lcSummary.rate+'%，建议按周完成未提交练测并及时复盘错题。');
+    if(report.zySummary.total && report.zySummary.rate<70) advice.push('作业提交率为 '+report.zySummary.rate+'%，建议按照课程节点完成作业。');
+    if(lessons.length && report.avgProgress<80) advice.push('平均看课进度为 '+report.avgProgress+'%，建议优先补齐进度较低的章节。');
+    if(report.grades.length && report.gradeAvg<70) advice.push('模拟成绩均分为 '+report.gradeAvg+' 分，建议结合错题与知识点薄弱项进行专项训练。');
+    if(report.vocab.length && report.vocab[0].level==='低') advice.push('词汇评估为低水平，建议提高每日词汇背诵量并增加复习频次。');
+    if(!advice.length) advice.push('当前学习记录整体稳定，建议保持练测、看课和专项训练的连续性。');
+    html+='<div class="learning-report-section"><h2>五、学习结论与建议</h2><div class="learning-report-insight"><strong>'+_lrEscape(s.name)+'：</strong>'+advice.map(function(item){return _lrEscape(item);}).join('<br>')+'</div></div>';
+    html+='<div style="margin-top:22px;color:#94a3b8;font-size:11px;text-align:right">本报告由学情管理模块自动汇总，仅供教学跟踪与辅导参考。</div></div>';
+    return html;
+  }
+  window._openStudentLearningReport=function(studentId){
+    var report=_lrBuildReport(studentId);
+    if(!report) return;
+    var title=document.getElementById('studentLearningReportTitle');
+    var body=document.getElementById('studentLearningReportBody');
+    if(title) title.textContent=report.student.name+'的学情报告';
+    if(body) body.innerHTML=_lrRenderReport(report);
+    var modal=document.getElementById('studentLearningReportModal');
+    if(modal) modal.classList.add('show');
+    document.body.classList.remove('learning-report-printing');
+  };
+  window._closeStudentLearningReport=function(){
+    var modal=document.getElementById('studentLearningReportModal');
+    if(modal) modal.classList.remove('show');
+    document.body.classList.remove('learning-report-printing');
+  };
+  window._printStudentLearningReport=function(){
+    var modal=document.getElementById('studentLearningReportModal');
+    if(!modal || !modal.classList.contains('show')) return;
+    document.body.classList.add('learning-report-printing');
+    window.setTimeout(function(){window.print();window.setTimeout(function(){document.body.classList.remove('learning-report-printing');},300);},30);
+  };
+
+  /* ========== 学情报告 - 科目与月份分析版 ========== */
+  function _lr2Month(value){
+    var match=String(value||'').match(/(\d{4}-\d{2})/);
+    return match?match[1]:'';
+  }
+  function _lr2ItemMonth(item){
+    var fields=[item&&item.submitTime,item&&item.generateTime,item&&item.testTime,item&&item.viewTime,item&&item.keBiaoDate,item&&item.dateRange];
+    for(var i=0;i<fields.length;i++){var month=_lr2Month(fields[i]);if(month)return month;}
+    return '';
+  }
+  function _lr2MonthFilter(list,month){
+    if(!month)return list.slice();
+    return list.filter(function(item){var itemMonth=_lr2ItemMonth(item);return !itemMonth || itemMonth===month;});
+  }
+  function _lr2SubjectFilter(list,subject){
+    return list.filter(function(item){return !item.subject || item.subject===subject;});
+  }
+  function _lr2MonthOptions(student){
+    var map={},now=new Date();
+    for(var i=0;i<12;i++){
+      var date=new Date(now.getFullYear(),now.getMonth()-i,1);
+      map[date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')]=true;
+    }
+    ['lianCeMingxiData','zuoYeMingxiData','kanKeMingxiData','danciXiaoceData','englishReadingExerciseData','cihuiPingguData','chengjiTongjiData'].forEach(function(name){
+      _lrDataList(name,student).forEach(function(item){var month=_lr2ItemMonth(item);if(month)map[month]=true;});
+    });
+    var errorHolder=(cuotiDayinData||[]).find(function(item){return _lrMatch(item,student);});
+    if(errorHolder && errorHolder.questions) errorHolder.questions.forEach(function(item){var month=_lr2ItemMonth(item);if(month)map[month]=true;});
+    return Object.keys(map).sort().reverse();
+  }
+  function _lr2CountBy(list,field){
+    var map={};
+    list.forEach(function(item){var key=item[field]||'未分类';map[key]=(map[key]||0)+1;});
+    return Object.keys(map).map(function(key){return {key:key,count:map[key]};}).sort(function(a,b){return b.count-a.count;});
+  }
+  function _lr2ErrorQuestions(student,subject,month){
+    var holder=(cuotiDayinData||[]).find(function(item){return _lrMatch(item,student);});
+    if(!holder || !holder.questions)return [];
+    return holder.questions.filter(function(item){
+      var sameSubject=!subject || item.subject===subject;
+      var itemMonth=_lr2ItemMonth(item);
+      return sameSubject && (!month || !itemMonth || itemMonth===month);
+    });
+  }
+  function _lr2Build(studentId,subject,month){
+    var student=(studentData||[]).find(function(item){return String(item.id)===String(studentId);});
+    if(!student)return null;
+    var lc=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('lianCeMingxiData',student),month),subject);
+    var zy=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('zuoYeMingxiData',student),month),subject);
+    var lessons=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('kanKeMingxiData',student),month),subject);
+    var grades=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('chengjiTongjiData',student),month),subject);
+    var errors=subject==='数学'?_lr2ErrorQuestions(student,subject,month):[];
+    var vocabAll=_lrDataList('cihuiPingguData',student),vocab=subject==='英语'?_lr2MonthFilter(vocabAll,month):[];
+    var levelTestsAll=[],levelTests=[];
+    var words=subject==='英语'?(_lrDataList('danciBeisongData',student)[0]||null):null;
+    var quizzes=subject==='英语'?_lr2MonthFilter(_lrDataList('danciXiaoceData',student),month):[];
+    var reading=subject==='英语'?_lr2MonthFilter(_lrDataList('englishReadingExerciseData',student),month):[];
+    var docs=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('wenDangMingxiData',student),month),subject);
+    var reminders=_lr2SubjectFilter(_lr2MonthFilter(_lrDataList('tiXingMingxiData',student),month),subject);
+    /* 张三 2026 年 9 月演示数据：用于让报告首次展示时有完整的统计样例。 */
+    if(String(student.id)==='2025001' && month==='2026-09'){
+      if(subject==='数学'){
+        lc=lc.concat([
+          {studentName:'张三',subject:'数学',paperName:'九月函数综合练测',submitStatus:'submitted',submitTime:'2026-09-05 19:20',studentScore:86,totalScore:100,selfReview:{done:18,wrong:4,total:20}},
+          {studentName:'张三',subject:'数学',paperName:'九月极限专题练测',submitStatus:'submitted',submitTime:'2026-09-18 20:10',studentScore:92,totalScore:100,selfReview:{done:16,wrong:3,total:20}},
+          {studentName:'张三',subject:'数学',paperName:'九月线性代数综合练测',submitStatus:'not_submitted',submitTime:'',studentScore:0,totalScore:100,selfReview:{done:0,wrong:0,total:20}}
+        ]);
+        zy=zy.concat([
+          {studentName:'张三',subject:'数学',paperName:'九月课后作业一',submitStatus:'submitted',submitTime:'2026-09-09 21:08',selfReview:{done:14,wrong:3,total:16}},
+          {studentName:'张三',subject:'数学',paperName:'九月课后作业二',submitStatus:'submitted',submitTime:'2026-09-22 20:16',selfReview:{done:17,wrong:2,total:18}},
+          {studentName:'张三',subject:'数学',paperName:'九月课后作业三',submitStatus:'not_submitted',submitTime:'',selfReview:{done:0,wrong:0,total:18}}
+        ]);
+        lessons=lessons.concat([
+          {studentName:'张三',subject:'数学',courseName:'函数与极限',chapter:'导数与函数综合',progress:'100%',viewTime:'2026-09-06 18:30',testStats:{total:12,done:11,wrong:2},practiceStats:{total:16,done:15,wrong:3}},
+          {studentName:'张三',subject:'数学',courseName:'高等数学基础',chapter:'定积分应用',progress:'100%',viewTime:'2026-09-16 19:10',testStats:{total:10,done:10,wrong:1},practiceStats:{total:14,done:13,wrong:2}},
+          {studentName:'张三',subject:'数学',courseName:'线性代数',chapter:'矩阵与行列式',progress:'76%',viewTime:'2026-09-25 20:05',testStats:{total:10,done:7,wrong:2},practiceStats:{total:12,done:9,wrong:3}}
+        ]);
+        grades=grades.concat([
+          {studentId:'2025001',studentName:'张三',subject:'数学',paperName:'9月数学阶段测评',totalScore:112,classRank:4,targetLine:120,nationalLine:105}
+        ]);
+        errors=errors.concat([
+          {subject:'数学',subSubject:'高等数学',courseType:'基础课程',courseName:'函数与极限',courseChapter:'定积分应用',errorReason:'计算错误',knowledgePoint:'定积分与不定积分',correctionStatus:'已订正',submitTime:'2026-09-03'},
+          {subject:'数学',subSubject:'高等数学',courseType:'基础课程',courseName:'函数与极限',courseChapter:'导数专题',errorReason:'概念混淆',knowledgePoint:'导数的应用',correctionStatus:'已订正',submitTime:'2026-09-05'},
+          {subject:'数学',subSubject:'高等数学',courseType:'进阶课程',courseName:'函数与极限',courseChapter:'极限综合',errorReason:'计算错误',knowledgePoint:'极限与连续',correctionStatus:'未订正',submitTime:'2026-09-08'},
+          {subject:'数学',subSubject:'高等数学',courseType:'基础课程',courseName:'函数与极限',courseChapter:'函数性质',errorReason:'审题不清',knowledgePoint:'函数的性质',correctionStatus:'已订正',submitTime:'2026-09-12'},
+          {subject:'数学',subSubject:'线性代数',courseType:'进阶课程',courseName:'线性代数',courseChapter:'矩阵运算',errorReason:'知识盲区',knowledgePoint:'矩阵与行列式',correctionStatus:'未订正',submitTime:'2026-09-15'},
+          {subject:'数学',subSubject:'高等数学',courseType:'进阶课程',courseName:'函数与极限',courseChapter:'导数专题',errorReason:'概念混淆',knowledgePoint:'导数的应用',correctionStatus:'已订正',submitTime:'2026-09-19'},
+          {subject:'数学',subSubject:'高等数学',courseType:'基础课程',courseName:'函数与极限',courseChapter:'定积分应用',errorReason:'计算错误',knowledgePoint:'定积分与不定积分',correctionStatus:'未订正',submitTime:'2026-09-22'},
+          {subject:'数学',subSubject:'高等数学',courseType:'进阶课程',courseName:'函数与极限',courseChapter:'极限综合',errorReason:'粗心大意',knowledgePoint:'极限与连续',correctionStatus:'已订正',submitTime:'2026-09-27'}
+        ]);
+        levelTestsAll=[
+          {studentId:'2025001',studentName:'张三',subject:'数学',testName:'基础水平测试',score:96,level:'基础层',testTime:'2026-07-20'},
+          {studentId:'2025001',studentName:'张三',subject:'数学',testName:'阶段水平测试',score:108,level:'巩固层',testTime:'2026-08-18'},
+          {studentId:'2025001',studentName:'张三',subject:'数学',testName:'九月数学水平测试',score:112,level:'拓展层',testTime:'2026-09-26'}
+        ];
+        docs=docs.concat([{studentName:'张三',subject:'数学',docName:'九月高数重点公式手册',docType:'PDF',submitStatus:'submitted',submitTime:'2026-09-06'},{studentName:'张三',subject:'数学',docName:'九月线性代数讲义',docType:'PPT',submitStatus:'submitted',submitTime:'2026-09-21'}]);
+        reminders=reminders.concat([{studentName:'张三',subject:'数学',title:'九月函数作业提醒',submitStatus:'submitted',submitTime:'2026-09-08'},{studentName:'张三',subject:'数学',title:'九月错题订正提醒',submitStatus:'not_submitted',submitTime:''}]);
+      }else{
+        words=Object.assign({},words||{}, {totalProgress:78,totalCount:5500,weekCount:320,todayCount:48,easyCount:3180,normalCount:920,fuzzyCount:860,strangeCount:540});
+        vocabAll=vocabAll.concat([
+          {studentName:'张三',level:'中',score:68,testTime:'2026-07-18'},
+          {studentName:'张三',level:'中高',score:76,testTime:'2026-08-22'},
+          {studentName:'张三',level:'高',score:82,testTime:'2026-09-14'},
+          {studentName:'张三',level:'高',score:86,testTime:'2026-09-28'}
+        ]);
+        quizzes=quizzes.concat([
+          {studentName:'张三',studentId:'2025001',totalWords:40,answeredCount:38,generateTime:'2026-09-08 09:15'},
+          {studentName:'张三',studentId:'2025001',totalWords:40,answeredCount:36,generateTime:'2026-09-22 09:20'}
+        ]);
+        reading=reading.concat([
+          {studentNo:'2025001',studentName:'张三',articleKey:'read-2001',studentAnswers:[1,2],submitTime:'2026-09-10 14:20'},
+          {studentNo:'2025001',studentName:'张三',articleKey:'read-2001',studentAnswers:[0,2],submitTime:'2026-09-24 15:05'}
+        ]);
+        docs=docs.concat([{studentName:'张三',subject:'英语',docName:'九月考研英语词汇表',docType:'PDF',submitStatus:'submitted',submitTime:'2026-09-07'},{studentName:'张三',subject:'英语',docName:'九月阅读技巧精讲',docType:'Word',submitStatus:'submitted',submitTime:'2026-09-19'}]);
+        reminders=reminders.concat([{studentName:'张三',subject:'英语',title:'九月阅读练习提醒',submitStatus:'submitted',submitTime:'2026-09-11'},{studentName:'张三',subject:'英语',title:'九月词汇打卡提醒',submitStatus:'not_submitted',submitTime:''}]);
+      }
+    }
+    if(String(student.id)==='2025001'){
+      if(!levelTestsAll.length) levelTestsAll=[
+        {studentId:'2025001',studentName:'张三',subject:'数学',testName:'基础水平测试',score:96,level:'基础层',testTime:'2026-07-20'},
+        {studentId:'2025001',studentName:'张三',subject:'数学',testName:'阶段水平测试',score:108,level:'巩固层',testTime:'2026-08-18'},
+        {studentId:'2025001',studentName:'张三',subject:'数学',testName:'九月数学水平测试',score:112,level:'拓展层',testTime:'2026-09-26'}
+      ];
+      if(!vocabAll.some(function(item){return item.testTime==='2026-09-28';})) vocabAll=vocabAll.concat([
+        {studentName:'张三',level:'中',score:68,testTime:'2026-07-18'},
+        {studentName:'张三',level:'中高',score:76,testTime:'2026-08-22'},
+        {studentName:'张三',level:'高',score:82,testTime:'2026-09-14'},
+        {studentName:'张三',level:'高',score:86,testTime:'2026-09-28'}
+      ]);
+    }
+    vocab=subject==='英语'?_lr2MonthFilter(vocabAll,month):[];
+    levelTests=subject==='数学'?_lr2MonthFilter(levelTestsAll,month):[];
+    var currentVocab=vocabAll.slice().sort(function(a,b){return String(b.testTime||'').localeCompare(String(a.testTime||''));})[0]||null;
+    var currentLevelTest=levelTestsAll.slice().sort(function(a,b){return String(b.testTime||'').localeCompare(String(a.testTime||''));})[0]||null;
+    var lcSummary=_lrSummary(lc),zySummary=_lrSummary(zy);
+    var gradeScores=grades.map(function(item){return Number(item.totalScore)||0;});
+    var gradeAvg=gradeScores.length?Math.round(gradeScores.reduce(function(a,b){return a+b;},0)/gradeScores.length):0;
+    var gradeBest=gradeScores.length?Math.max.apply(Math,gradeScores):0;
+    var quizWords=0,quizAnswered=0;
+    quizzes.forEach(function(item){quizWords+=Number(item.totalWords)||0;quizAnswered+=Number(item.answeredCount)||0;});
+    var readingQuestions=0,readingWrong=0;
+    reading.forEach(function(item){
+      try{var result=getEnglishReadingResult(item);readingQuestions+=result.totalCount||0;readingWrong+=result.wrongCount||0;}
+      catch(e){readingQuestions+=(item.studentAnswers||[]).length;}
+    });
+    return {student:student,subject:subject,month:month,lc:lc,zy:zy,lessons:lessons,grades:grades,errors:errors,vocab:vocab,vocabAll:vocabAll,currentVocab:currentVocab,levelTests:levelTests,levelTestsAll:levelTestsAll,currentLevelTest:currentLevelTest,words:words,quizzes:quizzes,reading:reading,docs:docs,reminders:reminders,lcSummary:lcSummary,zySummary:zySummary,gradeAvg:gradeAvg,gradeBest:gradeBest,quizWords:quizWords,quizAnswered:quizAnswered,readingQuestions:readingQuestions,readingWrong:readingWrong};
+  }
+  function _lr2Metric(label,value,note){
+    return '<div class="learning-report-summary-card"><div class="label">'+_lrEscape(label)+'</div><div class="value">'+_lrEscape(value)+'</div><div class="sub">'+_lrEscape(note||'')+'</div></div>';
+  }
+  function _lr2BarRows(items,label){
+    if(!items.length)return '<div class="learning-report-empty">暂无数据</div>';
+    var max=items[0].count||1,html='<table class="learning-report-table"><thead><tr><th>'+_lrEscape(label)+'</th><th>次数</th><th>占比</th></tr></thead><tbody>';
+    items.slice(0,8).forEach(function(item){var pct=Math.round(item.count/(items.reduce(function(a,b){return a+b.count;},0))*100);html+='<tr><td>'+_lrEscape(item.key)+'</td><td>'+item.count+'</td><td><div class="learning-report-bar"><i style="width:'+Math.max(4,Math.round(item.count/max*100))+'%"></i></div><span class="learning-report-kpi-note">'+pct+'%</span></td></tr>';});
+    return html+'</tbody></table>';
+  }
+  function _lr2ReportHead(report){
+    var s=report.student;
+    return '<div class="learning-report-cover"><div><h1>'+_lrEscape(report.subject)+'学情分析报告</h1><p>按学情管理模块汇总生成，报告月份：'+_lrEscape(report.month)+'</p><p>学员：<strong>'+_lrEscape(s.name)+'</strong>　学号：'+_lrEscape(s.id)+'　班级：'+_lrEscape(s.stuClass)+'</p></div><div class="learning-report-cover-meta">生成时间<strong>'+_lrEscape(new Date().toLocaleDateString('zh-CN'))+'</strong>数据口径：'+_lrEscape(report.month)+' 月度记录</div></div>';
+  }
+  function _lr2Donut(rate,label,detail){
+    var safe=Math.max(0,Math.min(100,Number(rate)||0));
+    return '<div class="learning-report-donut-wrap"><div class="learning-report-donut-box"><div class="learning-report-donut" style="--rate:'+safe+'%"></div><div class="learning-report-donut-value">'+safe+'%</div></div><div class="learning-report-donut-caption"><strong>'+_lrEscape(label)+'</strong><br>'+_lrEscape(detail||'')+'</div></div>';
+  }
+  function _lr2RankChart(items,label){
+    if(!items.length)return '<div class="learning-report-empty">暂无数据</div>';
+    var max=items[0].count||1,total=items.reduce(function(a,b){return a+b.count;},0),html='<div class="learning-report-rank-list">';
+    items.slice(0,6).forEach(function(item){html+='<div class="learning-report-rank-row"><span>'+_lrEscape(item.key)+'</span><div class="track"><i style="width:'+Math.max(5,Math.round(item.count/max*100))+'%"></i></div><b>'+item.count+' 次</b></div>';});
+    return html+'</div>';
+  }
+  function _lr2CompareChart(items){
+    var html='<div class="learning-report-bar-chart">';
+    items.forEach(function(item){var value=Math.max(0,Math.min(100,Number(item.value)||0));html+='<div class="learning-report-bar-col"><em>'+value+'%</em><i style="height:'+Math.max(8,value)+'%"></i><span>'+_lrEscape(item.label)+'</span></div>';});
+    return html+'</div>';
+  }
+  function _lr2Math(report){
+    var reasons=_lr2CountBy(report.errors,'errorReason'),knowledge=_lr2CountBy(report.errors,'knowledgePoint');
+    var uncorrected=report.errors.filter(function(item){return item.correctionStatus!=='已订正';}).length;
+    var correctedRate=report.errors.length?Math.round((report.errors.length-uncorrected)/report.errors.length*100):0;
+    var avgProgress=report.lessons.length?Math.round(report.lessons.reduce(function(a,b){return a+_lrPercent(b.progress);},0)/report.lessons.length):0;
+    var overallRate=Math.round((report.lcSummary.rate+report.zySummary.rate)/2);
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-summary-grid">';
+    html+=_lr2Metric('模拟成绩均分',report.grades.length?report.gradeAvg+' 分':'-',report.grades.length?'最高 '+report.gradeBest+' 分':'该月份暂无成绩');
+    html+=_lr2Metric('练测完成率',report.lcSummary.rate+'%',report.lcSummary.submitted+'/'+report.lcSummary.total+' 次已提交');
+    html+=_lr2Metric('作业完成率',report.zySummary.rate+'%',report.zySummary.submitted+'/'+report.zySummary.total+' 次已提交');
+    html+=_lr2Metric('数学错题',report.errors.length+' 题',uncorrected+' 题未订正');
+    html+=_lr2Metric('看课进度',avgProgress+'%',report.lessons.length+' 节课程记录');
+    html+='</div>';
+    html+='<div class="learning-report-section"><h2>一、数学学习仪表盘</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>练测与作业综合完成度</h3>'+_lr2Donut(overallRate,'综合完成度','练测 '+report.lcSummary.rate+'% · 作业 '+report.zySummary.rate+'%')+'</div><div class="learning-report-chart-card"><h3>错题订正率</h3>'+_lr2Donut(correctedRate,'已订正','共 '+report.errors.length+' 题，待订正 '+uncorrected+' 题')+'</div><div class="learning-report-chart-card"><h3>学习模块完成率</h3>'+_lr2CompareChart([{label:'练测',value:report.lcSummary.rate},{label:'作业',value:report.zySummary.rate},{label:'看课',value:avgProgress}])+'</div><div class="learning-report-chart-card"><h3>成绩表现</h3>'+_lr2Donut(report.grades.length?Math.round(report.gradeAvg):0,'平均成绩',report.grades.length?'目标线 '+(report.grades[0].targetLine||'-')+' 分':'暂无考试记录')+'</div></div></div>';
+    html+='<div class="learning-report-section"><h2>二、错题原因与知识点画像</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>错误原因占比</h3>'+_lr2RankChart(reasons,'错误原因')+'</div><div class="learning-report-chart-card"><h3>错误知识点占比</h3>'+_lr2RankChart(knowledge,'知识点')+'</div></div><div class="learning-report-source-note">数据来源：错题统计模块，按学员、数学科目及报告月份筛选。</div></div>';
+    var advice=[];
+    if(uncorrected)advice.push('优先完成 '+uncorrected+' 道未订正错题，并记录具体错误原因。');
+    if(reasons.length && reasons[0].count>=2)advice.push('“'+reasons[0].key+'”是本月主要错误原因，建议安排针对性训练。');
+    if(knowledge.length)advice.push('重点复习知识点：'+knowledge.slice(0,3).map(function(item){return item.key;}).join('、')+'。');
+    if(!advice.length)advice.push('本月暂无足够数学错题数据，建议保持练测与错题复盘节奏。');
+    html+='<div class="learning-report-section"><h2>三、分析结论与建议</h2><div class="learning-report-insight-panel"><strong>'+_lrEscape(report.student.name)+'：</strong>'+advice.map(function(item){return _lrEscape(item);}).join('<br>')+'</div></div>';
+    return html;
+  }
+  function _lr2English(report){
+    var words=report.words,readingRate=report.readingQuestions?Math.round((report.readingQuestions-report.readingWrong)/report.readingQuestions*100):0;
+    var quizRate=report.quizWords?Math.round(report.quizAnswered/report.quizWords*100):0;
+    var familiar=words?((words.easyCount||0)+(words.normalCount||0)):0,uncertain=words?((words.fuzzyCount||0)+(words.strangeCount||0)):0;
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-summary-grid">';
+    html+=_lr2Metric('单词背诵进度',words?words.totalProgress+'%':'-',words?'累计 '+words.totalCount+' 词':'暂无背诵快照');
+    html+=_lr2Metric('本周背诵',words?words.weekCount+' 词':'-',words?'今日 '+words.todayCount+' 词':'暂无数据');
+    html+=_lr2Metric('单词小测',report.quizzes.length+' 次',report.quizWords?report.quizAnswered+'/'+report.quizWords+' 词已作答':'暂无小测题目');
+    html+=_lr2Metric('阅读文章练习',report.reading.length+' 篇',report.readingQuestions+' 道题');
+    html+=_lr2Metric('阅读正确率',report.readingQuestions?readingRate+'%':'-',report.readingWrong+' 道错题');
+    html+='</div>';
+    html+='<div class="learning-report-section"><h2>一、英语学习仪表盘</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>词汇累计进度</h3>'+_lr2Donut(words?words.totalProgress:0,'背诵进度',words?'熟悉 '+familiar+' 词 · 模糊/陌生 '+uncertain+' 词':'暂无背诵数据')+'</div><div class="learning-report-chart-card"><h3>阅读练习正确率</h3>'+_lr2Donut(readingRate,'正确率',report.readingQuestions+' 道题 · 错题 '+report.readingWrong+' 道')+'</div><div class="learning-report-chart-card"><h3>学习投入对比</h3>'+_lr2CompareChart([{label:'本周背词',value:words?Math.min(100,Math.round(words.weekCount/4)):0},{label:'小测作答',value:quizRate},{label:'阅读练习',value:Math.min(100,report.reading.length*25)}])+'</div><div class="learning-report-chart-card"><h3>词汇掌握结构</h3>'+_lr2RankChart([{key:'熟悉词汇',count:familiar},{key:'模糊词汇',count:words?words.fuzzyCount||0:0},{key:'陌生词汇',count:words?words.strangeCount||0:0}],'词汇状态')+'</div></div></div>';
+    html+='<div class="learning-report-section"><h2>二、专项学习趋势</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>单词小测完成率</h3>'+_lr2Donut(quizRate,'作答率',report.quizzes.length+' 次小测 · '+report.quizAnswered+'/'+report.quizWords+' 词')+'</div><div class="learning-report-chart-card"><h3>阅读文章练习量</h3>'+_lr2CompareChart([{label:'文章数',value:Math.min(100,report.reading.length*25)},{label:'完成题目',value:Math.min(100,report.readingQuestions*10)},{label:'正确题目',value:Math.min(100,(report.readingQuestions-report.readingWrong)*10)}])+'</div></div><div class="learning-report-source-note">数据来源：单词背诵、单词小测、英语阅读练习及词汇评估模块。</div></div>';
+    var englishAdvice=[];
+    if(words && words.totalProgress<60)englishAdvice.push('当前单词背诵进度为 '+words.totalProgress+'%，建议提高每日背诵量并保持滚动复习。');
+    if(report.quizWords && report.quizAnswered/report.quizWords<0.8)englishAdvice.push('单词小测作答率偏低，建议完成整套小测后再查看结果。');
+    if(report.readingQuestions && readingRate<70)englishAdvice.push('阅读练习正确率为 '+readingRate+'%，建议按文章逐题复盘并整理生词。');
+    if(!englishAdvice.length)englishAdvice.push('当前英语学习记录较为稳定，建议保持词汇、阅读练习的连续性。');
+    html+='<div class="learning-report-section"><h2>三、分析结论与建议</h2><div class="learning-report-insight-panel"><strong>'+_lrEscape(report.student.name)+'：</strong>'+englishAdvice.map(function(item){return _lrEscape(item);}).join('<br>')+'</div></div>';
+    return html;
+  }
+  function _lr2CompletionStats(list){
+    var done=0,total=0,submitted=0;
+    list.forEach(function(item){
+      if(item.submitStatus==='submitted' || item.submitTime)submitted++;
+      var review=item.selfReview||{};
+      done+=Number(review.done)||0;total+=Number(review.total)||0;
+    });
+    if(!total)total=list.length;
+    return {done:done,total:total,submitted:submitted,rate:total?Math.round(done/total*100):(list.length?Math.round(submitted/list.length*100):0)};
+  }
+  function _lr2ModuleDocs(title,docs,reminders){
+    var docDone=docs.filter(function(item){return item.submitStatus==='submitted';}).length;
+    var reminderDone=reminders.filter(function(item){return item.submitStatus==='submitted';}).length;
+    var docRate=docs.length?Math.round(docDone/docs.length*100):0,reminderRate=reminders.length?Math.round(reminderDone/reminders.length*100):0;
+    return '<div class="learning-report-section"><h2>'+_lrEscape(title)+'</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>文档完成情况</h3>'+_lr2Donut(docRate,'完成 '+docDone+' 份','共 '+docs.length+' 份文档')+'</div><div class="learning-report-chart-card"><h3>提醒完成情况</h3>'+_lr2Donut(reminderRate,'完成 '+reminderDone+' 条','共 '+reminders.length+' 条提醒')+'</div><div class="learning-report-chart-card"><h3>文档与提醒对比</h3>'+_lr2CompareChart([{label:'文档完成',value:docRate},{label:'提醒完成',value:reminderRate}])+'</div><div class="learning-report-chart-card"><h3>本月学习触达</h3>'+_lr2Donut(Math.min(100,Math.round((docs.length+reminders.length)/8*100)),'触达 '+(docs.length+reminders.length)+' 项','完成 '+(docDone+reminderDone)+' 项')+'</div></div><div class="learning-report-source-note">文档与提醒均按所选科目、报告月份统计。</div></div>';
+  }
+  function _lr2KnowledgeRows(errors){
+    var map={};
+    errors.forEach(function(item){
+      var key=item.knowledgePoint||'未分类知识点';
+      if(!map[key])map[key]={subSubject:item.subSubject||'高等数学',courseType:item.courseType||'基础课程',courseName:item.courseName||'数学综合训练',courseChapter:item.courseChapter||'专项复习',knowledgePoint:key,count:0};
+      map[key].count++;
+    });
+    var rows=Object.keys(map).map(function(key){return map[key];}).sort(function(a,b){return b.count-a.count;});
+    if(!rows.length)return '<div class="learning-report-empty">暂无错误知识点数据</div>';
+    var html='<div class="learning-report-list-wrap"><table class="learning-report-detail-table"><thead><tr><th>子科目</th><th>课程类型</th><th>课程名称</th><th>课程章节</th><th>知识点</th><th>错误次数</th></tr></thead><tbody>';
+    rows.forEach(function(row){html+='<tr><td>'+_lrEscape(row.subSubject)+'</td><td>'+_lrEscape(row.courseType)+'</td><td>'+_lrEscape(row.courseName)+'</td><td>'+_lrEscape(row.courseChapter)+'</td><td>'+_lrEscape(row.knowledgePoint)+'</td><td><strong>'+row.count+'</strong></td></tr>';});
+    return html+'</tbody></table></div>';
+  }
+  function _lr2MathDetailed(report){
+    var reasons=_lr2CountBy(report.errors,'errorReason'),knowledge=_lr2CountBy(report.errors,'knowledgePoint');
+    var uncorrected=report.errors.filter(function(item){return item.correctionStatus!=='已订正';}).length;
+    var correctedRate=report.errors.length?Math.round((report.errors.length-uncorrected)/report.errors.length*100):0;
+    var lc=_lr2CompletionStats(report.lc),zy=_lr2CompletionStats(report.zy);
+    var avgProgress=report.lessons.length?Math.round(report.lessons.reduce(function(a,b){return a+_lrPercent(b.progress);},0)/report.lessons.length):0;
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-section"><h2>一、练测分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>练测完成度</h3>'+_lr2Donut(lc.rate,'完成 '+lc.done+' 题','共 '+lc.total+' 题 · 提交 '+lc.submitted+' 次')+'</div><div class="learning-report-chart-card"><h3>练测答题结构</h3>'+_lr2CompareChart([{label:'完成',value:lc.total?Math.round(lc.done/lc.total*100):0},{label:'错题',value:lc.total?Math.round((report.lcSummary.wrong||0)/lc.total*100):0},{label:'未完成',value:lc.total?Math.max(0,100-Math.round(lc.done/lc.total*100)):0}])+'</div></div><div class="learning-report-source-note">练测共 '+report.lc.length+' 次，完成 '+lc.done+' 题，错题 '+(report.lcSummary.wrong||0)+' 题。</div></div>';
+    html+='<div class="learning-report-section"><h2>二、作业分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>作业完成度</h3>'+_lr2Donut(zy.rate,'完成 '+zy.done+' 题','共 '+zy.total+' 题 · 提交 '+zy.submitted+' 次')+'</div><div class="learning-report-chart-card"><h3>作业答题结构</h3>'+_lr2CompareChart([{label:'完成',value:zy.total?Math.round(zy.done/zy.total*100):0},{label:'错题',value:zy.total?Math.round((report.zySummary.wrong||0)/zy.total*100):0},{label:'未完成',value:zy.total?Math.max(0,100-Math.round(zy.done/zy.total*100)):0}])+'</div></div><div class="learning-report-source-note">作业共 '+report.zy.length+' 次，完成 '+zy.done+' 题，错题 '+(report.zySummary.wrong||0)+' 题。</div></div>';
+    html+='<div class="learning-report-section"><h2>三、错题分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>订正完成度</h3>'+_lr2Donut(correctedRate,'已订正 '+(report.errors.length-uncorrected)+' 题','共 '+report.errors.length+' 题 · 待订正 '+uncorrected+' 题')+'</div><div class="learning-report-chart-card"><h3>错误原因排行</h3>'+_lr2RankChart(reasons,'错误原因')+'</div><div class="learning-report-chart-card"><h3>错误知识点排行</h3>'+_lr2RankChart(knowledge,'知识点')+'</div><div class="learning-report-chart-card"><h3>错题结构</h3>'+_lr2CompareChart([{label:'已订正',value:correctedRate},{label:'待订正',value:100-correctedRate},{label:'错题总量',value:Math.min(100,report.errors.length*10)}])+'</div></div><div class="learning-report-source-note">数据来源：错题统计模块，按学员、数学科目及报告月份筛选。</div></div>';
+    html+='<div class="learning-report-section"><h2>四、错误知识点明细</h2>'+_lr2KnowledgeRows(report.errors)+'</div>';
+    var currentLevel=report.currentLevelTest,levelScores=report.levelTests.map(function(item){return Number(item.score)||0;}),levelAvg=levelScores.length?Math.round(levelScores.reduce(function(a,b){return a+b;},0)/levelScores.length):0;
+    html+='<div class="learning-report-section"><h2>五、数学水平测试</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>当前水平测试结果</h3>'+_lr2Donut(currentLevel?Math.min(100,Math.round(currentLevel.score/120*100)):0,currentLevel?(currentLevel.level+' '+currentLevel.score+' 分'):'暂无测试结果',currentLevel?currentLevel.testName+' · '+currentLevel.testTime:'暂无历史记录')+'</div><div class="learning-report-chart-card"><h3>报告月份测试情况</h3>'+_lr2CompareChart([{label:'本月平均',value:levelAvg?Math.min(100,Math.round(levelAvg/120*100)):0},{label:'最高成绩',value:levelScores.length?Math.min(100,Math.round(Math.max.apply(Math,levelScores)/120*100)):0},{label:'测试次数',value:Math.min(100,report.levelTests.length*25)}])+'</div></div><div class="learning-report-level-records">'+(report.levelTests.length?report.levelTests.map(function(item){return '<span class="learning-report-record-chip">'+_lrEscape(item.testName)+' · '+_lrEscape(item.score)+'分 · '+_lrEscape(item.level)+'</span>';}).join(''):'<span class="learning-report-empty">报告月份暂无水平测试记录</span>')+'</div></div>';
+    html+='<div class="learning-report-section"><h2>六、看课分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>平均看课进度</h3>'+_lr2Donut(avgProgress,'平均 '+avgProgress+'%','共 '+report.lessons.length+' 节课程记录')+'</div><div class="learning-report-chart-card"><h3>看课质量指标</h3>'+_lr2CompareChart([{label:'平均进度',value:avgProgress},{label:'高进度课',value:report.lessons.length?Math.round(report.lessons.filter(function(item){return _lrPercent(item.progress)>=80;}).length/report.lessons.length*100):0},{label:'课程触达',value:Math.min(100,report.lessons.length*25)}])+'</div></div></div>';
+    html+=_lr2ModuleDocs('七、文档与提醒分析',report.docs,report.reminders);
+    var target=report.grades.length?(Number(report.grades[0].targetLine)||120):120,scoreRate=report.grades.length?Math.min(100,Math.round(report.gradeAvg/target*100)):0;
+    html+='<div class="learning-report-section"><h2>八、成绩分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>阶段测评达成度</h3>'+_lr2Donut(scoreRate,report.grades.length?report.gradeAvg+' 分':'暂无成绩',report.grades.length?'目标线 '+target+' 分':'请选择有成绩的月份')+'</div><div class="learning-report-chart-card"><h3>成绩对比</h3>'+_lr2CompareChart([{label:'当前成绩',value:scoreRate},{label:'目标线',value:100},{label:'国家线',value:report.grades.length?Math.min(100,Math.round((Number(report.grades[0].nationalLine)||105)/target*100)):88}])+'</div></div></div>';
+    var advice=[];
+    if(uncorrected)advice.push('优先完成 '+uncorrected+' 道未订正错题，并记录具体错误原因。');
+    if(reasons.length && reasons[0].count>=2)advice.push('“'+reasons[0].key+'”是本月主要错误原因，建议安排针对性训练。');
+    if(knowledge.length)advice.push('重点复习知识点：'+knowledge.slice(0,3).map(function(item){return item.key;}).join('、')+'。');
+    if(!advice.length)advice.push('本月暂无足够数学错题数据，建议保持练测与错题复盘节奏。');
+    html+='<div class="learning-report-section"><h2>九、分析结论与建议</h2><div class="learning-report-insight-panel"><strong>'+_lrEscape(report.student.name)+'：</strong>'+advice.map(function(item){return _lrEscape(item);}).join('<br>')+'</div></div>';
+    return html;
+  }
+  function _lr2EnglishDetailed(report){
+    var words=report.words,readingRate=report.readingQuestions?Math.round((report.readingQuestions-report.readingWrong)/report.readingQuestions*100):0,quizRate=report.quizWords?Math.round(report.quizAnswered/report.quizWords*100):0;
+    var familiar=words?((words.easyCount||0)+(words.normalCount||0)):0,uncertain=words?((words.fuzzyCount||0)+(words.strangeCount||0)):0;
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-section"><h2>一、单词背诵分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>累计背诵进度</h3>'+_lr2Donut(words?words.totalProgress:0,'进度 '+(words?words.totalProgress:0)+'%',words?'累计 '+words.totalCount+' 词 · 本周 '+words.weekCount+' 词':'暂无背诵数据')+'</div><div class="learning-report-chart-card"><h3>词汇掌握结构</h3>'+_lr2RankChart([{key:'熟悉词汇',count:familiar},{key:'模糊词汇',count:words?words.fuzzyCount||0:0},{key:'陌生词汇',count:words?words.strangeCount||0:0}],'词汇状态')+'</div></div></div>';
+    html+='<div class="learning-report-section"><h2>二、单词小测分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>小测作答率</h3>'+_lr2Donut(quizRate,'作答 '+quizRate+'%',report.quizzes.length+' 次小测 · '+report.quizAnswered+'/'+report.quizWords+' 词')+'</div><div class="learning-report-chart-card"><h3>小测学习投入</h3>'+_lr2CompareChart([{label:'小测次数',value:Math.min(100,report.quizzes.length*25)},{label:'作答率',value:quizRate},{label:'词汇评估',value:report.vocab.length?Number(report.vocab[0].score)||0:0}])+'</div></div></div>';
+    var currentVocab=report.currentVocab,vocabScores=report.vocab.map(function(item){return Number(item.score)||0;}),vocabAvg=vocabScores.length?Math.round(vocabScores.reduce(function(a,b){return a+b;},0)/vocabScores.length):0;
+    html+='<div class="learning-report-section"><h2>三、词汇评估分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>当前词汇评估结果</h3>'+_lr2Donut(currentVocab?Number(currentVocab.score)||0:0,currentVocab?(currentVocab.level+' '+currentVocab.score+' 分'):'暂无评估结果',currentVocab?currentVocab.testTime:'暂无历史记录')+'</div><div class="learning-report-chart-card"><h3>报告月份评估趋势</h3>'+_lr2CompareChart([{label:'本月均分',value:vocabAvg},{label:'最高分',value:vocabScores.length?Math.max.apply(Math,vocabScores):0},{label:'评估次数',value:Math.min(100,report.vocab.length*25)}])+'</div></div><div class="learning-report-level-records">'+(report.vocab.length?report.vocab.map(function(item){return '<span class="learning-report-record-chip" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0">'+_lrEscape(item.testTime)+' · '+_lrEscape(item.level)+' · '+_lrEscape(item.score)+'分</span>';}).join(''):'<span class="learning-report-empty">报告月份暂无词汇评估记录</span>')+'</div></div>';
+    html+='<div class="learning-report-section"><h2>四、阅读文章练习分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>阅读正确率</h3>'+_lr2Donut(readingRate,'正确 '+readingRate+'%',report.reading.length+' 篇文章 · '+report.readingQuestions+' 道题')+'</div><div class="learning-report-chart-card"><h3>阅读完成结构</h3>'+_lr2CompareChart([{label:'文章数',value:Math.min(100,report.reading.length*25)},{label:'完成题目',value:Math.min(100,report.readingQuestions*10)},{label:'正确题目',value:Math.min(100,(report.readingQuestions-report.readingWrong)*10)}])+'</div></div></div>';
+    html+=_lr2ModuleDocs('五、文档与提醒分析',report.docs,report.reminders);
+    var englishAdvice=[];
+    if(words && words.totalProgress<60)englishAdvice.push('当前单词背诵进度为 '+words.totalProgress+'%，建议提高每日背诵量并保持滚动复习。');
+    if(report.quizWords && report.quizAnswered/report.quizWords<0.8)englishAdvice.push('单词小测作答率偏低，建议完成整套小测后再查看结果。');
+    if(report.readingQuestions && readingRate<70)englishAdvice.push('阅读练习正确率为 '+readingRate+'%，建议按文章逐题复盘并整理生词。');
+    if(!englishAdvice.length)englishAdvice.push('当前英语学习记录较为稳定，建议保持词汇、阅读练习的连续性。');
+    html+='<div class="learning-report-section"><h2>五、分析结论与建议</h2><div class="learning-report-insight-panel"><strong>'+_lrEscape(report.student.name)+'：</strong>'+englishAdvice.map(function(item){return _lrEscape(item);}).join('<br>')+'</div></div>';
+    return html;
+  }
+  function _lr3QuantityChart(items){
+    var max=items.reduce(function(value,item){return Math.max(value,Number(item.value)||0);},0)||1;
+    var html='<div class="learning-report-bar-chart">';
+    items.forEach(function(item){var value=Number(item.value)||0;html+='<div class="learning-report-bar-col"><em>'+value+'</em><i style="height:'+Math.max(8,Math.round(value/max*100))+'%"></i><span>'+_lrEscape(item.label)+'</span></div>';});
+    return html+'</div>';
+  }
+  function _lr3PracticeScore(record){
+    if(typeof record.studentScore==='number')return {name:record.paperName||'-',score:record.studentScore,total:Number(record.totalScore)||100};
+    try{
+      var info=getMingxiScoreInfo(record,getQuestionsForRecord(record.id),lianCeQuestionScoreProfile);
+      return {name:record.paperName||'-',score:info.studentScore,total:info.totalScore||100};
+    }catch(e){
+      var review=record.selfReview||{},total=Number(record.totalScore)||100,done=Number(review.done)||0,wrong=Number(review.wrong)||0,questions=Number(review.total)||1;
+      return {name:record.paperName||'-',score:Math.max(0,Math.round((done-wrong)/questions*total)),total:total};
+    }
+  }
+  function _lr3Docs(title,docs,reminders){
+    var docDone=docs.filter(function(item){return item.submitStatus==='submitted';}).length,reminderDone=reminders.filter(function(item){return item.submitStatus==='submitted';}).length;
+    var docRate=docs.length?Math.round(docDone/docs.length*100):0,reminderRate=reminders.length?Math.round(reminderDone/reminders.length*100):0;
+    return '<div class="learning-report-section"><h2>'+_lrEscape(title)+'</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>文档完成情况</h3>'+_lr2Donut(docRate,'完成 '+docDone+' 份','共 '+docs.length+' 份文档')+'</div><div class="learning-report-chart-card"><h3>提醒完成情况</h3>'+_lr2Donut(reminderRate,'完成 '+reminderDone+' 条','共 '+reminders.length+' 条提醒')+'</div><div class="learning-report-chart-card"><h3>完成数量对比</h3>'+_lr3QuantityChart([{label:'完成文档',value:docDone},{label:'完成提醒',value:reminderDone}])+'</div></div></div>';
+  }
+  function _lr3Math(report){
+    var lcDone=report.lc.filter(function(item){return item.submitStatus==='submitted';}),lcPending=report.lc.length-lcDone.length;
+    var scoreRows=lcDone.map(_lr3PracticeScore),highest=scoreRows.length?scoreRows.slice().sort(function(a,b){return b.score-a.score;})[0]:null,lowest=scoreRows.length?scoreRows.slice().sort(function(a,b){return a.score-b.score;})[0]:null;
+    var averageScore=scoreRows.length?Math.round(scoreRows.reduce(function(sum,item){return sum+item.score;},0)/scoreRows.length):0;
+    var zyDone=report.zy.filter(function(item){return item.submitStatus==='submitted';}).length,zyPending=report.zy.length-zyDone,zyRate=report.zy.length?Math.round(zyDone/report.zy.length*100):0;
+    var reasons=_lr2CountBy(report.errors,'errorReason'),uncorrected=report.errors.filter(function(item){return item.correctionStatus!=='已订正';}).length,corrected=report.errors.length-uncorrected;
+    var courseTotal=report.lessons.length,courseFinished=report.lessons.filter(function(item){return _lrPercent(item.progress)>=100;}).length;
+    var practiceDone=0,practiceWrong=0,testDone=0,testWrong=0;
+    report.lessons.forEach(function(item){var practice=item.practiceStats||{},test=item.testStats||{};practiceDone+=Number(practice.done)||0;practiceWrong+=Number(practice.wrong)||0;testDone+=Number(test.done)||0;testWrong+=Number(test.wrong)||0;});
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-section"><h2>一、练测分析</h2><div class="learning-report-stat-grid"><div class="learning-report-stat-box"><div class="k">已完成练测</div><div class="v">'+lcDone.length+' 次</div><div class="n">未完成 '+lcPending+' 次</div></div><div class="learning-report-stat-box"><div class="k">练测平均分</div><div class="v">'+averageScore+' 分</div><div class="n">已提交试卷平均得分</div></div><div class="learning-report-stat-box"><div class="k">最高得分</div><div class="v">'+(highest?highest.score+' 分':'-')+'</div><div class="n">'+_lrEscape(highest?highest.name:'暂无试卷')+'</div></div><div class="learning-report-stat-box"><div class="k">最低得分</div><div class="v">'+(lowest?lowest.score+' 分':'-')+'</div><div class="n">'+_lrEscape(lowest?lowest.name:'暂无试卷')+'</div></div></div><div class="learning-report-chart-card" style="margin-top:12px"><h3>练测完成数量</h3>'+_lr3QuantityChart([{label:'已完成',value:lcDone.length},{label:'未完成',value:lcPending}])+'</div></div>';
+    html+='<div class="learning-report-section"><h2>二、作业分析</h2><div class="learning-report-stat-grid"><div class="learning-report-stat-box"><div class="k">已完成作业</div><div class="v">'+zyDone+' 次</div></div><div class="learning-report-stat-box"><div class="k">未完成作业</div><div class="v">'+zyPending+' 次</div></div><div class="learning-report-stat-box"><div class="k">作业完成率</div><div class="v">'+zyRate+'%</div><div class="n">'+zyDone+'/'+report.zy.length+' 次</div></div></div><div class="learning-report-chart-card" style="margin-top:12px"><h3>作业完成数量</h3>'+_lr3QuantityChart([{label:'已完成',value:zyDone},{label:'未完成',value:zyPending}])+'</div></div>';
+    html+='<div class="learning-report-section"><h2>三、错题分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>订正完成度</h3>'+_lr2Donut(report.errors.length?Math.round(corrected/report.errors.length*100):0,'已订正 '+corrected+' 题','共 '+report.errors.length+' 题 · 待订正 '+uncorrected+' 题')+'</div><div class="learning-report-chart-card"><h3>错误原因排行</h3>'+_lr2RankChart(reasons,'错误原因')+'</div><div class="learning-report-chart-card"><h3>错题结构</h3>'+_lr3QuantityChart([{label:'已订正',value:corrected},{label:'待订正',value:uncorrected},{label:'错题总量',value:report.errors.length}])+'</div></div></div>';
+    html+='<div class="learning-report-section"><h2>四、错误知识点明细</h2>'+_lr2KnowledgeRows(report.errors)+'</div>';
+    var currentLevel=report.currentLevelTest;
+    html+='<div class="learning-report-section"><h2>五、数学水平测试</h2><div class="learning-report-current-level"><div><div class="k">当前测试水平</div><div class="level-name">'+_lrEscape(currentLevel?currentLevel.level:'暂无结果')+'</div><div class="level-time">'+_lrEscape(currentLevel?'测试时间：'+currentLevel.testTime:'暂无测试时间')+'</div></div><div class="learning-report-stat-box"><div class="k">报告月份测试次数</div><div class="v">'+report.levelTests.length+' 次</div></div></div><div class="learning-report-list-wrap" style="margin-top:12px"><table class="learning-report-detail-table"><thead><tr><th>测试时间</th><th>测试水平结果</th></tr></thead><tbody>'+(report.levelTests.length?report.levelTests.map(function(item){return '<tr><td>'+_lrEscape(item.testTime)+'</td><td><strong>'+_lrEscape(item.level)+'</strong></td></tr>';}).join(''):'<tr><td colspan="2" class="learning-report-empty">报告月份暂无水平测试记录</td></tr>')+'</tbody></table></div></div>';
+    html+='<div class="learning-report-section"><h2>六、看课分析</h2><div class="learning-report-stat-grid"><div class="learning-report-stat-box"><div class="k">总课程数</div><div class="v">'+courseTotal+' 节</div><div class="n">完播 '+courseFinished+' 节</div></div><div class="learning-report-stat-box"><div class="k">课程练习完成题数</div><div class="v">'+practiceDone+' 题</div><div class="n">错题 '+practiceWrong+' 题</div></div><div class="learning-report-stat-box"><div class="k">课程测试完成题数</div><div class="v">'+testDone+' 题</div><div class="n">错题 '+testWrong+' 题</div></div></div></div>';
+    html+=_lr3Docs('七、文档与提醒分析',report.docs,report.reminders);
+    html+='<div class="learning-report-section"><h2>八、成绩分析</h2><div class="learning-report-stat-grid"><div class="learning-report-stat-box"><div class="k">成绩登记次数</div><div class="v">'+report.grades.length+' 次</div></div></div><div class="learning-report-list-wrap" style="margin-top:12px"><table class="learning-report-detail-table"><thead><tr><th>试卷名称</th><th>总分</th><th>目标线</th><th>国家线</th></tr></thead><tbody>'+(report.grades.length?report.grades.map(function(item){var score=Number(item.totalScore)||0,target=Number(item.targetLine)||0,national=Number(item.nationalLine)||0;return '<tr><td>'+_lrEscape(item.paperName||'-')+'</td><td><strong>'+score+' 分</strong></td><td>'+target+' 分 '+_lrTag(score>=target?'过线':'未过线',score>=target?'success':'danger')+'</td><td>'+national+' 分 '+_lrTag(score>=national?'过线':'未过线',score>=national?'success':'danger')+'</td></tr>';}).join(''):'<tr><td colspan="4" class="learning-report-empty">暂无成绩登记记录</td></tr>')+'</tbody></table></div></div>';
+    return html;
+  }
+  function _lr3English(report){
+    var words=report.words,readingCorrect=Math.max(0,report.readingQuestions-report.readingWrong),readingRate=report.readingQuestions?Math.round(readingCorrect/report.readingQuestions*100):0,quizRate=report.quizWords?Math.round(report.quizAnswered/report.quizWords*100):0;
+    var familiar=words?((words.easyCount||0)+(words.normalCount||0)):0;
+    var html=_lr2ReportHead(report);
+    html+='<div class="learning-report-section"><h2>一、单词背诵分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>累计背诵进度</h3>'+_lr2Donut(words?words.totalProgress:0,'进度 '+(words?words.totalProgress:0)+'%',words?'累计 '+words.totalCount+' 词 · 本周 '+words.weekCount+' 词':'暂无背诵数据')+'</div><div class="learning-report-chart-card"><h3>词汇掌握数量</h3>'+_lr3QuantityChart([{label:'熟悉词汇',value:familiar},{label:'模糊词汇',value:words?words.fuzzyCount||0:0},{label:'陌生词汇',value:words?words.strangeCount||0:0}])+'</div></div></div>';
+    html+='<div class="learning-report-section"><h2>二、单词小测分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>小测作答率</h3>'+_lr2Donut(quizRate,'作答 '+quizRate+'%',report.quizzes.length+' 次小测 · '+report.quizAnswered+'/'+report.quizWords+' 词')+'</div><div class="learning-report-chart-card"><h3>小测数量</h3>'+_lr3QuantityChart([{label:'小测次数',value:report.quizzes.length},{label:'已作答词',value:report.quizAnswered},{label:'总词数',value:report.quizWords}])+'</div></div></div>';
+    var currentVocab=report.currentVocab;
+    html+='<div class="learning-report-section"><h2>三、词汇评估分析</h2><div class="learning-report-current-level" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-color:#a7f3d0"><div><div class="k">当前词汇评估结果</div><div class="level-name" style="color:#047857">'+_lrEscape(currentVocab?('词汇量'+currentVocab.level):'暂无结果')+'</div><div class="level-time">'+_lrEscape(currentVocab?'评估时间：'+currentVocab.testTime:'暂无评估时间')+'</div></div><div class="learning-report-stat-box"><div class="k">报告月份评估次数</div><div class="v">'+report.vocab.length+' 次</div></div></div><div class="learning-report-list-wrap" style="margin-top:12px"><table class="learning-report-detail-table"><thead><tr><th>评估时间</th><th>评估结果</th></tr></thead><tbody>'+(report.vocab.length?report.vocab.map(function(item){return '<tr><td>'+_lrEscape(item.testTime)+'</td><td><strong>'+_lrEscape('词汇量'+item.level)+'</strong></td></tr>';}).join(''):'<tr><td colspan="2" class="learning-report-empty">报告月份暂无词汇评估记录</td></tr>')+'</tbody></table></div></div>';
+    html+='<div class="learning-report-section"><h2>四、阅读文章练习分析</h2><div class="learning-report-chart-grid"><div class="learning-report-chart-card"><h3>阅读正确率</h3>'+_lr2Donut(readingRate,'正确 '+readingRate+'%',report.reading.length+' 篇文章 · '+report.readingQuestions+' 道题')+'</div><div class="learning-report-chart-card"><h3>阅读完成数量</h3>'+_lr3QuantityChart([{label:'文章数',value:report.reading.length},{label:'完成题目',value:report.readingQuestions},{label:'正确题目',value:readingCorrect}])+'</div></div></div>';
+    html+=_lr3Docs('五、文档与提醒分析',report.docs,report.reminders);
+    return html;
+  }
+  function _lr2Selector(studentId){
+    var student=(studentData||[]).find(function(item){return String(item.id)===String(studentId);});
+    if(!student)return '';
+    var months=_lr2MonthOptions(student),defaultMonth='';
+    ['lianCeMingxiData','zuoYeMingxiData','kanKeMingxiData','danciXiaoceData','englishReadingExerciseData','cihuiPingguData','chengjiTongjiData'].forEach(function(name){
+      _lrDataList(name,student).forEach(function(item){var month=_lr2ItemMonth(item);if(month && (!defaultMonth || month>defaultMonth))defaultMonth=month;});
+    });
+    var errorHolder=(cuotiDayinData||[]).find(function(item){return _lrMatch(item,student);});
+    if(errorHolder && errorHolder.questions) errorHolder.questions.forEach(function(item){var month=_lr2ItemMonth(item);if(month && (!defaultMonth || month>defaultMonth))defaultMonth=month;});
+    if(!defaultMonth)defaultMonth=months[0]||'';
+    var html='<div class="learning-report-selector"><h2>生成学情报告</h2><p>请选择报告科目和统计月份，系统将按学情管理模块数据生成分析报表。</p><div class="learning-report-selector-grid"><div class="learning-report-selector-field"><label for="studentLearningReportSubject">报告科目</label><select id="studentLearningReportSubject"><option value="数学">数学</option><option value="英语">英语</option></select></div><div class="learning-report-selector-field"><label for="studentLearningReportMonth">报告月份</label><select id="studentLearningReportMonth">';
+    months.forEach(function(month){html+='<option value="'+_lrEscape(month)+'"'+(month===defaultMonth?' selected':'')+'>'+_lrEscape(month.replace('-','年')+'月')+'</option>';});
+    html+='</select></div></div><div class="learning-report-selector-actions"><button class="btn btn-primary" onclick="window._generateStudentLearningReport(\''+_lrEscape(studentId)+'\')">生成分析报告</button></div></div>';
+    return html;
+  }
+  function _lr2SetPrintEnabled(enabled){
+    ['studentLearningReportTopPrint','studentLearningReportFooterPrint'].forEach(function(id){var button=document.getElementById(id);if(button)button.disabled=!enabled;});
+  }
+  window._openStudentLearningReport=function(studentId){
+    var modal=document.getElementById('studentLearningReportModal'),body=document.getElementById('studentLearningReportBody'),title=document.getElementById('studentLearningReportTitle');
+    if(!modal || !body)return;
+    modal.setAttribute('data-generated','0');_lr2SetPrintEnabled(false);
+    if(title)title.textContent='选择学情报告条件';
+    body.innerHTML=_lr2Selector(studentId);
+    modal.classList.add('show');
+    document.body.classList.remove('learning-report-printing');
+  };
+  window._generateStudentLearningReport=function(studentId){
+    var subjectEl=document.getElementById('studentLearningReportSubject'),monthEl=document.getElementById('studentLearningReportMonth');
+    var subject=subjectEl?subjectEl.value:'数学',month=monthEl?monthEl.value:'';
+    var report=_lr2Build(studentId,subject,month);if(!report)return;
+    var modal=document.getElementById('studentLearningReportModal'),body=document.getElementById('studentLearningReportBody'),title=document.getElementById('studentLearningReportTitle');
+    if(title)title.textContent=report.student.name+'的'+subject+'学情报告';
+    if(body)body.innerHTML='<div class="learning-report-sheet">'+(subject==='数学'?_lr3Math(report):_lr3English(report))+'</div>';
+    if(modal)modal.setAttribute('data-generated','1');
+    _lr2SetPrintEnabled(true);
+  };
+  window._closeStudentLearningReport=function(){
+    var modal=document.getElementById('studentLearningReportModal');if(modal)modal.classList.remove('show');
+    document.body.classList.remove('learning-report-printing');_lr2SetPrintEnabled(false);
+  };
+  window._printStudentLearningReport=function(){
+    var modal=document.getElementById('studentLearningReportModal');
+    if(!modal || modal.getAttribute('data-generated')!=='1')return;
+    document.body.classList.add('learning-report-printing');
+    window.setTimeout(function(){window.print();window.setTimeout(function(){document.body.classList.remove('learning-report-printing');},300);},30);
+  };
 
   renderPage('banji-guanli');
 })();
