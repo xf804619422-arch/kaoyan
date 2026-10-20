@@ -629,6 +629,27 @@ tr:hover td{background:#fafbfc}
 .es-audit-actions{display:flex;align-items:center;gap:8px}
 .es-selected-count{font-size:12px;color:var(--text-secondary)}
 
+/* ---- 二轮背诵题目 ---- */
+.srq-type-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:500;white-space:nowrap}
+.srq-type-tag.single{background:#dbeafe;color:#1d4ed8}
+.srq-type-tag.multiple{background:#ede9fe;color:#6d28d9}
+.srq-cell{display:block;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary)}
+.srq-answer{display:inline-block;padding:2px 8px;border-radius:6px;background:#eef2ff;color:#4338ca;font-size:12px;font-weight:600;white-space:nowrap}
+.srq-type-tags{display:flex;gap:8px}
+.srq-type-option{display:inline-flex;align-items:center;padding:6px 20px;border:1px solid var(--border);border-radius:6px;font-size:13px;cursor:pointer;color:var(--text-secondary);transition:all .15s;user-select:none}
+.srq-type-option.active{border-color:var(--primary);background:#eef2ff;color:var(--primary);font-weight:500}
+.srq-options-editor{display:flex;flex-direction:column;gap:8px}
+.srq-option-row{display:flex;align-items:center;gap:10px}
+.srq-opt-letter{width:26px;height:26px;border-radius:50%;background:#eef2ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.srq-opt-check{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-secondary);white-space:nowrap;cursor:pointer;margin-left:4px}
+.srq-opt-check input{width:15px;height:15px;accent-color:var(--primary);cursor:pointer}
+.srq-detail-options{display:flex;flex-direction:column;gap:8px}
+.srq-detail-option{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+.srq-detail-option .letter{width:24px;height:24px;border-radius:50%;background:#f3f4f6;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0}
+.srq-detail-option.correct{border-color:#bbf7d0;background:#f0fdf4}
+.srq-detail-option.correct .letter{background:#16a34a;color:#fff}
+.srq-correct-mark{color:#16a34a;font-weight:600;font-size:12px;margin-left:auto;white-space:nowrap}
+
 /* ---- CATEGORY MANAGER ---- */
 .cat-inline-editor{display:flex;align-items:center;gap:4px}
 .cat-inline-editor input{flex:1;padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:4px;outline:none;font-family:inherit}
@@ -994,6 +1015,11 @@ tr:hover td{background:#fafbfc}
 .toast-error{border-left:3px solid var(--danger)}
 @keyframes fadeIn{from{opacity:0;transform:translate(-50%,-50%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes slideIn{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
+/* 待设计功能的占位视图 */
+.pending-block{background:#fff;border:1px dashed var(--border);border-radius:10px;padding:90px 24px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.pending-icon{font-size:52px;opacity:.45}
+.pending-title{font-size:16px;font-weight:600;color:var(--text)}
+.pending-desc{font-size:13px;color:var(--text-secondary)}
 </style>
 </head>
 <body>
@@ -1060,6 +1086,17 @@ tr:hover td{background:#fafbfc}
       </div>
     </div>
     <div class="sidebar-divider"></div>
+    <!-- Group: 政治专属 -->
+    <div class="sidebar-group" id="sg-politics">
+      <div class="sidebar-group-header" onclick="toggleGroup('sg-politics')">
+        政治专属 <span class="arrow">&#9660;</span>
+      </div>
+      <div class="sidebar-group-items">
+        <div class="sidebar-item" data-view="politicsBank" onclick="switchView('politicsBank',this)">题库管理</div>
+        <div class="sidebar-item" data-view="politicsQuestion" onclick="switchView('politicsQuestion',this)">题目管理</div>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
     <!-- Group 4: 英语专属 -->
     <div class="sidebar-group" id="sg-eng">
       <div class="sidebar-group-header" onclick="toggleGroup('sg-eng')">
@@ -1073,6 +1110,7 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="reading" onclick="switchView('reading',this)">阅读文章管理</div>
         <div class="sidebar-item" data-view="readEntry" onclick="switchView('readEntry',this)">阅读文章录入</div>
         <div class="sidebar-item" data-view="exampleSentence" onclick="switchView('exampleSentence',this)">真题例句</div>
+        <div class="sidebar-item" data-view="secondRoundQuestion" onclick="switchView('secondRoundQuestion',this)">二轮背诵题目</div>
       </div>
     </div>
     <div class="sidebar-divider"></div>
@@ -1106,8 +1144,10 @@ tr:hover td{background:#fafbfc}
         <div class="sidebar-item" data-view="vocabAudit" onclick="switchView('vocabAudit',this)">大纲词汇审核 <span class="sidebar-badge" id="vabBadge">3</span></div>
         <div class="sidebar-item" data-view="readingAudit" onclick="switchView('readingAudit',this)">阅读文章审核 <span class="sidebar-badge" id="raBadge">3</span></div>
         <div class="sidebar-item" data-view="exampleSentenceAudit" onclick="switchView('exampleSentenceAudit',this)">英语真题审核 <span class="sidebar-badge" id="esaBadge">3</span></div>
+        <div class="sidebar-item" data-view="secondRoundQuestionAudit" onclick="switchView('secondRoundQuestionAudit',this)">二轮背诵题目审核 <span class="sidebar-badge" id="srqaBadge">3</span></div>
         <div class="sidebar-item" data-view="cijuAudit" onclick="switchView('cijuAudit',this)">语文词句审核 <span class="sidebar-badge" id="cjaBadge">3</span></div>
         <div class="sidebar-item" data-view="yuwenReadAudit" onclick="switchView('yuwenReadAudit',this)">语文阅读审核 <span class="sidebar-badge" id="yraBadge">3</span></div>
+        <div class="sidebar-item" data-view="politicsQuestionAudit" onclick="switchView('politicsQuestionAudit',this)">政治题目审核 <span class="sidebar-badge" id="pqaBadge">3</span></div>
       </div>
     </div>
   </nav>
@@ -1149,6 +1189,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="tabs" id="treeSubjectTabs">
         <div class="tab active" onclick="filterTree('math',this)">数学</div>
+        <div class="tab" onclick="filterTree('politics',this)">政治</div>
         <div class="tab" onclick="filterTree('english',this)">英语</div>
       </div>
       <div class="tree-sub-filter" id="treeSubFilter">
@@ -1175,6 +1216,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="tabs" id="videoSubjectTabs">
         <div class="tab active" onclick="filterVideoSubject('math',this)">数学</div>
+        <div class="tab" onclick="filterVideoSubject('politics',this)">政治</div>
         <div class="tab" onclick="filterVideoSubject('english',this)">英语</div>
       </div>
       <div class="tree-sub-filter" id="videoSubFilter">
@@ -1363,6 +1405,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="tabs" id="previewSubjectTabs">
         <div class="tab active" onclick="filterPreviewSubject('math',this)">数学</div>
+        <div class="tab" onclick="filterPreviewSubject('politics',this)">政治</div>
         <div class="tab" onclick="filterPreviewSubject('english',this)">英语</div>
       </div>
       <div class="tree-sub-filter" id="previewSubFilter">
@@ -1865,6 +1908,43 @@ tr:hover td{background:#fafbfc}
         </table>
       </div>
       <div id="esaEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
+    </div>
+
+    <!-- ========== VIEW: 二轮背诵题目审核 ========== -->
+    <div class="view" id="view-secondRoundQuestionAudit">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">二轮背诵题目审核</div>
+          <div class="page-subtitle">审核二轮背诵题目内容及其关联单词，确保题干、选项和解析准确</div>
+        </div>
+        <div class="es-audit-actions">
+          <span class="es-selected-count" id="srqaSelectedCount">已选择 0 条</span>
+          <button class="btn btn-outline btn-sm" id="srqaBatchBtn" onclick="batchApproveSecondRoundQuestions()" disabled>批量审核</button>
+          <button class="btn btn-success btn-sm" id="srqaAllBtn" onclick="approveAllSecondRoundQuestions()">全量审核</button>
+        </div>
+      </div>
+      <div class="tabs" id="srqaTabs">
+        <div class="tab active" onclick="switchSecondRoundQuestionAuditTab('reviewing',this)">待审核 (<span id="srqaPendingCount">3</span>)</div>
+        <div class="tab" onclick="switchSecondRoundQuestionAuditTab('published',this)">审核通过</div>
+        <div class="tab" onclick="switchSecondRoundQuestionAuditTab('rejected',this)">审核驳回</div>
+      </div>
+      <div class="audit-filter-bar">
+        <div class="audit-filter-row">
+          <div class="audit-filter-group"><label>题干</label><input class="search-input" id="srqaFilterStem" placeholder="搜索题干" oninput="renderSecondRoundQuestionAuditTable()" style="width:200px"></div>
+          <div class="audit-filter-group"><label>题型</label><select class="form-select" id="srqaFilterType" onchange="renderSecondRoundQuestionAuditTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option></select></div>
+          <div class="audit-filter-group"><label>关联单词</label><input class="search-input" id="srqaFilterWord" placeholder="搜索关联单词" oninput="renderSecondRoundQuestionAuditTable()" style="width:160px"></div>
+          <div class="audit-filter-group"><label>创建人</label><input class="search-input" id="srqaFilterCreator" placeholder="搜索创建人" oninput="renderSecondRoundQuestionAuditTable()" style="width:120px"></div>
+          <div class="audit-filter-group"><label>审核人</label><input class="search-input" id="srqaFilterAuditor" placeholder="搜索审核人" oninput="renderSecondRoundQuestionAuditTable()" style="width:120px"></div>
+          <button class="btn btn-outline btn-sm" onclick="resetSecondRoundQuestionAuditFilters()" style="margin-left:auto">重置筛选</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:42px"><input type="checkbox" id="srqaCheckAll" onchange="toggleAllSecondRoundQuestionAudit(this.checked)"></th><th>题干</th><th>题型</th><th>选项</th><th>正确答案</th><th>答案与解析</th><th>关联单词</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead>
+          <tbody id="srqaTableBody"></tbody>
+        </table>
+      </div>
+      <div id="srqaEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
     </div>
 
     <!-- ========== VIEW: 组卷 ========== -->
@@ -2736,6 +2816,32 @@ tr:hover td{background:#fafbfc}
       <div class="vocablib-table-wrap" id="esTableWrap"></div>
     </div>
 
+    <!-- ========== VIEW: 二轮背诵题目 ========== -->
+    <div class="view" id="view-secondRoundQuestion">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">二轮背诵题目</div>
+          <div class="page-subtitle">录入和管理二轮背诵题目，题型支持单选/多选，并关联词汇库中的单词</div>
+        </div>
+        <div class="es-toolbar">
+          <button class="btn btn-primary btn-sm" onclick="openSecondRoundQuestionModal()">+ 录入题目</button>
+          <button class="btn btn-outline btn-sm" onclick="openSecondRoundQuestionImportModal()">&#128229; 批量导入</button>
+        </div>
+      </div>
+      <div class="es-filter-bar">
+        <div class="es-filter-item"><label>题干</label><input class="search-input" id="srqFilterStem" placeholder="搜索题干" oninput="renderSecondRoundQuestionTable()" style="width:200px"></div>
+        <div class="es-filter-item"><label>题型</label><select class="form-select" id="srqFilterType" onchange="renderSecondRoundQuestionTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option></select></div>
+        <div class="es-filter-item"><label>关联单词</label><input class="search-input" id="srqFilterWord" placeholder="搜索关联单词" oninput="renderSecondRoundQuestionTable()" style="width:160px"></div>
+        <button class="btn btn-outline btn-sm" onclick="resetSecondRoundQuestionFilters()" style="margin-left:auto">重置筛选</button>
+      </div>
+      <div class="vocablib-tabs" id="srqTabs">
+        <div class="vocablib-tab active" data-tab="published" onclick="switchSecondRoundQuestionTab('published')">已发布 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="reviewing" onclick="switchSecondRoundQuestionTab('reviewing')">审核中 <span class="count"></span></div>
+        <div class="vocablib-tab" data-tab="rejected" onclick="switchSecondRoundQuestionTab('rejected')">审核驳回 <span class="count"></span></div>
+      </div>
+      <div class="vocablib-table-wrap" id="srqTableWrap"></div>
+    </div>
+
     <!-- ========== VIEW: 词句分类 ========== -->
     <div class="view" id="view-cijuCatMgr">
       <div class="page-header">
@@ -3096,6 +3202,55 @@ tr:hover td{background:#fafbfc}
       <div id="yraEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
     </div>
 
+    <!-- ========== VIEW: 政治题目审核 ========== -->
+    <div class="view" id="view-politicsQuestionAudit">
+      <div class="page-header">
+        <div class="page-title">政治题目审核</div>
+        <div class="page-subtitle">审核政治题库中录入的刷题题目，确保题目质量与答案准确性</div>
+      </div>
+      <div class="tabs" id="pqaTabs">
+        <div class="tab active" onclick="switchPqaTab('reviewing',this)">待审核 (<span id="pqaPendingCount">3</span>)</div>
+        <div class="tab" onclick="switchPqaTab('published',this)">审核通过</div>
+        <div class="tab" onclick="switchPqaTab('rejected',this)">审核驳回</div>
+      </div>
+      <div class="audit-filter-bar">
+        <div class="audit-filter-row">
+          <div class="audit-filter-group">
+            <label>题干搜索</label>
+            <input class="search-input" id="pqaSearchStem" placeholder="输入题干关键词" oninput="renderPqaTable()" style="width:220px">
+          </div>
+          <div class="audit-filter-group">
+            <label>题库</label>
+            <select class="form-select" id="pqaBank" onchange="renderPqaTable()"><option value="all">全部</option></select>
+          </div>
+          <div class="audit-filter-group">
+            <label>题型</label>
+            <select class="form-select" id="pqaType" onchange="renderPqaTable()"><option value="all">全部</option><option value="single">单选题</option><option value="multiple">多选题</option><option value="subjective">主观题</option></select>
+          </div>
+          <div class="audit-filter-group">
+            <label>创建时间</label>
+            <input class="form-input" type="date" id="pqaCreateFrom" onchange="renderPqaTable()" style="width:130px">
+            <span style="margin:0 4px;color:var(--text-secondary)">至</span>
+            <input class="form-input" type="date" id="pqaCreateTo" onchange="renderPqaTable()" style="width:130px">
+          </div>
+          <div class="audit-filter-group">
+            <label>创建人</label>
+            <input class="search-input" id="pqaCreator" placeholder="搜索创建人" oninput="renderPqaTable()" style="width:120px">
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="resetPqaFilters()" style="margin-left:auto">重置筛选</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>题库</th><th>章节</th><th>题型</th><th>题干</th><th>创建时间</th><th>创建人</th><th>操作</th>
+          </tr></thead>
+          <tbody id="pqaTableBody"></tbody>
+        </table>
+      </div>
+      <div id="pqaEmpty" style="display:none;text-align:center;padding:60px 0;color:var(--text-secondary);font-size:14px;background:var(--white);border-radius:10px;margin-top:16px">暂无数据</div>
+    </div>
+
     <!-- ========== VIEW: 手动组卷 ========== -->
     <div class="view" id="view-manualExam">
       <div class="page-header" style="margin-bottom:12px">
@@ -3404,6 +3559,63 @@ tr:hover td{background:#fafbfc}
             <button class="btn btn-outline btn-sm" id="editExamPublishBtn" style="display:none" onclick="publishExam()">发布试卷</button>
             <button class="btn btn-primary" onclick="saveEditExam()">保存修改</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== VIEW: 政治专属-题库管理 ========== -->
+    <div class="view" id="view-politicsBank">
+      <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">题库管理</div>
+          <div class="page-subtitle">维护题库与章节目录（章下可有节，也可直接挂题），支持排序</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <button class="btn btn-primary btn-sm" onclick="addPbBank()">+ 新建题库</button>
+          <button class="btn btn-outline btn-sm" onclick="managePbBank()">管理题库</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="search-bar" style="margin-bottom:0">
+          <div style="min-width:240px;flex:1;max-width:400px">
+            <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:6px">当前题库</label>
+            <select class="form-select" id="pbBankSelect" onchange="onPbBankChange()"></select>
+          </div>
+          <div style="min-width:240px;flex:1;max-width:400px">
+            <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:6px">搜索章节</label>
+            <input class="form-input" id="pbTreeSearch" placeholder="输入章节名称" oninput="onPbTreeSearch()">
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0">
+        <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:14px;font-weight:600">章节目录</span>
+          <button class="btn btn-outline btn-sm" onclick="addPbChapter()">+ 新增章</button>
+        </div>
+        <div class="video-tree-scroll" id="pbTreeContainer" style="max-height:calc(100vh - 340px)"></div>
+      </div>
+    </div>
+
+    <!-- ========== VIEW: 政治专属-题目管理 ========== -->
+    <div class="view" id="view-politicsQuestion">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+        <div>
+          <div class="page-title">题目管理</div>
+          <div class="page-subtitle">录入、批量导入并审核政治刷题题目</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <button class="btn btn-primary btn-sm" onclick="openPbEntryModal()">录入题目</button>
+          <button class="btn btn-outline btn-sm" onclick="openPbImportModal()">批量导入</button>
+        </div>
+      </div>
+      <div class="video-layout">
+        <div class="video-tree-panel">
+          <div class="video-tree-scroll" id="pqTreeContainer" style="padding:12px"></div>
+        </div>
+        <div class="video-right-panel" id="pqRightPanel">
+          <div class="video-placeholder">请在左侧选择题库或章节</div>
         </div>
       </div>
     </div>
@@ -3920,6 +4132,20 @@ tr:hover td{background:#fafbfc}
   </div>
 </div>
 
+<!-- ========== MODAL: 政治题目审核详情 ========== -->
+<div class="modal-overlay" id="pqaDetailModal">
+  <div class="modal modal-lg" style="max-width:820px">
+    <div class="modal-header">
+      <h3>政治题目审核</h3>
+      <button class="modal-close" onclick="closeModal('pqaDetailModal')">&times;</button>
+    </div>
+    <div class="modal-body" id="pqaModalBody" style="max-height:65vh;overflow-y:auto"></div>
+    <div class="modal-footer" id="pqaModalFooter">
+      <button class="btn btn-ghost" onclick="closeModal('pqaDetailModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
 <!-- ========== MODAL: 预习资料审核详情 ========== -->
 <div class="modal-overlay" id="paDetailModal">
   <div class="modal modal-lg" style="max-width:760px">
@@ -4104,6 +4330,135 @@ const treeData = [
         ]}
       ]}
     ]
+  },
+  {
+    id:199, name:'政治', type:'subject', expanded:true, children:[
+      {id:200,name:'马原',type:'category',expanded:true,children:[
+        {id:201,name:'基础阶段',type:'stage',children:[
+          {id:202,name:'马克思主义哲学',type:'course',children:[
+            {id:203,name:'唯物论',type:'chapter',children:[
+              {id:204,name:'物质与意识',type:'knowledge'},
+              {id:205,name:'实践与认识',type:'knowledge'}
+            ]},
+            {id:206,name:'辩证法',type:'chapter',children:[
+              {id:207,name:'对立统一规律',type:'knowledge',frequency:'high'},
+              {id:208,name:'质量互变规律',type:'knowledge',frequency:'mid'},
+              {id:209,name:'否定之否定规律',type:'knowledge',frequency:'mid'}
+            ]}
+          ]},
+          {id:210,name:'马克思主义政治经济学',type:'course',children:[
+            {id:211,name:'商品经济',type:'chapter',children:[
+              {id:212,name:'商品二因素',type:'knowledge'},
+              {id:213,name:'劳动二重性',type:'knowledge'},
+              {id:214,name:'价值规律',type:'knowledge'}
+            ]}
+          ]}
+        ]},
+        {id:215,name:'强化阶段',type:'stage',children:[
+          {id:216,name:'科学社会主义',type:'course',children:[
+            {id:217,name:'社会主义社会',type:'chapter',children:[
+              {id:218,name:'科学社会主义基本原则',type:'knowledge'},
+              {id:219,name:'共产主义远大理想',type:'knowledge'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:220,name:'毛中特',type:'category',children:[
+        {id:221,name:'基础阶段',type:'stage',children:[
+          {id:222,name:'毛泽东思想',type:'course',children:[
+            {id:223,name:'新民主主义革命理论',type:'chapter',children:[
+              {id:224,name:'新民主主义革命总路线',type:'knowledge'},
+              {id:225,name:'三大法宝',type:'knowledge',frequency:'high'}
+            ]},
+            {id:226,name:'社会主义改造理论',type:'chapter',children:[
+              {id:227,name:'过渡时期总路线',type:'knowledge'},
+              {id:228,name:'社会主义基本制度',type:'knowledge'}
+            ]}
+          ]},
+          {id:229,name:'邓小平理论',type:'course',children:[
+            {id:230,name:'社会主义本质',type:'chapter',children:[
+              {id:231,name:'社会主义本质',type:'knowledge'},
+              {id:232,name:'初级阶段理论',type:'knowledge'}
+            ]}
+          ]}
+        ]},
+        {id:233,name:'强化阶段',type:'stage',children:[
+          {id:234,name:'三个代表与科学发展观',type:'course',children:[
+            {id:235,name:'重要理论',type:'chapter',children:[
+              {id:236,name:'三个代表',type:'knowledge'},
+              {id:237,name:'科学发展观',type:'knowledge'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:240,name:'习思想',type:'category',children:[
+        {id:241,name:'基础阶段',type:'stage',children:[
+          {id:242,name:'习近平新时代中国特色社会主义思想',type:'course',children:[
+            {id:243,name:'总论',type:'chapter',children:[
+              {id:244,name:'新时代的历史方位',type:'knowledge'},
+              {id:245,name:'社会主要矛盾',type:'knowledge',frequency:'high'}
+            ]},
+            {id:246,name:'五位一体',type:'chapter',children:[
+              {id:247,name:'经济高质量发展',type:'knowledge'},
+              {id:248,name:'全过程人民民主',type:'knowledge'}
+            ]}
+          ]}
+        ]},
+        {id:249,name:'强化阶段',type:'stage',children:[
+          {id:250,name:'治国理政',type:'course',children:[
+            {id:251,name:'战略布局',type:'chapter',children:[
+              {id:252,name:'四个全面',type:'knowledge'},
+              {id:253,name:'新发展理念',type:'knowledge'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:260,name:'史纲',type:'category',children:[
+        {id:261,name:'基础阶段',type:'stage',children:[
+          {id:262,name:'近代史',type:'course',children:[
+            {id:263,name:'旧民主主义革命',type:'chapter',children:[
+              {id:264,name:'鸦片战争',type:'knowledge'},
+              {id:265,name:'太平天国运动',type:'knowledge'},
+              {id:266,name:'辛亥革命',type:'knowledge'}
+            ]},
+            {id:267,name:'新民主主义革命',type:'chapter',children:[
+              {id:268,name:'五四运动',type:'knowledge',frequency:'high'},
+              {id:269,name:'中国共产党成立',type:'knowledge',frequency:'high'}
+            ]}
+          ]}
+        ]},
+        {id:270,name:'强化阶段',type:'stage',children:[
+          {id:271,name:'现代史',type:'course',children:[
+            {id:272,name:'社会主义革命与建设',type:'chapter',children:[
+              {id:273,name:'过渡时期',type:'knowledge'},
+              {id:274,name:'社会主义建设探索',type:'knowledge'}
+            ]}
+          ]}
+        ]}
+      ]},
+      {id:280,name:'思法',type:'category',children:[
+        {id:281,name:'基础阶段',type:'stage',children:[
+          {id:282,name:'思想道德',type:'course',children:[
+            {id:283,name:'理想信念',type:'chapter',children:[
+              {id:284,name:'理想信念的内涵',type:'knowledge'},
+              {id:285,name:'人生价值',type:'knowledge'}
+            ]},
+            {id:286,name:'道德修养',type:'chapter',children:[
+              {id:287,name:'中华传统美德',type:'knowledge'},
+              {id:288,name:'社会公德',type:'knowledge'}
+            ]}
+          ]}
+        ]},
+        {id:289,name:'强化阶段',type:'stage',children:[
+          {id:290,name:'法治',type:'course',children:[
+            {id:291,name:'法律基础',type:'chapter',children:[
+              {id:292,name:'宪法',type:'knowledge'},
+              {id:293,name:'全面依法治国',type:'knowledge'}
+            ]}
+          ]}
+        ]}
+      ]}
+    ]
   }
 ];
 
@@ -4119,6 +4474,10 @@ let treeStage = '';
 const subFilterConfig = {
   math: {
     categories: [{value:'高等数学',label:'高数'},{value:'线性代数',label:'线代'},{value:'概率统计',label:'概统'}],
+    stages: ['基础阶段','强化阶段']
+  },
+  politics: {
+    categories: [{value:'马原',label:'马原'},{value:'毛中特',label:'毛中特'},{value:'习思想',label:'习思想'},{value:'史纲',label:'史纲'},{value:'思法',label:'思法'}],
     stages: ['基础阶段','强化阶段']
   },
   english: {
@@ -4417,6 +4776,8 @@ updateFABadge();
 updateVABBadge();
 updateRABadge();
 updateExampleSentenceAuditBadge();
+updateSecondRoundQuestionAuditBadge();
+updatePqaBadge();
   if(viewName==='practice'){populatePracticeSubFilter();renderPracticeTree();renderPracticeRight();}
   if(viewName==='tree')renderTree();
   if(viewName==='assoc')renderAssocTree();
@@ -4426,6 +4787,7 @@ updateExampleSentenceAuditBadge();
   if(viewName==='readEntry')initReadEntry();
   if(viewName==='reading')initReadMgr();
   if(viewName==='exampleSentence')initExampleSentenceManager();
+  if(viewName==='secondRoundQuestion')initSecondRoundQuestionManager();
   if(viewName==='categoryMgr')renderCategoryMgr();
   if(viewName==='hwCategoryMgr')renderHwCategoryMgr();
   if(viewName==='formulaCatMgr')renderFormulaCatMgr();
@@ -4440,6 +4802,7 @@ updateExampleSentenceAuditBadge();
   if(viewName==='vocabAudit'){renderVABTable();}
   if(viewName==='readingAudit'){renderRATable();}
   if(viewName==='exampleSentenceAudit'){initExampleSentenceAudit();}
+  if(viewName==='secondRoundQuestionAudit'){initSecondRoundQuestionAudit();}
   if(viewName==='cijuAudit'){initCijuAudit();}
   if(viewName==='yuwenReadAudit'){initYuwenReadAudit();}
   if(viewName==='zujuan')initZujuan();
@@ -4447,6 +4810,9 @@ updateExampleSentenceAuditBadge();
   if(viewName==='cijuEntry')initCijuEntry();
   if(viewName==='cijuMgr')initCijuMgr();
   if(viewName==='cijuQuestionBank')initCijuQuestionBank();
+  if(viewName==='politicsBank')initPoliticsBank();
+  if(viewName==='politicsQuestion')initPoliticsQuestion();
+  if(viewName==='politicsQuestionAudit')initPoliticsQuestionAudit();
   if(viewName==='yuwenReadCatMgr')renderYuwenReadCatMgr();
   if(viewName==='yuwenReadEntry')initYuwenReadEntry();
   if(viewName==='yuwenReadMgr')initYuwenReadMgr();
@@ -4470,7 +4836,7 @@ function findNode(nodes,id){
 
 function filterTreeData(nodes){
   if(!treeSubCategory||!treeStage)return [];
-  const subjectName=treeFilter==='math'?'数学':'英语';
+  const subjectName=treeFilter==='math'?'数学':(treeFilter==='politics'?'政治':'英语');
   const subjectNode=nodes.find(n=>n.name===subjectName);
   if(!subjectNode)return [];
   const catNode=subjectNode.children.find(c=>c.name===treeSubCategory);
@@ -4611,6 +4977,8 @@ function populateBaomingCheckboxes(selectedList){
   var items;
   if(treeFilter==='math'){
     items=[{label:'数一',code:'MATH-1'},{label:'数二',code:'MATH-2'},{label:'数三',code:'MATH-3'}];
+  }else if(treeFilter==='politics'){
+    items=[{label:'政治',code:'POLITICS'}];
   }else{
     items=[{label:'英一',code:'ENG-1'},{label:'英二',code:'ENG-2'}];
   }
@@ -4652,7 +5020,7 @@ function getBaomingCheckedSubjects(){
 
 function getStageNode(){
   if(!treeSubCategory||!treeStage)return null;
-  const subjectName=treeFilter==='math'?'数学':'英语';
+  const subjectName=treeFilter==='math'?'数学':(treeFilter==='politics'?'政治':'英语');
   const subjectNode=treeData.find(n=>n.name===subjectName);
   if(!subjectNode)return null;
   const catNode=subjectNode.children.find(c=>c.name===treeSubCategory);
@@ -4903,7 +5271,7 @@ function populateVideoSubFilter(){
 
 function getVideoTreeData(){
   if(!videoSubCategory||!videoStage) return [];
-  const subjectName=videoSubjectFilter==='math'?'数学':'英语';
+  const subjectName=videoSubjectFilter==='math'?'数学':(videoSubjectFilter==='politics'?'政治':'英语');
   const subjectNode=treeData.find(n=>n.name===subjectName);
   if(!subjectNode) return [];
   const catNode=subjectNode.children.find(c=>c.name===videoSubCategory);
@@ -5997,7 +6365,7 @@ function populatePreviewSubFilter(){
 
 function getPreviewTreeData(){
   if(!previewSubCategory||!previewStage)return [];
-  const subjectName=previewSubjectFilter==='math'?'数学':'英语';
+  const subjectName=previewSubjectFilter==='math'?'数学':(previewSubjectFilter==='politics'?'政治':'英语');
   const subjectNode=treeData.find(n=>n.name===subjectName);
   if(!subjectNode)return[];
   const catNode=subjectNode.children.find(c=>c.name===previewSubCategory);
@@ -6137,7 +6505,7 @@ function uploadPreviewForKnowledge(){
   // Also add to previewData for audit/association compat
   previewData.unshift({
     id:knowledgePreviewMap[previewSelectedKId].id,
-    title:title, type:type, subject:previewSubjectFilter==='math'?'数学':'英语',
+    title:title, type:type, subject:previewSubjectFilter==='math'?'数学':(previewSubjectFilter==='politics'?'政治':'英语'),
     uploadTime:new Date().toISOString().slice(0,10), uploader:'教研员', status:'pending'
   });
   renderPreviewTree(); renderPreviewRight();
@@ -11405,6 +11773,1351 @@ function deleteCqbQuestion(id){
   showToast('已删除','success');
 }
 
+// ==================== POLITICS QUESTION BANK (政治题库管理) ====================
+// 题库列表（完全手动维护，不绑定子科目）
+let politicsBankList = [
+  { id:'bk1', name:'马原刷题库' },
+  { id:'bk2', name:'毛中特刷题库' },
+  { id:'bk3', name:'习思想刷题库' },
+  { id:'bk4', name:'史纲刷题库' },
+  { id:'bk5', name:'思法刷题库' }
+];
+let _pbBankSeq = 6;
+
+// 题库章节目录（章→节，允许混合：章下可有节，也可直接挂题）
+let politicsBankChapters = {
+  'bk1': [
+    { id:'n1', name:'第一章 马克思主义是关于无产阶级和人类解放的科学', _expanded:true, children:[
+      { id:'n2', name:'1.1 马克思主义的创立与发展' },
+      { id:'n3', name:'1.2 马克思主义的鲜明特征' },
+      { id:'n4', name:'1.3 马克思主义的当代价值' }
+    ]},
+    { id:'n5', name:'第二章 世界的物质性及其发展规律', _expanded:true, children:[
+      { id:'n6', name:'2.1 物质及其存在方式' },
+      { id:'n7', name:'2.2 事物的普遍联系与变化发展' }
+    ]},
+    { id:'n8', name:'第三章 实践与认识及其发展规律', _expanded:true, children:[] }
+  ],
+  'bk2': [
+    { id:'n9', name:'第一章 毛泽东思想及其历史地位', _expanded:true, children:[
+      { id:'n10', name:'1.1 毛泽东思想的形成和发展' },
+      { id:'n11', name:'1.2 毛泽东思想的主要内容和活的灵魂' }
+    ]},
+    { id:'n12', name:'第二章 新民主主义革命理论', _expanded:true, children:[] }
+  ],
+  'bk3': [
+    { id:'n13', name:'第一章 习近平新时代中国特色社会主义思想及其历史地位', _expanded:true, children:[
+      { id:'n14', name:'1.1 中国特色社会主义进入新时代' }
+    ]}
+  ],
+  'bk4': [
+    { id:'n15', name:'第一章 反对外国侵略的斗争', _expanded:true, children:[
+      { id:'n16', name:'1.1 资本-帝国主义对中国的侵略' },
+      { id:'n17', name:'1.2 抵御外国武装侵略的斗争' }
+    ]}
+  ],
+  'bk5': [
+    { id:'n18', name:'第一章 人生的青春之问', _expanded:true, children:[
+      { id:'n19', name:'1.1 人生观是对人生的总看法' },
+      { id:'n20', name:'1.2 正确的人生观' }
+    ]}
+  ]
+};
+let _pbNodeSeq = 100;
+
+// 题目数据（无分值、无难度；单选/多选含正确选项，主观题无选项）
+let politicsBankData = [
+  { id:6001, bankId:'bk1', chapterId:'n1', sectionId:'n2', type:'single', stem:'马克思主义哲学认为，物质的唯一特性是（  ）。', options:['客观实在性','可知性','运动性','矛盾性'], correctIndex:[0], analysis:'物质的唯一特性是客观实在性，它不依赖于人的意识而存在。', linkChapterId:'', status:'published', createTime:'2026-06-15', creator:'张老师', auditor:'李主任', auditTime:'2026-06-18', rejectReason:'' },
+  { id:6002, bankId:'bk1', chapterId:'n1', sectionId:'n3', type:'single', stem:'矛盾的两个基本属性是（  ）。', options:['普遍性和特殊性','同一性和斗争性','主要方面和次要方面','绝对性和相对性'], correctIndex:[1], analysis:'矛盾的两个基本属性是同一性和斗争性。', linkChapterId:'207', status:'published', createTime:'2026-06-20', creator:'张老师', auditor:'李主任', auditTime:'2026-06-22', rejectReason:'' },
+  { id:6003, bankId:'bk1', chapterId:'n5', sectionId:'', type:'multiple', stem:'下列选项中，属于质量互变规律内容的有（  ）。', options:['量变是质变的必要准备','质变是量变的必然结果','量变和质变相互渗透','质变后事物不再发生量变'], correctIndex:[0,1,2], analysis:'量变是质变的必要准备，质变是量变的必然结果，量变和质变相互渗透；质变后在新质基础上开始新的量变，故D错误。', linkChapterId:'208', status:'reviewing', createTime:'2026-07-08', creator:'王教研', auditor:'', auditTime:'', rejectReason:'' },
+  { id:6004, bankId:'bk2', chapterId:'n12', sectionId:'', type:'single', stem:'新民主主义革命的领导阶级是（  ）。', options:['农民阶级','民族资产阶级','无产阶级','小资产阶级'], correctIndex:[2], analysis:'新民主主义革命由无产阶级领导，这是新旧民主主义革命的根本区别。', linkChapterId:'224', status:'published', createTime:'2026-06-25', creator:'赵老师', auditor:'李主任', auditTime:'2026-06-27', rejectReason:'' },
+  { id:6005, bankId:'bk2', chapterId:'n12', sectionId:'', type:'multiple', stem:'毛泽东在《〈共产党人〉发刊词》中总结的中国革命三大法宝包括（  ）。', options:['统一战线','武装斗争','党的建设','群众路线'], correctIndex:[0,1,2], analysis:'三大法宝是统一战线、武装斗争、党的建设；群众路线是党的根本工作路线，不属于三大法宝。', linkChapterId:'225', status:'rejected', createTime:'2026-07-02', creator:'赵老师', auditor:'李主任', auditTime:'2026-07-05', rejectReason:'选项设置区分度不够，建议将D选项替换为更具迷惑性的干扰项。' },
+  { id:6006, bankId:'bk3', chapterId:'n13', sectionId:'n14', type:'subjective', stem:'结合新时代青年的历史使命，谈谈新时代大学生应当如何树立和坚定崇高的理想信念。', options:[], correctIndex:[], analysis:'参考答案：（1）把个人理想与社会理想统一起来，坚定对马克思主义的信仰、对中国特色社会主义的信念、对实现中华民族伟大复兴中国梦的信心；（2）在实践中把理想转化为现实，脚踏实地、艰苦奋斗。', linkChapterId:'284', status:'published', createTime:'2026-07-14', creator:'王教研', auditor:'李主任', auditTime:'2026-07-15', rejectReason:'' },
+  { id:6007, bankId:'bk4', chapterId:'n15', sectionId:'n16', type:'single', stem:'中国近代史上第一个不平等条约是（  ）。', options:['《南京条约》','《北京条约》','《马关条约》','《辛丑条约》'], correctIndex:[0], analysis:'1842年签订的《南京条约》是中国近代史上第一个不平等条约。', linkChapterId:'264', status:'reviewing', createTime:'2026-07-16', creator:'张老师', auditor:'', auditTime:'', rejectReason:'' },
+  { id:6008, bankId:'bk5', chapterId:'n18', sectionId:'n20', type:'subjective', stem:'结合新时代青年的历史使命，谈谈大学生应当如何树立正确的人生观。', options:[], correctIndex:[], analysis:'参考答案：树立为人民服务的人生观，正确处理个人与集体、奉献与索取的关系，在实现社会价值中实现个人价值。', linkChapterId:'285', status:'reviewing', createTime:'2026-07-17', creator:'王教研', auditor:'', auditTime:'', rejectReason:'' }
+];
+let _pbNextId = 6009;
+
+// 状态变量
+let pbCurrentBankId = null;      // 题库管理页：当前题库
+let pbSelectedChapterId = null;  // 题库管理页：章节树选中态
+let pbTreeSearch = '';
+let _pbEditingNodeId = null;
+let pqBankId = null;             // 题目管理页：筛选题库
+let pqChapterId = null;          // 题目管理页：筛选章节（null=全部）
+let pqStatusFilter = 'all';
+let pqSearchKeyword = '';
+let pbTempQuestions = [];
+let _pbTempQid = 1;
+let pbEntryChapterId = null;
+let pbEntryChapterName = '';
+let pbEntryChapterTreeOpen = false;
+let pbEntryExpanded = new Set();
+let pbEntryLinkChapter = '';
+let pbEditObj = null;
+let pbEditChapterId = null;
+let pbEditChapterName = '';
+let pbEditChapterTreeOpen = false;
+let pbEditExpanded = new Set();
+let pbEditLinkChapter = '';
+let pbEditBankId = null;          // 编辑弹窗：题目所属题库
+let _pbImportRows = [];
+
+const PB_TYPE_LABEL = { single:'单选题', multiple:'多选题', subjective:'主观题' };
+const PB_STATUS_MAP = { published:'已发布', reviewing:'审核中', rejected:'审核驳回' };
+
+function pbNewNodeId(){ return 'n' + (++_pbNodeSeq); }
+function getPbChapters(){ return politicsBankChapters[pbCurrentBankId] || []; }
+
+function findPbNode(id){
+  let found=null;
+  function walk(nodes){
+    nodes.forEach(function(n){
+      if(n.id===id){found=n;return;}
+      if(n.children&&n.children.length) walk(n.children);
+    });
+  }
+  walk(getPbChapters());
+  return found;
+}
+
+function locatePbNode(id, nodes){
+  for(let i=0;i<nodes.length;i++){
+    if(nodes[i].id===id) return {arr:nodes, idx:i};
+    if(nodes[i].children&&nodes[i].children.length){
+      const r=locatePbNode(id, nodes[i].children);
+      if(r) return r;
+    }
+  }
+  return null;
+}
+
+function getPbNodeFullName(id){
+  for(const bankId in politicsBankChapters){
+    let result='';
+    function walk(nodes, path){
+      nodes.forEach(function(n){
+        const fp=path?path+' / '+n.name:n.name;
+        if(n.id===id){result=fp;return;}
+        if(n.children&&n.children.length) walk(n.children, fp);
+      });
+    }
+    walk(politicsBankChapters[bankId]||[], '');
+    if(result) return result;
+  }
+  return id;
+}
+
+// 从课程树提取政治学科所有章节（供题目可选关联）
+function getPoliticsCourseChapters(){
+  const subject=treeData.find(function(n){return n.name==='政治';});
+  if(!subject) return [];
+  const result=[];
+  (subject.children||[]).forEach(function(sub){
+    (sub.children||[]).forEach(function(stage){
+      (stage.children||[]).forEach(function(course){
+        (course.children||[]).forEach(function(chapter){
+          result.push({ id:chapter.id, name:chapter.name, path:sub.name+' / '+course.name+' / '+chapter.name });
+        });
+      });
+    });
+  });
+  return result;
+}
+
+function getCourseChapterPath(id){
+  const hit=getPoliticsCourseChapters().find(function(c){ return String(c.id)===String(id); });
+  return hit ? hit.path : '';
+}
+
+function initPoliticsBank(){
+  pbCurrentBankId = politicsBankList.length ? politicsBankList[0].id : null;
+  pbSelectedChapterId = null;
+  pbTreeSearch = '';
+  _pbEditingNodeId = null;
+  const ts=$('pbTreeSearch'); if(ts) ts.value='';
+  renderPbBankSelect();
+  renderPbChapterTree();
+}
+
+// ===== 题库管理 =====
+function renderPbBankSelect(){
+  const sel=$('pbBankSelect');
+  if(!sel) return;
+  sel.innerHTML = politicsBankList.map(function(b){
+    return '<option value="'+b.id+'"'+(b.id===pbCurrentBankId?' selected':'')+'>'+escHtml(b.name)+'</option>';
+  }).join('');
+  if(!politicsBankList.length){
+    sel.innerHTML = '<option value="">暂无题库，请先新建</option>';
+    pbCurrentBankId = null;
+  }
+}
+
+function onPbBankChange(){
+  pbCurrentBankId = $('pbBankSelect').value || null;
+  pbSelectedChapterId = null;
+  renderPbChapterTree();
+}
+
+function addPbBank(){
+  const name = prompt('请输入题库名称：');
+  if(!name || !name.trim()) return;
+  if(politicsBankList.some(function(b){ return b.name===name.trim(); })){
+    showToast('题库名称已存在','error'); return;
+  }
+  const id = 'bk' + (_pbBankSeq++);
+  politicsBankList.push({ id:id, name:name.trim() });
+  politicsBankChapters[id] = [];
+  pbCurrentBankId = id;
+  pbSelectedChapterId = null;
+  renderPbBankSelect();
+  renderPbChapterTree();
+  showToast('题库已创建','success');
+}
+
+function managePbBank(){
+  if(!politicsBankList.length){ showToast('暂无题库','error'); return; }
+  const listHtml = politicsBankList.map(function(b){
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)">'+
+      '<span style="font-size:13px">'+escHtml(b.name)+'</span>'+
+      '<span>'+
+      '<button class="btn btn-ghost btn-xs" onclick="movePbBankInMgr(\''+b.id+'\',-1)" title="上移">↑</button>'+
+      '<button class="btn btn-ghost btn-xs" onclick="movePbBankInMgr(\''+b.id+'\',1)" title="下移">↓</button>'+
+      '<button class="btn btn-ghost btn-xs" onclick="closePbBankMgr();renamePbBank(\''+b.id+'\')">重命名</button>'+
+      '<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="closePbBankMgr();deletePbBank(\''+b.id+'\')">删除</button>'+
+      '</span></div>';
+  }).join('');
+  const html='<div class="vocablib-modal-overlay" onclick="closePbBankMgr(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:520px">\
+      <div class="vocablib-modal-header"><h3>题库管理（可上下移动排序）</h3><button class="vocablib-modal-close-btn" onclick="closePbBankMgr()">✕</button></div>\
+      <div class="vocablib-modal-body">'+listHtml+'</div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbBankMgrWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function movePbBankInMgr(id, dir){
+  movePbBank(id, dir);
+  closePbBankMgr();
+  managePbBank();
+}
+
+function movePbBank(id, dir){
+  const idx=politicsBankList.findIndex(function(b){ return b.id===id; });
+  const target=idx+dir;
+  if(idx<0 || target<0 || target>=politicsBankList.length) return;
+  const tmp=politicsBankList[idx];
+  politicsBankList[idx]=politicsBankList[target];
+  politicsBankList[target]=tmp;
+  renderPbBankSelect();
+}
+
+function closePbBankMgr(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbBankMgrWrap'); if(wrap) wrap.remove();
+}
+
+function renamePbBank(id){
+  const bank=politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  const name=prompt('重命名题库：', bank.name);
+  if(!name || !name.trim()) return;
+  if(politicsBankList.some(function(b){ return b.name===name.trim() && b.id!==id; })){
+    showToast('题库名称已存在','error'); return;
+  }
+  bank.name=name.trim();
+  renderPbBankSelect();
+  showToast('已重命名','success');
+}
+
+function deletePbBank(id){
+  const bank=politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  const chapters=politicsBankChapters[id]||[];
+  const qCount=politicsBankData.filter(function(q){ return q.bankId===id; }).length;
+  if(chapters.length>0 || qCount>0){
+    const parts=[];
+    if(chapters.length>0) parts.push(chapters.length+' 个章节');
+    if(qCount>0) parts.push(qCount+' 道题目');
+    showToast('该题库下还有 '+parts.join('、')+'，请先清空后再删除','error');
+    return;
+  }
+  if(!confirm('确定删除题库「'+bank.name+'」？')) return;
+  politicsBankList = politicsBankList.filter(function(b){ return b.id!==id; });
+  delete politicsBankChapters[id];
+  if(pbCurrentBankId===id){
+    pbCurrentBankId = politicsBankList.length ? politicsBankList[0].id : null;
+    pbSelectedChapterId = null;
+  }
+  if(pqBankId===id){
+    pqBankId = politicsBankList.length ? politicsBankList[0].id : null;
+    pqChapterId = null;
+  }
+  renderPbBankSelect();
+  renderPbChapterTree();
+  showToast('题库已删除','success');
+}
+
+// ===== 章节目录树 =====
+function getPbFilteredChapters(){
+  let list = getPbChapters();
+  const kw = pbTreeSearch.toLowerCase();
+  if(kw){
+    function walk(nodes){
+      const out=[];
+      nodes.forEach(function(n){
+        const selfMatch = n.name.toLowerCase().indexOf(kw)>-1;
+        if(n.children&&n.children.length){
+          const children=walk(n.children);
+          if(selfMatch) out.push(Object.assign({}, n, {_expanded:true}));
+          else if(children.length) out.push(Object.assign({}, n, {_expanded:true, children:children}));
+        } else if(selfMatch){
+          out.push(Object.assign({}, n));
+        }
+      });
+      return out;
+    }
+    list = walk(list);
+  }
+  return list;
+}
+
+function renderPbChapterTree(){
+  const container=$('pbTreeContainer');
+  if(!container) return;
+  if(!pbCurrentBankId){
+    container.innerHTML='<div style="text-align:center;padding:40px;color:#9ca3af">暂无题库，请先新建题库</div>';
+    return;
+  }
+  const tree=getPbFilteredChapters();
+  let h='';
+  const renderNode=function(node, level){
+    const isChapter = !!(node.children);
+    const hasChildren = node.children && node.children.length>0;
+    const indent = level*20;
+    const icon = isChapter ? '📂' : '📄';
+    let out='';
+    out+='<div class="tree-node">';
+    if(_pbEditingNodeId===node.id){
+      out+='<div style="padding:4px 8px 4px '+(8+indent)+'px;display:flex;gap:6px;align-items:center">';
+      out+='<input id="pbNodeEditInput" value="'+escAttr(node.name)+'" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:4px;font-size:13px">';
+      out+='<button class="btn btn-primary btn-xs" onclick="savePbNodeEdit(\''+node.id+'\')">保存</button>';
+      out+='<button class="btn btn-ghost btn-xs" onclick="renderPbChapterTree()">取消</button>';
+      out+='</div>';
+      return out;
+    }
+    out+='<div class="tree-node-content'+(node.id===pbSelectedChapterId?' selected':'')+'" style="padding-left:'+(8+indent)+'px" onclick="selectPbChapter(\''+node.id+'\')">';
+    out+='<span class="tree-toggle'+(hasChildren?'':' empty')+'" onclick="event.stopPropagation();'+(hasChildren?'togglePbChapterNode(\''+node.id+'\')':'')+'">'+(hasChildren?(node._expanded?'▼':'▶'):'')+'</span>';
+    out+='<span class="tree-icon">'+icon+'</span>';
+    out+='<span class="tree-label">'+escHtml(node.name)+'</span>';
+    out+='<span class="tree-actions">';
+    if(isChapter) out+='<button class="tree-act-btn add-btn" title="新增节" onclick="event.stopPropagation();addPbSection(\''+node.id+'\')">＋</button>';
+    out+='<button class="tree-act-btn" title="上移" onclick="event.stopPropagation();movePbNode(\''+node.id+'\',-1)">↑</button>';
+    out+='<button class="tree-act-btn" title="下移" onclick="event.stopPropagation();movePbNode(\''+node.id+'\',1)">↓</button>';
+    out+='<button class="tree-act-btn edit-btn" title="重命名" onclick="event.stopPropagation();editPbNode(\''+node.id+'\')">✎</button>';
+    out+='<button class="tree-act-btn del-btn" title="删除" onclick="event.stopPropagation();deletePbNode(\''+node.id+'\')">✕</button>';
+    out+='</span>';
+    out+='</div>';
+    out+='<div class="tree-children'+(node._expanded?' expanded':'')+'">';
+    if(hasChildren){
+      node.children.forEach(function(c){ out+=renderNode(c, level+1); });
+    }
+    out+='</div>';
+    out+='</div>';
+    return out;
+  };
+  if(tree.length===0){
+    h='<div style="text-align:center;padding:30px;color:#9ca3af">暂无章节，请点击上方「+ 新增章」</div>';
+  } else {
+    tree.forEach(function(n){ h+=renderNode(n, 0); });
+  }
+  container.innerHTML=h;
+}
+
+function togglePbChapterNode(id){
+  const n=findPbNode(id);
+  if(n){ n._expanded=!n._expanded; renderPbChapterTree(); }
+}
+
+function selectPbChapter(id){
+  pbSelectedChapterId=id;
+  renderPbChapterTree();
+}
+
+function onPbTreeSearch(){
+  pbTreeSearch=$('pbTreeSearch').value.trim();
+  renderPbChapterTree();
+}
+
+function movePbNode(id, dir){
+  const loc=locatePbNode(id, getPbChapters());
+  if(!loc) return;
+  const arr=loc.arr, idx=loc.idx;
+  const target=idx+dir;
+  if(target<0 || target>=arr.length) return;
+  const tmp=arr[idx];
+  arr[idx]=arr[target];
+  arr[target]=tmp;
+  renderPbChapterTree();
+}
+
+function addPbChapter(){
+  if(!pbCurrentBankId){ showToast('请先新建题库','error'); return; }
+  const name=prompt('请输入章名称：');
+  if(!name || !name.trim()) return;
+  getPbChapters().push({ id:pbNewNodeId(), name:name.trim(), _expanded:true, children:[] });
+  renderPbChapterTree();
+  showToast('章已添加','success');
+}
+
+function addPbSection(chapterId){
+  const ch=findPbNode(chapterId);
+  if(!ch) return;
+  const name=prompt('请输入节名称（在「'+ch.name+'」下）：');
+  if(!name || !name.trim()) return;
+  if(!ch.children) ch.children=[];
+  ch.children.push({ id:pbNewNodeId(), name:name.trim() });
+  ch._expanded=true;
+  renderPbChapterTree();
+  showToast('节已添加','success');
+}
+
+function editPbNode(id){
+  _pbEditingNodeId=id;
+  renderPbChapterTree();
+  setTimeout(function(){ const inp=$('pbNodeEditInput'); if(inp){ inp.focus(); inp.select(); } },0);
+}
+
+function savePbNodeEdit(id){
+  const inp=$('pbNodeEditInput');
+  if(!inp) return;
+  const name=inp.value.trim();
+  if(!name){ showToast('名称不能为空','error'); return; }
+  const n=findPbNode(id);
+  if(n){ n.name=name; }
+  _pbEditingNodeId=null;
+  renderPbChapterTree();
+  showToast('已保存','success');
+}
+
+function deletePbNode(id){
+  const n=findPbNode(id);
+  if(!n) return;
+  const isChapter = !!(n.children);
+  if(isChapter && n.children && n.children.length){
+    showToast('该章下还有节，请先删除节','error'); return;
+  }
+  const hasQ = politicsBankData.some(function(q){
+    return (q.chapterId===id) || (q.sectionId===id);
+  });
+  if(hasQ){
+    showToast('该'+(isChapter?'章':'节')+'下还有题目，请先清空后再删除','error'); return;
+  }
+  if(!confirm('确定删除「'+n.name+'」？')) return;
+  const loc=locatePbNode(id, getPbChapters());
+  if(loc){ loc.arr.splice(loc.idx,1); }
+  if(pbSelectedChapterId===id) pbSelectedChapterId=null;
+  if(pqChapterId===id) pqChapterId=null;
+  renderPbChapterTree();
+  showToast('已删除','success');
+}
+
+// ===== 题目管理页 =====
+let pqExpanded = new Set();
+
+function initPqExpanded(){
+  pqExpanded = new Set();
+  politicsBankList.forEach(function(bank){
+    pqExpanded.add('bank:'+bank.id);
+    (politicsBankChapters[bank.id]||[]).forEach(function(ch){
+      pqExpanded.add('ch:'+ch.id);
+    });
+  });
+}
+
+function togglePqNode(key){
+  if(pqExpanded.has(key)) pqExpanded.delete(key); else pqExpanded.add(key);
+  renderPqTree();
+}
+
+function initPoliticsQuestion(){
+  pqBankId = politicsBankList.length ? politicsBankList[0].id : null;
+  pqChapterId = null;
+  pqStatusFilter = 'all';
+  pqSearchKeyword = '';
+  initPqExpanded();
+  renderPqTree();
+  renderPqRightPanel();
+}
+
+function renderPqTree(){
+  const container=$('pqTreeContainer');
+  if(!container) return;
+  if(!politicsBankList.length){
+    container.innerHTML='<div style="text-align:center;padding:40px;color:#9ca3af">暂无题库，请先到「题库管理」创建</div>';
+    return;
+  }
+  let h='<div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px">题库 / 章节筛选</div>';
+  politicsBankList.forEach(function(bank){
+    const chapters=politicsBankChapters[bank.id]||[];
+    const bankCount=politicsBankData.filter(function(q){ return q.bankId===bank.id; }).length;
+    const bankKey='bank:'+bank.id;
+    const bankHas=chapters.length>0;
+    const bankExpanded=pqExpanded.has(bankKey);
+    h+='<div class="tree-node">';
+    h+='<div class="tree-node-content'+(pqChapterId==null && pqBankId===bank.id?' selected':'')+'" onclick="selectPqBank(\''+bank.id+'\')">';
+    h+='<span class="tree-toggle'+(bankHas?'':' empty')+'" onclick="event.stopPropagation();'+(bankHas?'togglePqNode(\''+bankKey+'\')':'')+'">'+(bankHas?(bankExpanded?'▼':'▶'):'')+'</span>';
+    h+='<span class="tree-icon">📂</span>';
+    h+='<span class="tree-label">'+escHtml(bank.name)+'</span>';
+    h+='<span style="margin-left:auto;font-size:11px;color:#9ca3af;flex-shrink:0">'+bankCount+' 题</span>';
+    h+='</div>';
+    h+='<div class="tree-children'+(bankExpanded?' expanded':'')+'">';
+    chapters.forEach(function(ch){
+      const chKey='ch:'+ch.id;
+      const chHas=(ch.children||[]).length>0;
+      const chExpanded=pqExpanded.has(chKey);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(pqChapterId===ch.id?' selected':'')+'" onclick="selectPqChapter(\''+ch.id+'\')">';
+      h+='<span class="tree-toggle'+(chHas?'':' empty')+'" onclick="event.stopPropagation();'+(chHas?'togglePqNode(\''+chKey+'\')':'')+'">'+(chHas?(chExpanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-icon">📄</span>';
+      h+='<span class="tree-label">'+escHtml(ch.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(chExpanded?' expanded':'')+'">';
+      (ch.children||[]).forEach(function(s){
+        h+='<div class="tree-node">';
+        h+='<div class="tree-node-content'+(pqChapterId===s.id?' selected':'')+'" onclick="selectPqChapter(\''+s.id+'\')">';
+        h+='<span class="tree-toggle empty"></span>';
+        h+='<span class="tree-icon">📌</span>';
+        h+='<span class="tree-label">'+escHtml(s.name)+'</span>';
+        h+='</div></div>';
+      });
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  });
+  container.innerHTML=h;
+}
+
+function findPqBankOfChapter(id){
+  for(const bankId in politicsBankChapters){
+    const chapters=politicsBankChapters[bankId]||[];
+    let found=false;
+    chapters.forEach(function(ch){
+      if(ch.id===id) found=true;
+      (ch.children||[]).forEach(function(s){ if(s.id===id) found=true; });
+    });
+    if(found) return bankId;
+  }
+  return null;
+}
+
+function selectPqBank(id){
+  pqBankId=id;
+  pqChapterId=null;
+  pqStatusFilter='all';
+  pqSearchKeyword='';
+  renderPqTree();
+  renderPqRightPanel();
+}
+
+function selectPqChapter(id){
+  const bid=findPqBankOfChapter(id);
+  if(bid) pqBankId=bid;
+  pqChapterId=id;
+  pqStatusFilter='all';
+  pqSearchKeyword='';
+  renderPqTree();
+  renderPqRightPanel();
+}
+
+// 题目是否属于某章节（跨题库，选中章时包含其下各节）
+function pqQMatches(q, chapterId){
+  if(q.sectionId===chapterId) return true;
+  if(q.chapterId===chapterId) return true;
+  for(const bankId in politicsBankChapters){
+    const chapters=politicsBankChapters[bankId]||[];
+    for(const ch of chapters){
+      if(ch.id===chapterId && ch.children){
+        return ch.children.some(function(s){ return q.sectionId===s.id; });
+      }
+    }
+  }
+  return false;
+}
+
+function renderPqRightPanel(){
+  const panel=$('pqRightPanel');
+  if(!panel) return;
+  if(!politicsBankList.length){
+    panel.innerHTML='<div class="video-placeholder">暂无题库，请先到「题库管理」创建</div>';
+    return;
+  }
+  if(pqBankId==null){
+    panel.innerHTML='<div class="video-placeholder">请在左侧选择题库或章节</div>';
+    return;
+  }
+  const bank=politicsBankList.find(function(b){ return b.id===pqBankId; });
+  const title = pqChapterId ? getPbNodeFullName(pqChapterId) : (bank?bank.name:'');
+  const all=politicsBankData.filter(function(q){ return q.bankId===pqBankId && (pqChapterId==null || pqQMatches(q, pqChapterId)); });
+  const published=all.filter(function(q){return q.status==='published';}).length;
+  const reviewing=all.filter(function(q){return q.status==='reviewing';}).length;
+  const rejected=all.filter(function(q){return q.status==='rejected';}).length;
+  const tabs=[['all','全部',all.length],['published','已发布',published],['reviewing','审核中',reviewing],['rejected','审核驳回',rejected]];
+  let h='<div style="padding:16px 20px;border-bottom:1px solid var(--border)">';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">';
+  h+='<div style="font-size:15px;font-weight:600">'+escHtml(title)+'</div>';
+  h+='<span class="vocablib-search">';
+  h+='<span class="icon">&#128269;</span>';
+  h+='<input id="pqSearchInput" placeholder="搜索题干 / ID" value="'+escAttr(pqSearchKeyword)+'" oninput="onPqSearchInput(this.value)">';
+  h+='</span>';
+  h+='</div>';
+  h+='<div class="video-tree-filter" style="margin-top:12px">';
+  tabs.forEach(function(t){
+    h+='<div class="video-filter-tab'+(pqStatusFilter===t[0]?' active':'')+'" onclick="filterPqStatus(\''+t[0]+'\')">'+t[1]+' <span style="opacity:.6">'+t[2]+'</span></div>';
+  });
+  h+='</div>';
+  h+='</div>';
+  h+='<div id="pqListWrap"></div>';
+  panel.innerHTML=h;
+  renderPqList();
+}
+
+function renderPqList(){
+  const wrap=document.getElementById('pqListWrap');
+  if(!wrap) return;
+  let list=politicsBankData.filter(function(q){ return q.bankId===pqBankId && (pqChapterId==null || pqQMatches(q, pqChapterId)); });
+  if(pqStatusFilter!=='all') list=list.filter(function(q){ return q.status===pqStatusFilter; });
+  if(pqSearchKeyword){
+    const kw=pqSearchKeyword.toLowerCase();
+    list=list.filter(function(q){ return q.stem.toLowerCase().indexOf(kw)>-1 || String(q.id).toLowerCase().indexOf(kw)>-1; });
+  }
+  if(list.length===0){
+    wrap.innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af">暂无题目</div>';
+    return;
+  }
+  let h='<div style="padding:16px 20px;overflow:auto">';
+  h+='<table class="vocablib-table"><thead><tr><th>ID</th><th>题干</th><th>题型</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody>';
+  list.forEach(function(q){
+    h+='<tr>';
+    h+='<td>'+q.id+'</td>';
+    h+='<td><span style="display:inline-block;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle" title="'+escAttr(q.stem)+'">'+escHtml(q.stem)+'</span></td>';
+    h+='<td>'+PB_TYPE_LABEL[q.type]+'</td>';
+    h+='<td><span class="vocablib-status '+q.status+'">'+PB_STATUS_MAP[q.status]+'</span></td>';
+    h+='<td>'+q.createTime+'</td>';
+    h+='<td><span class="vocab-actions">';
+    h+='<button class="btn btn-ghost btn-xs" onclick="viewPbQuestion('+q.id+')">查看</button>';
+    if(q.status!=='published'){h+='<button class="btn btn-ghost btn-xs" onclick="editPbQuestion('+q.id+')">编辑</button>';}
+    h+='<button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deletePbQuestion('+q.id+')">删除</button>';
+    h+='</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  h+='</div>';
+  wrap.innerHTML=h;
+}
+
+function filterPqStatus(key){ pqStatusFilter=key; renderPqRightPanel(); }
+function onPqSearchInput(val){ pqSearchKeyword=val; renderPqList(); }
+
+// ===== 录入题目弹窗 =====
+function renderPbEntryChapterTreeInto(box){
+  function walk(nodes, level){
+    let h='';
+    nodes.forEach(function(n){
+      const has=n.children&&n.children.length>0;
+      const expanded=pbEntryExpanded.has(n.id);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(n.id===pbEntryChapterId?' selected':'')+'" style="padding-left:'+(6+level*18)+'px" onclick="event.stopPropagation();selectPbEntryChapter(\''+n.id+'\')">';
+      h+='<span class="tree-toggle'+(has?'':' empty')+'" onclick="event.stopPropagation();'+(has?'togglePbEntryChapterNode(\''+n.id+'\')':'')+'">'+(has?(expanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-label">'+escHtml(n.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(expanded?' expanded':'')+'">';
+      if(has) h+=walk(n.children, level+1);
+      h+='</div>';
+      h+='</div>';
+    });
+    return h;
+  }
+  box.innerHTML=walk(politicsBankChapters[pqBankId]||[], 0);
+}
+
+function openPbEntryModal(){
+  if(!pqBankId){ showToast('请先到「题库管理」创建题库','error'); return; }
+  if(!(politicsBankChapters[pqBankId]||[]).length){ showToast('请先到「题库管理」创建章节','error'); return; }
+  pbTempQuestions=[];
+  _pbTempQid=1;
+  pbEntryChapterId=pqChapterId || null;
+  pbEntryChapterName=pbEntryChapterId ? getPbNodeFullName(pbEntryChapterId) : '';
+  pbEntryChapterTreeOpen=false;
+  pbEntryExpanded=new Set();
+  (politicsBankChapters[pqBankId]||[]).forEach(function(ch){ pbEntryExpanded.add(ch.id); (ch.children||[]).forEach(function(s){ pbEntryExpanded.add(s.id); }); });
+  pbEntryLinkChapter='';
+  const linkOpts='<option value="">不关联课程树章节</option>'+getPoliticsCourseChapters().map(function(c){ return '<option value="'+c.id+'">'+escHtml(c.path)+'</option>'; }).join('');
+  const html='<div class="vocablib-modal-overlay" onclick="closePbEntryModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:920px;height:92vh;display:flex;flex-direction:column">\
+      <div class="vocablib-modal-header"><h3>录入题目</h3><button class="vocablib-modal-close-btn" onclick="closePbEntryModal()">✕</button></div>\
+      <div class="vocablib-modal-body" style="flex:1;overflow-y:auto;min-height:0">\
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">\
+          <div class="vocablib-edit-field" style="position:relative">\
+            <label><span class="req">*</span> 所属章节</label>\
+            <div class="cqb-cat-select" id="pbEntryCatBox" onclick="event.stopPropagation();togglePbEntryChapterTree()">\
+              <span id="pbEntryCatText" class="placeholder">请选择章节</span>\
+              <span class="arrow">&#9662;</span>\
+              <div class="cqb-cat-dropdown" id="pbEntryCatTree" onclick="event.stopPropagation()"></div>\
+            </div>\
+          </div>\
+          <div class="vocablib-edit-field">\
+            <label>关联课程树章节（可选）</label>\
+            <select class="form-select" id="pbEntryLinkChapter" onchange="pbEntryLinkChapter=this.value">'+linkOpts+'</select>\
+          </div>\
+        </div>\
+        <div style="display:flex;gap:8px;margin-bottom:14px">\
+          <button class="btn btn-outline btn-sm" onclick="addPbTempQuestion(\'single\')">+ 单选题</button>\
+          <button class="btn btn-outline btn-sm" onclick="addPbTempQuestion(\'multiple\')">+ 多选题</button>\
+          <button class="btn btn-outline btn-sm" onclick="addPbTempQuestion(\'subjective\')">+ 主观题</button>\
+        </div>\
+        <div id="pbTempQuestionList"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closePbEntryModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="savePbEntry()">保存题目</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbEntryWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+  renderPbEntryChapterDisplay();
+  renderPbTempQuestions();
+}
+
+function closePbEntryModal(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbEntryWrap'); if(wrap) wrap.remove();
+  document.removeEventListener('click', closePbEntryChapterOnOutside);
+}
+
+function renderPbEntryChapterDisplay(){
+  const t=document.getElementById('pbEntryCatText');
+  if(!t) return;
+  if(pbEntryChapterId!=null){ t.className='value'; t.textContent=pbEntryChapterName; }
+  else { t.className='placeholder'; t.textContent='请选择章节'; }
+}
+
+function togglePbEntryChapterTree(){
+  if(pbEntryChapterTreeOpen){ closePbEntryChapterTree(); return; }
+  pbEntryChapterTreeOpen=true;
+  const dd=document.getElementById('pbEntryCatTree');
+  if(dd){ renderPbEntryChapterTreeInto(dd); dd.classList.add('show'); }
+  setTimeout(function(){ document.addEventListener('click', closePbEntryChapterOnOutside); },0);
+}
+
+function togglePbEntryChapterNode(id){
+  if(pbEntryExpanded.has(id)) pbEntryExpanded.delete(id); else pbEntryExpanded.add(id);
+  const dd=document.getElementById('pbEntryCatTree');
+  if(dd) renderPbEntryChapterTreeInto(dd);
+}
+
+function selectPbEntryChapter(id){
+  pbEntryChapterId=id;
+  pbEntryChapterName=getPbNodeFullName(id);
+  closePbEntryChapterTree();
+  renderPbEntryChapterDisplay();
+}
+
+function closePbEntryChapterTree(){
+  pbEntryChapterTreeOpen=false;
+  const dd=document.getElementById('pbEntryCatTree');
+  if(dd) dd.classList.remove('show');
+  document.removeEventListener('click', closePbEntryChapterOnOutside);
+}
+
+function closePbEntryChapterOnOutside(e){
+  const box=document.getElementById('pbEntryCatBox');
+  const dd=document.getElementById('pbEntryCatTree');
+  if(box && dd && !box.contains(e.target) && !dd.contains(e.target)){
+    closePbEntryChapterTree();
+  }
+}
+
+function addPbTempQuestion(type){
+  const q={ id:_pbTempQid++, type:type, stem:'', options:(type==='single'||type==='multiple')?['','','','']:[], correctIndex:[], analysis:'' };
+  pbTempQuestions.push(q);
+  renderPbTempQuestions();
+}
+
+function removePbTempQuestion(qid){
+  pbTempQuestions=pbTempQuestions.filter(function(q){ return q.id!==qid; });
+  renderPbTempQuestions();
+}
+
+function updatePbTempStem(qid, val){ const q=pbTempQuestions.find(function(x){return x.id===qid;}); if(q) q.stem=val; }
+function updatePbTempOption(qid, i, val){ const q=pbTempQuestions.find(function(x){return x.id===qid;}); if(q) q.options[i]=val; }
+function updatePbTempAnalysis(qid, val){ const q=pbTempQuestions.find(function(x){return x.id===qid;}); if(q) q.analysis=val; }
+function updatePbTempCorrect(qid, i, checked){
+  const q=pbTempQuestions.find(function(x){return x.id===qid;});
+  if(!q) return;
+  if(q.type==='single'){
+    q.correctIndex = checked ? [i] : [];
+  } else if(q.type==='multiple'){
+    if(checked){ if(q.correctIndex.indexOf(i)<0) q.correctIndex.push(i); }
+    else { q.correctIndex = q.correctIndex.filter(function(x){ return x!==i; }); }
+  }
+}
+
+function renderPbTempQuestions(){
+  const container=document.getElementById('pbTempQuestionList');
+  if(!container) return;
+  if(pbTempQuestions.length===0){
+    container.style.textAlign='center';
+    container.innerHTML='<div style="padding:20px;color:#9ca3af">暂无题目，请点击上方按钮添加</div>';
+    return;
+  }
+  container.style.textAlign='';
+  let h='';
+  pbTempQuestions.forEach(function(q, qi){
+    h+='<div class="yre-q-card" id="pb-q-'+q.id+'">';
+    h+='<div class="yre-q-card-header">';
+    h+='<div class="yre-q-card-header-left">';
+    h+='<span class="yre-q-card-num">题目 #'+(qi+1)+'</span>';
+    h+='<span class="yre-q-card-type '+q.type+'">'+PB_TYPE_LABEL[q.type]+'</span>';
+    h+='</div>';
+    h+='<button class="yre-q-card-del" onclick="removePbTempQuestion('+q.id+')">删除</button>';
+    h+='</div>';
+    h+='<div class="yre-q-card-body">';
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+    h+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updatePbTempStem('+q.id+',this.value)" placeholder="请输入题目题干"></div>';
+    if(q.type==='single' || q.type==='multiple'){
+      h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项（'+(q.type==='single'?'单选正确项':'多选正确项')+'）</div>';
+      h+='<div class="yre-q-options-grid">';
+      ['A','B','C','D'].forEach(function(l, i){
+        h+='<div class="yre-q-option-row">';
+        if(q.type==='single'){
+          h+='<input type="radio" name="pb-correct-'+q.id+'" '+(q.correctIndex.indexOf(i)>=0?'checked':'')+' onchange="updatePbTempCorrect('+q.id+','+i+',this.checked)">';
+        } else {
+          h+='<input type="checkbox" '+(q.correctIndex.indexOf(i)>=0?'checked':'')+' onchange="updatePbTempCorrect('+q.id+','+i+',this.checked)">';
+        }
+        h+='<span class="yre-q-option-letter">'+l+'.</span>';
+        h+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updatePbTempOption('+q.id+','+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+        h+='</div>';
+      });
+      h+='</div></div>';
+    }
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> '+'答案与解析'+'</div>';
+    h+='<textarea class="form-textarea" onchange="updatePbTempAnalysis('+q.id+',this.value)" placeholder="'+'请输入答案与解析'+'" style="min-height:70px">'+escHtml(q.analysis)+'</textarea></div>';
+    h+='</div></div>';
+  });
+  container.innerHTML=h;
+}
+
+function savePbEntry(){
+  if(pbEntryChapterId==null){ showToast('请选择所属章节','error'); return; }
+  if(pbTempQuestions.length===0){ showToast('请至少添加一道题目','error'); return; }
+  for(let i=0;i<pbTempQuestions.length;i++){
+    const q=pbTempQuestions[i];
+    if(!q.stem.trim()){ showToast('题目 #'+(i+1)+' 题干不能为空','error'); return; }
+    if((q.type==='single'||q.type==='multiple') && q.options.some(function(o){ return !o.trim(); })){ showToast('题目 #'+(i+1)+' 选项不能为空','error'); return; }
+    if((q.type==='single'||q.type==='multiple') && q.correctIndex.length===0){ showToast('题目 #'+(i+1)+' 请设定正确答案选项','error'); return; }
+    if(!q.analysis.trim()){ showToast('题目 #'+(i+1)+' 请填写'+'答案与解析','error'); return; }
+  }
+  const chapters=politicsBankChapters[pqBankId]||[];
+  let node=null;
+  chapters.forEach(function(ch){ if(ch.id===pbEntryChapterId) node=ch; (ch.children||[]).forEach(function(s){ if(s.id===pbEntryChapterId) node=s; }); });
+  let chapterId, sectionId;
+  if(node && node.children){
+    chapterId=pbEntryChapterId; sectionId='';
+  } else {
+    sectionId=pbEntryChapterId;
+    let parent=null;
+    chapters.forEach(function(ch){ if(ch.children && ch.children.some(function(s){ return s.id===pbEntryChapterId; })) parent=ch; });
+    chapterId=parent?parent.id:pbEntryChapterId;
+  }
+  pbTempQuestions.forEach(function(q){
+    politicsBankData.push({
+      id:++_pbNextId,
+      bankId:pqBankId,
+      chapterId:chapterId,
+      sectionId:sectionId,
+      type:q.type,
+      stem:q.stem,
+      options:q.options.slice(),
+      correctIndex:q.correctIndex.slice(),
+      analysis:q.analysis,
+      linkChapterId:pbEntryLinkChapter || '',
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'张老师',
+      auditTime:'',
+      auditor:'',
+      rejectReason:''
+    });
+  });
+  const count=pbTempQuestions.length;
+  closePbEntryModal();
+  renderPqRightPanel();
+  showToast('成功录入 '+count+' 道题目','success');
+}
+
+// ===== 批量导入弹窗 =====
+function openPbImportModal(){
+  if(!pqBankId){ showToast('请先到「题库管理」创建题库','error'); return; }
+  const html='<div class="vocablib-modal-overlay" onclick="closePbImportModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:680px">\
+      <div class="vocablib-modal-header"><h3>批量导入题目</h3><button class="vocablib-modal-close-btn" onclick="closePbImportModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div class="import-steps">\
+          <div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载导入模板</div><div class="step-desc">模板包含「题库、章、节、题型、题干、选项、正确选项、答案与解析」列</div></div></div>\
+          <div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">题库/章/节需与系统已有名称一致；题型填「单选题 / 多选题 / 主观题」；正确选项填字母（单选如 A，多选如 ABC）</div></div></div>\
+          <div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">支持 .xls / .csv 格式文件</div></div></div>\
+        </div>\
+        <button class="btn btn-outline btn-sm" onclick="downloadPbImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>\
+        <div class="upload-zone" onclick="document.getElementById(\'pbImportFileInput\').click()">\
+          <div class="upload-zone-icon">&#128196;</div>\
+          <div class="upload-zone-text">点击选择导入文件<br><strong>支持 .xls / .csv 格式</strong></div>\
+        </div>\
+        <input type="file" id="pbImportFileInput" accept=".xls,.csv,.xlsx" style="display:none" onchange="handlePbImportFile(this)">\
+        <div id="pbImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closePbImportModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="processPbImport()">开始导入</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbImportWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closePbImportModal(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbImportWrap'); if(wrap) wrap.remove();
+  _pbImportRows=[];
+}
+
+function downloadPbImportTemplate(){
+  const header=['题库','章','节','题型','题干','选项','正确选项','答案与解析'];
+  const sampleRows=[
+    ['马原刷题库','第一章 马克思主义是关于无产阶级和人类解放的科学','1.1 马克思主义的创立与发展','单选题','马克思主义哲学认为，物质的唯一特性是（  ）。','A. 客观实在性；B. 可知性；C. 运动性；D. 矛盾性','A','物质的唯一特性是客观实在性。'],
+    ['马原刷题库','第二章 世界的物质性及其发展规律','','多选题','下列属于质量互变规律内容的有（  ）。','A. 量变是质变的必要准备；B. 质变是量变的必然结果；C. 量变和质变相互渗透；D. 质变后不再量变','ABC','D错误，质变后在新质基础上开始新的量变。'],
+    ['思法刷题库','第一章 人生的青春之问','1.2 正确的人生观','主观题','谈谈新时代大学生应当如何坚定理想信念。','','','参考答案：坚定马克思主义信仰、中国特色社会主义信念，并在实践中践行。']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1">';
+  html+='<tr>';
+  header.forEach(function(h){ html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>'; });
+  html+='</tr>';
+  sampleRows.forEach(function(row){
+    html+='<tr>';
+    row.forEach(function(c){ html+='<td style="padding:4px 8px">'+c+'</td>'; });
+    html+='</tr>';
+  });
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='政治题库导入模板.xls';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast('模板已下载','success');
+}
+
+function handlePbImportFile(input){
+  const f=input.files[0];
+  if(!f) return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const text=e.target.result;
+    _pbImportRows=parsePbImportText(text);
+    const info=document.getElementById('pbImportFileInfo');
+    if(info){ info.style.display='block'; info.textContent='已选择：'+f.name+'（解析到 '+_pbImportRows.length+' 条数据）'; }
+    else showToast('已解析 '+_pbImportRows.length+' 条数据','success');
+  };
+  reader.readAsText(f,'UTF-8');
+}
+
+function parsePbImportText(text){
+  const rows=[];
+  if(!text) return rows;
+  if(text.charCodeAt(0)===0xFEFF) text=text.slice(1);
+  text=text.trim();
+  if(!text) return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    const trs=doc.querySelectorAll('table tr');
+    trs.forEach(function(tr,ti){
+      if(ti===0) return;
+      const tds=tr.querySelectorAll('th,td');
+      const cells=[];
+      tds.forEach(function(td){ cells.push(td.textContent.trim()); });
+      if(cells.length>=6 && cells[4]){
+        rows.push({ bank:cells[0]||'', chapter:cells[1]||'', section:cells[2]||'', type:cells[3]||'', stem:cells[4]||'', options:cells[5]||'', correct:cells[6]||'', analysis:cells[7]||'' });
+      }
+    });
+  } else {
+    const lines=text.split(/\r?\n/);
+    lines.forEach(function(line,li){
+      if(li===0) return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=6 && cells[4]){
+        rows.push({ bank:cells[0]||'', chapter:cells[1]||'', section:cells[2]||'', type:cells[3]||'', stem:cells[4]||'', options:cells[5]||'', correct:cells[6]||'', analysis:cells[7]||'' });
+      }
+    });
+  }
+  return rows;
+}
+
+function parsePbOptions(text){
+  const result=['','','',''];
+  if(!text) return result;
+  text.split(/[；;]/).forEach(function(p){
+    const m=p.trim().match(/^([A-Da-d])[.、．\s]*([\s\S]*)$/);
+    if(m){
+      const idx=m[1].toUpperCase().charCodeAt(0)-65;
+      if(idx>=0 && idx<4) result[idx]=m[2].trim();
+    }
+  });
+  return result;
+}
+
+function parsePbCorrect(text, type){
+  if(!text) return [];
+  const letters=text.toUpperCase().split('').filter(function(ch){ return ch>='A' && ch<='D'; });
+  if(type==='single') return letters.length ? [letters[0].charCodeAt(0)-65] : [];
+  return letters.map(function(ch){ return ch.charCodeAt(0)-65; }).filter(function(i){ return i>=0 && i<4; });
+}
+
+function processPbImport(){
+  if(_pbImportRows.length===0){ showToast('请先选择要导入的文件','error'); return; }
+  const typeMap={'单选题':'single','多选题':'multiple','主观题':'subjective'};
+  let added=0, skipped=0;
+  _pbImportRows.forEach(function(row){
+    const stem=(row.stem||'').trim();
+    if(!stem){ skipped++; return; }
+    const bank=politicsBankList.find(function(b){ return b.name===(row.bank||'').trim(); });
+    if(!bank){ skipped++; return; }
+    const chapters=politicsBankChapters[bank.id]||[];
+    const chapter=chapters.find(function(c){ return c.name===(row.chapter||'').trim(); });
+    if(!chapter){ skipped++; return; }
+    const secName=(row.section||'').trim();
+    let sectionId='';
+    if(secName){
+      const sec=(chapter.children||[]).find(function(s){ return s.name===secName; });
+      if(sec) sectionId=sec.id;
+      else { skipped++; return; }
+    }
+    const type=typeMap[(row.type||'').trim()]||'single';
+    const options=parsePbOptions(row.options||'');
+    const correctIndex=parsePbCorrect(row.correct||'', type);
+    if((type==='single'||type==='multiple') && correctIndex.length===0){ skipped++; return; }
+    politicsBankData.push({
+      id:++_pbNextId,
+      bankId:bank.id,
+      chapterId:chapter.id,
+      sectionId:sectionId,
+      type:type,
+      stem:stem,
+      options:(type==='single'||type==='multiple')?options:[],
+      correctIndex:(type==='single'||type==='multiple')?correctIndex:[],
+      analysis:(row.analysis||'').trim(),
+      linkChapterId:'',
+      status:'reviewing',
+      createTime:new Date().toISOString().slice(0,10),
+      creator:'张老师',
+      auditTime:'',
+      auditor:'',
+      rejectReason:''
+    });
+    added++;
+  });
+  closePbImportModal();
+  if(added===0){ showToast('导入失败：题库/章节不匹配或数据无效','error'); return; }
+  renderPqRightPanel();
+  showToast('成功导入 '+added+' 道题目'+(skipped>0?'，'+skipped+' 条因题库/章节不匹配或数据无效跳过':''),'success');
+}
+
+// ===== 查看题目弹窗 =====
+function pbCorrectText(q){
+  if(q.type==='subjective') return '';
+  const labels=['A','B','C','D'];
+  return (q.correctIndex||[]).map(function(i){ return labels[i]; }).join('、');
+}
+
+function viewPbQuestion(id){
+  const q=politicsBankData.find(function(x){ return x.id===id; });
+  if(!q) return;
+  const bank=politicsBankList.find(function(b){ return b.id===q.bankId; });
+  let optionsHtml='';
+  if(q.type==='single' || q.type==='multiple'){
+    const labels=['A','B','C','D'];
+    optionsHtml='<div style="font-size:13px;margin-top:6px">';
+    q.options.forEach(function(o, i){
+      const isCorrect=(q.correctIndex||[]).indexOf(i)>=0;
+      optionsHtml+='<div style="margin-left:4px;padding:2px 0;'+(isCorrect?'color:#059669;font-weight:600':'')+'">'+labels[i]+'. '+escHtml(o)+(isCorrect?' ✓':'')+'</div>';
+    });
+    optionsHtml+='</div>';
+  }
+  const linkText=q.linkChapterId?getCourseChapterPath(q.linkChapterId):'未关联';
+  const nodePath=q.sectionId?getPbNodeFullName(q.sectionId):getPbNodeFullName(q.chapterId);
+  const html='<div class="vocablib-modal-overlay" onclick="closePbViewModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:720px;max-height:85vh;overflow-y:auto">\
+      <div class="vocablib-modal-header"><h3>题目详情 #'+q.id+'</h3><button class="vocablib-modal-close-btn" onclick="closePbViewModal()">✕</button></div>\
+      <div class="video-detail-panel">\
+        <div class="video-detail-header"><span class="video-detail-title">'+escHtml(q.stem)+'</span><span class="vocablib-status '+q.status+'">'+PB_STATUS_MAP[q.status]+'</span></div>\
+        <div class="vocablib-modal-card"><div class="card-title">题目信息</div>\
+          <div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">题型</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+PB_TYPE_LABEL[q.type]+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">所属题库</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(bank?bank.name:'-')+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">所属章节</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(nodePath)+'</span></div>\
+            '+(q.type!=='subjective'?'<div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">正确答案</span><span class="info-val" style="font-weight:600;color:#059669;display:block;margin-top:2px">'+escHtml(pbCorrectText(q))+'</span></div>':'')+'\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">关联课程树章节</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+escHtml(linkText)+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">创建时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+q.createTime+'</span></div>\
+          </div>\
+        </div>\
+        <div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:14px;line-height:1.7">'+escHtml(q.stem)+'</div>'+optionsHtml+'</div>\
+        <div class="vocablib-modal-card"><div class="card-title">'+'答案与解析'+'</div><div style="font-size:14px;line-height:1.7">'+escHtml(q.analysis||'-')+'</div></div>\
+        <div class="vocablib-modal-card"><div class="card-title">审核信息</div>\
+          <div class="info-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:13px">\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核状态</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+PB_STATUS_MAP[q.status]+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核人</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+(q.auditor||'-')+'</span></div>\
+            <div class="info-item"><span class="info-lbl" style="font-size:11px;color:#9ca3af">审核时间</span><span class="info-val" style="font-weight:500;display:block;margin-top:2px">'+(q.auditTime||'-')+'</span></div>\
+          </div>\
+        </div>\
+        '+(q.status==='rejected'?'<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b;line-height:1.7">'+escHtml(q.rejectReason||'未填写')+'</div></div>':'')+'\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closePbViewModal();editPbQuestion('+q.id+')">编辑</button>\
+        <button class="btn btn-primary btn-sm" onclick="closePbViewModal()">关闭</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbViewWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+
+function closePbViewModal(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbViewWrap'); if(wrap) wrap.remove();
+}
+
+// ===== 编辑题目弹窗 =====
+function renderPbEditChapterTreeInto(box){
+  function walk(nodes, level){
+    let h='';
+    nodes.forEach(function(n){
+      const has=n.children&&n.children.length>0;
+      const expanded=pbEditExpanded.has(n.id);
+      h+='<div class="tree-node">';
+      h+='<div class="tree-node-content'+(n.id===pbEditChapterId?' selected':'')+'" style="padding-left:'+(6+level*18)+'px" onclick="event.stopPropagation();selectPbEditChapter(\''+n.id+'\')">';
+      h+='<span class="tree-toggle'+(has?'':' empty')+'" onclick="event.stopPropagation();'+(has?'togglePbEditChapterNode(\''+n.id+'\')':'')+'">'+(has?(expanded?'▼':'▶'):'')+'</span>';
+      h+='<span class="tree-label">'+escHtml(n.name)+'</span>';
+      h+='</div>';
+      h+='<div class="tree-children'+(expanded?' expanded':'')+'">';
+      if(has) h+=walk(n.children, level+1);
+      h+='</div>';
+      h+='</div>';
+    });
+    return h;
+  }
+  box.innerHTML=walk(politicsBankChapters[pbEditBankId]||[], 0);
+}
+
+function editPbQuestion(id){
+  closePbViewModal();
+  closePbEditModal();
+  const q=politicsBankData.find(function(x){ return x.id===id; });
+  if(!q) return;
+  pbEditObj=JSON.parse(JSON.stringify(q));
+  pbEditBankId=q.bankId;
+  pbEditChapterId=q.sectionId || q.chapterId;
+  pbEditChapterName=getPbNodeFullName(pbEditChapterId);
+  pbEditChapterTreeOpen=false;
+  pbEditExpanded=new Set();
+  (politicsBankChapters[pbEditBankId]||[]).forEach(function(ch){ pbEditExpanded.add(ch.id); (ch.children||[]).forEach(function(s){ pbEditExpanded.add(s.id); }); });
+  pbEditLinkChapter=q.linkChapterId || '';
+  const typeLabel={single:'单选题',multiple:'多选题',subjective:'主观题'};
+  let typeOpts='';
+  ['single','multiple','subjective'].forEach(function(t){ typeOpts+='<option value="'+t+'"'+(t===q.type?' selected':'')+'>'+typeLabel[t]+'</option>'; });
+  const linkOpts='<option value="">不关联课程树章节</option>'+getPoliticsCourseChapters().map(function(c){ return '<option value="'+c.id+'"'+(String(c.id)===String(q.linkChapterId||'')?' selected':'')+'>'+escHtml(c.path)+'</option>'; }).join('');
+  const html='<div class="vocablib-modal-overlay" onclick="closePbEditModal(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:840px;max-height:90vh;overflow-y:auto">\
+      <div class="vocablib-modal-header"><h3>编辑题目 #'+q.id+'</h3><button class="vocablib-modal-close-btn" onclick="closePbEditModal()">✕</button></div>\
+      <div class="vocablib-modal-body">\
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">\
+          <div class="vocablib-edit-field" style="position:relative">\
+            <label><span class="req">*</span> 所属章节</label>\
+            <div class="cqb-cat-select" id="pbEditCatBox" onclick="event.stopPropagation();togglePbEditChapterTree()">\
+              <span id="pbEditCatText" class="placeholder">请选择章节</span>\
+              <span class="arrow">&#9662;</span>\
+              <div class="cqb-cat-dropdown" id="pbEditCatTree" onclick="event.stopPropagation()"></div>\
+            </div>\
+          </div>\
+          <div class="vocablib-edit-field">\
+            <label><span class="req">*</span> 题型</label>\
+            <select class="form-select" id="pbEditType" onchange="onPbEditTypeChange()">'+typeOpts+'</select>\
+          </div>\
+        </div>\
+        <div style="margin-bottom:14px" class="vocablib-edit-field">\
+          <label>关联课程树章节（可选）</label>\
+          <select class="form-select" id="pbEditLinkChapter" onchange="pbEditLinkChapter=this.value">'+linkOpts+'</select>\
+        </div>\
+        <div id="pbEditQuestionBody"></div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-outline btn-sm" onclick="closePbEditModal()">取消</button>\
+        <button class="btn btn-primary btn-sm" onclick="savePbEdit('+q.id+')">保存修改</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbEditWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+  renderPbEditChapterDisplay();
+  renderPbEditBody();
+}
+
+function renderPbEditChapterDisplay(){
+  const t=document.getElementById('pbEditCatText');
+  if(!t) return;
+  if(pbEditChapterId!=null){ t.className='value'; t.textContent=pbEditChapterName; }
+  else { t.className='placeholder'; t.textContent='请选择章节'; }
+}
+
+function togglePbEditChapterTree(){
+  if(pbEditChapterTreeOpen){ closePbEditChapterTree(); return; }
+  pbEditChapterTreeOpen=true;
+  const dd=document.getElementById('pbEditCatTree');
+  if(dd){ renderPbEditChapterTreeInto(dd); dd.classList.add('show'); }
+  setTimeout(function(){ document.addEventListener('click', closePbEditChapterOnOutside); },0);
+}
+
+function togglePbEditChapterNode(id){
+  if(pbEditExpanded.has(id)) pbEditExpanded.delete(id); else pbEditExpanded.add(id);
+  const dd=document.getElementById('pbEditCatTree');
+  if(dd) renderPbEditChapterTreeInto(dd);
+}
+
+function selectPbEditChapter(id){
+  pbEditChapterId=id;
+  pbEditChapterName=getPbNodeFullName(id);
+  closePbEditChapterTree();
+  renderPbEditChapterDisplay();
+}
+
+function closePbEditChapterTree(){
+  pbEditChapterTreeOpen=false;
+  const dd=document.getElementById('pbEditCatTree');
+  if(dd) dd.classList.remove('show');
+  document.removeEventListener('click', closePbEditChapterOnOutside);
+}
+
+function closePbEditChapterOnOutside(e){
+  const box=document.getElementById('pbEditCatBox');
+  const dd=document.getElementById('pbEditCatTree');
+  if(box && dd && !box.contains(e.target) && !dd.contains(e.target)){
+    closePbEditChapterTree();
+  }
+}
+
+function onPbEditTypeChange(){
+  const type=document.getElementById('pbEditType').value;
+  pbEditObj.type=type;
+  if(type==='single'||type==='multiple'){
+    if(!pbEditObj.options || pbEditObj.options.length!==4) pbEditObj.options=['','','',''];
+    if(!pbEditObj.correctIndex) pbEditObj.correctIndex=[];
+  } else {
+    pbEditObj.options=[];
+    pbEditObj.correctIndex=[];
+  }
+  renderPbEditBody();
+}
+
+function updatePbEditStem(val){ if(pbEditObj) pbEditObj.stem=val; }
+function updatePbEditOption(i, val){ if(pbEditObj) pbEditObj.options[i]=val; }
+function updatePbEditAnalysis(val){ if(pbEditObj) pbEditObj.analysis=val; }
+function updatePbEditCorrect(i, checked){
+  if(!pbEditObj) return;
+  if(pbEditObj.type==='single'){
+    pbEditObj.correctIndex = checked ? [i] : [];
+  } else if(pbEditObj.type==='multiple'){
+    if(checked){ if(pbEditObj.correctIndex.indexOf(i)<0) pbEditObj.correctIndex.push(i); }
+    else { pbEditObj.correctIndex = pbEditObj.correctIndex.filter(function(x){ return x!==i; }); }
+  }
+}
+
+function renderPbEditBody(){
+  const container=document.getElementById('pbEditQuestionBody');
+  if(!container) return;
+  const q=pbEditObj;
+  let h='<div class="yre-q-card">';
+  h+='<div class="yre-q-card-body">';
+  h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 题干</div>';
+  h+='<input class="form-input" value="'+escAttr(q.stem)+'" onchange="updatePbEditStem(this.value)" placeholder="请输入题目题干"></div>';
+  if(q.type==='single'||q.type==='multiple'){
+    h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> 选项（'+(q.type==='single'?'单选正确项':'多选正确项')+'）</div>';
+    h+='<div class="yre-q-options-grid">';
+    ['A','B','C','D'].forEach(function(l, i){
+      h+='<div class="yre-q-option-row">';
+      if(q.type==='single'){
+        h+='<input type="radio" name="pb-edit-correct" '+(q.correctIndex.indexOf(i)>=0?'checked':'')+' onchange="updatePbEditCorrect('+i+',this.checked)">';
+      } else {
+        h+='<input type="checkbox" '+(q.correctIndex.indexOf(i)>=0?'checked':'')+' onchange="updatePbEditCorrect('+i+',this.checked)">';
+      }
+      h+='<span class="yre-q-option-letter">'+l+'.</span>';
+      h+='<input class="form-input" value="'+escAttr(q.options[i])+'" onchange="updatePbEditOption('+i+',this.value)" placeholder="选项 '+l+'" style="flex:1">';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  }
+  h+='<div class="yre-q-card-field"><div class="yre-q-card-label"><span class="req">*</span> '+'答案与解析'+'</div>';
+  h+='<textarea class="form-textarea" onchange="updatePbEditAnalysis(this.value)" placeholder="'+'请输入答案与解析'+'" style="min-height:70px">'+escHtml(q.analysis)+'</textarea></div>';
+  h+='</div></div>';
+  container.innerHTML=h;
+}
+
+function savePbEdit(id){
+  const q=politicsBankData.find(function(x){ return x.id===id; });
+  if(!q) return;
+  if(pbEditChapterId==null){ showToast('请选择所属章节','error'); return; }
+  const o=pbEditObj;
+  if(!o.stem.trim()){ showToast('题干不能为空','error'); return; }
+  if((o.type==='single'||o.type==='multiple') && o.options.some(function(x){ return !x.trim(); })){ showToast('选项不能为空','error'); return; }
+  if((o.type==='single'||o.type==='multiple') && o.correctIndex.length===0){ showToast('请设定正确答案选项','error'); return; }
+  if(!o.analysis.trim()){ showToast('请填写'+'答案与解析','error'); return; }
+  const chapters=politicsBankChapters[q.bankId]||[];
+  let node=null;
+  chapters.forEach(function(ch){ if(ch.id===pbEditChapterId) node=ch; (ch.children||[]).forEach(function(s){ if(s.id===pbEditChapterId) node=s; }); });
+  let chapterId, sectionId;
+  if(node && node.children){
+    chapterId=pbEditChapterId; sectionId='';
+  } else {
+    sectionId=pbEditChapterId;
+    let parent=null;
+    chapters.forEach(function(ch){ if(ch.children && ch.children.some(function(s){ return s.id===pbEditChapterId; })) parent=ch; });
+    chapterId=parent?parent.id:pbEditChapterId;
+  }
+  q.chapterId=chapterId;
+  q.sectionId=sectionId;
+  q.type=o.type;
+  q.stem=o.stem;
+  q.options=o.options.slice();
+  q.correctIndex=o.correctIndex.slice();
+  q.analysis=o.analysis;
+  q.linkChapterId=pbEditLinkChapter || '';
+  closePbEditModal();
+  renderPqRightPanel();
+  showToast('题目已更新','success');
+}
+
+function closePbEditModal(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbEditWrap'); if(wrap) wrap.remove();
+  document.removeEventListener('click', closePbEditChapterOnOutside);
+  pbEditObj=null;
+}
+
+function deletePbQuestion(id){
+  const q=politicsBankData.find(function(x){ return x.id===id; });
+  if(!q) return;
+  if(!confirm('确定删除题目 #'+id+'？')) return;
+  politicsBankData=politicsBankData.filter(function(x){ return x.id!==id; });
+  renderPqRightPanel();
+  showToast('已删除','success');
+}
+
 // ==================== YUWEN READING ENTRY (阅读文章录入-语文) ====================
 let yreQuestions = [];
 let _yreQid=1;
@@ -14606,6 +16319,223 @@ function resetQAFilters(){
   showToast('筛选条件已重置','success');
 }
 
+// ==================== POLITICS QUESTION AUDIT (政治题目审核) ====================
+let pqaTab = 'reviewing';
+let _currentPqaId = null;
+
+function initPoliticsQuestionAudit(){
+  const sel = $('pqaBank');
+  if(sel){
+    sel.innerHTML = '<option value="all">全部</option>'+politicsBankList.map(function(b){ return '<option value="'+b.id+'">'+escHtml(b.name)+'</option>'; }).join('');
+  }
+  pqaTab = 'reviewing';
+  const tabs = document.querySelectorAll('#pqaTabs .tab');
+  tabs.forEach(function(t,i){ t.classList.toggle('active', i===0); });
+  renderPqaTable();
+}
+
+function switchPqaTab(tab,el){
+  pqaTab = tab;
+  const tabs = document.querySelectorAll('#pqaTabs .tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  renderPqaTable();
+}
+
+function getFilteredPqaData(){
+  let data = politicsBankData.filter(function(q){ return q.status===pqaTab; });
+  const searchStem = ($('pqaSearchStem')||{}).value||'';
+  if(searchStem){
+    const kw = searchStem.toLowerCase();
+    data = data.filter(function(q){ return q.stem.toLowerCase().indexOf(kw)>-1 || String(q.id).indexOf(kw)>-1; });
+  }
+  const bankF = ($('pqaBank')||{}).value||'all';
+  if(bankF!=='all') data = data.filter(function(q){ return q.bankId===bankF; });
+  const typeF = ($('pqaType')||{}).value||'all';
+  if(typeF!=='all') data = data.filter(function(q){ return q.type===typeF; });
+  const createFrom = ($('pqaCreateFrom')||{}).value||'';
+  const createTo = ($('pqaCreateTo')||{}).value||'';
+  if(createFrom) data = data.filter(function(q){ return q.createTime >= createFrom; });
+  if(createTo) data = data.filter(function(q){ return q.createTime <= createTo; });
+  const creator = ($('pqaCreator')||{}).value||'';
+  if(creator){ const kw=creator.toLowerCase(); data=data.filter(function(q){ return q.creator.toLowerCase().indexOf(kw)>-1; }); }
+  return data;
+}
+
+function renderPqaTable(){
+  const data = getFilteredPqaData();
+  const tbody = $('pqaTableBody');
+  const empty = $('pqaEmpty');
+  if(!tbody) return;
+  if(data.length===0){
+    tbody.innerHTML = '';
+    if(empty) empty.style.display = 'block';
+    updatePqaBadge();
+    return;
+  }
+  if(empty) empty.style.display = 'none';
+  let h = '';
+  data.forEach(function(q){
+    const bank = politicsBankList.find(function(b){ return b.id===q.bankId; });
+    const nodePath = q.sectionId ? getPbNodeFullName(q.sectionId) : getPbNodeFullName(q.chapterId);
+    const stemText = q.stem.substring(0,40)+(q.stem.length>40?'...':'');
+    let opBtn = '';
+    if(q.status==='reviewing'){
+      opBtn = '<button class="btn btn-primary btn-xs" onclick="openPqaDetailModal('+q.id+')">审核</button>';
+    } else {
+      opBtn = '<button class="btn btn-ghost btn-xs" onclick="openPqaDetailModal('+q.id+')">查看</button>';
+    }
+    h += '<tr>'+
+      '<td>'+escHtml(bank?bank.name:'-')+'</td>'+
+      '<td>'+escHtml(nodePath)+'</td>'+
+      '<td>'+PB_TYPE_LABEL[q.type]+'</td>'+
+      '<td title="'+escHtml(q.stem)+'">'+escHtml(stemText)+'</td>'+
+      '<td>'+escHtml(q.createTime)+'</td>'+
+      '<td>'+escHtml(q.creator)+'</td>'+
+      '<td>'+opBtn+'</td>'+
+    '</tr>';
+  });
+  tbody.innerHTML = h;
+  updatePqaBadge();
+}
+
+function updatePqaBadge(){
+  const pendingCount = politicsBankData.filter(function(q){ return q.status==='reviewing'; }).length;
+  const badge = $('pqaBadge');
+  if(badge){
+    if(pendingCount>0){ badge.textContent = pendingCount; badge.style.display = 'inline-block'; }
+    else { badge.style.display = 'none'; }
+  }
+  const tabCount = $('pqaPendingCount');
+  if(tabCount) tabCount.textContent = pendingCount;
+}
+
+function openPqaDetailModal(id){
+  _currentPqaId = id;
+  const q = politicsBankData.find(function(v){ return v.id===id; });
+  if(!q) return;
+  const body = $('pqaModalBody');
+  const footer = $('pqaModalFooter');
+  const statusBadge = q.status==='reviewing' ? '<span class="badge badge-warning">待审核</span>' :
+    q.status==='published' ? '<span class="badge badge-success">审核通过</span>' :
+    '<span class="badge badge-danger">审核驳回</span>';
+  const bank = politicsBankList.find(function(b){ return b.id===q.bankId; });
+  const nodePath = q.sectionId ? getPbNodeFullName(q.sectionId) : getPbNodeFullName(q.chapterId);
+  const linkText = q.linkChapterId ? getCourseChapterPath(q.linkChapterId) : '未关联';
+
+  let optionsHtml = '';
+  if(q.type==='single' || q.type==='multiple'){
+    const labels=['A','B','C','D'];
+    optionsHtml = '<div class="qdetail-block"><div class="qdetail-block-label">选项（正确项已标绿）</div><div class="qdetail-block-content">';
+    q.options.forEach(function(o, i){
+      const isCorrect=(q.correctIndex||[]).indexOf(i)>=0;
+      optionsHtml += '<div style="padding:2px 0;'+(isCorrect?'color:#059669;font-weight:600':'')+'">'+labels[i]+'. '+escHtml(o)+(isCorrect?' ✓':'')+'</div>';
+    });
+    optionsHtml += '</div></div>';
+  }
+
+  let h = ''+
+    '<div class="audit-detail-header">'+
+      '<span class="audit-detail-title">题目 #'+q.id+'</span>'+statusBadge+
+    '</div>'+
+    '<div class="qdetail-grid">'+
+      '<div class="qdetail-row"><span class="qdetail-label">题型</span><span class="qdetail-val">'+PB_TYPE_LABEL[q.type]+'</span></div>'+
+      '<div class="qdetail-row"><span class="qdetail-label">所属题库</span><span class="qdetail-val">'+escHtml(bank?bank.name:'-')+'</span></div>'+
+      '<div class="qdetail-row"><span class="qdetail-label">所属章节</span><span class="qdetail-val">'+escHtml(nodePath)+'</span></div>'+
+      '<div class="qdetail-row"><span class="qdetail-label">关联课程树章节</span><span class="qdetail-val">'+escHtml(linkText)+'</span></div>'+
+      '<div class="qdetail-row"><span class="qdetail-label">创建时间</span><span class="qdetail-val">'+escHtml(q.createTime)+'</span></div>'+
+      '<div class="qdetail-row"><span class="qdetail-label">创建人</span><span class="qdetail-val">'+escHtml(q.creator)+'</span></div>'+
+      (q.auditTime ? '<div class="qdetail-row"><span class="qdetail-label">审核时间</span><span class="qdetail-val">'+escHtml(q.auditTime)+'</span></div>' : '')+
+      (q.auditor ? '<div class="qdetail-row"><span class="qdetail-label">审核人</span><span class="qdetail-val">'+escHtml(q.auditor)+'</span></div>' : '')+
+    '</div>'+
+    '<div class="qdetail-block"><div class="qdetail-block-label">题干</div><div class="qdetail-block-content">'+escHtml(q.stem)+'</div></div>'+
+    optionsHtml+
+    '<div class="qdetail-block"><div class="qdetail-block-label">'+'答案与解析'+'</div><div class="qdetail-block-content">'+escHtml(q.analysis||'（无）')+'</div></div>';
+
+  if(q.status==='rejected' && q.rejectReason){
+    h += '<div class="audit-reject-box"><strong>⚠ 驳回原因：</strong><p>'+escHtml(q.rejectReason)+'</p></div>';
+  }
+
+  body.innerHTML = h;
+
+  if(q.status==='reviewing'){
+    footer.innerHTML = ''+
+      '<div id="pqaRejectPanel" style="display:none;width:100%;margin-bottom:12px">'+
+        '<div class="form-group"><label class="form-label"><span class="required">*</span> 驳回原因</label><textarea class="form-textarea" id="pqaRejectReason" placeholder="请填写驳回原因，以便录入人了解问题并进行修正" rows="3"></textarea></div>'+
+      '</div>'+
+      '<button class="btn btn-ghost" onclick="closeModal(\'pqaDetailModal\')">关闭</button>'+
+      '<button class="btn btn-danger" id="pqaRejectToggleBtn" onclick="pqaToggleReject()">驳回</button>'+
+      '<button class="btn btn-success" onclick="pqaApprove('+q.id+')">审核通过</button>';
+  } else {
+    footer.innerHTML = '<button class="btn btn-ghost" onclick="closeModal(\'pqaDetailModal\')">关闭</button>';
+  }
+
+  openModal('pqaDetailModal');
+}
+
+function pqaApprove(id){
+  const q = politicsBankData.find(function(v){ return v.id===id; });
+  if(!q) return;
+  q.status = 'published';
+  q.auditor = '张组长';
+  q.auditTime = new Date().toLocaleString('zh-CN',{hour12:false});
+  q.rejectReason = '';
+  closeModal('pqaDetailModal');
+  renderPqaTable();
+  showToast('题目已审核通过','success');
+}
+
+function pqaToggleReject(){
+  const panel = $('pqaRejectPanel');
+  const footer = $('pqaModalFooter');
+  if(!panel || !footer) return;
+  if(panel.style.display==='none' || !panel.style.display){
+    panel.style.display = 'block';
+    const btns = footer.querySelectorAll('button');
+    if(btns.length>=3){ btns[1].textContent = '取消驳回'; btns[1].classList.remove('btn-danger'); btns[1].classList.add('btn-outline'); }
+    if(btns.length>=2){
+      btns[btns.length-1].textContent = '确认驳回';
+      btns[btns.length-1].classList.remove('btn-success');
+      btns[btns.length-1].classList.add('btn-danger');
+      btns[btns.length-1].setAttribute('onclick','pqaConfirmReject('+_currentPqaId+')');
+    }
+  } else {
+    panel.style.display = 'none';
+    const reason = $('pqaRejectReason'); if(reason) reason.value = '';
+    const btns = footer.querySelectorAll('button');
+    if(btns.length>=3){ btns[1].textContent = '驳回'; btns[1].classList.remove('btn-outline'); btns[1].classList.add('btn-danger'); }
+    if(btns.length>=2){
+      btns[btns.length-1].textContent = '审核通过';
+      btns[btns.length-1].classList.remove('btn-danger');
+      btns[btns.length-1].classList.add('btn-success');
+      btns[btns.length-1].setAttribute('onclick','pqaApprove('+_currentPqaId+')');
+    }
+  }
+}
+
+function pqaConfirmReject(id){
+  const reason = ($('pqaRejectReason')||{}).value||'';
+  if(!reason.trim()){ showToast('请填写驳回原因','error'); return; }
+  const q = politicsBankData.find(function(v){ return v.id===id; });
+  if(!q) return;
+  q.status = 'rejected';
+  q.auditor = '张组长';
+  q.auditTime = new Date().toLocaleString('zh-CN',{hour12:false});
+  q.rejectReason = reason.trim();
+  closeModal('pqaDetailModal');
+  renderPqaTable();
+  showToast('题目已驳回','success');
+}
+
+function resetPqaFilters(){
+  const fields={pqaSearchStem:'', pqaBank:'all', pqaType:'all', pqaCreateFrom:'', pqaCreateTo:'', pqaCreator:''};
+  for(const [k,v] of Object.entries(fields)){
+    const el=$(k); if(el) el.value=v;
+  }
+  renderPqaTable();
+  showToast('筛选条件已重置','success');
+}
+
 // ==================== PREVIEW AUDIT ====================
 function switchPATab(tab,el){
   paTab = tab;
@@ -15673,6 +17603,538 @@ function resetRAFilters(){
   }
   renderRATable();
   showToast('筛选条件已重置','success');
+}
+
+// ==================== SECOND ROUND RECITATION QUESTIONS (二轮背诵题目) ====================
+let secondRoundQuestionData = [
+  { id:5001, stem:'"abandon" 在句子 "He had to abandon his plan." 中最接近的意思是？', type:'single',
+    options:['支持','放弃','维持','修改'], answer:[1],
+    analysis:'abandon 意为「放弃；抛弃」，句意为「他不得不放弃他的计划」。', wordId:1001,
+    status:'published', createTime:'2026-07-05', creator:'张老师', auditTime:'2026-07-07', auditor:'李主任' },
+  { id:5002, stem:'下列哪项是 "abstract" 作为名词时的正确释义？', type:'single',
+    options:['抽象的','摘要','具体的','全面的'], answer:[1],
+    analysis:'abstract 作形容词意为「抽象的」，作名词意为「摘要」。题干问名词释义，故选「摘要」。', wordId:1002,
+    status:'published', createTime:'2026-07-06', creator:'王教研', auditTime:'2026-07-08', auditor:'李主任' },
+  { id:5003, stem:'关于 "comprehensive" 的词性与释义，下列说法正确的有？', type:'multiple',
+    options:['可表示「全面的」','可表示「综合的」','只能作名词使用','属于形容词'], answer:[0,1,3],
+    analysis:'comprehensive 是形容词，意为「全面的；综合的」。', wordId:1008,
+    status:'reviewing', createTime:'2026-07-15', creator:'赵老师', auditTime:'', auditor:'' },
+  { id:5004, stem:'"accommodate" 在句子 "The hotel can accommodate 500 guests." 中的意思是？', type:'single',
+    options:['容纳','承认','恶化','抛弃'], answer:[0],
+    analysis:'accommodate 在此处表示「容纳（住宿）」。', wordId:1003,
+    status:'reviewing', createTime:'2026-07-16', creator:'张老师', auditTime:'', auditor:'' },
+  { id:5005, stem:'下列与 "acknowledge" 词义相关的表达有？', type:'multiple',
+    options:['承认','确认收到','恶化','抛弃'], answer:[0,1],
+    analysis:'acknowledge 意为「承认；确认收到」。', wordId:1004,
+    status:'reviewing', createTime:'2026-07-17', creator:'王教研', auditTime:'', auditor:'' },
+  { id:5006, stem:'"deteriorate" 的反义词最接近？', type:'single',
+    options:['improve','abandon','deny','reduce'], answer:[0],
+    analysis:'deteriorate 意为「恶化」，反义词为 improve「改善」。', wordId:1009,
+    status:'rejected', createTime:'2026-07-10', creator:'赵老师', auditTime:'2026-07-12', auditor:'李主任',
+    rejectReason:'题干表述含糊，建议改为「"deteriorate" 的反义词最接近下列哪项？」并补充各选项释义。' }
+];
+let _srqNextId = 5007;
+let secondRoundQuestionTab = 'published';
+let _srqEditingId = null;
+let _srqSelectedWordId = null;
+let _srqCurrentType = 'single';
+let _srqImportRows = [];
+
+const SRQ_LETTERS = ['A','B','C','D'];
+
+function getSecondRoundQuestionWord(item){
+  return vocabLibData.find(v => v.id === item.wordId) || null;
+}
+function renderSecondRoundQuestionWordTag(wordId){
+  const v = vocabLibData.find(x => x.id === wordId);
+  if(!v) return '<span style="color:#9ca3af">-</span>';
+  return '<span class="es-word-tag">'+escHtml(v.word)+'</span>';
+}
+function renderSecondRoundQuestionType(type){
+  return type === 'multiple'
+    ? '<span class="srq-type-tag multiple">多选</span>'
+    : '<span class="srq-type-tag single">单选</span>';
+}
+function renderSecondRoundQuestionOptions(options){
+  const text = (options||[]).map((o,i)=>SRQ_LETTERS[i]+'. '+o).join('　');
+  return '<span class="srq-cell" title="'+escAttr(text)+'">'+escHtml(text)+'</span>';
+}
+function renderSecondRoundQuestionAnswer(item){
+  const letters = (item.answer||[]).map(i=>SRQ_LETTERS[i]).filter(Boolean);
+  if(!letters.length) return '<span style="color:#9ca3af">-</span>';
+  return '<span class="srq-answer">'+letters.join('、')+'</span>';
+}
+
+function initSecondRoundQuestionManager(){
+  secondRoundQuestionTab='published';
+  ['srqFilterStem','srqFilterWord'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  const t=$('srqFilterType'); if(t)t.value='';
+  document.querySelectorAll('#srqTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='published'));
+  renderSecondRoundQuestionTable();
+}
+
+function switchSecondRoundQuestionTab(tab){
+  secondRoundQuestionTab=tab;
+  document.querySelectorAll('#srqTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));
+  renderSecondRoundQuestionTable();
+}
+
+function resetSecondRoundQuestionFilters(){
+  ['srqFilterStem','srqFilterWord'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  const t=$('srqFilterType'); if(t)t.value='';
+  renderSecondRoundQuestionTable();
+}
+
+function getFilteredSecondRoundQuestionData(){
+  let data=secondRoundQuestionData.filter(d=>d.status===secondRoundQuestionTab);
+  const stem=(($('srqFilterStem')||{}).value||'').trim().toLowerCase();
+  const type=(($('srqFilterType')||{}).value||'');
+  const word=(($('srqFilterWord')||{}).value||'').trim().toLowerCase();
+  if(stem)data=data.filter(d=>d.stem.toLowerCase().includes(stem));
+  if(type)data=data.filter(d=>d.type===type);
+  if(word)data=data.filter(d=>{const w=getSecondRoundQuestionWord(d);return w&&w.word.toLowerCase().includes(word);});
+  return data;
+}
+
+function renderSecondRoundQuestionTable(){
+  const counts={
+    published:secondRoundQuestionData.filter(d=>d.status==='published').length,
+    reviewing:secondRoundQuestionData.filter(d=>d.status==='reviewing').length,
+    rejected:secondRoundQuestionData.filter(d=>d.status==='rejected').length
+  };
+  document.querySelectorAll('#srqTabs .vocablib-tab').forEach(t=>{
+    const c=t.querySelector('.count');if(c)c.textContent=counts[t.dataset.tab]||0;
+  });
+  const wrap=$('srqTableWrap');if(!wrap)return;
+  const data=getFilteredSecondRoundQuestionData();
+  if(data.length===0){wrap.innerHTML='<div class="vocab-empty">暂无数据</div>';return;}
+  let h='<table class="vocablib-table"><thead><tr><th>题干</th><th>题型</th><th>选项</th><th>正确答案</th><th>答案与解析</th><th>关联单词</th><th>创建时间</th><th>创建人</th><th>审核时间</th><th>审核人</th><th>操作</th></tr></thead><tbody>';
+  data.forEach(d=>{
+    h+='<tr>';
+    h+='<td><span class="es-sentence-cell" style="max-width:220px" title="'+escAttr(d.stem)+'">'+escHtml(d.stem)+'</span></td>';
+    h+='<td>'+renderSecondRoundQuestionType(d.type)+'</td>';
+    h+='<td>'+renderSecondRoundQuestionOptions(d.options)+'</td>';
+    h+='<td>'+renderSecondRoundQuestionAnswer(d)+'</td>';
+    h+='<td>'+(d.analysis?'<span class="srq-cell" title="'+escAttr(d.analysis)+'">'+escHtml(d.analysis)+'</span>':'<span style="color:#9ca3af">-</span>')+'</td>';
+    h+='<td>'+renderSecondRoundQuestionWordTag(d.wordId)+'</td>';
+    h+='<td>'+d.createTime+'</td><td>'+escHtml(d.creator)+'</td><td>'+(d.auditTime||'-')+'</td><td>'+(d.auditor?escHtml(d.auditor):'-')+'</td>';
+    h+='<td><span class="vocab-actions"><button class="btn btn-ghost btn-xs" onclick="showSecondRoundQuestionDetail('+d.id+')">详情</button><button class="btn btn-ghost btn-xs" onclick="openSecondRoundQuestionModal('+d.id+')">编辑</button><button class="btn btn-ghost btn-xs" style="color:#ef4444" onclick="deleteSecondRoundQuestion('+d.id+')">删除</button></span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  wrap.innerHTML=h;
+}
+
+function openSecondRoundQuestionModal(id){
+  const item=id?secondRoundQuestionData.find(d=>d.id===id):null;
+  _srqEditingId=item?item.id:null;
+  _srqSelectedWordId=item?item.wordId:null;
+  _srqCurrentType=item?item.type:'single';
+  const old=$('srqModalWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeSecondRoundQuestionModal(event)">';
+  html+='<div class="vocablib-modal" onclick="event.stopPropagation()" style="width:760px;max-height:90vh;overflow-y:auto">';
+  html+='<div class="vocablib-modal-header"><h3>'+(item?'编辑二轮背诵题目':'录入二轮背诵题目')+'</h3><button class="vocablib-modal-close-btn" onclick="closeSecondRoundQuestionModal()">✕</button></div>';
+  html+='<div class="vocablib-modal-body">';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 题干</label><textarea class="form-textarea" id="srqModalStem" placeholder="请输入题干" style="min-height:80px">'+escHtml(item?item.stem:'')+'</textarea></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 题型</label><div class="srq-type-tags" id="srqTypeTags">';
+  html+='<span class="srq-type-option'+( _srqCurrentType==='single'?' active':'')+'" data-type="single" onclick="setSrqType(this)">单选</span>';
+  html+='<span class="srq-type-option'+( _srqCurrentType==='multiple'?' active':'')+'" data-type="multiple" onclick="setSrqType(this)">多选</span>';
+  html+='</div></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 选项与正确答案</label>';
+  html+='<div class="srq-options-editor">';
+  const opts=item?item.options:['','','',''];
+  const ans=item?item.answer:[];
+  for(let i=0;i<4;i++){
+    html+='<div class="srq-option-row">';
+    html+='<span class="srq-opt-letter">'+SRQ_LETTERS[i]+'</span>';
+    html+='<input class="form-input" id="srqOpt'+i+'" value="'+escAttr(opts[i]||'')+'" placeholder="选项 '+SRQ_LETTERS[i]+' 内容" style="flex:1">';
+    html+='<label class="srq-opt-check"><input type="checkbox" id="srqAns'+i+'" '+(ans.includes(i)?'checked':'')+' onchange="onSrqAnswerToggle(this)">正确答案</label>';
+    html+='</div>';
+  }
+  html+='</div>';
+  html+='<div style="font-size:11px;color:#9ca3af;margin-top:6px" id="srqAnswerHint">单选题仅可勾选 1 个正确答案；多选题请勾选 2~4 个正确答案。</div>';
+  html+='</div>';
+  html+='<div class="form-group"><label class="form-label">答案与解析 <span style="font-size:11px;color:#9ca3af;font-weight:400">选填</span></label><textarea class="form-textarea" id="srqModalAnalysis" placeholder="请输入答案解析（选填）" style="min-height:80px">'+escHtml(item?item.analysis:'')+'</textarea></div>';
+  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 关联单词 <span style="font-size:11px;color:#9ca3af;font-weight:400">单选</span></label>';
+  html+='<div class="es-word-picker"><div class="es-word-selected" id="srqSelectedWords"></div><div class="es-word-search"><span class="icon">⌕</span><input id="srqWordSearch" placeholder="输入英文单词或中文释义搜索" oninput="renderSrqWordPicker()"></div><div class="es-word-options" id="srqWordOptions"></div></div>';
+  html+='</div>';
+  if(item&&item.status==='rejected'&&item.rejectReason)html+='<div style="padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:12px;color:#991b1b"><strong>上次驳回原因：</strong>'+escHtml(item.rejectReason)+'</div>';
+  html+='</div>';
+  html+='<div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeSecondRoundQuestionModal()">取消</button><button class="btn btn-primary btn-sm" onclick="saveSecondRoundQuestion()">保存并提交审核</button></div>';
+  html+='</div></div>';
+  const wrap=document.createElement('div');wrap.id='srqModalWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+  renderSrqWordPicker();
+}
+
+function closeSecondRoundQuestionModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('srqModalWrap');if(wrap)wrap.remove();
+  _srqEditingId=null;_srqSelectedWordId=null;
+}
+
+function setSrqType(el){
+  _srqCurrentType=el.getAttribute('data-type');
+  document.querySelectorAll('#srqTypeTags .srq-type-option').forEach(t=>t.classList.toggle('active',t===el));
+  if(_srqCurrentType==='single'){
+    let first=true;
+    for(let i=0;i<4;i++){
+      const c=$('srqAns'+i);
+      if(c&&c.checked&&!first){c.checked=false;}
+      else if(c&&c.checked&&first){first=false;}
+    }
+  }
+}
+
+function onSrqAnswerToggle(cb){
+  if(_srqCurrentType==='single'&&cb.checked){
+    for(let i=0;i<4;i++){const c=$('srqAns'+i);if(c&&c!==cb)c.checked=false;}
+  }
+}
+
+function renderSrqWordPicker(){
+  const selected=$('srqSelectedWords'),options=$('srqWordOptions');if(!selected||!options)return;
+  const selWord=vocabLibData.find(v=>v.id===_srqSelectedWordId);
+  selected.innerHTML=selWord
+    ? '<span class="es-word-tag">'+escHtml(selWord.word)+'<button onclick="removeSrqWord()" title="移除">✕</button></span>'
+    : '<span class="placeholder">暂未选择关联单词</span>';
+  const kw=(($('srqWordSearch')||{}).value||'').trim().toLowerCase();
+  let data=vocabLibData.filter(v=>!kw||v.word.toLowerCase().includes(kw)||(v.def||'').toLowerCase().includes(kw)).slice(0,30);
+  if(data.length===0){options.innerHTML='<div style="padding:18px;text-align:center;color:#9ca3af;font-size:12px">未找到匹配单词</div>';return;}
+  options.innerHTML=data.map(v=>'<label class="es-word-option"><input type="radio" name="srqWordRadio" '+( _srqSelectedWordId===v.id?'checked':'')+' onchange="selectSrqWord('+v.id+')"><span class="word">'+escHtml(v.word)+'</span><span class="def">'+escHtml(v.def||'')+'</span></label>').join('');
+}
+
+function selectSrqWord(id){ _srqSelectedWordId=id; renderSrqWordPicker(); }
+function removeSrqWord(){ _srqSelectedWordId=null; renderSrqWordPicker(); }
+
+function saveSecondRoundQuestion(){
+  const stem=$('srqModalStem').value.trim();
+  const opts=[]; const ans=[];
+  for(let i=0;i<4;i++){
+    opts.push($('srqOpt'+i).value.trim());
+    const c=$('srqAns'+i);
+    if(c&&c.checked)ans.push(i);
+  }
+  const analysis=$('srqModalAnalysis').value.trim();
+  if(!stem){showToast('请输入题干','error');return;}
+  if(opts.some(o=>!o)){showToast('请填写完整的 4 个选项','error');return;}
+  if(_srqCurrentType==='single'&&ans.length!==1){showToast('单选题请且仅勾选 1 个正确答案','error');return;}
+  if(_srqCurrentType==='multiple'&&ans.length<2){showToast('多选题请至少勾选 2 个正确答案','error');return;}
+  if(!_srqSelectedWordId){showToast('请选择一个关联单词','error');return;}
+  const today=new Date().toISOString().slice(0,10);
+  const isEditing=Boolean(_srqEditingId);
+  if(isEditing){
+    const item=secondRoundQuestionData.find(d=>d.id===_srqEditingId);if(!item)return;
+    item.stem=stem;item.type=_srqCurrentType;item.options=opts;item.answer=ans;item.analysis=analysis;item.wordId=_srqSelectedWordId;
+    item.status='reviewing';item.auditTime='';item.auditor='';delete item.rejectReason;
+  }else{
+    secondRoundQuestionData.unshift({id:_srqNextId++,stem,type:_srqCurrentType,options:opts,answer:ans,analysis,wordId:_srqSelectedWordId,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+  }
+  closeSecondRoundQuestionModal();
+  secondRoundQuestionTab='reviewing';
+  document.querySelectorAll('#srqTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='reviewing'));
+  renderSecondRoundQuestionTable();updateSecondRoundQuestionAuditBadge();
+  showToast(isEditing?'题目已更新并提交审核':'题目已提交审核','success');
+}
+
+function showSecondRoundQuestionDetail(id){
+  const d=secondRoundQuestionData.find(v=>v.id===id);if(!d)return;
+  const statusMap={published:'已发布',reviewing:'审核中',rejected:'审核驳回'};
+  const statusClass={published:'published',reviewing:'reviewing',rejected:'rejected'};
+  const word=getSecondRoundQuestionWord(d);
+  const old=$('srqDetailWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeSecondRoundQuestionDetail(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:760px;max-height:88vh;overflow-y:auto">';
+  html+='<div class="vocablib-modal-header"><h3>二轮背诵题目详情 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeSecondRoundQuestionDetail()">✕</button></div>';
+  html+='<div class="vocablib-modal-body">';
+  html+='<div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.stem)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">题型</div>'+renderSecondRoundQuestionType(d.type)+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">选项</div><div class="srq-detail-options">'+ (d.options||[]).map((o,i)=>'<div class="srq-detail-option'+((d.answer||[]).includes(i)?' correct':'')+'"><span class="letter">'+SRQ_LETTERS[i]+'</span>'+escHtml(o)+((d.answer||[]).includes(i)?' <span class="srq-correct-mark">✓ 正确答案</span>':'')+'</div>').join('') +'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">正确答案</div><div style="font-size:14px;font-weight:600">'+renderSecondRoundQuestionAnswer(d)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">答案与解析</div><div style="font-size:14px;line-height:1.8">'+(d.analysis?escHtml(d.analysis):'<span style="color:#9ca3af">暂无</span>')+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderSecondRoundQuestionWordTag(d.wordId)+(word?'<span style="margin-left:8px;color:#9ca3af;font-size:12px">'+escHtml(word.def||'')+'</span>':'')+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+statusClass[d.status]+'">'+statusMap[d.status]+'</span></span></div><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
+  if(d.rejectReason)html+='<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b">'+escHtml(d.rejectReason)+'</div></div>';
+  html+='</div><div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeSecondRoundQuestionDetail();openSecondRoundQuestionModal('+d.id+')">编辑</button><button class="btn btn-primary btn-sm" onclick="closeSecondRoundQuestionDetail()">关闭</button></div></div></div>';
+  const wrap=document.createElement('div');wrap.id='srqDetailWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeSecondRoundQuestionDetail(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('srqDetailWrap');if(wrap)wrap.remove();
+}
+
+function deleteSecondRoundQuestion(id){
+  const d=secondRoundQuestionData.find(v=>v.id===id);if(!d)return;
+  if(!confirm('确定删除该二轮背诵题目吗？'))return;
+  secondRoundQuestionData=secondRoundQuestionData.filter(v=>v.id!==id);
+  renderSecondRoundQuestionTable();updateSecondRoundQuestionAuditBadge();
+  showToast('题目已删除','success');
+}
+
+function openSecondRoundQuestionImportModal(){
+  _srqImportRows=[];
+  const old=$('srqImportWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeSecondRoundQuestionImportModal(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:640px">';
+  html+='<div class="vocablib-modal-header"><h3>批量导入二轮背诵题目</h3><button class="vocablib-modal-close-btn" onclick="closeSecondRoundQuestionImportModal()">✕</button></div>';
+  html+='<div class="vocablib-modal-body"><div class="import-steps">';
+  html+='<div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载 Excel 导入模板</div><div class="step-desc">模板字段：题干、题型、选项A、选项B、选项C、选项D、正确答案、答案与解析（选填）、关联单词</div></div></div>';
+  html+='<div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">题型填写「单选」或「多选」；正确答案填字母 A~D，多个用顿号/逗号分隔；关联单词需已存在于系统词汇库</div></div></div>';
+  html+='<div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">导入后的数据将进入「审核中」状态</div></div></div>';
+  html+='</div><button class="btn btn-outline btn-sm" onclick="downloadSecondRoundQuestionImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>';
+  html+='<div class="upload-zone" onclick="document.getElementById(\'srqImportFileInput\').click()"><div class="upload-zone-icon">&#128196;</div><div class="upload-zone-text">点击选择导入文件<br><strong>支持 Excel .xls / .csv 格式</strong></div></div>';
+  html+='<input type="file" id="srqImportFileInput" accept=".xls,.csv" style="display:none" onchange="handleSecondRoundQuestionImportFile(this)">';
+  html+='<div id="srqImportFileInfo" style="display:none;margin-top:12px;padding:10px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;font-size:13px;color:#15803d"></div></div>';
+  html+='<div class="vocablib-modal-footer"><button class="btn btn-outline btn-sm" onclick="closeSecondRoundQuestionImportModal()">取消</button><button class="btn btn-primary btn-sm" onclick="processSecondRoundQuestionImport()">开始导入</button></div></div></div>';
+  const wrap=document.createElement('div');wrap.id='srqImportWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeSecondRoundQuestionImportModal(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('srqImportWrap');if(wrap)wrap.remove();
+  _srqImportRows=[];
+}
+
+function downloadSecondRoundQuestionImportTemplate(){
+  const header=['题干','题型','选项A','选项B','选项C','选项D','正确答案','答案与解析','关联单词'];
+  const rows=[
+    ['"abandon" 在句子 "He had to abandon his plan." 中最接近的意思是？','单选','支持','放弃','维持','修改','B','abandon 意为「放弃；抛弃」。','abandon'],
+    ['关于 "comprehensive" 的说法正确的有？','多选','可表示「全面的」','可表示「综合的」','只能作名词','属于形容词','A、B、D','comprehensive 是形容词，意为「全面的；综合的」。','comprehensive']
+  ];
+  let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1"><tr>';
+  header.forEach(h=>{html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});html+='</tr>';
+  rows.forEach(row=>{html+='<tr>';row.forEach(c=>{html+='<td style="padding:4px 8px">'+c+'</td>';});html+='</tr>';});
+  html+='</table></body></html>';
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='二轮背诵题目批量导入模板.xls';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(a.href);
+  showToast('Excel 导入模板已下载','success');
+}
+
+function handleSecondRoundQuestionImportFile(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    _srqImportRows=parseSecondRoundQuestionImportText(e.target.result);
+    const info=$('srqImportFileInfo');if(info){info.style.display='block';info.textContent='已选择：'+file.name+'（解析到 '+_srqImportRows.length+' 条数据）';}
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+function parseSecondRoundQuestionImportText(text){
+  const rows=[];if(!text)return rows;
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  text=text.trim();if(!text)return rows;
+  if(/<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');
+    doc.querySelectorAll('table tr').forEach((tr,index)=>{
+      if(index===0)return;
+      const cells=Array.from(tr.querySelectorAll('th,td')).map(td=>td.textContent.trim());
+      if(cells.length>=9&&cells[0])rows.push({stem:cells[0],type:cells[1],options:[cells[2],cells[3],cells[4],cells[5]],answer:cells[6],analysis:cells[7],word:cells[8]});
+    });
+  }else{
+    text.split(/\r?\n/).forEach((line,index)=>{
+      if(index===0||!line.trim())return;
+      const cells=parseCsvLine(line);
+      if(cells.length>=9&&cells[0])rows.push({stem:cells[0],type:cells[1],options:[cells[2],cells[3],cells[4],cells[5]],answer:cells[6],analysis:cells[7],word:cells[8]});
+    });
+  }
+  return rows;
+}
+
+function resolveSrqAnswerIndices(raw){
+  const letters=String(raw||'').toUpperCase().replace(/[^A-D]/g,'').split('');
+  return [...new Set(letters.map(ch=>SRQ_LETTERS.indexOf(ch)).filter(i=>i>=0))];
+}
+
+function processSecondRoundQuestionImport(){
+  if(_srqImportRows.length===0){showToast('请先选择有效的导入文件','error');return;}
+  let imported=0,skipped=0;const today=new Date().toISOString().slice(0,10);
+  _srqImportRows.forEach(row=>{
+    const type=String(row.type).trim()==='多选'?'multiple':'single';
+    const options=(row.options||[]).map(o=>String(o||'').trim());
+    const answer=resolveSrqAnswerIndices(row.answer);
+    const wordItem=vocabLibData.find(v=>v.word.toLowerCase()===String(row.word||'').trim().toLowerCase());
+    if(!row.stem||options.some(o=>!o)||answer.length===0||!wordItem){skipped++;return;}
+    secondRoundQuestionData.unshift({id:_srqNextId++,stem:row.stem,type,options,answer,analysis:row.analysis,wordId:wordItem.id,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+    imported++;
+  });
+  closeSecondRoundQuestionImportModal();
+  secondRoundQuestionTab='reviewing';
+  document.querySelectorAll('#srqTabs .vocablib-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='reviewing'));
+  renderSecondRoundQuestionTable();updateSecondRoundQuestionAuditBadge();
+  showToast('成功导入 '+imported+' 条'+(skipped?'，跳过 '+skipped+' 条无效数据':''),imported?'success':'error');
+}
+
+// ==================== SECOND ROUND QUESTION AUDIT (二轮背诵题目审核) ====================
+let secondRoundQuestionAuditTab='reviewing';
+let secondRoundQuestionAuditSelectedIds=[];
+let _currentSecondRoundQuestionAuditId=null;
+
+function initSecondRoundQuestionAudit(){
+  secondRoundQuestionAuditTab='reviewing';secondRoundQuestionAuditSelectedIds=[];
+  ['srqaFilterStem','srqaFilterWord','srqaFilterCreator','srqaFilterAuditor'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  const t=$('srqaFilterType'); if(t)t.value='';
+  document.querySelectorAll('#srqaTabs .tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderSecondRoundQuestionAuditTable();
+}
+
+function switchSecondRoundQuestionAuditTab(tab,el){
+  secondRoundQuestionAuditTab=tab;secondRoundQuestionAuditSelectedIds=[];
+  document.querySelectorAll('#srqaTabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderSecondRoundQuestionAuditTable();
+}
+
+function resetSecondRoundQuestionAuditFilters(){
+  ['srqaFilterStem','srqaFilterWord','srqaFilterCreator','srqaFilterAuditor'].forEach(id=>{const el=$(id);if(el)el.value='';});
+  const t=$('srqaFilterType'); if(t)t.value='';
+  secondRoundQuestionAuditSelectedIds=[];renderSecondRoundQuestionAuditTable();
+}
+
+function getFilteredSecondRoundQuestionAuditData(){
+  let data=secondRoundQuestionData.filter(d=>d.status===secondRoundQuestionAuditTab);
+  const stem=(($('srqaFilterStem')||{}).value||'').trim().toLowerCase();
+  const type=(($('srqaFilterType')||{}).value||'');
+  const word=(($('srqaFilterWord')||{}).value||'').trim().toLowerCase();
+  const creator=(($('srqaFilterCreator')||{}).value||'').trim().toLowerCase();
+  const auditor=(($('srqaFilterAuditor')||{}).value||'').trim().toLowerCase();
+  if(stem)data=data.filter(d=>d.stem.toLowerCase().includes(stem));
+  if(type)data=data.filter(d=>d.type===type);
+  if(word)data=data.filter(d=>{const w=getSecondRoundQuestionWord(d);return w&&w.word.toLowerCase().includes(word);});
+  if(creator)data=data.filter(d=>(d.creator||'').toLowerCase().includes(creator));
+  if(auditor)data=data.filter(d=>(d.auditor||'').toLowerCase().includes(auditor));
+  return data;
+}
+
+function renderSecondRoundQuestionAuditTable(){
+  const tbody=$('srqaTableBody'),empty=$('srqaEmpty');if(!tbody)return;
+  secondRoundQuestionAuditSelectedIds=secondRoundQuestionAuditSelectedIds.filter(id=>secondRoundQuestionData.some(d=>d.id===id&&d.status==='reviewing'));
+  const data=getFilteredSecondRoundQuestionAuditData();
+  if(data.length===0){tbody.innerHTML='';if(empty)empty.style.display='block';updateSecondRoundQuestionAuditControls();updateSecondRoundQuestionAuditBadge();return;}
+  if(empty)empty.style.display='none';
+  let h='';
+  data.forEach(d=>{
+    const selectable=d.status==='reviewing';
+    const checked=secondRoundQuestionAuditSelectedIds.includes(d.id)?'checked':'';
+    h+='<tr><td><input type="checkbox" '+checked+' '+(selectable?'':'disabled')+' onchange="toggleSecondRoundQuestionAuditSelection('+d.id+',this.checked)"></td>';
+    h+='<td><span class="es-sentence-cell" style="max-width:200px" title="'+escAttr(d.stem)+'">'+escHtml(d.stem)+'</span></td>';
+    h+='<td>'+renderSecondRoundQuestionType(d.type)+'</td>';
+    h+='<td>'+renderSecondRoundQuestionOptions(d.options)+'</td>';
+    h+='<td>'+renderSecondRoundQuestionAnswer(d)+'</td>';
+    h+='<td>'+(d.analysis?'<span class="srq-cell" title="'+escAttr(d.analysis)+'">'+escHtml(d.analysis)+'</span>':'<span style="color:#9ca3af">-</span>')+'</td>';
+    h+='<td>'+renderSecondRoundQuestionWordTag(d.wordId)+'</td>';
+    h+='<td>'+d.createTime+'</td><td>'+escHtml(d.creator)+'</td><td>'+(d.auditTime||'-')+'</td><td>'+(d.auditor?escHtml(d.auditor):'-')+'</td>';
+    h+='<td><button class="btn '+(selectable?'btn-primary':'btn-ghost')+' btn-xs" onclick="openSecondRoundQuestionAuditDetail('+d.id+')">'+(selectable?'审核':'查看')+'</button></td></tr>';
+  });
+  tbody.innerHTML=h;updateSecondRoundQuestionAuditControls();updateSecondRoundQuestionAuditBadge();
+}
+
+function updateSecondRoundQuestionAuditBadge(){
+  const count=secondRoundQuestionData.filter(d=>d.status==='reviewing').length;
+  const badge=$('srqaBadge');if(badge){badge.textContent=count;badge.style.display=count?'inline-block':'none';}
+  const pending=$('srqaPendingCount');if(pending)pending.textContent=count;
+}
+
+function updateSecondRoundQuestionAuditControls(){
+  const count=secondRoundQuestionAuditSelectedIds.length;
+  const countEl=$('srqaSelectedCount');if(countEl)countEl.textContent='已选择 '+count+' 条';
+  const batch=$('srqaBatchBtn');if(batch)batch.disabled=count===0||secondRoundQuestionAuditTab!=='reviewing';
+  const all=$('srqaAllBtn');if(all)all.disabled=secondRoundQuestionData.every(d=>d.status!=='reviewing');
+  const checkAll=$('srqaCheckAll');
+  if(checkAll){
+    const visible=getFilteredSecondRoundQuestionAuditData().filter(d=>d.status==='reviewing');
+    checkAll.disabled=secondRoundQuestionAuditTab!=='reviewing'||visible.length===0;
+    checkAll.checked=visible.length>0&&visible.every(d=>secondRoundQuestionAuditSelectedIds.includes(d.id));
+  }
+}
+
+function toggleSecondRoundQuestionAuditSelection(id,checked){
+  if(checked){if(!secondRoundQuestionAuditSelectedIds.includes(id))secondRoundQuestionAuditSelectedIds.push(id);}
+  else secondRoundQuestionAuditSelectedIds=secondRoundQuestionAuditSelectedIds.filter(v=>v!==id);
+  updateSecondRoundQuestionAuditControls();
+}
+
+function toggleAllSecondRoundQuestionAudit(checked){
+  const ids=getFilteredSecondRoundQuestionAuditData().filter(d=>d.status==='reviewing').map(d=>d.id);
+  if(checked)secondRoundQuestionAuditSelectedIds=[...new Set([...secondRoundQuestionAuditSelectedIds,...ids])];
+  else secondRoundQuestionAuditSelectedIds=secondRoundQuestionAuditSelectedIds.filter(id=>!ids.includes(id));
+  renderSecondRoundQuestionAuditTable();
+}
+
+function batchApproveSecondRoundQuestions(){
+  const ids=secondRoundQuestionAuditSelectedIds.filter(id=>secondRoundQuestionData.some(d=>d.id===id&&d.status==='reviewing'));
+  if(ids.length===0){showToast('请先选择待审核内容','error');return;}
+  if(!confirm('确定将选中的 '+ids.length+' 条二轮背诵题目批量审核通过吗？'))return;
+  const today=new Date().toISOString().slice(0,10);
+  secondRoundQuestionData.forEach(d=>{if(ids.includes(d.id)){d.status='published';d.auditTime=today;d.auditor='审核员';delete d.rejectReason;}});
+  secondRoundQuestionAuditSelectedIds=[];renderSecondRoundQuestionAuditTable();renderSecondRoundQuestionTable();
+  showToast('已批量审核通过 '+ids.length+' 条','success');
+}
+
+function approveAllSecondRoundQuestions(){
+  const pending=secondRoundQuestionData.filter(d=>d.status==='reviewing');
+  if(pending.length===0){showToast('当前没有待审核内容','error');return;}
+  if(!confirm('确定将全部 '+pending.length+' 条待审核二轮背诵题目审核通过吗？'))return;
+  const today=new Date().toISOString().slice(0,10);
+  pending.forEach(d=>{d.status='published';d.auditTime=today;d.auditor='审核员';delete d.rejectReason;});
+  secondRoundQuestionAuditSelectedIds=[];renderSecondRoundQuestionAuditTable();renderSecondRoundQuestionTable();
+  showToast('已完成全部待审核内容的审核','success');
+}
+
+function openSecondRoundQuestionAuditDetail(id){
+  const d=secondRoundQuestionData.find(v=>v.id===id);if(!d)return;
+  _currentSecondRoundQuestionAuditId=id;
+  const statusMap={published:'审核通过',reviewing:'待审核',rejected:'审核驳回'};
+  const badgeMap={published:'badge-success',reviewing:'badge-warning',rejected:'badge-danger'};
+  const word=getSecondRoundQuestionWord(d);
+  const old=$('srqaDetailWrap');if(old)old.remove();
+  let html='<div class="vocablib-modal-overlay" onclick="closeSecondRoundQuestionAuditDetail(event)"><div class="vocablib-modal" onclick="event.stopPropagation()" style="width:780px;max-height:88vh;overflow-y:auto">';
+  html+='<div class="vocablib-modal-header"><h3>二轮背诵题目审核 #'+d.id+'</h3><button class="vocablib-modal-close-btn" onclick="closeSecondRoundQuestionAuditDetail()">✕</button></div>';
+  html+='<div class="vocablib-modal-body">';
+  html+='<div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.stem)+' <span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span></div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">题型</div>'+renderSecondRoundQuestionType(d.type)+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">选项</div><div class="srq-detail-options">'+ (d.options||[]).map((o,i)=>'<div class="srq-detail-option'+((d.answer||[]).includes(i)?' correct':'')+'"><span class="letter">'+SRQ_LETTERS[i]+'</span>'+escHtml(o)+((d.answer||[]).includes(i)?' <span class="srq-correct-mark">✓ 正确答案</span>':'')+'</div>').join('') +'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">正确答案</div><div style="font-size:14px;font-weight:600">'+renderSecondRoundQuestionAnswer(d)+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">答案与解析</div><div style="font-size:14px;line-height:1.8">'+(d.analysis?escHtml(d.analysis):'<span style="color:#9ca3af">暂无</span>')+'</div></div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderSecondRoundQuestionWordTag(d.wordId)+(word?'<span style="margin-left:8px;color:#9ca3af;font-size:12px">'+escHtml(word.def||'')+'</span>':'')+'</div>';
+  html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
+  if(d.rejectReason)html+='<div class="vocablib-modal-card" style="background:#fef2f2;border:1px solid #fecaca"><div class="card-title" style="color:#991b1b">驳回原因</div><div style="font-size:13px;color:#991b1b">'+escHtml(d.rejectReason)+'</div></div>';
+  if(d.status==='reviewing')html+='<div id="srqaRejectPanel" style="display:none"><div class="form-group"><label class="form-label"><span class="required">*</span> 驳回原因</label><textarea class="form-textarea" id="srqaRejectReason" placeholder="请填写驳回原因" rows="3"></textarea></div></div>';
+  html+='</div><div class="vocablib-modal-footer" id="srqaDetailFooter"><button class="btn btn-ghost" onclick="closeSecondRoundQuestionAuditDetail()">关闭</button>';
+  if(d.status==='reviewing')html+='<button class="btn btn-danger" id="srqaRejectBtn" onclick="toggleSecondRoundQuestionRejectPanel()">驳回</button><button class="btn btn-success" id="srqaApproveBtn" onclick="approveSecondRoundQuestion('+d.id+')">审核通过</button>';
+  html+='</div></div></div>';
+  const wrap=document.createElement('div');wrap.id='srqaDetailWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
+}
+
+function closeSecondRoundQuestionAuditDetail(e){
+  if(e&&e.target!==e.currentTarget)return;
+  const wrap=$('srqaDetailWrap');if(wrap)wrap.remove();
+  _currentSecondRoundQuestionAuditId=null;
+}
+
+function approveSecondRoundQuestion(id){
+  const d=secondRoundQuestionData.find(v=>v.id===id);if(!d||d.status!=='reviewing')return;
+  d.status='published';d.auditTime=new Date().toISOString().slice(0,10);d.auditor='审核员';delete d.rejectReason;
+  closeSecondRoundQuestionAuditDetail();renderSecondRoundQuestionAuditTable();renderSecondRoundQuestionTable();
+  showToast('题目已审核通过','success');
+}
+
+function toggleSecondRoundQuestionRejectPanel(){
+  const panel=$('srqaRejectPanel'),approve=$('srqaApproveBtn'),reject=$('srqaRejectBtn');if(!panel)return;
+  const open=panel.style.display!=='none';
+  panel.style.display=open?'none':'block';
+  reject.textContent=open?'驳回':'取消驳回';
+  reject.classList.toggle('btn-danger',open);reject.classList.toggle('btn-outline',!open);
+  approve.textContent=open?'审核通过':'确认驳回';
+  approve.classList.toggle('btn-success',open);approve.classList.toggle('btn-danger',!open);
+  approve.setAttribute('onclick',open?'approveSecondRoundQuestion('+_currentSecondRoundQuestionAuditId+')':'confirmRejectSecondRoundQuestion('+_currentSecondRoundQuestionAuditId+')');
+}
+
+function confirmRejectSecondRoundQuestion(id){
+  const reason=(($('srqaRejectReason')||{}).value||'').trim();
+  if(!reason){showToast('请填写驳回原因','error');return;}
+  const d=secondRoundQuestionData.find(v=>v.id===id);if(!d||d.status!=='reviewing')return;
+  d.status='rejected';d.auditTime=new Date().toISOString().slice(0,10);d.auditor='审核员';d.rejectReason=reason;
+  closeSecondRoundQuestionAuditDetail();renderSecondRoundQuestionAuditTable();renderSecondRoundQuestionTable();
+  showToast('题目已驳回','success');
 }
 
 // ==================== INIT ====================

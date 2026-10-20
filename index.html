@@ -19,6 +19,7 @@ body { font-family: 'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
 .card-icon.research { background:linear-gradient(135deg,#059669,#10b981); }
 .card-icon.teach { background:linear-gradient(135deg,#d97706,#f59e0b); }
 .card-icon.sys { background:linear-gradient(135deg,#475569,#64748b); }
+.card-icon.app { background:linear-gradient(135deg,#0ea5e9,#06b6d4); }
 .card h2 { font-size:20px; font-weight:700; margin-bottom:8px; color:#111827; }
 .card .desc { font-size:14px; color:#6b7280; line-height:1.7; margin-bottom:16px; }
 .card .meta { display:flex; gap:8px; flex-wrap:wrap; }
@@ -26,11 +27,24 @@ body { font-family: 'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
 .card .tag.green { background:#ecfdf5; color:#059669; }
 .card .tag.orange { background:#fff7ed; color:#d97706; }
 .card .tag.gray { background:#f3f4f6; color:#475569; }
+.card .tag.cyan { background:#ecfeff; color:#0891b2; }
 .card .arrow { float:right; color:#9ca3af; font-size:20px; transition:transform .2s; }
 .card:hover .arrow { transform:translateX(4px); color:#4f46e5; }
+.card.app { grid-column:span 2; display:flex; align-items:center; gap:24px; text-align:left; }
+.card.app .card-icon { margin-bottom:0; flex-shrink:0; }
+.card.app .app-body { flex:1; }
+.card.app .arrow { float:none; flex-shrink:0; font-size:24px; }
+.card.app:hover { border-color:#67e8f9; }
+.card.app:hover .arrow { color:#0891b2; }
 .footer { text-align:center; padding:40px; color:#9ca3af; font-size:13px; }
 
-@media (max-width:768px) { .grid { grid-template-columns:1fr; } .header { padding:24px 20px; } .container { padding:24px 16px; } }
+@media (max-width:768px) {
+  .grid { grid-template-columns:1fr; }
+  .header { padding:24px 20px; }
+  .container { padding:24px 16px; }
+  .card.app { grid-column:span 1; flex-direction:column; text-align:center; gap:16px; }
+  .card.app .app-body { width:100%; }
+}
 </style>
 </head>
 <body>
@@ -85,6 +99,19 @@ body { font-family: 'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
         <span class="tag gray">5个子模块</span>
         <span class="tag gray">全局配置</span>
       </div>
+    </a>
+
+    <a href="APP.html" class="card app">
+      <div class="card-icon app">&#128241;</div>
+      <div class="app-body">
+        <h2>学生端 APP</h2>
+        <p class="desc">超级课表 / 数学·英语·政治三科学习 / 练测 / 错题本 / 刷题</p>
+        <div class="meta">
+          <span class="tag cyan">4个Tab</span>
+          <span class="tag cyan">学生端</span>
+        </div>
+      </div>
+      <span class="arrow">&#8594;</span>
     </a>
   </div>
 </div>
