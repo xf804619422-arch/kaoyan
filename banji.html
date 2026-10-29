@@ -18131,7 +18131,9 @@ var regularActions = '<div class="action-wrap"><button class="btn btn-ghost btn-
     { word:'acknowledge', phonetic:'/əkˈnɒlɪdʒ/', meaning:'v. 承认；确认收到', stem:'下列与 "acknowledge" 词义相关的表达有？', options:['承认','确认收到','恶化','抛弃'], correct:'AB', studentAnswer:'A', analysis:'acknowledge 意为「承认；确认收到」。' },
     { word:'deteriorate', phonetic:'/dɪˈtɪəriəreɪt/', meaning:'v. 恶化；退化', stem:'"deteriorate" 的反义词最接近？', options:['improve','abandon','deny','reduce'], correct:'A', studentAnswer:'C', analysis:'deteriorate 意为「恶化」，反义词为 improve「改善」。' },
     { word:'benevolent', phonetic:'/bəˈnevələnt/', meaning:'adj. 仁慈的；慈善的', stem:'下列哪项是 "benevolent" 的正确释义？', options:['仁慈的','恶意的','冷漠的','慷慨的'], correct:'A', studentAnswer:'B', analysis:'benevolent 意为「仁慈的；慈善的」。' },
-    { word:'arbitrary', phonetic:'/ˈɑːbɪtrəri/', meaning:'adj. 任意的；武断的', stem:'"arbitrary" 在语境中最接近的意思是？', options:['谨慎的','武断的','随意的','客观的'], correct:'B', studentAnswer:'C', analysis:'arbitrary 意为「任意的；武断的」。' }
+    { word:'arbitrary', phonetic:'/ˈɑːbɪtrəri/', meaning:'adj. 任意的；武断的', stem:'"arbitrary" 在语境中最接近的意思是？', options:['谨慎的','武断的','随意的','客观的'], correct:'B', studentAnswer:'C', analysis:'arbitrary 意为「任意的；武断的」。' },
+    { word:'deteriorate', phonetic:'/dɪˈtɪəriəreɪt/', meaning:'v. 恶化；退化', stem:'用 "deteriorate" 造一个句子，并写出其中文含义。', options:[], correct:'', studentAnswer:'His condition deteriorate quickly.', analysis:'参考答案：His health began to deteriorate rapidly. 意为「他的健康状况开始迅速恶化」。' },
+    { word:'acknowledge', phonetic:'/əkˈnɒlɪdʒ/', meaning:'v. 承认；确认收到', stem:'用 "acknowledge" 造一个句子，并写出其中文含义。', options:[], correct:'', studentAnswer:'I acknowledge the problem.', analysis:'参考答案：I acknowledge that the task is difficult. 意为「我承认这项任务很难」。' }
   ];
 
   // 学员二轮背诵数据
@@ -18141,8 +18143,14 @@ var regularActions = '<div class="action-wrap"><button class="btn btn-ghost btn-
     { id:'2025003', name:'王五', className:'25考研英语二班', weekCount:120, todayCount:35, yesterdayCount:28, doneCount:290, totalCount:320, wrongCount:18 },
     { id:'2025004', name:'赵六', className:'25考研英语一班', weekCount:22, todayCount:5, yesterdayCount:3, doneCount:96, totalCount:320, wrongCount:42 }
   ];
+  // 主观题演示数据（correct 为空的即主观题）
+  var erlbSubjectiveDemo = erlbWrongPool.filter(function(w){ return !w.correct; });
   erlbData.forEach(function(r, idx){
     r.wrongWords = erlbWrongPool.slice(idx % 3, idx % 3 + 4);
+    // 主观题演示数据附加到第一位学员（张三）的错词列表，便于查看
+    if(idx === 0 && erlbSubjectiveDemo.length){
+      r.wrongWords = r.wrongWords.concat(erlbSubjectiveDemo);
+    }
   });
 
   var erlbClassFilter = '';
@@ -18263,8 +18271,10 @@ var regularActions = '<div class="action-wrap"><button class="btn btn-ghost btn-
       html += '</div>';
       // 下面：题干 + 题型 + 选项 + 正确答案/学生作答 + 答案与解析（可折叠，默认收起）
       html += '<div class="erlb-item-body" data-idx="'+idx+'" style="display:none;padding:14px 16px">';
-      var typeText = w.correct.length > 1 ? '多选' : '单选';
-      html += '<div style="font-size:14px;font-weight:500;margin-bottom:10px;line-height:1.7">'+w.stem+' <span style="display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--primary-light);color:var(--primary);margin-left:6px;vertical-align:middle">'+typeText+'</span></div>';
+      var isSubjective = !w.correct;
+      var typeText = isSubjective ? '主观题' : (w.correct.length > 1 ? '多选' : '单选');
+      var typeStyle = isSubjective ? 'background:#fef3c7;color:#b45309' : 'background:var(--primary-light);color:var(--primary)';
+      html += '<div style="font-size:14px;font-weight:500;margin-bottom:10px;line-height:1.7">'+w.stem+' <span style="display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;'+typeStyle+';margin-left:6px;vertical-align:middle">'+typeText+'</span></div>';
       if(w.options && w.options.length){
         html += '<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">';
         w.options.forEach(function(opt, i){
@@ -18279,7 +18289,11 @@ var regularActions = '<div class="action-wrap"><button class="btn btn-ghost btn-
         });
         html += '</div>';
       }
-      html += '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">正确答案：'+w.correct+'　学生作答：'+w.studentAnswer+'</div>';
+      if(isSubjective){
+        html += '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">学生作答：'+w.studentAnswer+'</div>';
+      }else{
+        html += '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">正确答案：'+w.correct+'　学生作答：'+w.studentAnswer+'</div>';
+      }
       html += '<div style="background:#f8fafc;border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.7;color:var(--text-secondary)"><span style="font-weight:600;color:var(--text)">答案与解析：</span>'+w.analysis+'</div>';
       html += '</div>';
       html += '</div>';

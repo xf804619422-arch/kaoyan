@@ -2115,12 +2115,61 @@ body {
 }
 .rd-type-tag.single { background: var(--accent-light); color: var(--accent); }
 .rd-type-tag.multiple { background: var(--green-light); color: var(--green); }
+.rd-type-tag.subjective { background: var(--orange-light); color: var(--orange); }
 .rd-stem {
   font-size: 15px;
   line-height: 1.9;
   color: var(--ink);
   margin-bottom: 16px;
 }
+.rd-subjective-input {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  line-height: 1.7;
+  font-family: inherit;
+  color: var(--ink);
+  background: #f8f9fc;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.18s ease;
+  box-sizing: border-box;
+}
+.rd-subjective-input:focus { border-color: var(--accent); background: #fff; }
+.rd-subjective-input:disabled { background: #f3f4f6; color: var(--muted); }
+.rd-evaluate {
+  margin-top: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+}
+.rd-evaluate-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.rd-evaluate-btns { display: flex; gap: 10px; }
+.rd-eval-btn {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: 1.5px solid var(--rule);
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.rd-eval-btn.correct { color: var(--green); border-color: var(--green); }
+.rd-eval-btn.correct:hover, .rd-eval-btn.correct.active { background: var(--green); color: #fff; }
+.rd-eval-btn.wrong { color: var(--accent2); border-color: var(--accent2); }
+.rd-eval-btn.wrong:hover, .rd-eval-btn.wrong.active { background: var(--accent2); color: #fff; }
+.rd-eval-btn:disabled { opacity: 0.55; cursor: default; }
 .rd-options {
   display: flex;
   flex-direction: column;
@@ -3850,6 +3899,13 @@ body {
           <div class="rd-analysis-title">答案与解析</div>
           <div class="rd-analysis-text" id="rdAnalysisText"></div>
         </div>
+        <div class="rd-evaluate" id="rdEvaluate" style="display:none">
+          <div class="rd-evaluate-title">你的作答是否正确？</div>
+          <div class="rd-evaluate-btns">
+            <button class="rd-eval-btn correct" id="rdEvalCorrectBtn">✓ 对</button>
+            <button class="rd-eval-btn wrong" id="rdEvalWrongBtn">✗ 错</button>
+          </div>
+        </div>
       </div>
 
       <!-- 底部操作按钮 -->
@@ -5010,6 +5066,9 @@ body {
     ]},
     { word: 'acknowledge', uk: '/əkˈnɒlɪdʒ/', us: '/əkˈnɑːlɪdʒ/', questions: [
       { stem: '下列与 "acknowledge" 词义相关的表达有？', type: 'multiple', options: ['承认', '确认收到', '恶化', '抛弃'], answer: [0, 1], analysis: 'acknowledge 意为「承认；确认收到」。' }
+    ]},
+    { word: 'deteriorate', uk: '/dɪˈtɪəriəreɪt/', us: '/dɪˈtɪriəreɪt/', questions: [
+      { stem: '用 "deteriorate" 造一个句子，并写出其中文含义。', type: 'subjective', options: [], answer: [], analysis: '参考答案：His health began to deteriorate rapidly. 意为「他的健康状况开始迅速恶化」。' }
     ]}
   ];
   var reciteDetailWordIndex = 0;      // 当前单词在 mock 数组中的下标
@@ -5017,6 +5076,7 @@ body {
   var reciteDetailTotal = 38;
   var reciteDetailSelected = [];      // 当前题目已选选项下标
   var reciteDetailSubmitted = false;  // 当前题目是否已提交
+  var reciteDetailEvaluated = null;   // null | 'correct' | 'wrong'（对/错自评）
 
   // 立即复习页数据（mock：日期 + 单词 + 结果）
   var reviewRecords = [
@@ -5256,6 +5316,8 @@ body {
   }
   function closeReciteDetail() {
     document.getElementById('reciteDetailOverlay').classList.remove('open');
+    // 返回后刷新二轮背诵统计（已做/错误词数）
+    if (syllabusReciteMode === 'round2') renderEnglishVocab();
   }
 
   function renderReciteDetail() {
@@ -5270,16 +5332,23 @@ body {
     document.getElementById('rdUs').textContent = w.us;
 
     var typeTag = document.getElementById('rdTypeTag');
-    typeTag.textContent = (q.type === 'multiple' ? '多选' : '单选');
-    typeTag.className = 'rd-type-tag ' + (q.type === 'multiple' ? 'multiple' : 'single');
+    var typeLabel = q.type === 'multiple' ? '多选' : (q.type === 'subjective' ? '主观题' : '单选');
+    var typeCls = q.type === 'multiple' ? 'multiple' : (q.type === 'subjective' ? 'subjective' : 'single');
+    typeTag.textContent = typeLabel;
+    typeTag.className = 'rd-type-tag ' + typeCls;
 
     document.getElementById('rdStem').textContent = q.stem;
 
-    var optHtml = '';
-    q.options.forEach(function(opt, i) {
-      optHtml += '<div class="rd-option" data-idx="' + i + '"><span class="rd-option-letter">' + letters[i] + '</span><span class="rd-option-text">' + opt + '</span></div>';
-    });
-    document.getElementById('rdOptions').innerHTML = optHtml;
+    var answerArea = document.getElementById('rdOptions');
+    if (q.type === 'subjective') {
+      answerArea.innerHTML = '<textarea class="rd-subjective-input" id="rdSubjectiveText" placeholder="请输入你的作答..."></textarea>';
+    } else {
+      var optHtml = '';
+      q.options.forEach(function(opt, i) {
+        optHtml += '<div class="rd-option" data-idx="' + i + '"><span class="rd-option-letter">' + letters[i] + '</span><span class="rd-option-text">' + opt + '</span></div>';
+      });
+      answerArea.innerHTML = optHtml;
+    }
 
     var analysis = document.getElementById('rdAnalysis');
     analysis.style.display = 'none';
@@ -5290,14 +5359,26 @@ body {
 
     reciteDetailSelected = [];
     reciteDetailSubmitted = false;
+    reciteDetailEvaluated = null;
+    resetReciteEvaluateUI();
 
     document.getElementById('rdPrevBtn').disabled = (reciteDetailWordIndex === 0);
     document.getElementById('rdNextBtn').disabled = (reciteDetailWordIndex === reciteDetailWords.length - 1);
   }
 
+  function resetReciteEvaluateUI() {
+    var evalBox = document.getElementById('rdEvaluate');
+    if (evalBox) evalBox.style.display = 'none';
+    var cBtn = document.getElementById('rdEvalCorrectBtn');
+    var wBtn = document.getElementById('rdEvalWrongBtn');
+    if (cBtn) { cBtn.classList.remove('active'); cBtn.disabled = false; }
+    if (wBtn) { wBtn.classList.remove('active'); wBtn.disabled = false; }
+  }
+
   function selectReciteOption(idx) {
     if (reciteDetailSubmitted) return;
     var q = reciteDetailWords[reciteDetailWordIndex].questions[0];
+    if (q.type === 'subjective') return;
     if (q.type === 'single') {
       reciteDetailSelected = [idx];
     } else {
@@ -5317,19 +5398,51 @@ body {
 
   function submitReciteAnswer() {
     if (reciteDetailSubmitted) return;
-    if (reciteDetailSelected.length === 0) { showToast('请先选择答案'); return; }
     var q = reciteDetailWords[reciteDetailWordIndex].questions[0];
-    reciteDetailSubmitted = true;
-    document.querySelectorAll('#rdOptions .rd-option').forEach(function(el) {
-      var idx = parseInt(el.getAttribute('data-idx'), 10);
-      if (q.answer.indexOf(idx) >= 0) el.classList.add('correct');
-      else if (reciteDetailSelected.indexOf(idx) >= 0) el.classList.add('wrong');
-    });
+    if (q.type === 'subjective') {
+      var textEl = document.getElementById('rdSubjectiveText');
+      var text = textEl ? textEl.value.trim() : '';
+      if (!text) { showToast('请先作答'); return; }
+      reciteDetailSubmitted = true;
+      if (textEl) textEl.disabled = true;
+    } else {
+      if (reciteDetailSelected.length === 0) { showToast('请先选择答案'); return; }
+      reciteDetailSubmitted = true;
+      document.querySelectorAll('#rdOptions .rd-option').forEach(function(el) {
+        var idx = parseInt(el.getAttribute('data-idx'), 10);
+        if (q.answer.indexOf(idx) >= 0) el.classList.add('correct');
+        else if (reciteDetailSelected.indexOf(idx) >= 0) el.classList.add('wrong');
+      });
+    }
     document.getElementById('rdAnalysisText').textContent = q.analysis;
     document.getElementById('rdAnalysis').style.display = 'block';
     var submitBtn = document.getElementById('rdSubmitBtn');
     submitBtn.textContent = '已提交';
     submitBtn.disabled = true;
+    var evalBox = document.getElementById('rdEvaluate');
+    if (evalBox) evalBox.style.display = 'block';
+  }
+
+  function evaluateReciteAnswer(result) {
+    if (!reciteDetailSubmitted || reciteDetailEvaluated) return;
+    reciteDetailEvaluated = result;
+    var w = reciteDetailWords[reciteDetailWordIndex];
+    var today = new Date().toLocaleDateString('sv-SE'); // YYYY-MM-DD（本地时区）
+
+    // 更新二轮背诵统计：已做词数 +1；若自评错误，错误词数 +1
+    secondRoundReciteData.done += 1;
+    if (result === 'wrong') secondRoundReciteData.wrong += 1;
+
+    // 写入复习记录（立即复习页展示）
+    reviewRecords.unshift({ date: today, word: w.word, result: result === 'wrong' ? 'wrong' : 'correct' });
+
+    var cBtn = document.getElementById('rdEvalCorrectBtn');
+    var wBtn = document.getElementById('rdEvalWrongBtn');
+    if (cBtn) { cBtn.disabled = true; }
+    if (wBtn) { wBtn.disabled = true; }
+    if (result === 'correct' && cBtn) cBtn.classList.add('active');
+    if (result === 'wrong' && wBtn) wBtn.classList.add('active');
+    showToast(result === 'wrong' ? '已计入错误词数' : '已记录作答');
   }
 
   function playReciteWordAudio() {
@@ -6041,6 +6154,51 @@ body {
 
   // Politics Quiz Module Data
   var currentQuizBank = 'mayuan';
+
+  // 题库锁定状态（与教研端共享 localStorage，按题库顺序映射）
+  var politicsBankOrder = ['mayuan','maozhongte','xisixiang','shigang','sifa'];
+  var politicsBankLabels = { mayuan:'马原', maozhongte:'毛中特', xisixiang:'习思想', shigang:'史纲', sifa:'思法' };
+  var politicsBankLocked = { mayuan:false, maozhongte:false, xisixiang:false, shigang:false, sifa:false };
+  function loadPoliticsBankLocks(){
+    politicsBankLocked = { mayuan:false, maozhongte:false, xisixiang:false, shigang:false, sifa:false };
+    try{
+      var raw = localStorage.getItem('politicsBankLockMap');
+      if(raw){
+        var arr = JSON.parse(raw);
+        if(Array.isArray(arr)){
+          politicsBankOrder.forEach(function(key, i){
+            if(typeof arr[i] === 'boolean') politicsBankLocked[key] = arr[i];
+          });
+        }
+      }
+    }catch(e){}
+  }
+  function getFirstUnlockedBank(){
+    for(var i=0;i<politicsBankOrder.length;i++){
+      if(!politicsBankLocked[politicsBankOrder[i]]) return politicsBankOrder[i];
+    }
+    return null;
+  }
+  function renderPoliticsSubTabs(){
+    var container = document.getElementById('politicsSubTabs');
+    if(!container) return;
+    var html = '';
+    politicsBankOrder.forEach(function(key){
+      if(politicsBankLocked[key]) return;
+      html += '<button class="politics-sub-tab'+(key===currentPoliticsSubTab?' active':'')+'" data-subtab="'+key+'">'+politicsBankLabels[key]+'</button>';
+    });
+    container.innerHTML = html;
+  }
+  function renderQuizBankSelect(){
+    var sel = document.getElementById('quizBankSelect');
+    if(!sel) return;
+    var html = '';
+    politicsBankOrder.forEach(function(key){
+      if(politicsBankLocked[key]) return;
+      html += '<option value="'+key+'"'+(key===currentQuizBank?' selected':'')+'>'+politicsBankLabels[key]+'题库</option>';
+    });
+    sel.innerHTML = html;
+  }
   var quizChapterData = {
     mayuan: {
       brushed: 128, total: 450, wrong: 42, bookmark: 35,
@@ -6181,6 +6339,19 @@ body {
 
   // ===== Render Politics Tab =====
   function renderPoliticsTab() {
+    // 刷新题库锁定状态，并确保当前子科目/题库未被锁定
+    loadPoliticsBankLocks();
+    if (politicsBankLocked[currentPoliticsSubTab]) {
+      var firstSub = getFirstUnlockedBank();
+      if (firstSub) currentPoliticsSubTab = firstSub;
+    }
+    if (politicsBankLocked[currentQuizBank]) {
+      var firstQuiz = getFirstUnlockedBank();
+      if (firstQuiz) currentQuizBank = firstQuiz;
+    }
+    renderPoliticsSubTabs();
+    renderQuizBankSelect();
+
     var data = politicsSubTabData[currentPoliticsSubTab][currentPoliticsCourseVariant];
     if (!data) return;
 
@@ -6968,6 +7139,8 @@ body {
   document.getElementById('rdPrevBtn').addEventListener('click', recitePrevWord);
   document.getElementById('rdNextBtn').addEventListener('click', reciteNextWord);
   document.getElementById('rdPlayBtn').addEventListener('click', playReciteWordAudio);
+  document.getElementById('rdEvalCorrectBtn').addEventListener('click', function() { evaluateReciteAnswer('correct'); });
+  document.getElementById('rdEvalWrongBtn').addEventListener('click', function() { evaluateReciteAnswer('wrong'); });
 
   document.getElementById('wsSubjectList').addEventListener('click', function(e) {
     var item = e.target.closest('.ws-subject-item');

@@ -633,6 +633,7 @@ tr:hover td{background:#fafbfc}
 .srq-type-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:500;white-space:nowrap}
 .srq-type-tag.single{background:#dbeafe;color:#1d4ed8}
 .srq-type-tag.multiple{background:#ede9fe;color:#6d28d9}
+.srq-type-tag.subjective{background:#fef3c7;color:#b45309}
 .srq-cell{display:block;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary)}
 .srq-answer{display:inline-block;padding:2px 8px;border-radius:6px;background:#eef2ff;color:#4338ca;font-size:12px;font-weight:600;white-space:nowrap}
 .srq-type-tags{display:flex;gap:8px}
@@ -1931,7 +1932,7 @@ tr:hover td{background:#fafbfc}
       <div class="audit-filter-bar">
         <div class="audit-filter-row">
           <div class="audit-filter-group"><label>题干</label><input class="search-input" id="srqaFilterStem" placeholder="搜索题干" oninput="renderSecondRoundQuestionAuditTable()" style="width:200px"></div>
-          <div class="audit-filter-group"><label>题型</label><select class="form-select" id="srqaFilterType" onchange="renderSecondRoundQuestionAuditTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option></select></div>
+          <div class="audit-filter-group"><label>题型</label><select class="form-select" id="srqaFilterType" onchange="renderSecondRoundQuestionAuditTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option><option value="subjective">主观题</option></select></div>
           <div class="audit-filter-group"><label>关联单词</label><input class="search-input" id="srqaFilterWord" placeholder="搜索关联单词" oninput="renderSecondRoundQuestionAuditTable()" style="width:160px"></div>
           <div class="audit-filter-group"><label>创建人</label><input class="search-input" id="srqaFilterCreator" placeholder="搜索创建人" oninput="renderSecondRoundQuestionAuditTable()" style="width:120px"></div>
           <div class="audit-filter-group"><label>审核人</label><input class="search-input" id="srqaFilterAuditor" placeholder="搜索审核人" oninput="renderSecondRoundQuestionAuditTable()" style="width:120px"></div>
@@ -2830,7 +2831,7 @@ tr:hover td{background:#fafbfc}
       </div>
       <div class="es-filter-bar">
         <div class="es-filter-item"><label>题干</label><input class="search-input" id="srqFilterStem" placeholder="搜索题干" oninput="renderSecondRoundQuestionTable()" style="width:200px"></div>
-        <div class="es-filter-item"><label>题型</label><select class="form-select" id="srqFilterType" onchange="renderSecondRoundQuestionTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option></select></div>
+        <div class="es-filter-item"><label>题型</label><select class="form-select" id="srqFilterType" onchange="renderSecondRoundQuestionTable()"><option value="">全部</option><option value="single">单选</option><option value="multiple">多选</option><option value="subjective">主观题</option></select></div>
         <div class="es-filter-item"><label>关联单词</label><input class="search-input" id="srqFilterWord" placeholder="搜索关联单词" oninput="renderSecondRoundQuestionTable()" style="width:160px"></div>
         <button class="btn btn-outline btn-sm" onclick="resetSecondRoundQuestionFilters()" style="margin-left:auto">重置筛选</button>
       </div>
@@ -11776,13 +11777,83 @@ function deleteCqbQuestion(id){
 // ==================== POLITICS QUESTION BANK (政治题库管理) ====================
 // 题库列表（完全手动维护，不绑定子科目）
 let politicsBankList = [
-  { id:'bk1', name:'马原刷题库' },
-  { id:'bk2', name:'毛中特刷题库' },
-  { id:'bk3', name:'习思想刷题库' },
-  { id:'bk4', name:'史纲刷题库' },
-  { id:'bk5', name:'思法刷题库' }
+  { id:'bk1', name:'马原刷题库', locked:false },
+  { id:'bk2', name:'毛中特刷题库', locked:false },
+  { id:'bk3', name:'习思想刷题库', locked:false },
+  { id:'bk4', name:'史纲刷题库', locked:false },
+  { id:'bk5', name:'思法刷题库', locked:false }
 ];
 let _pbBankSeq = 6;
+
+// 题库锁定状态持久化（与学员端 APP 通过 localStorage 共享，按题库顺序映射）
+function loadPbBankLocks(){
+  try{
+    const raw = localStorage.getItem('politicsBankLockMap');
+    if(raw){
+      const arr = JSON.parse(raw);
+      if(Array.isArray(arr)){
+        politicsBankList.forEach(function(b, i){ if(typeof arr[i] === 'boolean') b.locked = arr[i]; });
+      }
+    }
+  }catch(e){}
+}
+function savePbBankLocks(){
+  try{
+    const arr = politicsBankList.map(function(b){ return !!b.locked; });
+    localStorage.setItem('politicsBankLockMap', JSON.stringify(arr));
+  }catch(e){}
+}
+function togglePbBankLock(id){
+  const bank = politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  if(bank.locked){
+    // 当前已锁定 → 直接开放（无需确认）
+    doUnlockPbBank(id);
+  } else {
+    // 当前开放 → 二次确认后再锁定
+    confirmPbBankLock(id);
+  }
+}
+function doUnlockPbBank(id){
+  const bank = politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  bank.locked = false;
+  savePbBankLocks();
+  renderPbBankSelect();
+  managePbBank();
+  showToast('「'+bank.name+'」已开放','success');
+}
+function confirmPbBankLock(id){
+  const bank = politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  const html='<div class="vocablib-modal-overlay" onclick="closePbLockConfirm(event)">\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:400px">\
+      <div class="vocablib-modal-header"><h3>确认锁定题库</h3><button class="vocablib-modal-close-btn" onclick="closePbLockConfirm()">✕</button></div>\
+      <div class="vocablib-modal-body" style="padding:20px">\
+        <div style="font-size:14px;line-height:1.7">题库锁定后学员平板将无法查看该题库</div>\
+        <div style="font-size:13px;color:#9ca3af;margin-top:8px">题库名称：'+escHtml(bank.name)+'</div>\
+      </div>\
+      <div class="vocablib-modal-footer">\
+        <button class="btn btn-ghost btn-sm" onclick="closePbLockConfirm()">取消</button>\
+        <button class="btn btn-primary btn-sm" style="background:#ef4444;border-color:#ef4444" onclick="closePbLockConfirm();doLockPbBank(\''+id+'\')">确认锁定</button>\
+      </div>\
+    </div></div>';
+  const wrap=document.createElement('div'); wrap.id='pbLockConfirmWrap'; wrap.innerHTML=html;
+  document.body.appendChild(wrap);
+}
+function closePbLockConfirm(e){
+  if(e && e.target!==e.currentTarget) return;
+  const wrap=document.getElementById('pbLockConfirmWrap'); if(wrap) wrap.remove();
+}
+function doLockPbBank(id){
+  const bank = politicsBankList.find(function(b){ return b.id===id; });
+  if(!bank) return;
+  bank.locked = true;
+  savePbBankLocks();
+  renderPbBankSelect();
+  managePbBank();
+  showToast('「'+bank.name+'」已锁定，学员端将隐藏该题库','success');
+}
 
 // 题库章节目录（章→节，允许混合：章下可有节，也可直接挂题）
 let politicsBankChapters = {
@@ -11931,6 +12002,7 @@ function getCourseChapterPath(id){
 }
 
 function initPoliticsBank(){
+  loadPbBankLocks();
   pbCurrentBankId = politicsBankList.length ? politicsBankList[0].id : null;
   pbSelectedChapterId = null;
   pbTreeSearch = '';
@@ -11945,7 +12017,7 @@ function renderPbBankSelect(){
   const sel=$('pbBankSelect');
   if(!sel) return;
   sel.innerHTML = politicsBankList.map(function(b){
-    return '<option value="'+b.id+'"'+(b.id===pbCurrentBankId?' selected':'')+'>'+escHtml(b.name)+'</option>';
+    return '<option value="'+b.id+'"'+(b.id===pbCurrentBankId?' selected':'')+'>'+escHtml(b.name)+(b.locked?'（已锁定）':'')+'</option>';
   }).join('');
   if(!politicsBankList.length){
     sel.innerHTML = '<option value="">暂无题库，请先新建</option>';
@@ -11977,10 +12049,14 @@ function addPbBank(){
 
 function managePbBank(){
   if(!politicsBankList.length){ showToast('暂无题库','error'); return; }
+  // 先移除旧弹窗，避免重复创建导致关闭按钮需点击多次
+  const _oldWrap = document.getElementById('pbBankMgrWrap');
+  if(_oldWrap) _oldWrap.remove();
   const listHtml = politicsBankList.map(function(b){
     return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)">'+
-      '<span style="font-size:13px">'+escHtml(b.name)+'</span>'+
-      '<span>'+
+      '<span style="font-size:13px">'+escHtml(b.name)+(b.locked?' <span style="font-size:11px;color:#ef4444;font-weight:600">[已锁定]</span>':'')+'</span>'+
+      '<span style="display:flex;align-items:center;gap:2px">'+
+      '<button class="btn btn-ghost btn-xs" onclick="togglePbBankLock(\''+b.id+'\')" style="'+(b.locked?'color:#16a34a':'color:#ef4444')+'" title="'+(b.locked?'开放后学员端展示该题库':'锁定后学员端隐藏该题库')+'">'+(b.locked?'🔓 开放':'🔒 锁定')+'</button>'+
       '<button class="btn btn-ghost btn-xs" onclick="movePbBankInMgr(\''+b.id+'\',-1)" title="上移">↑</button>'+
       '<button class="btn btn-ghost btn-xs" onclick="movePbBankInMgr(\''+b.id+'\',1)" title="下移">↓</button>'+
       '<button class="btn btn-ghost btn-xs" onclick="closePbBankMgr();renamePbBank(\''+b.id+'\')">重命名</button>'+
@@ -11988,8 +12064,8 @@ function managePbBank(){
       '</span></div>';
   }).join('');
   const html='<div class="vocablib-modal-overlay" onclick="closePbBankMgr(event)">\
-    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:520px">\
-      <div class="vocablib-modal-header"><h3>题库管理（可上下移动排序）</h3><button class="vocablib-modal-close-btn" onclick="closePbBankMgr()">✕</button></div>\
+    <div class="vocablib-modal" onclick="event.stopPropagation()" style="width:640px">\
+      <div class="vocablib-modal-header"><h3>题库管理（排序 · 锁定/开放控制学员端展示）</h3><button class="vocablib-modal-close-btn" onclick="closePbBankMgr()">✕</button></div>\
       <div class="vocablib-modal-body">'+listHtml+'</div>\
     </div></div>';
   const wrap=document.createElement('div'); wrap.id='pbBankMgrWrap'; wrap.innerHTML=html;
@@ -17631,9 +17707,13 @@ let secondRoundQuestionData = [
     options:['improve','abandon','deny','reduce'], answer:[0],
     analysis:'deteriorate 意为「恶化」，反义词为 improve「改善」。', wordId:1009,
     status:'rejected', createTime:'2026-07-10', creator:'赵老师', auditTime:'2026-07-12', auditor:'李主任',
-    rejectReason:'题干表述含糊，建议改为「"deteriorate" 的反义词最接近下列哪项？」并补充各选项释义。' }
+    rejectReason:'题干表述含糊，建议改为「"deteriorate" 的反义词最接近下列哪项？」并补充各选项释义。' },
+  { id:5007, stem:'用 "acknowledge" 造一个句子，并写出其中文含义。', type:'subjective',
+    options:[], answer:[],
+    analysis:'参考答案：I acknowledge that the task is difficult. 意为「我承认这项任务很难」。', wordId:1004,
+    status:'reviewing', createTime:'2026-07-18', creator:'张老师', auditTime:'', auditor:'' }
 ];
-let _srqNextId = 5007;
+let _srqNextId = 5008;
 let secondRoundQuestionTab = 'published';
 let _srqEditingId = null;
 let _srqSelectedWordId = null;
@@ -17651,11 +17731,12 @@ function renderSecondRoundQuestionWordTag(wordId){
   return '<span class="es-word-tag">'+escHtml(v.word)+'</span>';
 }
 function renderSecondRoundQuestionType(type){
-  return type === 'multiple'
-    ? '<span class="srq-type-tag multiple">多选</span>'
-    : '<span class="srq-type-tag single">单选</span>';
+  if(type === 'multiple') return '<span class="srq-type-tag multiple">多选</span>';
+  if(type === 'subjective') return '<span class="srq-type-tag subjective">主观题</span>';
+  return '<span class="srq-type-tag single">单选</span>';
 }
 function renderSecondRoundQuestionOptions(options){
+  if(!options || options.length===0) return '<span style="color:#9ca3af">-</span>';
   const text = (options||[]).map((o,i)=>SRQ_LETTERS[i]+'. '+o).join('　');
   return '<span class="srq-cell" title="'+escAttr(text)+'">'+escHtml(text)+'</span>';
 }
@@ -17739,8 +17820,9 @@ function openSecondRoundQuestionModal(id){
   html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 题型</label><div class="srq-type-tags" id="srqTypeTags">';
   html+='<span class="srq-type-option'+( _srqCurrentType==='single'?' active':'')+'" data-type="single" onclick="setSrqType(this)">单选</span>';
   html+='<span class="srq-type-option'+( _srqCurrentType==='multiple'?' active':'')+'" data-type="multiple" onclick="setSrqType(this)">多选</span>';
+  html+='<span class="srq-type-option'+( _srqCurrentType==='subjective'?' active':'')+'" data-type="subjective" onclick="setSrqType(this)">主观题</span>';
   html+='</div></div>';
-  html+='<div class="form-group"><label class="form-label"><span class="required">*</span> 选项与正确答案</label>';
+  html+='<div class="form-group" id="srqOptionsGroup"><label class="form-label"><span class="required">*</span> 选项与正确答案</label>';
   html+='<div class="srq-options-editor">';
   const opts=item?item.options:['','','',''];
   const ans=item?item.answer:[];
@@ -17764,6 +17846,7 @@ function openSecondRoundQuestionModal(id){
   html+='</div></div>';
   const wrap=document.createElement('div');wrap.id='srqModalWrap';wrap.innerHTML=html;document.body.appendChild(wrap);
   renderSrqWordPicker();
+  if(_srqCurrentType==='subjective'){ const g=$('srqOptionsGroup'); if(g) g.style.display='none'; }
 }
 
 function closeSecondRoundQuestionModal(e){
@@ -17775,6 +17858,10 @@ function closeSecondRoundQuestionModal(e){
 function setSrqType(el){
   _srqCurrentType=el.getAttribute('data-type');
   document.querySelectorAll('#srqTypeTags .srq-type-option').forEach(t=>t.classList.toggle('active',t===el));
+  const optsGroup=$('srqOptionsGroup');
+  if(optsGroup){
+    optsGroup.style.display = (_srqCurrentType==='subjective') ? 'none' : '';
+  }
   if(_srqCurrentType==='single'){
     let first=true;
     for(let i=0;i<4;i++){
@@ -17808,17 +17895,19 @@ function removeSrqWord(){ _srqSelectedWordId=null; renderSrqWordPicker(); }
 
 function saveSecondRoundQuestion(){
   const stem=$('srqModalStem').value.trim();
-  const opts=[]; const ans=[];
-  for(let i=0;i<4;i++){
-    opts.push($('srqOpt'+i).value.trim());
-    const c=$('srqAns'+i);
-    if(c&&c.checked)ans.push(i);
-  }
   const analysis=$('srqModalAnalysis').value.trim();
   if(!stem){showToast('请输入题干','error');return;}
-  if(opts.some(o=>!o)){showToast('请填写完整的 4 个选项','error');return;}
-  if(_srqCurrentType==='single'&&ans.length!==1){showToast('单选题请且仅勾选 1 个正确答案','error');return;}
-  if(_srqCurrentType==='multiple'&&ans.length<2){showToast('多选题请至少勾选 2 个正确答案','error');return;}
+  let opts=[]; let ans=[];
+  if(_srqCurrentType!=='subjective'){
+    for(let i=0;i<4;i++){
+      opts.push($('srqOpt'+i).value.trim());
+      const c=$('srqAns'+i);
+      if(c&&c.checked)ans.push(i);
+    }
+    if(opts.some(o=>!o)){showToast('请填写完整的 4 个选项','error');return;}
+    if(_srqCurrentType==='single'&&ans.length!==1){showToast('单选题请且仅勾选 1 个正确答案','error');return;}
+    if(_srqCurrentType==='multiple'&&ans.length<2){showToast('多选题请至少勾选 2 个正确答案','error');return;}
+  }
   if(!_srqSelectedWordId){showToast('请选择一个关联单词','error');return;}
   const today=new Date().toISOString().slice(0,10);
   const isEditing=Boolean(_srqEditingId);
@@ -17847,8 +17936,10 @@ function showSecondRoundQuestionDetail(id){
   html+='<div class="vocablib-modal-body">';
   html+='<div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.stem)+'</div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">题型</div>'+renderSecondRoundQuestionType(d.type)+'</div>';
+  if(d.type!=='subjective'){
   html+='<div class="vocablib-modal-card"><div class="card-title">选项</div><div class="srq-detail-options">'+ (d.options||[]).map((o,i)=>'<div class="srq-detail-option'+((d.answer||[]).includes(i)?' correct':'')+'"><span class="letter">'+SRQ_LETTERS[i]+'</span>'+escHtml(o)+((d.answer||[]).includes(i)?' <span class="srq-correct-mark">✓ 正确答案</span>':'')+'</div>').join('') +'</div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">正确答案</div><div style="font-size:14px;font-weight:600">'+renderSecondRoundQuestionAnswer(d)+'</div></div>';
+  }
   html+='<div class="vocablib-modal-card"><div class="card-title">答案与解析</div><div style="font-size:14px;line-height:1.8">'+(d.analysis?escHtml(d.analysis):'<span style="color:#9ca3af">暂无</span>')+'</div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderSecondRoundQuestionWordTag(d.wordId)+(word?'<span style="margin-left:8px;color:#9ca3af;font-size:12px">'+escHtml(word.def||'')+'</span>':'')+'</div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">状态</span><span class="info-val"><span class="vocablib-status '+statusClass[d.status]+'">'+statusMap[d.status]+'</span></span></div><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
@@ -17877,7 +17968,7 @@ function openSecondRoundQuestionImportModal(){
   html+='<div class="vocablib-modal-header"><h3>批量导入二轮背诵题目</h3><button class="vocablib-modal-close-btn" onclick="closeSecondRoundQuestionImportModal()">✕</button></div>';
   html+='<div class="vocablib-modal-body"><div class="import-steps">';
   html+='<div class="import-step"><span class="step-num">1</span><div><div class="step-title">下载 Excel 导入模板</div><div class="step-desc">模板字段：题干、题型、选项A、选项B、选项C、选项D、正确答案、答案与解析（选填）、关联单词</div></div></div>';
-  html+='<div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">题型填写「单选」或「多选」；正确答案填字母 A~D，多个用顿号/逗号分隔；关联单词需已存在于系统词汇库</div></div></div>';
+  html+='<div class="import-step"><span class="step-num">2</span><div><div class="step-title">按模板填写数据</div><div class="step-desc">题型填写「单选」「多选」或「主观题」；主观题可留空选项A-D与正确答案；正确答案填字母 A~D，多个用顿号/逗号分隔；关联单词需已存在于系统词汇库</div></div></div>';
   html+='<div class="import-step"><span class="step-num">3</span><div><div class="step-title">上传并导入</div><div class="step-desc">导入后的数据将进入「审核中」状态</div></div></div>';
   html+='</div><button class="btn btn-outline btn-sm" onclick="downloadSecondRoundQuestionImportTemplate()" style="margin-bottom:16px">&#128229; 下载导入模板</button>';
   html+='<div class="upload-zone" onclick="document.getElementById(\'srqImportFileInput\').click()"><div class="upload-zone-icon">&#128196;</div><div class="upload-zone-text">点击选择导入文件<br><strong>支持 Excel .xls / .csv 格式</strong></div></div>';
@@ -17897,7 +17988,8 @@ function downloadSecondRoundQuestionImportTemplate(){
   const header=['题干','题型','选项A','选项B','选项C','选项D','正确答案','答案与解析','关联单词'];
   const rows=[
     ['"abandon" 在句子 "He had to abandon his plan." 中最接近的意思是？','单选','支持','放弃','维持','修改','B','abandon 意为「放弃；抛弃」。','abandon'],
-    ['关于 "comprehensive" 的说法正确的有？','多选','可表示「全面的」','可表示「综合的」','只能作名词','属于形容词','A、B、D','comprehensive 是形容词，意为「全面的；综合的」。','comprehensive']
+    ['关于 "comprehensive" 的说法正确的有？','多选','可表示「全面的」','可表示「综合的」','只能作名词','属于形容词','A、B、D','comprehensive 是形容词，意为「全面的；综合的」。','comprehensive'],
+    ['用 "acknowledge" 造一个句子，并写出其中文含义。','主观题','','','','','','参考答案：I acknowledge that the task is difficult. 意为「我承认这项任务很难」。','acknowledge']
   ];
   let html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body><table border="1"><tr>';
   header.forEach(h=>{html+='<th style="background:#dbeafe;font-weight:bold;padding:4px 8px">'+h+'</th>';});html+='</tr>';
@@ -17948,12 +18040,18 @@ function processSecondRoundQuestionImport(){
   if(_srqImportRows.length===0){showToast('请先选择有效的导入文件','error');return;}
   let imported=0,skipped=0;const today=new Date().toISOString().slice(0,10);
   _srqImportRows.forEach(row=>{
-    const type=String(row.type).trim()==='多选'?'multiple':'single';
+    const rawType=String(row.type).trim();
+    const type=rawType==='多选'?'multiple':(rawType==='主观题'?'subjective':'single');
     const options=(row.options||[]).map(o=>String(o||'').trim());
     const answer=resolveSrqAnswerIndices(row.answer);
     const wordItem=vocabLibData.find(v=>v.word.toLowerCase()===String(row.word||'').trim().toLowerCase());
-    if(!row.stem||options.some(o=>!o)||answer.length===0||!wordItem){skipped++;return;}
-    secondRoundQuestionData.unshift({id:_srqNextId++,stem:row.stem,type,options,answer,analysis:row.analysis,wordId:wordItem.id,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+    if(!row.stem||!wordItem){skipped++;return;}
+    if(type==='subjective'){
+      secondRoundQuestionData.unshift({id:_srqNextId++,stem:row.stem,type,options:[],answer:[],analysis:row.analysis,wordId:wordItem.id,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+    }else{
+      if(options.some(o=>!o)||answer.length===0){skipped++;return;}
+      secondRoundQuestionData.unshift({id:_srqNextId++,stem:row.stem,type,options,answer,analysis:row.analysis,wordId:wordItem.id,status:'reviewing',createTime:today,creator:'教研员',auditTime:'',auditor:''});
+    }
     imported++;
   });
   closeSecondRoundQuestionImportModal();
@@ -18091,8 +18189,10 @@ function openSecondRoundQuestionAuditDetail(id){
   html+='<div class="vocablib-modal-body">';
   html+='<div class="vocablib-modal-card"><div class="card-title">题干</div><div style="font-size:15px;line-height:1.8">'+escHtml(d.stem)+' <span class="badge '+badgeMap[d.status]+'">'+statusMap[d.status]+'</span></div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">题型</div>'+renderSecondRoundQuestionType(d.type)+'</div>';
+  if(d.type!=='subjective'){
   html+='<div class="vocablib-modal-card"><div class="card-title">选项</div><div class="srq-detail-options">'+ (d.options||[]).map((o,i)=>'<div class="srq-detail-option'+((d.answer||[]).includes(i)?' correct':'')+'"><span class="letter">'+SRQ_LETTERS[i]+'</span>'+escHtml(o)+((d.answer||[]).includes(i)?' <span class="srq-correct-mark">✓ 正确答案</span>':'')+'</div>').join('') +'</div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">正确答案</div><div style="font-size:14px;font-weight:600">'+renderSecondRoundQuestionAnswer(d)+'</div></div>';
+  }
   html+='<div class="vocablib-modal-card"><div class="card-title">答案与解析</div><div style="font-size:14px;line-height:1.8">'+(d.analysis?escHtml(d.analysis):'<span style="color:#9ca3af">暂无</span>')+'</div></div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">关联单词</div>'+renderSecondRoundQuestionWordTag(d.wordId)+(word?'<span style="margin-left:8px;color:#9ca3af;font-size:12px">'+escHtml(word.def||'')+'</span>':'')+'</div>';
   html+='<div class="vocablib-modal-card"><div class="card-title">基础信息</div><div class="info-grid"><div class="info-item"><span class="info-lbl">创建人</span><span class="info-val">'+escHtml(d.creator)+'</span></div><div class="info-item"><span class="info-lbl">创建时间</span><span class="info-val">'+d.createTime+'</span></div><div class="info-item"><span class="info-lbl">审核人</span><span class="info-val">'+(d.auditor?escHtml(d.auditor):'-')+'</span></div><div class="info-item"><span class="info-lbl">审核时间</span><span class="info-val">'+(d.auditTime||'-')+'</span></div></div></div>';
